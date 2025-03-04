@@ -31,7 +31,7 @@ class ChoseAuthScreen extends StatelessWidget {
               text: "sing ",
               icon: Assets.images.customer.image(),
               onTap: () {
-                context.push(RoutePath.choseAuthScreen);
+                context.push(RoutePath.getStartedScreen);
               },
             ),
           ],

@@ -2,7 +2,7 @@
 
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/global/helper/extension.dart';
-import 'package:barber_time/app/view/splash_screen.dart';
+import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
 

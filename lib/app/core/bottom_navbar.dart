@@ -10,7 +10,6 @@ import 'package:barber_time/app/view/screens/user/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class RoleBasedBottomNav extends StatefulWidget {
   final UserRole role; // Enum UserRole
   const RoleBasedBottomNav({super.key, required this.role});
@@ -34,9 +33,17 @@ class _RoleBasedBottomNavState extends State<RoleBasedBottomNav> {
   List<Widget> getScreensByRole(UserRole role) {
     switch (role) {
       case UserRole.owner:
-        return [const OwnerHomeScreen(), const OwnerMessagingScreen(), const OwnerHiringScreen()];
+        return [
+          const OwnerHomeScreen(),
+          const OwnerMessagingScreen(),
+          const OwnerHiringScreen()
+        ];
       case UserRole.barber:
-        return [const BarberHomeScreen(), const BarberHistoryScreen(), const BarberProfile()];
+        return [
+          const BarberHomeScreen(),
+          const BarberHistoryScreen(),
+          const BarberProfile()
+        ];
       case UserRole.user:
       default:
         return [const HomeScreen(), const QueScreen(), const ScannerScreen()];
@@ -48,20 +55,24 @@ class _RoleBasedBottomNavState extends State<RoleBasedBottomNav> {
       case UserRole.owner:
         return [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.book_online), label: "Bookings"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.book_online), label: "Bookings"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ];
       case UserRole.barber:
         return [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"),
-          BottomNavigationBarItem(icon: Icon(Icons.schedule), label: "Schedule"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard), label: "Dashboard"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.schedule), label: "Schedule"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ];
       case UserRole.user:
       default:
         return [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Appointments"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), label: "Appointments"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ];
     }

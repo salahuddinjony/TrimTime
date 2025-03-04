@@ -47,9 +47,9 @@ class _RoleBasedBottomNavState extends State<RoleBasedBottomNav> {
     switch (role) {
       case UserRole.owner:
         return [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Dashboard"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.book_online), label: "Bookings"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ];
       case UserRole.barber:
         return [

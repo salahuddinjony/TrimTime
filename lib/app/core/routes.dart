@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/global/helper/extension.dart';
+import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
@@ -81,6 +82,24 @@ class AppRouter {
           return CustomTransitionPage(
             key: state.pageKey,
             child: const GetStartedScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
+              var slideAnimation = animation.drive(slideTween);
+              return SlideTransition(position: slideAnimation, child: child);
+            },
+          );
+        },
+      ),
+
+      ///======================= Sing In ====================
+      GoRoute(
+        name: RoutePath.signInScreen,
+        path: RoutePath.signInScreen.addBasePath,
+        builder: (context, state) => const SignInScreen(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const SignInScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
               var slideAnimation = animation.drive(slideTween);

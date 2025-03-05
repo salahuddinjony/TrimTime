@@ -12,15 +12,48 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/apple.png
+  AssetGenImage get apple => const AssetGenImage('assets/images/apple.png');
+
+  /// File path: assets/images/berber.png
+  AssetGenImage get berber => const AssetGenImage('assets/images/berber.png');
+
   /// File path: assets/images/customer.png
   AssetGenImage get customer =>
       const AssetGenImage('assets/images/customer.png');
 
+  /// File path: assets/images/email.png
+  AssetGenImage get email => const AssetGenImage('assets/images/email.png');
+
+  /// File path: assets/images/facebook.png
+  AssetGenImage get facebook =>
+      const AssetGenImage('assets/images/facebook.png');
+
+  /// File path: assets/images/google.png
+  AssetGenImage get google => const AssetGenImage('assets/images/google.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/owner.png
+  AssetGenImage get owner => const AssetGenImage('assets/images/owner.png');
+
+  /// File path: assets/images/sign_in_logo.png
+  AssetGenImage get signInLogo =>
+      const AssetGenImage('assets/images/sign_in_logo.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [customer, logo];
+  List<AssetGenImage> get values => [
+        apple,
+        berber,
+        customer,
+        email,
+        facebook,
+        google,
+        logo,
+        owner,
+        signInLogo
+      ];
 }
 
 class Assets {

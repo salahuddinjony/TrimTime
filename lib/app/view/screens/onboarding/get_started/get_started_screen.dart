@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_container_button/custom_container_button.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class GetStartedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final userRole = GoRouterState.of(context).extra as UserRole?;
+    // debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       body: Column(
         children: [

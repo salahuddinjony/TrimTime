@@ -98,10 +98,11 @@ class SignUpScreen extends StatelessWidget {
                     SizedBox(
                       height: 50.h,
                     ),
-                    //ToDo ==========✅✅ dontHaveAnAccount✅✅==========
+
+                    //ToDo ==========✅✅ alreadyHaveAnAccount✅✅==========
                     CustomRichText(
                         firstText: AppStrings.alreadyHaveAnAccount,
-                        secondText: AppStrings.signUp,
+                        secondText: AppStrings.signIn,
                         onTapAction: () {
                           context.pushNamed(
                             RoutePath.signInScreen,

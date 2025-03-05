@@ -42,7 +42,7 @@ class CustomFromCard extends StatelessWidget {
         CustomTextField(
           maxLines: isPassword ? 1 : (maxLine ?? 1),
           // Ensure single line for password
-          hintStyle: const TextStyle(color: AppColors.gray500),
+          hintStyle: const TextStyle(color: AppColors.gray300),
           readOnly: isRead,
           validator: validator,
           isPassword: isPassword,

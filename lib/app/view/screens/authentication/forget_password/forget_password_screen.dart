@@ -1,88 +1,39 @@
-import 'package:barber_time/app/core/route_path.dart';
+
+import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
-import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
-import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
+import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
-  const ForgetPasswordScreen({super.key});
+  ForgetPasswordScreen({super.key});
+
+  final AuthController authController = Get.find<AuthController>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouterState.of(context).extra as UserRole?;
-    debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
-      body: Column(
-        children: [
-          ClipPath(
-            clipper: CurvedShortClipper(),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
-              // Adjust height according to your design
-              color: AppColors.normalHover,
-              // Brown color similar to your design
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 120.h,
-                    ),
-                    const CustomText(
-                      text: AppStrings.getStarted,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24,
-                      color: AppColors.white50,
-                    ),
-                    const CustomText(
-                      text: AppStrings.startWithSign,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 20,
-                      color: AppColors.white50,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            child: Column(
-              children: [
-                //ToDo ==========✅✅ Sing In Button ✅✅==========
-                CustomButton(
-                  fillColor: AppColors.black,
-                  textColor: AppColors.white50,
-                  onTap: () {
-                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
-                  },
-                  title: AppStrings.signIn,
-                ),
+      backgroundColor: AppColors.normalHover,
 
-                //ToDo ==========✅✅ Sing Up Button ✅✅==========
-                SizedBox(
-                  height: 20.h,
-                ),
-
-                CustomButton(
-                  fillColor: AppColors.black,
-                  textColor: AppColors.white50,
-                  onTap: () {
-                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
-                  },
-                  title: AppStrings.signUp,
-                ),
-              ],
-            ),
-          ),
-        ],
+      ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Reset password💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+      appBar: const CustomAppBar(
+        appBarContent: AppStrings.forgotPassword ,
+        iconData: Icons.arrow_back,
+      ),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
+          child: Column(
+            children: [
+              CustomFromCard(
+                  title: AppStrings.fullName,
+                  controller: authController.fullNameController,
+                  validator: (v) {}),
+            ],
+          )
       ),
     );
   }

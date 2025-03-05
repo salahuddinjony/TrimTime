@@ -48,39 +48,33 @@ class ChoseAuthScreen extends StatelessWidget {
 
               // Spacer for better alignment
               SizedBox(height: 40.h),
-              //ToDo ==========✅✅ Apple ✅✅==========
-              CustomContainerButton(
-                isArrow: false,
-                text: AppStrings.signInWithApple,
-                icon: Assets.images.apple.image(),
-                onTap: () {
-
-                },
-              ), //ToDo ==========✅✅ Facebook ✅✅==========
-              CustomContainerButton(
-                isArrow: false,
-                text: AppStrings.signInWithFacebook,
-                icon: Assets.images.facebook.image(),
-                onTap: () {
-
-                },
-              ), //ToDo ==========✅✅ Google ✅✅==========
-              CustomContainerButton(
-                isArrow: false,
-                text: AppStrings.signInWithGoogle,
-                icon: Assets.images.google.image(),
-                onTap: () {
-
-                },
-              ), //ToDo ==========✅✅ Email ✅✅==========
+              //ToDo ==========✅✅ Email ✅✅==========
               CustomContainerButton(
                 isArrow: false,
                 text: AppStrings.signInWithEmail,
                 icon: Assets.images.email.image(),
                 onTap: () {
-                  context.push(RoutePath.getStartedScreen,
-                      extra: userRole);
+                  context.push(RoutePath.getStartedScreen, extra: userRole);
                 },
+              ),
+              //ToDo ==========✅✅ Apple ✅✅==========
+              CustomContainerButton(
+                isArrow: false,
+                text: AppStrings.signInWithApple,
+                icon: Assets.images.apple.image(),
+                onTap: () {},
+              ), //ToDo ==========✅✅ Facebook ✅✅==========
+              CustomContainerButton(
+                isArrow: false,
+                text: AppStrings.signInWithFacebook,
+                icon: Assets.images.facebook.image(),
+                onTap: () {},
+              ), //ToDo ==========✅✅ Google ✅✅==========
+              CustomContainerButton(
+                isArrow: false,
+                text: AppStrings.signInWithGoogle,
+                icon: Assets.images.google.image(),
+                onTap: () {},
               ),
             ],
           ),

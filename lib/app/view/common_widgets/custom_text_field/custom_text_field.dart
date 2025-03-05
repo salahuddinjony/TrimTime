@@ -115,8 +115,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 16, bottom: 16),
                   child: obscureText
-                      ? Assets.icons.eyeOff.svg()
-                      : Assets.icons.eye.svg(),
+                      ? Assets.icons.eyeOff.svg(color: Colors.black)
+                      : Assets.icons.eye.svg(color: Colors.black),
                 ),
               )
             : widget.suffixIcon,

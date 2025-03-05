@@ -75,7 +75,7 @@ class GetStartedScreen extends StatelessWidget {
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
                   onTap: () {
-                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
+                    context.pushNamed(RoutePath.signUpScreen, extra: userRole);
                   },
                   title: AppStrings.signUp,
                 ),

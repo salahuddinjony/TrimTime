@@ -171,11 +171,11 @@ class AppRouter {
       GoRoute(
         name: RoutePath.forgetPasswordScreen,
         path: RoutePath.forgetPasswordScreen.addBasePath,
-        builder: (context, state) =>  const ForgetPasswordScreen(),
+        builder: (context, state) =>   ForgetPasswordScreen(),
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child:  const ForgetPasswordScreen(),
+            child:   ForgetPasswordScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
               var slideAnimation = animation.drive(slideTween);

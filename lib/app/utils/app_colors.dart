@@ -13,6 +13,7 @@ class AppColors {
   static const Color greenColor = Color(0xff92D738);
   static const Color nextButtonColor = Color(0xffB7FF81);
   static const Color whiteColor = Color(0xffDEDEDE);
+  static const Color white50 = Color(0xffFDFDFD);
   static const Color innerText = Color(0xff959595);
   static const Color create = Color(0xff4C6254);
   static const Color backButtonColor = Color(0xff1A2923);

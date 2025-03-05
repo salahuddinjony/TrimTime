@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 
 import 'package:barber_time/app/view/common_widgets/custom_container_button/custom_container_button.dart';
 
@@ -10,8 +11,11 @@ import 'package:go_router/go_router.dart';
 class ChoseAuthScreen extends StatelessWidget {
   const ChoseAuthScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouterState.of(context).extra as UserRole?;
+   debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),

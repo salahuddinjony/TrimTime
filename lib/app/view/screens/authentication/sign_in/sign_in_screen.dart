@@ -84,9 +84,7 @@ class SignInScreen extends StatelessWidget {
                       fillColor: Colors.black,
                       textColor: Colors.white,
                     ),
-                    SizedBox(
-                      height: 50.h,
-                    ),
+
                     //ToDo ==========✅✅ dontHaveAnAccount✅✅==========
                     CustomRichText(
                         firstText: AppStrings.dontHaveAnAccount,

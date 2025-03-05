@@ -1,6 +1,8 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/global/helper/extension.dart';
+import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
@@ -138,6 +140,42 @@ class AppRouter {
           return CustomTransitionPage(
             key: state.pageKey,
             child:  OtpScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
+              var slideAnimation = animation.drive(slideTween);
+              return SlideTransition(position: slideAnimation, child: child);
+            },
+          );
+        },
+      ),
+
+      ///======================= OtpScreen ====================
+      GoRoute(
+        name: RoutePath.resetPasswordScreen,
+        path: RoutePath.resetPasswordScreen.addBasePath,
+        builder: (context, state) =>  ResetPasswordScreen(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child:  ResetPasswordScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
+              var slideAnimation = animation.drive(slideTween);
+              return SlideTransition(position: slideAnimation, child: child);
+            },
+          );
+        },
+      ),
+
+      ///======================= ForgetPasswordScreen ====================
+      GoRoute(
+        name: RoutePath.forgetPasswordScreen,
+        path: RoutePath.forgetPasswordScreen.addBasePath,
+        builder: (context, state) =>  const ForgetPasswordScreen(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child:  const ForgetPasswordScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
               var slideAnimation = animation.drive(slideTween);

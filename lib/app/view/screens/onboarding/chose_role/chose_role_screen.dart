@@ -16,43 +16,45 @@ class ChoseRoleScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-        child: Column(
-          children: [
-            // Logo in the center
-            Center(child: Assets.images.logo.image()),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Logo in the center
+              Center(child: Assets.images.logo.image()),
 
-            // Spacer for better alignment
-            SizedBox(height: 40.h),
-            //ToDo ==========✅✅ Customer ✅✅==========
-            CustomContainerButton(
-              isArrow: true,
-              text: AppStrings.customer,
-              icon: Assets.images.customer.image(),
-              onTap: () {
-                context.push(RoutePath.choseAuthScreen,extra: UserRole.user);
-              },
-            ),
+              // Spacer for better alignment
+              SizedBox(height: 40.h),
+              //ToDo ==========✅✅ Customer ✅✅==========
+              CustomContainerButton(
+                isArrow: true,
+                text: AppStrings.customer,
+                icon: Assets.images.customer.image(),
+                onTap: () {
+                  context.push(RoutePath.choseAuthScreen,extra: UserRole.user);
+                },
+              ),
 
-            //ToDo ==========✅✅ barber ✅✅==========
-            CustomContainerButton(
-              isArrow: true,
-              text: AppStrings.berber,
-              icon: Assets.images.berber.image(),
-              onTap: () {
-                context.push(RoutePath.choseAuthScreen,extra: UserRole.barber);
-              },
-            ),
+              //ToDo ==========✅✅ barber ✅✅==========
+              CustomContainerButton(
+                isArrow: true,
+                text: AppStrings.berber,
+                icon: Assets.images.berber.image(),
+                onTap: () {
+                  context.push(RoutePath.choseAuthScreen,extra: UserRole.barber);
+                },
+              ),
 
-            //ToDo ==========✅✅ Owner ✅✅==========
-            CustomContainerButton(
-              isArrow: true,
-              text: AppStrings.owner,
-              icon: Assets.images.owner.image(),
-              onTap: () {
-                context.push(RoutePath.choseAuthScreen,extra: UserRole.owner);
-              },
-            ),
-          ],
+              //ToDo ==========✅✅ Owner ✅✅==========
+              CustomContainerButton(
+                isArrow: true,
+                text: AppStrings.owner,
+                icon: Assets.images.owner.image(),
+                onTap: () {
+                  context.push(RoutePath.choseAuthScreen,extra: UserRole.owner);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -65,10 +65,12 @@ class GetStartedScreen extends StatelessWidget {
                   },
                   title: AppStrings.signIn,
                 ),
+
                 //ToDo ==========✅✅ Sing Up Button ✅✅==========
                 SizedBox(
                   height: 20.h,
                 ),
+
                 CustomButton(
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,

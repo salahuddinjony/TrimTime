@@ -89,7 +89,9 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     CustomButton(
                       onTap: () {
-                        // context.push(RoutePath.signInScreen);
+                        context.pushNamed(
+                          RoutePath.otpScreen,
+                        );
                       },
                       title: AppStrings.signUp,
                       fillColor: Colors.black,

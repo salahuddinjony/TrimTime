@@ -54,8 +54,7 @@ class ChoseAuthScreen extends StatelessWidget {
                 text: AppStrings.signInWithApple,
                 icon: Assets.images.apple.image(),
                 onTap: () {
-                  context.push(RoutePath.getStartedScreen,
-                      extra: userRole);
+
                 },
               ), //ToDo ==========✅✅ Facebook ✅✅==========
               CustomContainerButton(
@@ -63,8 +62,7 @@ class ChoseAuthScreen extends StatelessWidget {
                 text: AppStrings.signInWithFacebook,
                 icon: Assets.images.facebook.image(),
                 onTap: () {
-                  context.push(RoutePath.getStartedScreen,
-                      extra: userRole);
+
                 },
               ), //ToDo ==========✅✅ Google ✅✅==========
               CustomContainerButton(
@@ -72,8 +70,7 @@ class ChoseAuthScreen extends StatelessWidget {
                 text: AppStrings.signInWithGoogle,
                 icon: Assets.images.google.image(),
                 onTap: () {
-                  context.push(RoutePath.getStartedScreen,
-                      extra: userRole);
+
                 },
               ), //ToDo ==========✅✅ Email ✅✅==========
               CustomContainerButton(

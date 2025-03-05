@@ -17,6 +17,8 @@ class AppColors {
   static const Color create = Color(0xff4C6254);
   static const Color backButtonColor = Color(0xff1A2923);
   static const Color homeColor = Color(0xff2c611e);
+  static const Color normalHover = Color(0xffB76D42);
+  static const Color gray800 = Color(0xff1D1C1C);
 
 
 

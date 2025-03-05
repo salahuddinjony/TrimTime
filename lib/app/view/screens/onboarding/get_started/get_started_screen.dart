@@ -19,8 +19,8 @@ class GetStartedScreen extends StatelessWidget {
               width: double.infinity,
               height: MediaQuery.of(context).size.height /
                   2, // Adjust height according to your design
-              color: Color(0xFFB36A51), // Brown color similar to your design
-              child: Center(
+              color: const Color(0xFFB36A51), // Brown color similar to your design
+              child: const Center(
                 child: Text(
                   'Your Content Here',
                   style: TextStyle(

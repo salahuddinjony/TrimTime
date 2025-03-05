@@ -1,4 +1,4 @@
-
+import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -25,7 +25,7 @@ class GetStartedScreen extends StatelessWidget {
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 2,
               // Adjust height according to your design
-              color: const Color(0xFFB36A51),
+              color: AppColors.normalHover,
               // Brown color similar to your design
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,7 +60,9 @@ class GetStartedScreen extends StatelessWidget {
                 CustomButton(
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
+                  },
                   title: AppStrings.signIn,
                 ),
                 //ToDo ==========✅✅ Sing Up Button ✅✅==========
@@ -70,7 +72,9 @@ class GetStartedScreen extends StatelessWidget {
                 CustomButton(
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
+                  },
                   title: AppStrings.signUp,
                 ),
               ],

@@ -7,4 +7,5 @@ class RoutePath {
   static const String choseAuthScreen = '/ChoseAuthScreen';
   static const String getStartedScreen = '/GetStartedScreen';
   static const String signInScreen = '/SignInScreen';
+  static const String signUpScreen = '/SignUpScreen';
 }

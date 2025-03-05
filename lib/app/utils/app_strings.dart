@@ -6,6 +6,7 @@ class AppStrings {
   static const customer = "Customer";
   static const berber = "Berber";
   static const owner = "Owner";
+  static const password = "Password";
   static const barbersTime = "Barbers Time";
   static const inAWorldFullOFTrends =
       "In a world full of trends, a fresh fade never goes out of style.";
@@ -16,7 +17,7 @@ class AppStrings {
   static const getStarted = "Get Started";
   static const startWithSign = "Start with sign up or sign in";
   static const signIn = "Sign in";
-  static const welcomeBack = "Welcome Back";
+  static const welcomeBack = "Welcome \n Back";
   static const email = "Email";
   static const enterYourEmail = "Enter your email";
   static const enterYourPassword = "Enter your password";

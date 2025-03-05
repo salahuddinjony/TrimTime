@@ -4,13 +4,35 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+# context.push(RoutePath.signInScreen); // new Screen Navigation
 
-A few resources to get you started if this is your first Flutter project:
+# context.go(RoutePath.signInScreen); // befor all route remove
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# context.pushNamed(RoutePath.signInScreen); new screen best prectice
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# context.pop(); ...// that means back button
+
+# context.replace(RoutePath.signInScreen);
+
+# and  context.replaceNamed(RoutePath.signInScreen);//এটি বর্তমান স্ক্রিন remove করে নতুন স্ক্রিন লোড করে।
+
+# that means jei screen ta te thakbo sei screen ta muse ager screen e jabe
+
+
+*/যদি ব্যাক বাটন প্রেস করার আগে চেক করতে চান, যে ব্যাক নেওয়া সম্ভব কিনা।
+if (context.canPop()) {
+context.pop();
+} else {
+debugPrint("==========================No back screen available");
+}
+/*
+
+# context.pushReplacement(RoutePath.signInScreen); // remove before 1 screen
+
+# ✅ নতুন স্ক্রিনে যেতে → push() বা pushNamed()
+✅ আগের সব স্ক্রিন মুছে নতুন স্ক্রিন লোড করতে → go()
+✅ শুধুমাত্র বর্তমান স্ক্রিন মুছে নতুন স্ক্রিন লোড করতে → replace()
+✅ ব্যাক বাটনের মতো কাজ করতে → pop()
+✅ ব্যাক করা সম্ভব কিনা চেক করতে → canPop()
+✅ সকল স্ক্রিন মুছে প্রথম স্ক্রিনে নিতে → popUntil((route) => route.isFirst);
+✅ লগইন বা অনবোর্ডিং শেষ করে হোম স্ক্রিনে পাঠাতে → pushReplacement()

@@ -17,7 +17,8 @@ class GetStartedScreen extends StatelessWidget {
             clipper: CurvedShortClipper(),
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height/2, // Adjust height according to your design
+              height: MediaQuery.of(context).size.height /
+                  2, // Adjust height according to your design
               color: Color(0xFFB36A51), // Brown color similar to your design
               child: Center(
                 child: Text(
@@ -35,10 +36,10 @@ class GetStartedScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomContainerButton(
               isArrow: false,
-              text: "sing ",
+              text: "get start",
               icon: Assets.images.customer.image(),
               onTap: () {
-                context.push(RoutePath.signInScreen);
+                context.pushNamed(RoutePath.signInScreen);
               },
             ),
           ),

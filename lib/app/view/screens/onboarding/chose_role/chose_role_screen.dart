@@ -7,7 +7,6 @@ import 'package:barber_time/app/view/common_widgets/custom_container_button/cust
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class ChoseRoleScreen extends StatelessWidget {
   const ChoseRoleScreen({super.key});
@@ -31,8 +30,8 @@ class ChoseRoleScreen extends StatelessWidget {
                 text: AppStrings.customer,
                 icon: Assets.images.customer.image(),
                 onTap: () {
-                  AppRouter.route.pushNamed(RoutePath.choseAuthScreen);
-                  // context.push(RoutePath.choseAuthScreen,extra: UserRole.user);
+                  AppRouter.route.pushNamed(RoutePath.choseAuthScreen,
+                      extra: UserRole.user);
                 },
               ),
 
@@ -42,7 +41,8 @@ class ChoseRoleScreen extends StatelessWidget {
                 text: AppStrings.berber,
                 icon: Assets.images.berber.image(),
                 onTap: () {
-                  context.push(RoutePath.choseAuthScreen,extra: UserRole.barber);
+                  AppRouter.route.pushNamed(RoutePath.choseAuthScreen,
+                      extra: UserRole.barber);
                 },
               ),
 
@@ -52,7 +52,8 @@ class ChoseRoleScreen extends StatelessWidget {
                 text: AppStrings.owner,
                 icon: Assets.images.owner.image(),
                 onTap: () {
-                  context.push(RoutePath.choseAuthScreen,extra: UserRole.owner);
+                  AppRouter.route.pushNamed(RoutePath.choseAuthScreen,
+                      extra: UserRole.owner);
                 },
               ),
             ],

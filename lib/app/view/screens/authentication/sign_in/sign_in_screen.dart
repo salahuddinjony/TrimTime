@@ -122,8 +122,8 @@ class SignInScreen extends StatelessWidget {
                       //ToDo ==========✅✅ Sing In Button✅✅==========
                       CustomButton(
                         onTap: () {
-                          context.pushNamed(RoutePath.homeScreen,
-                             );
+                          AppRouter.route.pushNamed(RoutePath.homeScreen,
+                              );
                           // Pass role
                         },
                         title: AppStrings.signIn,
@@ -139,9 +139,8 @@ class SignInScreen extends StatelessWidget {
                           firstText: AppStrings.dontHaveAnAccount,
                           secondText: AppStrings.signUp,
                           onTapAction: () {
-                            context.pushNamed(
-                              RoutePath.signUpScreen,
-                            );
+                            AppRouter.route.pushNamed(RoutePath.signUpScreen,
+                                extra: userRole);
                           }),
                     ],
                   )),

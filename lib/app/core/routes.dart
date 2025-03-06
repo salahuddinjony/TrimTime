@@ -158,6 +158,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'route_path.dart';
@@ -256,6 +257,16 @@ class AppRouter {
           path: RoutePath.resetPasswordScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: ResetPasswordScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= OtpScreen Route =======================
+        GoRoute(
+          name: RoutePath.homeScreen,
+          path: RoutePath.homeScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const HomeScreen(),
             state: state,
           ),
         ),

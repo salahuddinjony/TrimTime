@@ -9,6 +9,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -100,17 +101,7 @@ class AppRouter {
         name: RoutePath.signInScreen,
         path: RoutePath.signInScreen.addBasePath,
         builder: (context, state) =>  SignInScreen(),
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child:  SignInScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
-              var slideAnimation = animation.drive(slideTween);
-              return SlideTransition(position: slideAnimation, child: child);
-            },
-          );
-        },
+
       ),
 
       ///======================= Sing Up ====================
@@ -118,17 +109,7 @@ class AppRouter {
         name: RoutePath.signUpScreen,
         path: RoutePath.signUpScreen.addBasePath,
         builder: (context, state) =>  SignUpScreen(),
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child:  SignUpScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
-              var slideAnimation = animation.drive(slideTween);
-              return SlideTransition(position: slideAnimation, child: child);
-            },
-          );
-        },
+
       ),
 
       ///======================= OtpScreen ====================
@@ -136,35 +117,15 @@ class AppRouter {
         name: RoutePath.otpScreen,
         path: RoutePath.otpScreen.addBasePath,
         builder: (context, state) =>  OtpScreen(),
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child:  OtpScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
-              var slideAnimation = animation.drive(slideTween);
-              return SlideTransition(position: slideAnimation, child: child);
-            },
-          );
-        },
+
       ),
 
-      ///======================= OtpScreen ====================
+      ///======================= resetPasswordScreen ====================
       GoRoute(
         name: RoutePath.resetPasswordScreen,
         path: RoutePath.resetPasswordScreen.addBasePath,
         builder: (context, state) =>  ResetPasswordScreen(),
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child:  ResetPasswordScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
-              var slideAnimation = animation.drive(slideTween);
-              return SlideTransition(position: slideAnimation, child: child);
-            },
-          );
-        },
+
       ),
 
       ///======================= ForgetPasswordScreen ====================
@@ -172,17 +133,14 @@ class AppRouter {
         name: RoutePath.forgetPasswordScreen,
         path: RoutePath.forgetPasswordScreen.addBasePath,
         builder: (context, state) =>   ForgetPasswordScreen(),
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child:   ForgetPasswordScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              var slideTween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: Curves.easeInOut));
-              var slideAnimation = animation.drive(slideTween);
-              return SlideTransition(position: slideAnimation, child: child);
-            },
-          );
-        },
+
+      ),
+
+      ///======================= homeScreen ====================
+      GoRoute(
+        name: RoutePath.homeScreen,
+        path: RoutePath.homeScreen.addBasePath,
+        builder: (context, state) =>   const HomeScreen(),
       ),
     ],
   );

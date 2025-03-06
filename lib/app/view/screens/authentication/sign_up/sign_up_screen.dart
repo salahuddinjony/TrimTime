@@ -20,100 +20,105 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          ClipPath(
-            clipper: CurvedBannerClipper(),
-            child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 1.3,
-                // Adjust height according to your design
-                color: AppColors.normalHover,
-                // Brown color similar to your design
-                child: Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ClipPath(
+              clipper: CurvedBannerClipper(),
+              child: Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  // Adjust height according to your design
+                  color: AppColors.normalHover,
+                  // Brown color similar to your design
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        const CustomText(
+                          text: AppStrings.signUp,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                          color: AppColors.white50,
+                        ),
+
+                        const CustomText(
+                          text: AppStrings.helloLetsJoin,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 20,
+                          color: AppColors.white50,
+                        ),
+
+                        SizedBox(
+                          height: 34.h,
+                        ),
+                        //ToDo ==========✅✅ fullName ✅✅==========
+                        CustomFromCard(
+                          hinText: AppStrings.enterYourName,
+                            title: AppStrings.fullName,
+                            controller: authController.fullNameController,
+                            validator: (v) {}),
+                        //ToDo ==========✅✅ Email✅✅==========
+                        CustomFromCard( hinText: AppStrings.enterYourEmail,
+                            title: AppStrings.email,
+                            controller: authController.emailController,
+                            validator: (v) {}),
+                        //ToDo ==========✅✅ password ✅✅==========
+                        CustomFromCard(
+                            hinText: AppStrings.enterYourPassword,
+                            title: AppStrings.password,
+                            controller: authController.passwordController,
+                            validator: (v) {}),
+
+                        //ToDo ==========✅✅ Confirm ✅✅==========
+                        CustomFromCard(
+                            hinText: AppStrings.confirmNewPassword,
+                            title: AppStrings.confirmPassword,
+                            controller: authController.confirmPasswordController,
+                            validator: (v) {}),
+                      ],
+                    ),
+                  )),
+            ),
+            SingleChildScrollView(
+              child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      const CustomText(
-                        text: AppStrings.signUp,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        color: AppColors.white50,
-                      ),
-
-                      const CustomText(
-                        text: AppStrings.helloLetsJoin,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 20,
-                        color: AppColors.white50,
-                      ),
-
-                      SizedBox(
-                        height: 34.h,
-                      ),
-                      //ToDo ==========✅✅ fullName ✅✅==========
-                      CustomFromCard(
-                          title: AppStrings.fullName,
-                          controller: authController.fullNameController,
-                          validator: (v) {}),
-                      //ToDo ==========✅✅ Email✅✅==========
-                      CustomFromCard(
-                          title: AppStrings.email,
-                          controller: authController.emailController,
-                          validator: (v) {}),
-                      //ToDo ==========✅✅ password ✅✅==========
-                      CustomFromCard(
-                          title: AppStrings.password,
-                          controller: authController.passwordController,
-                          validator: (v) {}),
-
-                      //ToDo ==========✅✅ Confirm ✅✅==========
-                      CustomFromCard(
-                          title: AppStrings.confirmPassword,
-                          controller: authController.confirmPasswordController,
-                          validator: (v) {}),
-                    ],
-                  ),
-                )),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  children: [
-                    CustomButton(
-                      onTap: () {
-                        context.pushNamed(
-                          RoutePath.otpScreen,
-                        );
-                      },
-                      title: AppStrings.signUp,
-                      fillColor: Colors.black,
-                      textColor: Colors.white,
-                    ),
-                    SizedBox(
-                      height: 50.h,
-                    ),
-
-                    //ToDo ==========✅✅ alreadyHaveAnAccount✅✅==========
-                    CustomRichText(
-                        firstText: AppStrings.alreadyHaveAnAccount,
-                        secondText: AppStrings.signIn,
-                        onTapAction: () {
+                      CustomButton(
+                        onTap: () {
                           context.pushNamed(
-                            RoutePath.signInScreen,
+                            RoutePath.otpScreen,
                           );
-                        })
-                  ],
-                )),
-          ),
-        ],
+                        },
+                        title: AppStrings.signUp,
+                        fillColor: Colors.black,
+                        textColor: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 50.h,
+                      ),
+
+                      //ToDo ==========✅✅ alreadyHaveAnAccount✅✅==========
+                      CustomRichText(
+                          firstText: AppStrings.alreadyHaveAnAccount,
+                          secondText: AppStrings.signIn,
+                          onTapAction: () {
+                            context.pushNamed(
+                              RoutePath.signInScreen,
+                            );
+                          })
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -9,18 +9,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouterState.of(context).extra as UserRole?;
-    debugPrint("Selected Role============================${userRole?.name}");
-    // String roleFromDatabase = "user";
-    // UserRole userRole = getRoleFromString(roleFromDatabase);
+    String roleFromDatabase = "user";
+    UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          CustomText(text: "fff",fontSize: 20,)
+          CustomText(text: ';;;')
         ],
       ),
-      // bottomNavigationBar: RoleBasedBottomNav(role: ),
+      bottomNavigationBar: RoleBasedBottomNav(role: userRole),
+
     );
   }
 }

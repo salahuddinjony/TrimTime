@@ -136,7 +136,7 @@ class AppRouter {
 
       ),
 
-      ///======================= homeScreen ====================
+      ///======================= ForgetPasswordScreen ====================
       GoRoute(
         name: RoutePath.homeScreen,
         path: RoutePath.homeScreen.addBasePath,

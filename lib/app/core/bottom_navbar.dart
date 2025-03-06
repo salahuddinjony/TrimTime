@@ -45,7 +45,7 @@ class _RoleBasedBottomNavState extends State<RoleBasedBottomNav> {
           const BarberProfile()
         ];
       case UserRole.user:
-      default:
+
         return [const HomeScreen(), const QueScreen(), const ScannerScreen()];
     }
   }

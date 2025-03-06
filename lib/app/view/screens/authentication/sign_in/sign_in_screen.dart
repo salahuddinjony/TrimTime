@@ -126,7 +126,7 @@ class SignInScreen extends StatelessWidget {
                       CustomButton(
                         onTap: () {
                           context.pushNamed(RoutePath.homeScreen,
-                              extra: userRole);
+                             );
                           // Pass role
                         },
                         title: AppStrings.signIn,

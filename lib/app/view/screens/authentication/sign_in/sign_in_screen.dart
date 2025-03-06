@@ -23,6 +23,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouterState.of(context).extra as UserRole?;
+    debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       body: SingleChildScrollView(
         child: Obx(() {
@@ -124,8 +126,7 @@ class SignInScreen extends StatelessWidget {
                       CustomButton(
                         onTap: () {
                           context.pushNamed(RoutePath.homeScreen,
-                              extra: UserRole.user.name);
-                          debugPrint("==============${UserRole.user.name}");
+                              extra: userRole);
                           // Pass role
                         },
                         title: AppStrings.signIn,

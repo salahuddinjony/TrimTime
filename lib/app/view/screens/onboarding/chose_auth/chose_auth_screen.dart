@@ -55,7 +55,7 @@ class ChoseAuthScreen extends StatelessWidget {
                 text: AppStrings.signInWithEmail,
                 icon: Assets.images.email.image(),
                 onTap: () {
-                  AppRouter.route.pushNamed(RoutePath.choseAuthScreen,
+                  AppRouter.route.pushNamed(RoutePath.getStartedScreen,
                       extra: userRole);                },
               ),
               //ToDo ==========✅✅ Apple ✅✅==========

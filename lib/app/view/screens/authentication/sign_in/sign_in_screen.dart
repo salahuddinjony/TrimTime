@@ -1,13 +1,12 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
-import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
-import 'package:barber_time/app/view/common_widgets/custom_container_button/custom_container_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_rich_text/custom_rich_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -34,10 +33,7 @@ class SignInScreen extends StatelessWidget {
                 clipper: CurvedBannerClipper(),
                 child: Container(
                     width: double.infinity,
-                    // height: MediaQuery.of(context).size.height / 1.3,
-                    // Adjust height according to your design
                     color: AppColors.normalHover,
-                    // Brown color similar to your design
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 30),
@@ -100,7 +96,8 @@ class SignInScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  context.push(RoutePath.forgetPasswordScreen);
+                                  AppRouter.route.pushNamed(RoutePath.forgetPasswordScreen,
+                                      extra: userRole);
                                 },
                                 child: CustomText(
                                   top: 12,

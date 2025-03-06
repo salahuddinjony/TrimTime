@@ -3,6 +3,7 @@ import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -21,6 +22,8 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouterState.of(context).extra as UserRole?;
+    debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       backgroundColor: AppColors.normalHover,
 
@@ -68,7 +71,16 @@ class ForgetPasswordScreen extends StatelessWidget {
                     isRadius: false,
                     width: MediaQuery.of(context).size.width,
                     onTap: () {
-                      context.pushNamed(RoutePath.otpScreen, extra: true);                    },
+
+                      AppRouter.route.pushNamed(
+                        RoutePath.otpScreen,
+                        extra: {
+                          'isForget': true,
+                          'userRole': userRole?.name, // ✅ Convert UserRole to string
+                        },
+                      );
+
+                    },
                     title: AppStrings.sendCode,
                     fillColor: AppColors.white50,
                   ),

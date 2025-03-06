@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -61,8 +62,8 @@ class GetStartedScreen extends StatelessWidget {
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
                   onTap: () {
-                    context.pushNamed(RoutePath.signInScreen, extra: userRole);
-                  },
+                    AppRouter.route.pushNamed(RoutePath.signInScreen,
+                        extra: userRole);                     },
                   title: AppStrings.signIn,
                 ),
 
@@ -75,8 +76,8 @@ class GetStartedScreen extends StatelessWidget {
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
                   onTap: () {
-                    context.pushNamed(RoutePath.signUpScreen, extra: userRole);
-                  },
+                    AppRouter.route.pushNamed(RoutePath.signUpScreen,
+                        extra: userRole);                     },
                   title: AppStrings.signUp,
                 ),
               ],

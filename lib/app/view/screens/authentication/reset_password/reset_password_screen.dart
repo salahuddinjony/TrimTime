@@ -3,10 +3,10 @@ import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +21,8 @@ class ResetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouterState.of(context).extra as UserRole?;
+    debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       backgroundColor: AppColors.normalHover,
 
@@ -67,9 +69,8 @@ class ResetPasswordScreen extends StatelessWidget {
                     isRadius: false,
                     width: MediaQuery.of(context).size.width,
                     onTap: () {
-                      context.go(
-                        RoutePath.signInScreen,
-                      );
+                      AppRouter.route.goNamed(RoutePath.signInScreen,
+                          extra: userRole);
                     },
                     title: AppStrings.resetPassword,
                     fillColor: AppColors.white50,

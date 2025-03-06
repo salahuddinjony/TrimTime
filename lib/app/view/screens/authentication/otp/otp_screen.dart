@@ -1,7 +1,9 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -21,8 +23,13 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Ensure the correct type is received
-    final bool isForget = (GoRouterState.of(context).extra as bool?) ?? false;
+    final Map<String, dynamic> extraData = GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
+    final bool isForget = extraData['isForget'] ?? false;
+    final UserRole userRole = getRoleFromString(extraData['userRole'] ?? 'user');
 
+    debugPrint("Forget Password Screen: isForget = $isForget, userRole = ${userRole.name}");
+
+    debugPrint("Selected Role============================${userRole.name}");
     return Scaffold(
       backgroundColor: AppColors.normalHover,
 
@@ -99,8 +106,10 @@ class OtpScreen extends StatelessWidget {
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       isForget
-                          ? context.push(RoutePath.resetPasswordScreen)
-                          : context.push(RoutePath.signInScreen);
+                          ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                          extra: userRole)
+                          :  AppRouter.route.goNamed(RoutePath.signInScreen,
+                          extra: userRole);
                     }
                   },
                   title: AppStrings.verifyCode,

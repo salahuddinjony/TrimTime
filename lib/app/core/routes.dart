@@ -148,60 +148,122 @@
 //   static GoRouter get route => initRoute;
 // }
 
-
-
 import 'package:barber_time/app/global/helper/extension/extension.dart';
+import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
+import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'route_path.dart';
 
 class AppRouter {
-  static final GoRouter initRoute = GoRouter(initialLocation: RoutePath.splashScreen.addBasePath, debugLogDiagnostics: true, navigatorKey: GlobalKey<NavigatorState>(), routes: [
-    ///======================= Initial Route =======================
-    GoRoute(
-      name: RoutePath.splashScreen,
-      path: RoutePath.splashScreen.addBasePath,
-      pageBuilder: (context, state) => _buildPageWithAnimation(
-        child:  SplashScreen(),
-        state: state,
-      ),
-    ),
+  static final GoRouter initRoute = GoRouter(
+      initialLocation: RoutePath.splashScreen.addBasePath,
+      debugLogDiagnostics: true,
+      navigatorKey: GlobalKey<NavigatorState>(),
+      routes: [
+        ///======================= Initial Route =======================
+        GoRoute(
+          name: RoutePath.splashScreen,
+          path: RoutePath.splashScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: SplashScreen(),
+            state: state,
+          ),
+        ),
 
-    ///======================= signInScreen Route =======================
-    GoRoute(
-      name: RoutePath.signInScreen,
-      path: RoutePath.signInScreen.addBasePath,
-      pageBuilder: (context, state) => _buildPageWithAnimation(
-        child: SignInScreen(),
-        state: state,
-      ),
-    ),
-    ///======================= choseRoleScreen Route =======================
 
-    GoRoute(
-      name: RoutePath.choseRoleScreen,
-      path: RoutePath.choseRoleScreen.addBasePath,
-      pageBuilder: (context, state) => _buildPageWithAnimation(
-        child: const ChoseRoleScreen(),
-        state: state,
-      ),
-    ),
-    ///======================= choseAuthScreen Route =======================
-    GoRoute(
-      name: RoutePath.choseAuthScreen,
-      path: RoutePath.choseAuthScreen.addBasePath,
-      pageBuilder: (context, state) => _buildPageWithAnimation(
-        child: const ChoseAuthScreen(),
-        state: state,
-      ),
-    ),
-  ]);
 
-  static CustomTransitionPage _buildPageWithAnimation({required Widget child, required GoRouterState state}) {
+        ///======================= choseRoleScreen Route =======================
+
+        GoRoute(
+          name: RoutePath.choseRoleScreen,
+          path: RoutePath.choseRoleScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ChoseRoleScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= choseAuthScreen Route =======================
+        GoRoute(
+          name: RoutePath.choseAuthScreen,
+          path: RoutePath.choseAuthScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ChoseAuthScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= GetStartedScreen Route =======================
+        GoRoute(
+          name: RoutePath.getStartedScreen,
+          path: RoutePath.getStartedScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const GetStartedScreen(),
+            state: state,
+          ),
+        ),
+        ///======================= signInScreen Route =======================
+        GoRoute(
+          name: RoutePath.signInScreen,
+          path: RoutePath.signInScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: SignInScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= SignUpScreen Route =======================
+        GoRoute(
+          name: RoutePath.signUpScreen,
+          path: RoutePath.signUpScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: SignUpScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= ForgetPasswordScreen Route =======================
+        GoRoute(
+          name: RoutePath.forgetPasswordScreen,
+          path: RoutePath.forgetPasswordScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: ForgetPasswordScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= OtpScreen Route =======================
+        GoRoute(
+          name: RoutePath.otpScreen,
+          path: RoutePath.otpScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: OtpScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= OtpScreen Route =======================
+        GoRoute(
+          name: RoutePath.resetPasswordScreen,
+          path: RoutePath.resetPasswordScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: ResetPasswordScreen(),
+            state: state,
+          ),
+        ),
+
+      ]);
+
+  static CustomTransitionPage _buildPageWithAnimation(
+      {required Widget child, required GoRouterState state}) {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,

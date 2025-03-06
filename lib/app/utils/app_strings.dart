@@ -36,11 +36,85 @@ class AppStrings {
   static const didNotGetACode = "Didn’t get a code? ";
   static const resendCode = "Resend Code";
   static const forgotPassword = "Forgot password";
-  static const enterYourEmailANdWe = "Enter your email and we will send you a verification code";
-  static const sendCode  = "Send Code";
-  static const resetPassword  = "Reset Password";
-  static const enterNewPassword  = "Enter New Password";
-  static const enterYourNewPassword  = "Enter your new password";
-  static const confirmNewPassword  = "Confirm New Password";
-  static const confirmYourNewPassword  = "Confirm your new password";
+  static const enterYourEmailANdWe =
+      "Enter your email and we will send you a verification code";
+  static const sendCode = "Send Code";
+  static const resetPassword = "Reset Password";
+  static const enterNewPassword = "Enter New Password";
+  static const enterYourNewPassword = "Enter your new password";
+  static const confirmNewPassword = "Confirm New Password";
+  static const confirmYourNewPassword = "Confirm your new password";
+
+  ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡user Home💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+
+  static const hi = "Hi,";
+  static const searchSaloons = "Search Saloons";
+  static const seeAll = "see all";
+  static const nearYou = "Near you";
+  static const saveUpTO = "Save up to";
+  static const feedBack = "Feed Back";
+  static const visitShop = "Visit Shop";
+  static const view = " View";
+  static const scanYourQrCode = " Scan your QR Code";
+  static const scanQrCode = "Scan QR Code";
+  static const home = "Home";
+  static const que = "Que";
+  static const saved = "Saved";
+  static const profile = "Profile";
+  static const liveLocation = "Live Location";
+  static const open = "Open: ";
+  static const availableBarber = "Available barber ";
+  static const add = "Add";
+  static const seeProfile = "See profile";
+  static const cancel = "Cancel";
+  static const follow = "Follow ";
+  static const totalFollowers = "Total Followers:";
+  static const photo = "Photo";
+  static const whatAreYouLookingFor = "What are you looking for?";
+  static const searchToBarberLocation = "Search to barber location";
+  static const mapView = "Map View";
+
+  //Profile
+  static const personalInformation = "Personal Information";
+  static const myFeedBack = "My Feed Back";
+  static const contact = "Contact";
+  static const settings = "Settings";
+  static const notification = "Notification";
+  static const logOut = "Logout";
+  static const editProfile = "Edit Profile";
+  static const name = "Name";
+  static const dateOfBirth = "Date of Birth";
+  static const gender = "Gender";
+  static const phoneNumber = "Phone Number";
+  static const location = "Location";
+  static const save = "Save";
+  static const doYouWantToDeleteYourProfile =
+      "Do you want to delete your profile?";
+  static const yes = ""
+      "Yes";
+  static const no = "No";
+  static const areYouSureYouWantToLogOut = "Are you sure you want to log out ?";
+  static const submit = "SUBMIT";
+  static const subject = "Subject*";
+  static const enterEmailAddress = "Enter E-Mail Address";
+  static const writeYourSubject  = "Write your subject";
+  static const choiceImage  = "Choice image";
+  static const upload  = "Upload";
+  static const caption  = "Caption";
+  static const shopName  = "Shop name";
+  static const addReview  = "Add Review";
+  static const post  = "Post";
+  static const giveRatingOutOf  = "Give rating out of 5!";
+  static const faq  = "FAQs";
+  static const privacyPolicy  = "Privacy Policy";
+  static const termsAndConditions  = "Terms & Condition";
+  static const changePassword  = "Change Password";
+  static const setYourNewPassword  = "Set your new password";
+  static const currentPassword  = "Current Password";
+  static const enterCurrentPassword  = "Enter current password";
+  static const newPassword  = "New Password";
+  static const retypePassword  = "Retype Password";
+  static const retypeNewPassword  = "Retype new password";
+  static const deleteAccount  = "Delete Account";
+  static const yesCancel  = "Yes Cancel";
 }

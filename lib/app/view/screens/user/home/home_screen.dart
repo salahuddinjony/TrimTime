@@ -9,8 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String roleFromDatabase = "user";
-    UserRole userRole = getRoleFromString(roleFromDatabase);
+    // String roleFromDatabase = "user";
+    // UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           CustomText(text: ';;;')
         ],
       ),
-      bottomNavigationBar: RoleBasedBottomNav(role: userRole),
+      // bottomNavigationBar: RoleBasedBottomNav(role: userRole),
 
     );
   }

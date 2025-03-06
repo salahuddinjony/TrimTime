@@ -17,9 +17,11 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp.router(
         initialBinding: DependencyInjection(),
         debugShowCheckedModeBanner: false,
+        //Route Section
         routeInformationParser: AppRouter.route.routeInformationParser,
         routerDelegate: AppRouter.route.routerDelegate,
         routeInformationProvider: AppRouter.route.routeInformationProvider,
+
       ),
     );
   }

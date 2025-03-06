@@ -1,17 +1,21 @@
-class RoutePath {
+
+
+
+class RoutePath{
   static const String basePath = '/';
 
-  //=================== General screens ===================
-  static const String splashScreen = 'SplashScreen';
-  static const String choseRoleScreen = 'ChoseRoleScreen';
-  static const String choseAuthScreen = '/ChoseAuthScreen';
-  static const String getStartedScreen = '/GetStartedScreen';
+  static const String splashScreen = 'splashScreen';
+//=================== General screens ===================
+  static const String choseRoleScreen = 'choseRoleScreen';
+  static const String choseAuthScreen = 'choseAuthScreen';
+  static const String getStartedScreen = 'getStartedScreen';
   //=================== Auth screens ===================
-  static const String signInScreen = '/SignInScreen';
-  static const String signUpScreen = '/SignUpScreen';
-  static const String otpScreen = '/OtpScreen';
-  static const String resetPasswordScreen = '/ResetPasswordScreen';
-  static const String forgetPasswordScreen = '/ForgetPasswordScreen';
+  static const String signInScreen = 'signInScreen';
+  static const String signUpScreen = 'signUpScreen';
+  static const String otpScreen = 'otpScreen';
+  static const String resetPasswordScreen = 'resetPasswordScreen';
+  static const String forgetPasswordScreen = 'forgetPasswordScreen';
   //===================User Section ===================
-  static const String homeScreen = '/HomeScreen';
+  static const String homeScreen = 'homeScreen';
+
 }

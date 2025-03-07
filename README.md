@@ -36,3 +36,10 @@ debugPrint("==========================No back screen available");
 ✅ ব্যাক করা সম্ভব কিনা চেক করতে → canPop()
 ✅ সকল স্ক্রিন মুছে প্রথম স্ক্রিনে নিতে → popUntil((route) => route.isFirst);
 ✅ লগইন বা অনবোর্ডিং শেষ করে হোম স্ক্রিনে পাঠাতে → pushReplacement()
+
+
+
+//
+ custom salon card
+custom menu card//setting 
+custom feedback card

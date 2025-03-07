@@ -23,6 +23,7 @@ class AppColors {
   static const Color normalHover = Color(0xffB76D42);
   static const Color secondary = Color(0xffD17C51);
   static const Color gray800 = Color(0xff1D1C1C);
+  static const Color bottomColor = Color(0xff472a1a);
 
 
 

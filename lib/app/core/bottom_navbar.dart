@@ -234,11 +234,10 @@ class _NavBarState extends State<BottomNavbar> {
   @override
   void initState() {
     bottomNavIndex = widget.currentIndex;
-    setNavigationItems(widget.role); // ✅ Role অনুযায়ী নেভিগেশন সেট করা হলো
+    setNavigationItems(widget.role);
     super.initState();
   }
 
-  /// ✅ Role অনুযায়ী Navigation Items সেট করা হচ্ছে
   void setNavigationItems(UserRole role) {
     switch (role) {
       case UserRole.owner:
@@ -314,7 +313,7 @@ class _NavBarState extends State<BottomNavbar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.normalHover,
+        color: AppColors.bottomColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
           topRight: Radius.circular(12),

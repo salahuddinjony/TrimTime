@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:flutter/material.dart';
 
 class OwnerMessagingScreen extends StatelessWidget {
@@ -6,11 +7,13 @@ class OwnerMessagingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String roleFromDatabase = "user";
+    UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
-      backgroundColor: Colors.red,
-      bottomNavigationBar: BottomNavbar(currentIndex: 1),
-
-      appBar: AppBar(title: Text('OwnerMessagingScreen'),),
+        bottomNavigationBar: BottomNavbar(
+          currentIndex: 1,
+          role: getRoleFromString(userRole.name),
+        ),      appBar: AppBar(title: Text('ownerHome'),)
     );
   }
 }

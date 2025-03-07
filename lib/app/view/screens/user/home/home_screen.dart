@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           CustomText(text: ';;;')
         ],
       ),
-      bottomNavigationBar: BottomNavbar( currentIndex: 0,),
+      // bottomNavigationBar: BottomNavbar( currentIndex: 0,),
 
     );
   }

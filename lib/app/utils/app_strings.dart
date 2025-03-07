@@ -121,4 +121,57 @@ class AppStrings {
   static const backToHomePage  = "Back to home page";
   static const oops  = "Oops!";
   static const thaPageYouWereLooking  = "The page you were looking for can’t be found.";
+
+  ///Shop Registration
+  static const boostYourAccount  = "Boost Your  account";
+  static const businessDetails  = "Business Details";
+  static const address  = " Address";
+  static const enterYourSHopName  = "Enter your Shop Name";
+  static const enterYourShopAddress  = "Enter your Shop Address";
+  static const registrationNumber  = "Registration Number";
+  static const enterYourRegistrationNumber  = "Enter your registration number";
+  static const shopLogo  = "Shop Logo";
+  static const uploadLogo  = "Upload logo";
+  static const shopPictures  = "Shop Pictures (max 4)";
+  static const iAgreeToThe  = "I agree to the";
+  static const termsANdConditons  = " terms and conditions";
+
+  //Subscription Plans
+  static const subscriptionPlan  = "Subscription Plans";
+  static const selectPlan  = "Select Plan";
+  static const paymentOption  = "Payment Option";
+  static const continues  = "Continue";
+  static const yourSHopUniqueQr  = "Your Shop’s Unique QR Code";
+  static const print  = "Print";
+  static const download  = "Download";
+
+  //Owner Home
+  static const totalCustomer  = "Total Customer";
+  static const totalBarber  = "Total Barber";
+  static const hiringPost  = "Hiring post";
+  static const barberRequest  = "Barber Request";
+  static const pending  = "Pending";
+  static const waiting  = "Waiting";
+  static const recentRequest  = "Recent Request";
+  static const chat  = "Chat";
+  static const service  = "Service";
+  static const rating  = " Rating: ";
+  static const description  = "Description ";
+  static const viewOnMap  = "View on Map ";
+  static const approve  = "Approve ";
+  static const activeNow  = "Active Now ";
+  static const addNewCustomer  = "Add New Customer";
+  static const congratulations  = "Congratulations!";
+  static const youHaveComplete  = "You have completed the job.!";
+  static const goToHome  = "Go to Home";
+  static const typeSomething  = "Type something…";
+  static const loyaLity  = "loyalty ";
+  static const addPhoto  = "Add Photo ";
+  static const ongoing   = "Ongoing  ";
+  static const completed   = "Completed  ";
+  static const rejected    = "Rejected  ";
+  static const doYouWantToRejectYourRe    = "Do you want to reject your request?  ";
+  static const businessProfile    = "Business Profile ";
+  static const jobPost    = "Jop post";
+  static const addService    = "Add Service";
 }

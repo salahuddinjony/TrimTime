@@ -7,7 +7,7 @@ class OwnerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String roleFromDatabase = "barber";
+    String roleFromDatabase = "owner";
     UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
       bottomNavigationBar: BottomNavbar(

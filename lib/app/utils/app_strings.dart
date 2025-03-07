@@ -149,11 +149,12 @@ class AppStrings {
   static const totalCustomer  = "Total Customer";
   static const totalBarber  = "Total Barber";
   static const hiringPost  = "Hiring post";
+  static const hiring  = "Hiring";
   static const barberRequest  = "Barber Request";
   static const pending  = "Pending";
   static const waiting  = "Waiting";
   static const recentRequest  = "Recent Request";
-  static const chat  = "Chat";
+  static const  chat  = "Chat";
   static const service  = "Service";
   static const rating  = " Rating: ";
   static const description  = "Description ";

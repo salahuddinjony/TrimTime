@@ -203,9 +203,9 @@
 //   }
 // }
 
-
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -216,9 +216,10 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 
 class BottomNavbar extends StatefulWidget {
   final int currentIndex;
-  final UserRole role; // ✅ UserRole যুক্ত করা হলো
+  final UserRole role;
 
-  const BottomNavbar({required this.currentIndex, required this.role, super.key});
+  const BottomNavbar(
+      {required this.currentIndex, required this.role, super.key});
 
   @override
   State<BottomNavbar> createState() => _NavBarState();
@@ -253,12 +254,17 @@ class _NavBarState extends State<BottomNavbar> {
           Assets.icons.gender.svg(),
           Assets.icons.gender.svg(),
         ];
-        textList = ["Home", "Messages", "Hiring", "Profile"];
+        textList = [
+          AppStrings.home,
+          AppStrings.chat,
+          AppStrings.hiring,
+          AppStrings.profile
+        ];
         routeNames = [
           RoutePath.ownerHomeScreen,
           RoutePath.ownerMessagingScreen,
-          RoutePath.ownerMessagingScreen,
-          RoutePath.ownerMessagingScreen,
+          RoutePath.ownerHiringScreen,
+          RoutePath.ownerProfileScreen,
         ];
         break;
 
@@ -287,16 +293,16 @@ class _NavBarState extends State<BottomNavbar> {
       case UserRole.user:
       default:
         unselectedIcon = [
-          Assets.icons.gender.svg(),
-          Assets.icons.settings.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.settings.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
         ];
         selectedIcon = [
-          Assets.icons.gender.svg(),
-          Assets.icons.settings.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.settings.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
+          Assets.icons.notification.svg(),
         ];
         textList = ["Home", "Appointments", "Scanner", "Profile"];
         routeNames = [
@@ -326,7 +332,7 @@ class _NavBarState extends State<BottomNavbar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           unselectedIcon.length,
-              (index) => InkWell(
+          (index) => InkWell(
             onTap: () => onTap(index, context),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -355,7 +361,8 @@ class _NavBarState extends State<BottomNavbar> {
   void onTap(int index, BuildContext context) {
     if (bottomNavIndex != index) {
       setState(() => bottomNavIndex = index);
-      context.pushNamed(routeNames[index]); // ✅ প্রতিটি role-এর জন্য আলাদা route
+      context
+          .pushNamed(routeNames[index]); // ✅ প্রতিটি role-এর জন্য আলাদা route
     }
   }
 }

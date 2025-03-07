@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:flutter/material.dart';
 
 class OwnerHiringScreen extends StatelessWidget {
@@ -5,8 +7,13 @@ class OwnerHiringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String roleFromDatabase = "owner";
+    UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
-      appBar: AppBar(title: Text('OwnerHiringScreen'),),
+        bottomNavigationBar: BottomNavbar(
+          currentIndex: 2,
+          role: getRoleFromString(userRole.name),
+        ),      appBar: AppBar(title: Text('hiring'),)
     );
   }
 }

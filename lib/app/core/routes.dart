@@ -157,8 +157,10 @@ import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_scre
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/owner_messaging_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -167,7 +169,7 @@ import 'route_path.dart';
 
 class AppRouter {
   static final GoRouter initRoute = GoRouter(
-      initialLocation: RoutePath.splashScreen.addBasePath,
+      initialLocation: RoutePath.signInScreen.addBasePath,
       debugLogDiagnostics: true,
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
@@ -180,8 +182,6 @@ class AppRouter {
             state: state,
           ),
         ),
-
-
 
         ///======================= choseRoleScreen Route =======================
 
@@ -213,6 +213,7 @@ class AppRouter {
             state: state,
           ),
         ),
+
         ///======================= signInScreen Route =======================
         GoRoute(
           name: RoutePath.signInScreen,
@@ -273,8 +274,7 @@ class AppRouter {
           ),
         ),
 
-
-        ///======================= =======================
+        ///=======================ownerHomeScreen =======================
         GoRoute(
           name: RoutePath.ownerHomeScreen,
           path: RoutePath.ownerHomeScreen.addBasePath,
@@ -284,8 +284,7 @@ class AppRouter {
           ),
         ),
 
-
-        ///=======================  =======================
+        ///=======================ownerMessagingScreen  =======================
         GoRoute(
           name: RoutePath.ownerMessagingScreen,
           path: RoutePath.ownerMessagingScreen.addBasePath,
@@ -295,6 +294,25 @@ class AppRouter {
           ),
         ),
 
+        ///=======================ownerHiringScreen  =======================
+        GoRoute(
+          name: RoutePath.ownerHiringScreen,
+          path: RoutePath.ownerHiringScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerHiringScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================ownerProfileScreen  =======================
+        GoRoute(
+          name: RoutePath.ownerProfileScreen,
+          path: RoutePath.ownerProfileScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerProfileScreen(),
+            state: state,
+          ),
+        ),
       ]);
 
   static CustomTransitionPage _buildPageWithAnimation(

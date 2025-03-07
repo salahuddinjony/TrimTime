@@ -20,5 +20,7 @@ class RoutePath{
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String ownerMessagingScreen = 'OwnerMessagingScreen';
+  static const String ownerHiringScreen = 'OwnerHiringScreen';
+  static const String ownerProfileScreen = 'OwnerProfileScreen';
 
 }

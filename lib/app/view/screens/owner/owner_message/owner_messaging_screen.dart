@@ -7,13 +7,13 @@ class OwnerMessagingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String roleFromDatabase = "user";
+    String roleFromDatabase = "owner";
     UserRole userRole = getRoleFromString(roleFromDatabase);
     return Scaffold(
         bottomNavigationBar: BottomNavbar(
           currentIndex: 1,
           role: getRoleFromString(userRole.name),
-        ),      appBar: AppBar(title: Text('ownerHome'),)
+        ),      appBar: AppBar(title: Text('messaging'),)
     );
   }
 }

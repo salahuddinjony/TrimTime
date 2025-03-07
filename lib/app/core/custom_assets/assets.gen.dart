@@ -117,6 +117,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/berber.png
   AssetGenImage get berber => const AssetGenImage('assets/images/berber.png');
 
+  /// File path: assets/images/chat_selected.png
+  AssetGenImage get chatSelected =>
+      const AssetGenImage('assets/images/chat_selected.png');
+
+  /// File path: assets/images/chat_unselected.png
+  AssetGenImage get chatUnselected =>
+      const AssetGenImage('assets/images/chat_unselected.png');
+
   /// File path: assets/images/customer.png
   AssetGenImage get customer =>
       const AssetGenImage('assets/images/customer.png');
@@ -135,6 +143,18 @@ class $AssetsImagesGen {
   AssetGenImage get hiringPost =>
       const AssetGenImage('assets/images/hiring_post.png');
 
+  /// File path: assets/images/hiring_unselected.png
+  AssetGenImage get hiringUnselected =>
+      const AssetGenImage('assets/images/hiring_unselected.png');
+
+  /// File path: assets/images/home_selected.png
+  AssetGenImage get homeSelected =>
+      const AssetGenImage('assets/images/home_selected.png');
+
+  /// File path: assets/images/home_unselected.png
+  AssetGenImage get homeUnselected =>
+      const AssetGenImage('assets/images/home_unselected.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
@@ -143,6 +163,14 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/pending.png
   AssetGenImage get pending => const AssetGenImage('assets/images/pending.png');
+
+  /// File path: assets/images/profile_selected.png
+  AssetGenImage get profileSelected =>
+      const AssetGenImage('assets/images/profile_selected.png');
+
+  /// File path: assets/images/profile_unselected.png
+  AssetGenImage get profileUnselected =>
+      const AssetGenImage('assets/images/profile_unselected.png');
 
   /// File path: assets/images/right.png
   AssetGenImage get right => const AssetGenImage('assets/images/right.png');
@@ -170,14 +198,21 @@ class $AssetsImagesGen {
         apple,
         barberRequest,
         berber,
+        chatSelected,
+        chatUnselected,
         customer,
         email,
         facebook,
         google,
         hiringPost,
+        hiringUnselected,
+        homeSelected,
+        homeUnselected,
         logo,
         owner,
         pending,
+        profileSelected,
+        profileUnselected,
         right,
         signInLogo,
         totalBarber,

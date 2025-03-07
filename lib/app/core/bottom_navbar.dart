@@ -243,16 +243,17 @@ class _NavBarState extends State<BottomNavbar> {
     switch (role) {
       case UserRole.owner:
         unselectedIcon = [
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
+          Assets.images.homeUnselected.image(),
+          Assets.images.chatUnselected.image(),
+          Assets.images.hiringUnselected.image(),
+          Assets.images.profileUnselected.image(),
+
         ];
         selectedIcon = [
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
-          Assets.icons.gender.svg(),
+          Assets.images.homeSelected.image(),
+          Assets.images.chatSelected.image(),
+          Assets.images.hiringUnselected.image(),
+          Assets.images.profileSelected.image(),
         ];
         textList = [
           AppStrings.home,

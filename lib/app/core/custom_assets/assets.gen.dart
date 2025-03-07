@@ -15,14 +15,93 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/camera.svg
+  SvgGenImage get camera => const SvgGenImage('assets/icons/camera.svg');
+
+  /// File path: assets/icons/contact.svg
+  SvgGenImage get contact => const SvgGenImage('assets/icons/contact.svg');
+
+  /// File path: assets/icons/date.svg
+  SvgGenImage get date => const SvgGenImage('assets/icons/date.svg');
+
+  /// File path: assets/icons/delete.svg
+  SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
+
+  /// File path: assets/icons/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
+
   /// File path: assets/icons/eye.svg
   SvgGenImage get eye => const SvgGenImage('assets/icons/eye.svg');
 
   /// File path: assets/icons/eye_off.svg
   SvgGenImage get eyeOff => const SvgGenImage('assets/icons/eye_off.svg');
 
+  /// File path: assets/icons/faq.svg
+  SvgGenImage get faq => const SvgGenImage('assets/icons/faq.svg');
+
+  /// File path: assets/icons/gender.svg
+  SvgGenImage get gender => const SvgGenImage('assets/icons/gender.svg');
+
+  /// File path: assets/icons/key.svg
+  SvgGenImage get key => const SvgGenImage('assets/icons/key.svg');
+
+  /// File path: assets/icons/live_location.svg
+  SvgGenImage get liveLocation =>
+      const SvgGenImage('assets/icons/live_location.svg');
+
+  /// File path: assets/icons/location.svg
+  SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
+
+  /// File path: assets/icons/logout.svg
+  SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
+
+  /// File path: assets/icons/my_feed_back.svg
+  SvgGenImage get myFeedBack =>
+      const SvgGenImage('assets/icons/my_feed_back.svg');
+
+  /// File path: assets/icons/notification.svg
+  SvgGenImage get notification =>
+      const SvgGenImage('assets/icons/notification.svg');
+
+  /// File path: assets/icons/personal_info.svg
+  SvgGenImage get personalInfo =>
+      const SvgGenImage('assets/icons/personal_info.svg');
+
+  /// File path: assets/icons/phone.svg
+  SvgGenImage get phone => const SvgGenImage('assets/icons/phone.svg');
+
+  /// File path: assets/icons/privacy.svg
+  SvgGenImage get privacy => const SvgGenImage('assets/icons/privacy.svg');
+
+  /// File path: assets/icons/settings.svg
+  SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
+
+  /// File path: assets/icons/terms.svg
+  SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [eye, eyeOff];
+  List<SvgGenImage> get values => [
+        camera,
+        contact,
+        date,
+        delete,
+        edit,
+        eye,
+        eyeOff,
+        faq,
+        gender,
+        key,
+        liveLocation,
+        location,
+        logout,
+        myFeedBack,
+        notification,
+        personalInfo,
+        phone,
+        privacy,
+        settings,
+        terms
+      ];
 }
 
 class $AssetsImagesGen {
@@ -30,6 +109,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/apple.png
   AssetGenImage get apple => const AssetGenImage('assets/images/apple.png');
+
+  /// File path: assets/images/barber_request.png
+  AssetGenImage get barberRequest =>
+      const AssetGenImage('assets/images/barber_request.png');
 
   /// File path: assets/images/berber.png
   AssetGenImage get berber => const AssetGenImage('assets/images/berber.png');
@@ -48,27 +131,59 @@ class $AssetsImagesGen {
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
+  /// File path: assets/images/hiring_post.png
+  AssetGenImage get hiringPost =>
+      const AssetGenImage('assets/images/hiring_post.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
   /// File path: assets/images/owner.png
   AssetGenImage get owner => const AssetGenImage('assets/images/owner.png');
 
+  /// File path: assets/images/pending.png
+  AssetGenImage get pending => const AssetGenImage('assets/images/pending.png');
+
+  /// File path: assets/images/right.png
+  AssetGenImage get right => const AssetGenImage('assets/images/right.png');
+
   /// File path: assets/images/sign_in_logo.png
   AssetGenImage get signInLogo =>
       const AssetGenImage('assets/images/sign_in_logo.png');
 
+  /// File path: assets/images/total_barber.png
+  AssetGenImage get totalBarber =>
+      const AssetGenImage('assets/images/total_barber.png');
+
+  /// File path: assets/images/total_customer.png
+  AssetGenImage get totalCustomer =>
+      const AssetGenImage('assets/images/total_customer.png');
+
+  /// File path: assets/images/upload.png
+  AssetGenImage get upload => const AssetGenImage('assets/images/upload.png');
+
+  /// File path: assets/images/waiting.png
+  AssetGenImage get waiting => const AssetGenImage('assets/images/waiting.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         apple,
+        barberRequest,
         berber,
         customer,
         email,
         facebook,
         google,
+        hiringPost,
         logo,
         owner,
-        signInLogo
+        pending,
+        right,
+        signInLogo,
+        totalBarber,
+        totalCustomer,
+        upload,
+        waiting
       ];
 }
 

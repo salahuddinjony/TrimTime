@@ -1,3 +1,4 @@
+import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
 class OwnerHomeScreen extends StatelessWidget {
@@ -5,6 +6,9 @@ class OwnerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      bottomNavigationBar: BottomNavbar(currentIndex: 0),
+      appBar: AppBar(title: Text('ownerHome'),),
+    );
   }
 }

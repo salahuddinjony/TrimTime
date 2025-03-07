@@ -157,6 +157,8 @@ import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_scre
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_message/owner_messaging_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -267,6 +269,28 @@ class AppRouter {
           path: RoutePath.homeScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const HomeScreen(),
+            state: state,
+          ),
+        ),
+
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.ownerHomeScreen,
+          path: RoutePath.ownerHomeScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerHomeScreen(),
+            state: state,
+          ),
+        ),
+
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.ownerMessagingScreen,
+          path: RoutePath.ownerMessagingScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerMessagingScreen(),
             state: state,
           ),
         ),

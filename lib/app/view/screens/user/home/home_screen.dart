@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           CustomText(text: ';;;')
         ],
       ),
-      // bottomNavigationBar: RoleBasedBottomNav(role: userRole),
+      bottomNavigationBar: BottomNavbar( currentIndex: 0,),
 
     );
   }

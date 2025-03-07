@@ -117,4 +117,8 @@ class AppStrings {
   static const retypeNewPassword  = "Retype new password";
   static const deleteAccount  = "Delete Account";
   static const yesCancel  = "Yes Cancel";
+  ///404 page
+  static const backToHomePage  = "Back to home page";
+  static const oops  = "Oops!";
+  static const thaPageYouWereLooking  = "The page you were looking for can’t be found.";
 }

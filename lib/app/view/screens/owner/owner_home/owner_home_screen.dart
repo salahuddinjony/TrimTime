@@ -7,13 +7,15 @@ class OwnerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String roleFromDatabase = "owner";
-    UserRole userRole = getRoleFromString(roleFromDatabase);
+    // ✅ Direct UserRole সেট করা
+    UserRole userRole = getRoleFromString("owner");
+
     return Scaffold(
+      appBar: AppBar(title: const Text('Owner Home')),
       bottomNavigationBar: BottomNavbar(
         currentIndex: 0,
-        role: getRoleFromString(userRole.name),
-      ),      appBar: AppBar(title: Text('ownerHome'),)
+        role: userRole, // ✅ Direct পাঠানো হচ্ছে
+      ),
     );
   }
 }

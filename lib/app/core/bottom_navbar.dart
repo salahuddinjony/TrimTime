@@ -363,7 +363,7 @@ class _NavBarState extends State<BottomNavbar> {
     if (bottomNavIndex != index) {
       setState(() => bottomNavIndex = index);
       context
-          .pushNamed(routeNames[index]); // ✅ প্রতিটি role-এর জন্য আলাদা route
+          .goNamed(routeNames[index]);
     }
   }
 }

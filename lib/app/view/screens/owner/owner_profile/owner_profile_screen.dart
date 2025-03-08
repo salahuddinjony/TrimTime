@@ -41,7 +41,8 @@ class OwnerProfileScreen extends StatelessWidget {
       ),
 
       ///============================ body ===============================
-      body: ClipPath(
+      body:
+      ClipPath(
         clipper: CurvedBannerClipper(),
         child: Container(
           width: double.infinity,

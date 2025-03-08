@@ -22,6 +22,7 @@ class AppColors {
   static const Color backButtonColor = Color(0xff1A2923);
   static const Color homeColor = Color(0xff2c611e);
   static const Color normalHover = Color(0xffB76D42);
+  static const Color orange700 = Color(0xff794A37);
   static const Color secondary = Color(0xffD17C51);
   static const Color gray800 = Color(0xff1D1C1C);
   static const Color bottomColor = Color(0xff472a1a);

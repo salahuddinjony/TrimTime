@@ -20,6 +20,7 @@ class AppStrings {
   static const signIn = "Sign in";
   static const welcomeBack = "Welcome \n Back";
   static const email = "Email";
+  static const messaging = "Messaging";
   static const enterYourEmail = "Enter your email";
   static const enterYourPassword = "Enter your password";
   static const rememberMe = "Remember Me";

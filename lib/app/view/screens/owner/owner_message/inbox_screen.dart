@@ -1,4 +1,6 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -7,8 +9,8 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_messaging_card/custom_messaging_card.dart';
 import 'package:flutter/material.dart';
 
-class OwnerMessagingScreen extends StatelessWidget {
-  const OwnerMessagingScreen({
+class InboxScreen extends StatelessWidget {
+  const InboxScreen({
     super.key,
   });
 
@@ -36,13 +38,17 @@ class OwnerMessagingScreen extends StatelessWidget {
               child: ListView.builder(
                   itemCount: 7,
                   itemBuilder: (context, index) {
-                return CustomMessageCard(
-                  senderName: 'Italian Fashion Saloon',
-                  message: 'Hey, Can I get a side cut for hair? And the price?And the price?',
-                  imageUrl: AppConstants.demoImage,
-                  onTap: () => print('Message Clicked'),
-                );
-              })),
+                    return CustomMessageCard(
+                      senderName: 'Italian Fashion Saloon',
+                      message: 'Hey, Can I get a side cut for hair? And the price?And the price?',
+                      imageUrl: AppConstants.demoImage,
+                      onTap: (){
+                        AppRouter.route.pushNamed(
+                          RoutePath.chatScreen,
+                        );
+                      },
+                    );
+                  })),
         ),
       ),
     );

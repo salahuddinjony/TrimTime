@@ -9,7 +9,8 @@ import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_sc
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
-import 'package:barber_time/app/view/screens/owner/owner_message/owner_messaging_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
@@ -144,10 +145,19 @@ class AppRouter {
 
         ///=======================ownerMessagingScreen  =======================
         GoRoute(
-          name: RoutePath.ownerMessagingScreen,
-          path: RoutePath.ownerMessagingScreen.addBasePath,
+          name: RoutePath.chatScreen,
+          path: RoutePath.chatScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerMessagingScreen(),
+            child:  ChatScreen(),
+            state: state,
+          ),
+        ),
+        ///=======================InboxScreen  =======================
+        GoRoute(
+          name: RoutePath.inboxScreen,
+          path: RoutePath.inboxScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const InboxScreen(),
             state: state,
           ),
         ),

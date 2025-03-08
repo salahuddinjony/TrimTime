@@ -25,5 +25,10 @@ class RoutePath{
   static const String personalInfo = 'PersonalInfo';
   static const String editOwnerProfile = 'EditOwnerProfile';
   static const String settings = 'Settings';
+  static const String changePasswordScreen = 'ChangePasswordScreen';
+  static const String faqsScreen = 'FaqsScreen';
+  static const String privacyPolicyScreen = 'PrivacyPolicyScreen';
+  static const String termsScreen = 'TermsScreen';
+  static const String loyaltyScreen = 'LoyaltyScreen';
 
 }

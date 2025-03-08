@@ -26,14 +26,14 @@ class CustomMenuCard extends StatelessWidget {
     return Column(
       children: [
         isContainerCard ?
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration:  BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(15)
-          ),
-          child: GestureDetector(
-            onTap: onTap,
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration:  BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(15)
+            ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 12.h),
               child: Row(

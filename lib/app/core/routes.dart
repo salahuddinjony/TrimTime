@@ -1,5 +1,3 @@
-
-
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
@@ -15,7 +13,12 @@ import 'package:barber_time/app/view/screens/owner/owner_message/owner_messaging
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyalty/loyalty_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -195,6 +198,56 @@ class AppRouter {
           path: RoutePath.settings.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const Settings(),
+            state: state,
+          ),
+        ),
+
+        ///=======================ChangePasswordScreen  =======================
+        GoRoute(
+          name: RoutePath.changePasswordScreen,
+          path: RoutePath.changePasswordScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ChangePasswordScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================FaqsScreen  =======================
+        GoRoute(
+          name: RoutePath.faqsScreen,
+          path: RoutePath.faqsScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const FaqsScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================PrivacyPolicyScreen  =======================
+        GoRoute(
+          name: RoutePath.privacyPolicyScreen,
+          path: RoutePath.privacyPolicyScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const PrivacyPolicyScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================TermsScreen  =======================
+        GoRoute(
+          name: RoutePath.termsScreen,
+          path: RoutePath.termsScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TermsScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================LoyaltyScreen  =======================
+        GoRoute(
+          name: RoutePath.loyaltyScreen,
+          path: RoutePath.loyaltyScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const LoyaltyScreen(),
             state: state,
           ),
         ),

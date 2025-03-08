@@ -1,8 +1,10 @@
 
+import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double appBarHeight;
@@ -16,7 +18,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     this.appBarHeight = 64,
     this.appBarWidth,
-    this.appBarBgColor = AppColors.white50,
+    this.appBarBgColor = AppColors.normalHover,
     this.appBarContent,
     super.key,
     this.iconData,
@@ -46,7 +48,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 icon: Icon(widget.iconData),
                 color: AppColors.white50,
                 onPressed: () {
-                  Navigator.of(context).pop();
+                 context.pop();
                 },
               ),
             // Display app bar content if provided

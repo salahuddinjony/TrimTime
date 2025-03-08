@@ -22,5 +22,6 @@ class RoutePath{
   static const String ownerMessagingScreen = 'OwnerMessagingScreen';
   static const String ownerHiringScreen = 'OwnerHiringScreen';
   static const String ownerProfileScreen = 'OwnerProfileScreen';
+  static const String personalInfo = 'PersonalInfo';
 
 }

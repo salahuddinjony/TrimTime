@@ -9,7 +9,6 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
@@ -55,7 +54,11 @@ class OwnerProfileScreen extends StatelessWidget {
               children: [
                 //TOdo=====personalInformation====
                 CustomMenuCard(
-                  onTap: () {},
+                  onTap: () {
+                    AppRouter.route.pushNamed(
+                      RoutePath.personalInfo,
+                    );
+                  },
                   text: AppStrings.personalInformation,
                   icon: Assets.icons.personalInfo.svg(),
                 ),

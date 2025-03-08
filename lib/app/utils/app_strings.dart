@@ -95,6 +95,7 @@ class AppStrings {
       "Yes";
   static const no = "No";
   static const areYouSureYouWantToLogOut = "Are you sure you want to log out ?";
+  static const areYouSureYouWantToDelete = "Are you sure you want to Delete";
   static const submit = "SUBMIT";
   static const subject = "Subject*";
   static const enterEmailAddress = "Enter E-Mail Address";

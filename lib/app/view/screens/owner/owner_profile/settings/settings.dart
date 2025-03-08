@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/global_alart/global_alart.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
@@ -24,9 +25,7 @@ class Settings extends StatelessWidget {
       ),
 
       ///============================ body ===============================
-      body:
-
-      ClipPath(
+      body: ClipPath(
         clipper: CurvedBannerClipper(),
         child: Container(
           width: double.infinity,
@@ -39,7 +38,7 @@ class Settings extends StatelessWidget {
               children: [
                 //=====loyaLity====
                 CustomMenuCard(
-                  onTap: (){
+                  onTap: () {
                     AppRouter.route.pushNamed(
                       RoutePath.loyaltyScreen,
                     );
@@ -51,7 +50,7 @@ class Settings extends StatelessWidget {
                   ),
                 ), //=====faq====
                 CustomMenuCard(
-                  onTap: (){
+                  onTap: () {
                     AppRouter.route.pushNamed(
                       RoutePath.faqsScreen,
                     );
@@ -63,7 +62,7 @@ class Settings extends StatelessWidget {
                   ),
                 ), //=====termsAndConditions====
                 CustomMenuCard(
-                  onTap: (){
+                  onTap: () {
                     AppRouter.route.pushNamed(
                       RoutePath.termsScreen,
                     );
@@ -75,7 +74,7 @@ class Settings extends StatelessWidget {
                   ),
                 ), //=====privacyPolicy====
                 CustomMenuCard(
-                  onTap: (){
+                  onTap: () {
                     AppRouter.route.pushNamed(
                       RoutePath.privacyPolicyScreen,
                     );
@@ -87,7 +86,7 @@ class Settings extends StatelessWidget {
                   ),
                 ), //=====changePassword====
                 CustomMenuCard(
-                  onTap: (){
+                  onTap: () {
                     AppRouter.route.pushNamed(
                       RoutePath.changePasswordScreen,
                     );
@@ -97,10 +96,12 @@ class Settings extends StatelessWidget {
                   icon: Assets.icons.key.svg(
                     color: AppColors.normalHover,
                   ),
-                ), //=====deleteAccount====
+                ),
+                //=====deleteAccount====
                 CustomMenuCard(
-                  onTap: (){
-
+                  onTap: () {
+                    GlobalAlert.showDeleteDialog(
+                        context, () {}, AppStrings.areYouSureYouWantToDelete);
                   },
                   isArrow: true,
                   isContainerCard: true,

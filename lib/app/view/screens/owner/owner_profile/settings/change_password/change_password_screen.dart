@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
@@ -60,6 +59,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   SizedBox(
                     height: 50.h,
                   ),
+                  //=====================Change password Button===============
                   CustomButton(
                     onTap: () {},
                     fillColor: AppColors.white50,

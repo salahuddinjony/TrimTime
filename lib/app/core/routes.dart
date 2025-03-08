@@ -217,7 +217,7 @@ class AppRouter {
           name: RoutePath.faqsScreen,
           path: RoutePath.faqsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const FaqsScreen(),
+            child:  FaqsScreen(),
             state: state,
           ),
         ),

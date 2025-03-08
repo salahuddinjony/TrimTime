@@ -32,14 +32,17 @@ class OwnerMessagingScreen extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 1.5,
           color: AppColors.orange700,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-            child: CustomMessageCard(
-              senderName: 'Italian Fashion Saloon',
-              message: 'Hey, Can I get a side cut for hair? And the price?',
-              imageUrl: AppConstants.dartAppbarImage,
-              onTap: () => print('Message Clicked'),
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: ListView.builder(
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                return CustomMessageCard(
+                  senderName: 'Italian Fashion Saloon',
+                  message: 'Hey, Can I get a side cut for hair? And the price?And the price?',
+                  imageUrl: AppConstants.demoImage,
+                  onTap: () => print('Message Clicked'),
+                );
+              })),
         ),
       ),
     );

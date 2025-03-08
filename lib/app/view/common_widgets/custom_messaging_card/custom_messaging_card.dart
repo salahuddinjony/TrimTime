@@ -30,11 +30,17 @@ class CustomMessageCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ✅ Profile Image
-            CustomNetworkImage(
-              boxShape: BoxShape.circle,
-              imageUrl: imageUrl,
-              height: 48.h,
-              width: 49.w,
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.primary),
+                borderRadius: const BorderRadius.all(Radius.circular(25))
+              ),
+              child: CustomNetworkImage(
+                boxShape: BoxShape.circle,
+                imageUrl: imageUrl,
+                height: 48.h,
+                width: 49.w,
+              ),
             ),
             SizedBox(width: 12.w),
 

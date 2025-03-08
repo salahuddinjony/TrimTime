@@ -64,7 +64,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             if (widget.isIcon)
               GestureDetector(
                 onTap: widget.onTap,
-                child: Assets.icons.eye.svg(),
+                child: Assets.icons.edit.svg(color: AppColors.primary),
               ),
           ],
         ),

@@ -5,10 +5,7 @@ import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
@@ -21,9 +18,15 @@ class PersonalInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       ///============================ Header ===============================
-      appBar: const CustomAppBar(
+      appBar:  CustomAppBar(
         appBarContent: AppStrings.profile,
         iconData: Icons.arrow_back,
+        isIcon: true,
+        onTap: (){
+          AppRouter.route.pushNamed(
+            RoutePath.editOwnerProfile,
+          );
+        },
       ),
 
       ///============================ body ===============================

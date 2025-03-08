@@ -13,7 +13,9 @@ class CustomFromCard extends StatelessWidget {
   final bool isPassword;
   final bool isRead;
   final bool? isBgColor;
+  final bool? isBorderColor;
   final int? maxLine;
+  final Widget? suffixIcon;
 
   const CustomFromCard({
     super.key,
@@ -24,7 +26,7 @@ class CustomFromCard extends StatelessWidget {
     this.isRead = false,
     this.hinText,
     this.maxLine,
-    this.isBgColor = false,
+    this.isBgColor = false, this.isBorderColor = false, this.suffixIcon,
   });
 
   @override
@@ -40,6 +42,7 @@ class CustomFromCard extends StatelessWidget {
           bottom: 8,
         ),
         CustomTextField(
+          suffixIcon: suffixIcon,
           maxLines: isPassword ? 1 : (maxLine ?? 1),
           // Ensure single line for password
           hintStyle: const TextStyle(color: AppColors.gray300),
@@ -49,10 +52,13 @@ class CustomFromCard extends StatelessWidget {
           textEditingController: controller,
           hintText: hinText,
           inputTextStyle: const TextStyle(color: AppColors.whiteColor),
-          fillColor: isBgColor == true ? AppColors.black : AppColors.white50,
-          fieldBorderColor: AppColors.f32Color,
+          fillColor: isBgColor == true ? AppColors.normalHover : AppColors
+              .white50,
+          fieldBorderColor: isBorderColor == true
+              ? AppColors.primary
+              : AppColors.f32Color,
           keyboardType:
-              isPassword ? TextInputType.visiblePassword : TextInputType.text,
+          isPassword ? TextInputType.visiblePassword : TextInputType.text,
         ),
         SizedBox(height: 12.h,)
       ],

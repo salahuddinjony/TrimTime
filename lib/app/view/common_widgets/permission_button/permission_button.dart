@@ -21,7 +21,7 @@ void permissionPopUp({
       return Dialog(
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.gray500,
+            color: AppColors.normalHover,
             borderRadius: BorderRadius.circular(12.r),
           ),
           // height: 135.h,

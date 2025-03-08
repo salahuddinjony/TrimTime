@@ -16,6 +16,7 @@ class AppColors {
   static const Color whiteColor = Color(0xffDEDEDE);
   static const Color white800 = Color(0xff7F7F7F);
   static const Color white50 = Color(0xffFDFDFD);
+  static const Color primary = Color(0xffFFFFFF);
   static const Color innerText = Color(0xff959595);
   static const Color create = Color(0xff4C6254);
   static const Color backButtonColor = Color(0xff1A2923);
@@ -24,6 +25,7 @@ class AppColors {
   static const Color secondary = Color(0xffD17C51);
   static const Color gray800 = Color(0xff1D1C1C);
   static const Color bottomColor = Color(0xff472a1a);
+  static const Color red = Color(0xff990505);
 
 
 

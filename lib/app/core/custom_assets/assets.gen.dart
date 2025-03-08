@@ -15,8 +15,19 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add_service.svg
+  SvgGenImage get addService =>
+      const SvgGenImage('assets/icons/add_service.svg');
+
+  /// File path: assets/icons/business.svg
+  SvgGenImage get business => const SvgGenImage('assets/icons/business.svg');
+
   /// File path: assets/icons/camera.svg
   SvgGenImage get camera => const SvgGenImage('assets/icons/camera.svg');
+
+  /// File path: assets/icons/chevron_right.png
+  AssetGenImage get chevronRight =>
+      const AssetGenImage('assets/icons/chevron_right.png');
 
   /// File path: assets/icons/contact.svg
   SvgGenImage get contact => const SvgGenImage('assets/icons/contact.svg');
@@ -41,6 +52,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/gender.svg
   SvgGenImage get gender => const SvgGenImage('assets/icons/gender.svg');
+
+  /// File path: assets/icons/job.svg
+  SvgGenImage get job => const SvgGenImage('assets/icons/job.svg');
 
   /// File path: assets/icons/key.svg
   SvgGenImage get key => const SvgGenImage('assets/icons/key.svg');
@@ -80,8 +94,11 @@ class $AssetsIconsGen {
   SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
+  List<dynamic> get values => [
+        addService,
+        business,
         camera,
+        chevronRight,
         contact,
         date,
         delete,
@@ -90,6 +107,7 @@ class $AssetsIconsGen {
         eyeOff,
         faq,
         gender,
+        job,
         key,
         liveLocation,
         location,

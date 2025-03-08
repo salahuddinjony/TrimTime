@@ -8,6 +8,7 @@ class AppStrings {
   static const owner = "Owner";
   static const password = "Password";
   static const barbersTime = "Barbers Time";
+  static const barber = "Barber";
   static const inAWorldFullOFTrends =
       "In a world full of trends, a fresh fade never goes out of style.";
   static const signInWithApple = "Sign in with Apple";
@@ -76,7 +77,7 @@ class AppStrings {
 
   //Profile
   static const personalInformation = "Personal Information";
-  static const myFeedBack = "My Feed Back";
+  static const myFeedBack = "My Feed";
   static const contact = "Contact";
   static const settings = "Settings";
   static const notification = "Notification";

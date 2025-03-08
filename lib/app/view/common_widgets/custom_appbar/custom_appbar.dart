@@ -42,7 +42,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
         padding: const EdgeInsets.only(top: 10),
         child: Row(
           children: [
-            // Optional back button if iconData is provided
             if (widget.iconData != null)
               IconButton(
                 icon: Icon(widget.iconData),
@@ -51,7 +50,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                  context.pop();
                 },
               ),
-            // Display app bar content if provided
             if (widget.appBarContent != null)
               Expanded(
                 child: CustomText(
@@ -63,7 +61,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ),
               ),
 
-            // Conditionally display the icon based on isIcon
             if (widget.isIcon)
               GestureDetector(
                 onTap: widget.onTap,

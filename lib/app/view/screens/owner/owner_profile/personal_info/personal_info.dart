@@ -23,8 +23,7 @@ class PersonalInfo extends StatelessWidget {
       ///============================ Header ===============================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.profile,
-        iconData: Icons.arrow_back
-        ,
+        iconData: Icons.arrow_back,
       ),
 
       ///============================ body ===============================
@@ -39,61 +38,38 @@ class PersonalInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //TOdo=====personalInformation====
+                //TOdo=====name====
                 CustomMenuCard(
                   onTap: () {},
-                  text: AppStrings.personalInformation,
+                  isArrow: true,
+                  text: "james",
                   icon: Assets.icons.personalInfo.svg(),
                 ),
-                //=====businessProfile====
+                //=====date====
                 CustomMenuCard(
-                  text: AppStrings.businessProfile,
-                  icon: Assets.icons.business.svg(),
-                ),
-                //=====jobPost====
-                CustomMenuCard(
-                  text: AppStrings.jobPost,
-                  icon: Assets.icons.job.svg(),
-                ),
-                //=====barbersTime====
-                CustomMenuCard(
-                  text: AppStrings.barber,
-                  icon: Assets.images.berber.image(height: 20),
-                ),
-                //=====myFeedBack====
-                CustomMenuCard(
-                  text: AppStrings.myFeedBack,
-                  icon: Assets.icons.myFeedBack.svg(),
-                ), //=====addService====
-                CustomMenuCard(
-                  text: AppStrings.addService,
-                  icon: Assets.icons.addService.svg(),
-                ),
-                //=====barbersTime====
-                CustomMenuCard(
-                  text: AppStrings.settings,
-                  icon: Assets.icons.settings.svg(),
-                ),
-                //=====logOut====
-                CustomMenuCard(
-                  onTap: () {
-                    permissionPopUp(
-                        title: AppStrings.areYouSureYouWantToLogOut,
-                        context: context,
-                        ontapNo: () {
-                          context.pop();
-                        },
-                        ontapYes: () {
-                          AppRouter.route.goNamed(
-                            RoutePath.choseRoleScreen,
-                          );
-                        });
-                  },
                   isArrow: true,
-                  isTextRed: true,
-                  text: AppStrings.logOut,
-                  icon: Assets.icons.logout.svg(),
+                  text: "22-03-1998",
+                  icon: Assets.icons.date.svg(),
                 ),
+                //=====gender====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: "male",
+                  icon: Assets.icons.gender.svg(),
+                ),
+                //=========phone===
+                CustomMenuCard(
+                  text: '+4412451211',
+                  icon: Assets.icons.phone.svg(),
+                  isArrow: true,
+                ),
+                //=====location====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: 'Abu dhabi',
+                  icon: Assets.icons.location.svg(),
+                ), //=====addService====
+
               ],
             ),
           ),

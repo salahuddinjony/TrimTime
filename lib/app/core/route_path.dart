@@ -24,5 +24,6 @@ class RoutePath{
   static const String ownerProfileScreen = 'OwnerProfileScreen';
   static const String personalInfo = 'PersonalInfo';
   static const String editOwnerProfile = 'EditOwnerProfile';
+  static const String settings = 'Settings';
 
 }

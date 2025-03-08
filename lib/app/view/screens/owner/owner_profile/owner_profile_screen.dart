@@ -88,6 +88,11 @@ class OwnerProfileScreen extends StatelessWidget {
                 ),
                 //=====barbersTime====
                 CustomMenuCard(
+                  onTap: (){
+                    AppRouter.route.pushNamed(
+                      RoutePath.settings,
+                    );
+                  },
                   text: AppStrings.settings,
                   icon: Assets.icons.settings.svg(),
                 ),

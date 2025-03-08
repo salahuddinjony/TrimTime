@@ -10,6 +10,7 @@ class CustomMenuCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isTextRed;
   final bool isArrow;
+  final bool isContainerCard;
 
   const CustomMenuCard(
       {super.key,
@@ -17,12 +18,44 @@ class CustomMenuCard extends StatelessWidget {
       required this.icon,
       this.onTap,
       this.isTextRed = false,
-      this.isArrow = false});
+      this.isArrow = false,
+      this.isContainerCard = false});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        isContainerCard ?
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration:  BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(15)
+          ),
+          child: GestureDetector(
+            onTap: onTap,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              child: Row(
+                children: [
+                  icon,
+                  SizedBox(width: 16.w),
+                  CustomText(
+                    text: text,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16.sp,
+                    color: Colors.black
+                  ),
+                  const Spacer(),
+                  if (isArrow)
+                    const SizedBox()
+                  else
+                    Assets.icons.chevronRight.image(color: AppColors.normalHover),
+                ],
+              ),
+            ),
+          ),
+        ):
         GestureDetector(
           onTap: onTap,
           child: Padding(
@@ -38,7 +71,10 @@ class CustomMenuCard extends StatelessWidget {
                   color: isTextRed ? AppColors.red : AppColors.primary,
                 ),
                 const Spacer(),
-                if (isArrow) const SizedBox() else Assets.icons.chevronRight.image(),
+                if (isArrow)
+                  const SizedBox()
+                else
+                  Assets.icons.chevronRight.image(),
               ],
             ),
           ),

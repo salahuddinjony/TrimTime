@@ -15,6 +15,7 @@ import 'package:barber_time/app/view/screens/owner/owner_message/owner_messaging
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -184,6 +185,16 @@ class AppRouter {
           path: RoutePath.editOwnerProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const EditOwnerProfile(),
+            state: state,
+          ),
+        ),
+
+        ///=======================Settings  =======================
+        GoRoute(
+          name: RoutePath.settings,
+          path: RoutePath.settings.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const Settings(),
             state: state,
           ),
         ),

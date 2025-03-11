@@ -197,7 +197,7 @@ class AppRouter {
           name: RoutePath.editOwnerProfile,
           path: RoutePath.editOwnerProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const EditOwnerProfile(),
+            child:  EditOwnerProfile(),
             state: state,
           ),
         ),

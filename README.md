@@ -40,6 +40,13 @@ debugPrint("==========================No back screen available");
 
 
 //
- custom salon card
-custom menu card//setting 
-custom feedback card
+
+ # Phone Number Verification
+# Push Notification
+# Messaging
+# Apple Login
+# Facebook login
+# google login
+# Scanner
+# location
+ 

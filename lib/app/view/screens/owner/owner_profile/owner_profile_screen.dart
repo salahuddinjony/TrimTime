@@ -34,10 +34,10 @@ class OwnerProfileScreen extends StatelessWidget {
           text: AppStrings.profile,
           fontSize: 20,
           fontWeight: FontWeight.w500,
-          color: AppColors.white50,
+          color: AppColors.black,
         ),
         centerTitle: true,
-        backgroundColor: AppColors.normalHover,
+        backgroundColor: AppColors.linearFirst,
       ),
 
       ///============================ body ===============================
@@ -47,7 +47,16 @@ class OwnerProfileScreen extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height / 1.5,
-          color: AppColors.normalHover,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC), // First color (with opacity)
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(

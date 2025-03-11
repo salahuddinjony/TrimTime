@@ -28,6 +28,7 @@ class AppColors {
   static const Color gray800 = Color(0xff1D1C1C);
   static const Color bottomColor = Color(0xff472a1a);
   static const Color red = Color(0xff990505);
+  static const Color linearFirst = Color(0xffEDC4AC);
 
 
 

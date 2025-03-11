@@ -31,5 +31,6 @@ class RoutePath{
   static const String privacyPolicyScreen = 'PrivacyPolicyScreen';
   static const String termsScreen = 'TermsScreen';
   static const String loyaltyScreen = 'LoyaltyScreen';
+  static const String jobPost = 'JobPost';
 
 }

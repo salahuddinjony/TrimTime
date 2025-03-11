@@ -104,11 +104,21 @@ class OwnerProfileScreen extends StatelessWidget {
                   ),
                   //=====businessProfile====
                   CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(
+                        RoutePath.personalInfo,
+                      );
+                    },
                     text: AppStrings.businessProfile,
                     icon: Assets.icons.business.svg(color: Colors.black),
                   ),
                   //=====jobPost====
                   CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(
+                        RoutePath.jobPost,
+                      );
+                    },
                     text: AppStrings.jobPost,
                     icon: Assets.icons.job.svg(color: Colors.black),
                   ),

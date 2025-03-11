@@ -11,6 +11,7 @@ import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_scr
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
@@ -197,7 +198,7 @@ class AppRouter {
           name: RoutePath.editOwnerProfile,
           path: RoutePath.editOwnerProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  EditOwnerProfile(),
+            child:  const EditOwnerProfile(),
             state: state,
           ),
         ),
@@ -258,6 +259,15 @@ class AppRouter {
           path: RoutePath.loyaltyScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const LoyaltyScreen(),
+            state: state,
+          ),
+        ),
+        ///=======================Job Post  =======================
+        GoRoute(
+          name: RoutePath.jobPost,
+          path: RoutePath.jobPost.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const JobPost(),
             state: state,
           ),
         ),

@@ -35,7 +35,7 @@ class CustomFromCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          color: AppColors.white50,
+          color: AppColors.black,
           text: title,
           fontWeight: FontWeight.w400,
           fontSize: 16,
@@ -51,11 +51,11 @@ class CustomFromCard extends StatelessWidget {
           isPassword: isPassword,
           textEditingController: controller,
           hintText: hinText,
-          inputTextStyle: const TextStyle(color: AppColors.whiteColor),
-          fillColor: isBgColor == true ? AppColors.normalHover : AppColors
+          inputTextStyle: const TextStyle(color: AppColors.black),
+          fillColor: isBgColor == true ? AppColors.linearFirst : AppColors
               .white50,
           fieldBorderColor: isBorderColor == true
-              ? AppColors.primary
+              ? AppColors.black
               : AppColors.f32Color,
           keyboardType:
           isPassword ? TextInputType.visiblePassword : TextInputType.text,

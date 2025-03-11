@@ -1,8 +1,10 @@
 import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:flutter/material.dart';
 
 class EditOwnerProfile extends StatelessWidget {
@@ -17,6 +19,7 @@ class EditOwnerProfile extends StatelessWidget {
       appBar: const CustomAppBar(
         appBarContent: AppStrings.editProfile,
         iconData: Icons.arrow_back,
+        appBarBgColor: AppColors.linearFirst,
       ),
 
       ///============================ body ===============================
@@ -24,13 +27,27 @@ class EditOwnerProfile extends StatelessWidget {
         clipper: CurvedBannerClipper(),
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.5,
-          color: AppColors.normalHover,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC),
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Center(
+                    child: CustomNetworkImage(
+                        boxShape: BoxShape.circle,
+                        imageUrl: AppConstants.demoImage,
+                        height: 102,
+                        width: 102)),
                 //name
                 CustomFromCard(
                     isBgColor: true,

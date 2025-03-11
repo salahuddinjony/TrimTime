@@ -45,7 +45,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             if (widget.iconData != null)
               IconButton(
                 icon: Icon(widget.iconData),
-                color: AppColors.white50,
+                color: AppColors.black,
                 onPressed: () {
                  context.pop();
                 },
@@ -57,14 +57,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.w500,
                   fontSize: 24,
-                  color: AppColors.white50,
+                  color: AppColors.black,
                 ),
               ),
 
             if (widget.isIcon)
               GestureDetector(
                 onTap: widget.onTap,
-                child: Assets.icons.edit.svg(color: AppColors.primary),
+                child: Assets.icons.edit.svg(color: AppColors.black),
               ),
           ],
         ),

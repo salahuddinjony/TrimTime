@@ -68,13 +68,13 @@ class CustomMenuCard extends StatelessWidget {
                   text: text,
                   fontWeight: FontWeight.w300,
                   fontSize: 16.sp,
-                  color: isTextRed ? AppColors.red : AppColors.primary,
+                  color: isTextRed ? AppColors.red : AppColors.black,
                 ),
                 const Spacer(),
                 if (isArrow)
                   const SizedBox()
                 else
-                  Assets.icons.chevronRight.image(),
+                  Assets.icons.chevronRight.image(color: Colors.black),
               ],
             ),
           ),

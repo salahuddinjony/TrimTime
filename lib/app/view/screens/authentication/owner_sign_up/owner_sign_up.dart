@@ -53,27 +53,12 @@ class OwnerSignUp extends StatelessWidget {
                         SizedBox(
                           height: 30.h,
                         ),
-                        const CustomText(
-                          text: AppStrings.signUp,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24,
-                          color: AppColors.black,
-                        ),
 
-                        const CustomText(
-                          text: AppStrings.helloLetsJoin,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                          color: AppColors.black,
-                        ),
 
-                        SizedBox(
-                          height: 34.h,
-                        ),
                         //ToDo ==========✅✅ fullName ✅✅==========
                         CustomFromCard(
                             hinText: AppStrings.enterYourName,
-                            title: AppStrings.fullName,
+                            title: AppStrings.name,
                             controller: authController.fullNameController,
                             validator: (v) {}),
                         //ToDo ==========✅✅ Email✅✅==========
@@ -84,9 +69,17 @@ class OwnerSignUp extends StatelessWidget {
                             validator: (v) {}),
                         //ToDo ==========✅✅ password ✅✅==========
                         CustomFromCard(
+                            hinText: AppStrings.enterYourShopAddress,
+                            title: AppStrings.address,
+                            controller: authController.passwordController,
+                            validator: (v) {}),
+
+                        //ToDo ==========✅✅ Confirm ✅✅==========
+                        CustomFromCard(
                             hinText: AppStrings.enterYourPassword,
                             title: AppStrings.password,
-                            controller: authController.passwordController,
+                            controller:
+                                authController.confirmPasswordController,
                             validator: (v) {}),
 
                         //ToDo ==========✅✅ Confirm ✅✅==========
@@ -100,38 +93,29 @@ class OwnerSignUp extends StatelessWidget {
                     ),
                   )),
             ),
-            SingleChildScrollView(
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    children: [
-                      CustomButton(
-                        onTap: () {
-                          context.pushNamed(
-                            RoutePath.otpScreen,
-                          );
-                        },
-                        title: AppStrings.signUp,
-                        fillColor: Colors.black,
-                        textColor: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 50.h,
-                      ),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    CustomButton(
+                      onTap: () {
 
-                      //ToDo ==========✅✅ alreadyHaveAnAccount✅✅==========
-                      CustomRichText(
-                          firstText: AppStrings.alreadyHaveAnAccount,
-                          secondText: AppStrings.signIn,
-                          onTapAction: () {
-                            context.pushNamed(
-                              RoutePath.signInScreen,
-                            );
-                          })
-                    ],
-                  )),
-            ),
+                        // context.pushNamed(
+                        //   RoutePath.otpScreen,
+                        // );
+                      },
+                      title: "Next",
+                      fillColor: Colors.black,
+                      textColor: Colors.white,
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                    ),
+
+
+                  ],
+                )),
           ],
         ),
       ),

@@ -28,9 +28,16 @@ class SignUpScreen extends StatelessWidget {
               child: Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height / 1.3,
-                  // Adjust height according to your design
-                  color: AppColors.normalHover,
-                  // Brown color similar to your design
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xCCEDC4AC), // First color (with opacity)
+                        Color(0xFFE9864E),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -44,14 +51,14 @@ class SignUpScreen extends StatelessWidget {
                           text: AppStrings.signUp,
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
-                          color: AppColors.white50,
+                          color: AppColors.black,
                         ),
 
                         const CustomText(
                           text: AppStrings.helloLetsJoin,
                           fontWeight: FontWeight.w300,
                           fontSize: 20,
-                          color: AppColors.white50,
+                          color: AppColors.black,
                         ),
 
                         SizedBox(

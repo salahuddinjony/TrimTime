@@ -47,13 +47,13 @@ class GetStartedScreen extends StatelessWidget {
                       text: AppStrings.getStarted,
                       fontWeight: FontWeight.w700,
                       fontSize: 24,
-                      color: AppColors.white50,
+                      color: AppColors.black,
                     ),
                     const CustomText(
                       text: AppStrings.startWithSign,
                       fontWeight: FontWeight.w300,
                       fontSize: 20,
-                      color: AppColors.white50,
+                      color: AppColors.black,
                     )
                   ],
                 ),

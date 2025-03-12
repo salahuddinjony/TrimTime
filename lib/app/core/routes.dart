@@ -283,7 +283,7 @@ class AppRouter {
           name: RoutePath.ownerSignUp,
           path: RoutePath.ownerSignUp.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerSignUp(),
+            child:  OwnerSignUp(),
             state: state,
           ),
         ),

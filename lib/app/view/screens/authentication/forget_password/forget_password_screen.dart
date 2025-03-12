@@ -4,6 +4,7 @@ import 'package:barber_time/app/global/controller/auth_controller/auth_controlle
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -25,69 +26,94 @@ class ForgetPasswordScreen extends StatelessWidget {
     final userRole = GoRouterState.of(context).extra as UserRole?;
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
-      backgroundColor: AppColors.normalHover,
 
       ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.normalHover,
+        appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.forgotPassword,
         iconData: Icons.arrow_back,
       ),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-
-                  const CustomText(
-                    textAlign: TextAlign.center,
-                    top: 15,
-                    maxLines: 5,
-                    text: AppStrings.enterYourEmailANdWe,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: AppColors.white50,
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
-
-                  ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-                  CustomFromCard(
-                      hinText: AppStrings.enterYourEmail,
-                      title: AppStrings.email,
-                      controller: TextEditingController(),
-                      validator: (v) {}),
-                  SizedBox(
-                    height: 100.h,
-                  ),
-
-                  ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-
-                  CustomButton(
-                    isRadius: false,
-                    width: MediaQuery.of(context).size.width,
-                    onTap: () {
-
-                      AppRouter.route.pushNamed(
-                        RoutePath.otpScreen,
-                        extra: {
-                          'isForget': true,
-                          'userRole': userRole?.name, // ✅ Convert UserRole to string
-                        },
-                      );
-
-                    },
-                    title: AppStrings.sendCode,
-                    fillColor: AppColors.white50,
-                  ),
-                ],
+      body:
+      Column(
+        children: [
+          ClipPath(
+            clipper: CurvedShortClipper(),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height/2,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9864E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+
+                          const CustomText(
+                            textAlign: TextAlign.center,
+                            top: 15,
+                            maxLines: 5,
+                            text: AppStrings.enterYourEmailANdWe,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: AppColors.black,
+                          ),
+                          SizedBox(
+                            height: 60.h,
+                          ),
+
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+                          CustomFromCard(
+                              hinText: AppStrings.enterYourEmail,
+                              title: AppStrings.email,
+                              controller: TextEditingController(),
+                              validator: (v) {}),
+                          SizedBox(
+                            height: 100.h,
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+                  )),
             ),
-          )),
+          ),
+
+          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+
+          CustomButton(
+            isRadius: false,
+            textColor: AppColors.white50,
+            width: MediaQuery.of(context).size.width,
+            onTap: () {
+
+              AppRouter.route.pushNamed(
+                RoutePath.otpScreen,
+                extra: {
+                  'isForget': true,
+                  'userRole': userRole?.name, // ✅ Convert UserRole to string
+                },
+              );
+
+            },
+            title: AppStrings.sendCode,
+            fillColor: AppColors.black,
+          ),
+        ],
+      )
+
     );
   }
 }

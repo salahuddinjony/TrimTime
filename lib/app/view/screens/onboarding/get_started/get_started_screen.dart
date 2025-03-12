@@ -25,9 +25,16 @@ class GetStartedScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 2,
-              // Adjust height according to your design
-              color: AppColors.normalHover,
-              // Brown color similar to your design
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9864E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(

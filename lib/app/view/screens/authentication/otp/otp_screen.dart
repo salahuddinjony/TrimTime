@@ -4,6 +4,7 @@ import 'package:barber_time/app/global/controller/auth_controller/auth_controlle
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -31,95 +32,124 @@ class OtpScreen extends StatelessWidget {
 
     debugPrint("Selected Role============================${userRole.name}");
     return Scaffold(
-      backgroundColor: AppColors.normalHover,
+      // backgroundColor: AppColors.normalHover,
 
       ///: <<<<<<====== AppBar ======>>>>>>>>
       appBar: CustomAppBar(
-        appBarBgColor: AppColors.normalHover,
+        appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.verifyCode,
         iconData: Icons.arrow_back,
         onTap: () {
           context.pop(); // Navigate back
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ///: <<<<<<====== Header ======>>>>>>>>
-                const CustomText(
-                  text: AppStrings.checkYourEmail,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 22,
-                  color: AppColors.white50,
-                ),
-
-                const CustomText(
-                  textAlign: TextAlign.center,
-                  top: 15,
-                  maxLines: 5,
-                  text: AppStrings.weHaveSentYouANAu,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.white50,
-                ),
-                SizedBox(height: 60.h),
-
-                ///: <<<<<<====== OTP Pin Code Field ======>>>>>>>>
-                PinCodeTextField(
-                  textStyle: const TextStyle(color: AppColors.black, fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  autoDisposeControllers: false,
-                  cursorColor: AppColors.black,
-                  appContext: context,
-                  controller: authController.pinCodeController,
-                  onCompleted: (value) {},
-                  validator: (value) {
-                    if (value == null || value.length != 4) {
-                      return "Please enter a 4-digit OTP code";
-                    }
-                    return null;
-                  },
-                  autoFocus: true,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.underline,
-                    fieldHeight: 49.h,
-                    fieldWidth: 40,
-                    borderWidth: 1.5,
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white,
-                    selectedColor: Colors.black, // Black underline for the selected field
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ClipPath(
+              clipper: CurvedShortClipper(),
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height/2,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xCCEDC4AC), // First color (with opacity)
+                      Color(0xFFE9864E),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  length: 4,
-                  enableActiveFill: false, // Disable fill for better appearance
-                  onChanged: (value) {},
                 ),
-                SizedBox(height: 100.h),
 
-                ///: <<<<<<====== Verify Code Button ======>>>>>>>>
-                CustomButton(
-                  isRadius: false,
-                  width: MediaQuery.of(context).size.width,
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      isForget
-                          ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
-                          extra: userRole)
-                          :  AppRouter.route.goNamed(RoutePath.signInScreen,
-                          extra: userRole);
-                    }
-                  },
-                  title: AppStrings.verifyCode,
-                  fillColor: AppColors.white50,
+                child:  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ///: <<<<<<====== Header ======>>>>>>>>
+                          const CustomText(
+                            text: AppStrings.checkYourEmail,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22,
+                            color: AppColors.black,
+                          ),
+
+                          const CustomText(
+                            textAlign: TextAlign.center,
+                            top: 15,
+                            maxLines: 5,
+                            text: AppStrings.weHaveSentYouANAu,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: AppColors.black,
+                          ),
+                          SizedBox(height: 60.h),
+
+                          ///: <<<<<<====== OTP Pin Code Field ======>>>>>>>>
+                          PinCodeTextField(
+                            textStyle: const TextStyle(color: AppColors.black, fontSize: 24),
+                            keyboardType: TextInputType.number,
+                            autoDisposeControllers: false,
+                            cursorColor: AppColors.black,
+                            appContext: context,
+                            controller: authController.pinCodeController,
+                            onCompleted: (value) {},
+                            validator: (value) {
+                              if (value == null || value.length != 4) {
+                                return "Please enter a 4-digit OTP code";
+                              }
+                              return null;
+                            },
+                            autoFocus: true,
+                            pinTheme: PinTheme(
+                              shape: PinCodeFieldShape.underline,
+                              fieldHeight: 49.h,
+                              fieldWidth: 40,
+                              borderWidth: 1.5,
+                              activeColor: Colors.white,
+                              inactiveColor: Colors.white,
+                              selectedColor: Colors.black, // Black underline for the selected field
+                            ),
+                            length: 4,
+                            enableActiveFill: false, // Disable fill for better appearance
+                            onChanged: (value) {},
+                          ),
+                          SizedBox(height: 100.h),
+
+
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
+
+            ///: <<<<<<====== Verify Code Button ======>>>>>>>>
+            CustomButton(
+              isRadius: false,
+              width: MediaQuery.of(context).size.width,
+              onTap: () {
+                if (formKey.currentState!.validate()) {
+                  isForget
+                      ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                      extra: userRole)
+                      :  AppRouter.route.goNamed(RoutePath.signInScreen,
+                      extra: userRole);
+                }
+              },
+              title: AppStrings.verifyCode,
+              fillColor: AppColors.black,
+              textColor: AppColors.white50,
+            ),
+          ],
         ),
-      ),
+      )
+
+
     );
   }
 }

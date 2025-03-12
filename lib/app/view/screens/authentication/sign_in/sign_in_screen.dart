@@ -33,7 +33,16 @@ class SignInScreen extends StatelessWidget {
                 clipper: CurvedBannerClipper(),
                 child: Container(
                     width: double.infinity,
-                    color: AppColors.normalHover,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xCCEDC4AC), // First color (with opacity)
+                          Color(0xFFE9864E),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 30),

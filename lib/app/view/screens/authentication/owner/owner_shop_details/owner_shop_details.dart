@@ -81,9 +81,9 @@ class OwnerShopDetails extends StatelessWidget {
                     CustomButton(
                       onTap: () {
 
-                        // context.pushNamed(
-                        //   RoutePath.otpScreen,extra: userRole
-                        // );
+                        context.pushNamed(
+                          RoutePath.subscriptionPlan,
+                        );
                       },
                       title: "Next",
                       fillColor: Colors.black,

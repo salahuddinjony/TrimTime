@@ -17,6 +17,9 @@ class RoutePath{
   static const String forgetPasswordScreen = 'forgetPasswordScreen';
   static const String ownerSignUp = 'OwnerSignUp';
   static const String ownerShopDetails = 'OwnerShopDetails';
+  static const String subscriptionPlan = 'SubscriptionPlan';
+  static const String paymentOption = 'PaymentOption';
+  static const String uniqueQrCode = 'UniqueQrCode';
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   //===================Owner Section ===================

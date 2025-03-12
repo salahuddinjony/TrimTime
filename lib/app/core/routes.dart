@@ -1,8 +1,11 @@
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
-import 'package:barber_time/app/view/screens/authentication/owner_shop_details/owner_shop_details.dart';
-import 'package:barber_time/app/view/screens/authentication/owner_sign_up/owner_sign_up.dart';
+import 'package:barber_time/app/view/screens/authentication/owner/owner_shop_details/owner_shop_details.dart';
+import 'package:barber_time/app/view/screens/authentication/owner/owner_sign_up/owner_sign_up.dart';
+import 'package:barber_time/app/view/screens/authentication/owner/payment_option/payment_option.dart';
+import 'package:barber_time/app/view/screens/authentication/owner/subscription/subscription_plan.dart';
+import 'package:barber_time/app/view/screens/authentication/owner/unique_qr_code/unique_qr_code.dart';
 import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
@@ -143,7 +146,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const OwnerHomeScreen(),
             state: state,
-              disableAnimation: true,
+            disableAnimation: true,
           ),
         ),
 
@@ -158,6 +161,7 @@ class AppRouter {
             disableAnimation: true, // Disable animation for this screen
           ),
         ),
+
         ///=======================InboxScreen  =======================
         GoRoute(
           name: RoutePath.inboxScreen,
@@ -206,7 +210,7 @@ class AppRouter {
           name: RoutePath.editOwnerProfile,
           path: RoutePath.editOwnerProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  const EditOwnerProfile(),
+            child: const EditOwnerProfile(),
             state: state,
           ),
         ),
@@ -236,7 +240,7 @@ class AppRouter {
           name: RoutePath.faqsScreen,
           path: RoutePath.faqsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  FaqsScreen(),
+            child: FaqsScreen(),
             state: state,
           ),
         ),
@@ -270,6 +274,7 @@ class AppRouter {
             state: state,
           ),
         ),
+
         ///=======================Job Post  =======================
         GoRoute(
           name: RoutePath.jobPost,
@@ -279,12 +284,13 @@ class AppRouter {
             state: state,
           ),
         ),
+
         ///=======================Job Post  =======================
         GoRoute(
           name: RoutePath.ownerSignUp,
           path: RoutePath.ownerSignUp.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  OwnerSignUp(),
+            child: OwnerSignUp(),
             state: state,
           ),
         ),
@@ -294,14 +300,44 @@ class AppRouter {
           name: RoutePath.ownerShopDetails,
           path: RoutePath.ownerShopDetails.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  OwnerShopDetails(),
+            child: OwnerShopDetails(),
+            state: state,
+          ),
+        ),
+
+        ///=======================SubscriptionPlan =======================
+        GoRoute(
+          name: RoutePath.subscriptionPlan,
+          path: RoutePath.subscriptionPlan.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  SubscriptionPlan(),
+            state: state,
+          ),
+        ),  ///=======================PaymentOption =======================
+        GoRoute(
+          name: RoutePath.paymentOption,
+          path: RoutePath.paymentOption.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  PaymentOption(),
+            state: state,
+          ),
+        ),
+
+        ///=======================UniqueQrCode =======================
+        GoRoute(
+          name: RoutePath.uniqueQrCode,
+          path: RoutePath.uniqueQrCode.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: UniqueQrCode(),
             state: state,
           ),
         ),
       ]);
 
   static CustomTransitionPage _buildPageWithAnimation(
-      {required Widget child, required GoRouterState state, bool disableAnimation = false}) {
+      {required Widget child,
+      required GoRouterState state,
+      bool disableAnimation = false}) {
     if (disableAnimation) {
       return CustomTransitionPage(
         key: state.pageKey,
@@ -327,8 +363,6 @@ class AppRouter {
       );
     }
   }
-
-
 
   static GoRouter get route => initRoute;
 }

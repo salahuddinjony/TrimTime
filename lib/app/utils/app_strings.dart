@@ -105,6 +105,7 @@ class AppStrings {
   static const upload  = "Upload";
   static const caption  = "Caption";
   static const shopName  = "Shop name";
+  static const shopNames  = "Shop Name";
   static const addReview  = "Add Review";
   static const post  = "Post";
   static const giveRatingOutOf  = "Give rating out of 5!";

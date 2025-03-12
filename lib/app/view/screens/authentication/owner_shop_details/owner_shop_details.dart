@@ -12,8 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class OwnerSignUp extends StatelessWidget {
-  OwnerSignUp({super.key});
+class OwnerShopDetails extends StatelessWidget {
+  OwnerShopDetails({super.key});
 
   final AuthController authController = Get.find<AuthController>();
 
@@ -23,7 +23,7 @@ class OwnerSignUp extends StatelessWidget {
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       appBar: const CustomAppBar(
-        appBarContent:AppStrings.personalInformation,
+        appBarContent:AppStrings.businessDetails,
         appBarBgColor: AppColors.linearFirst,
         iconData: Icons.arrow_back,
       ),
@@ -58,53 +58,32 @@ class OwnerSignUp extends StatelessWidget {
 
                         //ToDo ==========✅✅ fullName ✅✅==========
                         CustomFromCard(
-                            hinText: AppStrings.enterYourName,
-                            title: AppStrings.name,
+                            hinText: AppStrings.enterYourSHopName,
+                            title: AppStrings.shopNames,
                             controller: authController.fullNameController,
                             validator: (v) {}),
                         //ToDo ==========✅✅ Email✅✅==========
                         CustomFromCard(
-                            hinText: AppStrings.enterYourEmail,
-                            title: AppStrings.email,
+                            hinText: AppStrings.enterYourRegistrationNumber,
+                            title: AppStrings.registrationNumber,
                             controller: authController.emailController,
                             validator: (v) {}),
-                        //ToDo ==========✅✅ password ✅✅==========
-                        CustomFromCard(
-                            hinText: AppStrings.enterYourShopAddress,
-                            title: AppStrings.address,
-                            controller: authController.passwordController,
-                            validator: (v) {}),
 
-                        //ToDo ==========✅✅ Confirm ✅✅==========
-                        CustomFromCard(
-                            hinText: AppStrings.enterYourPassword,
-                            title: AppStrings.password,
-                            controller:
-                                authController.confirmPasswordController,
-                            validator: (v) {}),
-
-                        //ToDo ==========✅✅ Confirm ✅✅==========
-                        CustomFromCard(
-                            hinText: AppStrings.confirmNewPassword,
-                            title: AppStrings.confirmPassword,
-                            controller:
-                                authController.confirmPasswordController,
-                            validator: (v) {}),
                       ],
                     ),
                   )),
             ),
             Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
                     CustomButton(
                       onTap: () {
 
-                        context.pushNamed(
-                          RoutePath.ownerShopDetails,extra: userRole
-                        );
+                        // context.pushNamed(
+                        //   RoutePath.otpScreen,extra: userRole
+                        // );
                       },
                       title: "Next",
                       fillColor: Colors.black,

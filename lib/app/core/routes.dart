@@ -1,6 +1,7 @@
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/owner_shop_details/owner_shop_details.dart';
 import 'package:barber_time/app/view/screens/authentication/owner_sign_up/owner_sign_up.dart';
 import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
@@ -284,6 +285,16 @@ class AppRouter {
           path: RoutePath.ownerSignUp.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child:  OwnerSignUp(),
+            state: state,
+          ),
+        ),
+
+        ///=======================OwnerShopDetails =======================
+        GoRoute(
+          name: RoutePath.ownerShopDetails,
+          path: RoutePath.ownerShopDetails.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  OwnerShopDetails(),
             state: state,
           ),
         ),

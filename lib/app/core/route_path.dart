@@ -15,6 +15,7 @@ class RoutePath{
   static const String otpScreen = 'otpScreen';
   static const String resetPasswordScreen = 'resetPasswordScreen';
   static const String forgetPasswordScreen = 'forgetPasswordScreen';
+  static const String ownerSignUp = 'OwnerSignUp';
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   //===================Owner Section ===================

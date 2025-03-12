@@ -1,6 +1,7 @@
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
+import 'package:barber_time/app/view/screens/authentication/owner_sign_up/owner_sign_up.dart';
 import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
@@ -274,6 +275,15 @@ class AppRouter {
           path: RoutePath.jobPost.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const JobPost(),
+            state: state,
+          ),
+        ),
+        ///=======================Job Post  =======================
+        GoRoute(
+          name: RoutePath.ownerSignUp,
+          path: RoutePath.ownerSignUp.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerSignUp(),
             state: state,
           ),
         ),

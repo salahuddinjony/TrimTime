@@ -139,8 +139,19 @@ class SignInScreen extends StatelessWidget {
                           firstText: AppStrings.dontHaveAnAccount,
                           secondText: AppStrings.signUp,
                           onTapAction: () {
-                            AppRouter.route.pushNamed(RoutePath.signUpScreen,
-                                extra: userRole);
+                            if (userRole == UserRole.user) {
+                              AppRouter.route
+                                  .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                            } else if (userRole == UserRole.barber) {
+                              AppRouter.route
+                                  .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                            } else if (userRole == UserRole.owner) {
+                              AppRouter.route
+                                  .pushNamed(RoutePath.ownerSignUp, extra: userRole);
+                            } else {
+                              debugPrint('Unknown user role: ');
+                            }
+
                           }),
                     ],
                   )),

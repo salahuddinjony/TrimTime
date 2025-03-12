@@ -62,8 +62,9 @@ class GetStartedScreen extends StatelessWidget {
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
                   onTap: () {
-                    AppRouter.route.pushNamed(RoutePath.signInScreen,
-                        extra: userRole);                     },
+                    AppRouter.route
+                        .pushNamed(RoutePath.signInScreen, extra: userRole);
+                  },
                   title: AppStrings.signIn,
                 ),
 
@@ -76,8 +77,19 @@ class GetStartedScreen extends StatelessWidget {
                   fillColor: AppColors.black,
                   textColor: AppColors.white50,
                   onTap: () {
-                    AppRouter.route.pushNamed(RoutePath.signUpScreen,
-                        extra: userRole);                     },
+                    if (userRole == UserRole.user) {
+                      AppRouter.route
+                          .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                    } else if (userRole == UserRole.barber) {
+                      AppRouter.route
+                          .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                    } else if (userRole == UserRole.owner) {
+                      AppRouter.route
+                          .pushNamed(RoutePath.ownerSignUp, extra: userRole);
+                    } else {
+                      debugPrint('Unknown user role: ');
+                    }
+                  },
                   title: AppStrings.signUp,
                 ),
               ],

@@ -29,7 +29,7 @@ import 'route_path.dart';
 
 class AppRouter {
   static final GoRouter initRoute = GoRouter(
-      initialLocation: RoutePath.signInScreen.addBasePath,
+      initialLocation: RoutePath.splashScreen.addBasePath,
       debugLogDiagnostics: true,
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
@@ -141,16 +141,19 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const OwnerHomeScreen(),
             state: state,
+              disableAnimation: true,
           ),
         ),
 
         ///=======================ownerMessagingScreen  =======================
+
         GoRoute(
           name: RoutePath.chatScreen,
           path: RoutePath.chatScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  ChatScreen(),
+            child: const ChatScreen(),
             state: state,
+            disableAnimation: true, // Disable animation for this screen
           ),
         ),
         ///=======================InboxScreen  =======================
@@ -160,6 +163,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const InboxScreen(),
             state: state,
+            disableAnimation: true,
           ),
         ),
 
@@ -170,6 +174,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const OwnerHiringScreen(),
             state: state,
+            disableAnimation: true,
           ),
         ),
 
@@ -180,6 +185,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const OwnerProfileScreen(),
             state: state,
+            disableAnimation: true,
           ),
         ),
 
@@ -274,23 +280,34 @@ class AppRouter {
       ]);
 
   static CustomTransitionPage _buildPageWithAnimation(
-      {required Widget child, required GoRouterState state}) {
-    return CustomTransitionPage(
-      key: state.pageKey,
-      child: child,
-      transitionDuration: const Duration(milliseconds: 600),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        var tween = Tween(begin: begin, end: end);
-        var offsetAnimation = animation.drive(tween);
-        return SlideTransition(
-          position: offsetAnimation,
-          child: child,
-        );
-      },
-    );
+      {required Widget child, required GoRouterState state, bool disableAnimation = false}) {
+    if (disableAnimation) {
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: child,
+        transitionDuration: Duration.zero, // Disable animation
+        transitionsBuilder: (_, __, ___, child) => child, // No transition
+      );
+    } else {
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: child,
+        transitionDuration: const Duration(milliseconds: 600),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          var tween = Tween(begin: begin, end: end);
+          var offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      );
+    }
   }
+
+
 
   static GoRouter get route => initRoute;
 }

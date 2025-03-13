@@ -105,7 +105,8 @@ class SignInScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  AppRouter.route.pushNamed(RoutePath.forgetPasswordScreen,
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.forgetPasswordScreen,
                                       extra: userRole);
                                 },
                                 child: CustomText(
@@ -132,7 +133,7 @@ class SignInScreen extends StatelessWidget {
                       CustomButton(
                         onTap: () {
                           AppRouter.route.goNamed(RoutePath.barberHomeScreen,
-                              );
+                              extra: userRole);
                           // Pass role
                         },
                         title: AppStrings.signIn,
@@ -149,18 +150,17 @@ class SignInScreen extends StatelessWidget {
                           secondText: AppStrings.signUp,
                           onTapAction: () {
                             if (userRole == UserRole.user) {
-                              AppRouter.route
-                                  .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                              AppRouter.route.pushNamed(RoutePath.signUpScreen,
+                                  extra: userRole);
                             } else if (userRole == UserRole.barber) {
-                              AppRouter.route
-                                  .pushNamed(RoutePath.signUpScreen, extra: userRole);
+                              AppRouter.route.pushNamed(RoutePath.signUpScreen,
+                                  extra: userRole);
                             } else if (userRole == UserRole.owner) {
-                              AppRouter.route
-                                  .pushNamed(RoutePath.ownerSignUp, extra: userRole);
+                              AppRouter.route.pushNamed(RoutePath.ownerSignUp,
+                                  extra: userRole);
                             } else {
                               debugPrint('Unknown user role: ');
                             }
-
                           }),
                     ],
                   )),

@@ -7,7 +7,6 @@ class BarberHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Direct UserRole সেট করা
     UserRole userRole = getRoleFromString("barber");
 
     return Scaffold(

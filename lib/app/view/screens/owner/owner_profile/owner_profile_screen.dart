@@ -22,8 +22,15 @@ class OwnerProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String roleFromDatabase = "owner";
-    UserRole userRole = getRoleFromString(roleFromDatabase);
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+
+    debugPrint("===================${userRole?.name}");
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
     return Scaffold(
       bottomNavigationBar: BottomNavbar(
         currentIndex: 3,

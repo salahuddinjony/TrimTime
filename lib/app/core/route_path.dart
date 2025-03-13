@@ -30,7 +30,7 @@ class RoutePath{
   static const String inboxScreen = 'InboxScreen';
   static const String chatScreen = 'ChatScreen';
   static const String ownerHiringScreen = 'OwnerHiringScreen';
-  static const String ownerProfileScreen = 'OwnerProfileScreen';
+  static const String profileScreen = 'ProfileScreen';
   static const String personalInfo = 'PersonalInfo';
   static const String editOwnerProfile = 'EditOwnerProfile';
   static const String settings = 'Settings';
@@ -44,7 +44,6 @@ class RoutePath{
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';
   static const String barberHistoryScreen = 'BarberHistoryScreen';
-  static const String barberProfile = 'BarberProfile';
   static const String barberChat = 'BarberChat';
   static const String barberFeed = 'BarberFeed';
 

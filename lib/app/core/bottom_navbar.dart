@@ -53,7 +53,7 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.ownerHomeScreen,
           RoutePath.inboxScreen,
           RoutePath.ownerHiringScreen,
-          RoutePath.ownerProfileScreen,
+          RoutePath.profileScreen,
         ];
         break;
       case UserRole.barber:
@@ -77,7 +77,7 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.barberChat,
           RoutePath.barberFeed,
           RoutePath.barberHistoryScreen,
-          RoutePath.barberProfile,
+          RoutePath.profileScreen,
         ];
         break;
       case UserRole.user:
@@ -102,7 +102,7 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.queScreen,
           RoutePath.scannerScreen,
           RoutePath.savedScreen,
-          RoutePath.ownerProfileScreen
+          RoutePath.profileScreen
         ];
         break;
     }

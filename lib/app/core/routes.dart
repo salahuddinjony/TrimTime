@@ -13,7 +13,6 @@ import 'package:barber_time/app/view/screens/barber/barber_chat/barber_chat.dart
 import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed.dart';
 import 'package:barber_time/app/view/screens/barber/barber_history/barber_history_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
-import 'package:barber_time/app/view/screens/barber/barber_profile/barber_profile.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
@@ -194,10 +193,10 @@ class AppRouter {
 
         ///=======================ownerProfileScreen  =======================
         GoRoute(
-          name: RoutePath.ownerProfileScreen,
-          path: RoutePath.ownerProfileScreen.addBasePath,
+          name: RoutePath.profileScreen,
+          path: RoutePath.profileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerProfileScreen(),
+            child: const ProfileScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -225,16 +224,7 @@ class AppRouter {
           ),
         ),
 
-        ///=======================  =======================
-        GoRoute(
-          name: RoutePath.barberProfile,
-          path: RoutePath.barberProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BarberProfile(),
-            state: state,
-            disableAnimation: true,
-          ),
-        ),
+
 
         ///=======================  =======================
         GoRoute(

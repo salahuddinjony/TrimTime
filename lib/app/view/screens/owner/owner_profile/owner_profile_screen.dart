@@ -15,8 +15,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
-class OwnerProfileScreen extends StatelessWidget {
-  const OwnerProfileScreen({
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({
     super.key,
   });
 
@@ -33,7 +33,7 @@ class OwnerProfileScreen extends StatelessWidget {
     }
     return Scaffold(
       bottomNavigationBar: BottomNavbar(
-        currentIndex: 3,
+        currentIndex: 4,
         role: getRoleFromString(userRole.name),
       ),
 

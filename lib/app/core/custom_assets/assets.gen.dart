@@ -90,6 +90,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/privacy.svg
   SvgGenImage get privacy => const SvgGenImage('assets/icons/privacy.svg');
 
+  /// File path: assets/icons/rate.svg
+  SvgGenImage get rate => const SvgGenImage('assets/icons/rate.svg');
+
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
 
@@ -121,6 +124,7 @@ class $AssetsIconsGen {
         personalInfo,
         phone,
         privacy,
+        rate,
         settings,
         terms
       ];

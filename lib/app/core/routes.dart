@@ -28,6 +28,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_s
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/professional_profile.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/rate/rate_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyalty/loyalty_screen.dart';
@@ -441,12 +442,24 @@ class AppRouter {
             child: const ScannerScreen(),
             state: state,
           ),
-        ),  ///======================= =======================
+        ),
+
+        ///======================= =======================
         GoRoute(
           name: RoutePath.savedScreen,
           path: RoutePath.savedScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const SavedScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.rateScreen,
+          path: RoutePath.rateScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const RateScreen(),
             state: state,
           ),
         ),

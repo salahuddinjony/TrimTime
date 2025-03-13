@@ -175,6 +175,21 @@ class ProfileScreen extends StatelessWidget {
                         )
                       : const SizedBox(),
 
+                  //TOdo=====rating====
+
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.rateScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.rating,
+                          icon: Assets.icons.rate
+                              .svg(height: 16, color: AppColors.gray500),
+                        )
+                      : const SizedBox(),
+
                   //TOdo=====following====
 
                   userRole == UserRole.user

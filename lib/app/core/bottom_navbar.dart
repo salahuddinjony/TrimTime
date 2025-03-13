@@ -90,7 +90,7 @@ class _NavBarState extends State<BottomNavbar> {
         routeNames = [
           RoutePath.barberHomeScreen,
           RoutePath.barberChat,
-          '',
+          RoutePath.barberFeed,
           RoutePath.barberHistoryScreen,
           RoutePath.barberProfile,
         ];

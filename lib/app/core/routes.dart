@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/screens/authentication/reset_password/reset
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_chat/barber_chat.dart';
+import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed.dart';
 import 'package:barber_time/app/view/screens/barber/barber_history/barber_history_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_profile/barber_profile.dart';
@@ -238,6 +239,15 @@ class AppRouter {
           path: RoutePath.barberChat.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BarberChat(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),  ///=======================  =======================
+        GoRoute(
+          name: RoutePath.barberFeed,
+          path: RoutePath.barberFeed.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberFeed(),
             state: state,
             disableAnimation: true,
           ),

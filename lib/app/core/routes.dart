@@ -33,6 +33,9 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settin
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
+import 'package:barber_time/app/view/screens/user/que/que_screen.dart';
+import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
+import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'route_path.dart';
@@ -389,6 +392,34 @@ class AppRouter {
           path: RoutePath.uniqueQrCode.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: UniqueQrCode(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.queScreen,
+          path: RoutePath.queScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const QueScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.scannerScreen,
+          path: RoutePath.scannerScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ScannerScreen(),
+            state: state,
+          ),
+        ),  ///======================= =======================
+        GoRoute(
+          name: RoutePath.savedScreen,
+          path: RoutePath.savedScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const SavedScreen(),
             state: state,
           ),
         ),

@@ -193,12 +193,35 @@ class $AssetsImagesGen {
   /// File path: assets/images/pending.png
   AssetGenImage get pending => const AssetGenImage('assets/images/pending.png');
 
+  /// File path: assets/images/profile_selected.png
+  AssetGenImage get profileSelected =>
+      const AssetGenImage('assets/images/profile_selected.png');
+
   /// File path: assets/images/profile_unselected.png
   AssetGenImage get profileUnselected =>
       const AssetGenImage('assets/images/profile_unselected.png');
 
+  /// File path: assets/images/que_selected.png
+  AssetGenImage get queSelected =>
+      const AssetGenImage('assets/images/que_selected.png');
+
+  /// File path: assets/images/que_unselected.png
+  AssetGenImage get queUnselected =>
+      const AssetGenImage('assets/images/que_unselected.png');
+
   /// File path: assets/images/right.png
   AssetGenImage get right => const AssetGenImage('assets/images/right.png');
+
+  /// File path: assets/images/saved_selected.png
+  AssetGenImage get savedSelected =>
+      const AssetGenImage('assets/images/saved_selected.png');
+
+  /// File path: assets/images/saved_unselected.png
+  AssetGenImage get savedUnselected =>
+      const AssetGenImage('assets/images/saved_unselected.png');
+
+  /// File path: assets/images/scanner.png
+  AssetGenImage get scanner => const AssetGenImage('assets/images/scanner.png');
 
   /// File path: assets/images/sign_in_logo.png
   AssetGenImage get signInLogo =>
@@ -239,8 +262,14 @@ class $AssetsImagesGen {
         logo,
         owner,
         pending,
+        profileSelected,
         profileUnselected,
+        queSelected,
+        queUnselected,
         right,
+        savedSelected,
+        savedUnselected,
+        scanner,
         signInLogo,
         totalBarber,
         totalCustomer,

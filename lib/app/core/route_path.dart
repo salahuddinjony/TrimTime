@@ -22,6 +22,9 @@ class RoutePath{
   static const String uniqueQrCode = 'UniqueQrCode';
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
+  static const String queScreen = 'QueScreen';
+  static const String scannerScreen = 'ScannerScreen';
+  static const String savedScreen = 'SavedScreen';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

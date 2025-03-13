@@ -83,23 +83,26 @@ class _NavBarState extends State<BottomNavbar> {
       case UserRole.user:
       default:
         unselectedIcon = [
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
+          Assets.images.homeUnselected.image(),
+          Assets.images.queUnselected.image(),
+          Assets.images.scanner.image(),
+          Assets.images.savedUnselected.image(),
+          Assets.images.profileUnselected.image(),
         ];
         selectedIcon = [
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
-          Assets.icons.notification.svg(),
+          Assets.images.homeSelected.image(),
+          Assets.images.queSelected.image(),
+          Assets.images.scanner.image(),
+          Assets.images.savedSelected.image(),
+          Assets.images.profileSelected.image(),
         ];
-        textList = ["Home", "Appointments", "Scanner", "Profile"];
+        textList = [AppStrings.home,AppStrings.que,'',AppStrings.saved,AppStrings.profile];
         routeNames = [
           RoutePath.homeScreen,
-          RoutePath.homeScreen,
-          RoutePath.homeScreen,
-          RoutePath.homeScreen,
+          RoutePath.queScreen,
+          RoutePath.scannerScreen,
+          RoutePath.savedScreen,
+          RoutePath.ownerProfileScreen
         ];
         break;
     }

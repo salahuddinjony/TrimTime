@@ -22,10 +22,12 @@ import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.da
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyalty/loyalty_screen.dart';
@@ -113,6 +115,22 @@ class AppRouter {
           path: RoutePath.myFeed.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyFeed(),
+            state: state,
+          ),
+        ),    ///=======================  =======================
+        GoRoute(
+          name: RoutePath.professionalProfile,
+          path: RoutePath.professionalProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ProfessionalProfile(),
+            state: state,
+          ),
+        ),    ///=======================  =======================
+        GoRoute(
+          name: RoutePath.myFavoriteScreen,
+          path: RoutePath.myFavoriteScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const MyFavoriteScreen(),
             state: state,
           ),
         ),   ///=======================  =======================

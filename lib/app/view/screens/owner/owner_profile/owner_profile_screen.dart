@@ -52,11 +52,9 @@ class ProfileScreen extends StatelessWidget {
 
       ///============================ body ===============================
       body: SingleChildScrollView(
-
         child: ClipPath(
           clipper: CurvedBannerClipper(),
           child: Container(
-
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -102,84 +100,110 @@ class ProfileScreen extends StatelessWidget {
                   //TOdo=====personalInformation====
                   CustomMenuCard(
                     onTap: () {
-                      AppRouter.route.pushNamed(
-                        RoutePath.personalInfo,extra: userRole
-                      );
+                      AppRouter.route
+                          .pushNamed(RoutePath.personalInfo, extra: userRole);
                     },
                     text: AppStrings.personalInformation,
                     icon: Assets.icons.personalInfo.svg(color: Colors.black),
                   ),
 
-
+                  //TOdo=====Professional Profile====
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(RoutePath.professionalProfile,
+                          extra: userRole);
+                    },
+                    text: AppStrings.professionalProfile,
+                    icon: Assets.icons.personalInfo.svg(color: Colors.black),
+                  ),
 
                   //TOdo=====businessProfile====
-                userRole == UserRole.owner?
-                  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(
-                        RoutePath.personalInfo,
-                      );
-                    },
-                    text: AppStrings.businessProfile,
-                    icon: Assets.icons.business.svg(color: Colors.black),
-                  ):const SizedBox(),
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                              RoutePath.personalInfo,
+                            );
+                          },
+                          text: AppStrings.businessProfile,
+                          icon: Assets.icons.business.svg(color: Colors.black),
+                        )
+                      : const SizedBox(),
                   //TOdo=====jobPost====
-                  userRole == UserRole.owner?
-                  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(
-                        RoutePath.jobPost,
-                      );
-                    },
-                    text: AppStrings.jobPost,
-                    icon: Assets.icons.job.svg(color: Colors.black),
-                  ):const SizedBox(),
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                              RoutePath.jobPost,
+                            );
+                          },
+                          text: AppStrings.jobPost,
+                          icon: Assets.icons.job.svg(color: Colors.black),
+                        )
+                      : const SizedBox(),
                   //TOdo=====barber====
-                  userRole == UserRole.owner?
-                  CustomMenuCard(
-                    text: AppStrings.barber,
-                    icon: Assets.images.berber
-                        .image(height: 20, color: Colors.black),
-                  ):const SizedBox(),
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          text: AppStrings.barber,
+                          icon: Assets.images.berber
+                              .image(height: 20, color: Colors.black),
+                        )
+                      : const SizedBox(),
                   //=========
                   //TOdo=====myFeed====
                   CustomMenuCard(
                     onTap: () {
-                      AppRouter.route.pushNamed(
-                        RoutePath.myFeed,extra: userRole
-                      );
+                      AppRouter.route
+                          .pushNamed(RoutePath.myFeed, extra: userRole);
                     },
                     text: AppStrings.myFeedBack,
                     icon: Assets.icons.myFeedBack.svg(color: Colors.black),
                   ),
 
-                  //TOdo=====myFeed====
-                  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(
-                          RoutePath.myFeed,extra: userRole
-                      );
-                    },
-                    text: AppStrings.following,
-                    icon: Assets.icons.flowing.svg(color: Colors.black),
-                  ),
+                  //TOdo=====following====
+
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.myFavoriteScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.myFavorite,
+                          icon: Assets.images.savedUnselected
+                              .image(height: 16, color: AppColors.gray500),
+                        )
+                      : const SizedBox(),
+
+                  //TOdo=====following====
+
+                  userRole == UserRole.user
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route
+                                .pushNamed(RoutePath.myFeed, extra: userRole);
+                          },
+                          text: AppStrings.following,
+                          icon: Assets.icons.flowing.svg(color: Colors.black),
+                        )
+                      : const SizedBox(),
 
                   //=========
                   //TOdo=====addService====
-                  userRole == UserRole.owner?
-                  CustomMenuCard(
-                    text: AppStrings.addService,
-                    icon: Assets.icons.addService.svg(color: Colors.black),
-                  ):const SizedBox(),
-
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          text: AppStrings.addService,
+                          icon:
+                              Assets.icons.addService.svg(color: Colors.black),
+                        )
+                      : const SizedBox(),
 
                   //=========
                   //TOdo=====settings====
                   CustomMenuCard(
                     onTap: () {
-                      AppRouter.route.pushNamed(
-                        RoutePath.settings,extra: userRole
-                      );
+                      AppRouter.route
+                          .pushNamed(RoutePath.settings, extra: userRole);
                     },
                     text: AppStrings.settings,
                     icon: Assets.icons.settings.svg(color: Colors.black),
@@ -206,8 +230,9 @@ class ProfileScreen extends StatelessWidget {
                     icon: Assets.icons.logout.svg(),
                   ),
 
-                  SizedBox(height: 25.h,)
-
+                  SizedBox(
+                    height: 25.h,
+                  )
                 ],
               ),
             ),

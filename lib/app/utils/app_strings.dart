@@ -79,7 +79,9 @@ class AppStrings {
 
   //Profile
   static const personalInformation = "Personal Information";
+  static const professionalProfile = "Professional Profile";
   static const myFeedBack = "My Feed";
+  static const myFavorite = "My Favorite";
   static const contact = "Contact";
   static const settings = "Settings";
   static const notification = "Notification";

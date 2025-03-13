@@ -157,6 +157,7 @@ class AppStrings {
   static const totalCustomer  = "Total Customer";
   static const totalBarber  = "Total Barber";
   static const hiringPost  = "Hiring post";
+  static const history  = "History";
   static const hiring  = "Hiring";
   static const barberRequest  = "Barber Request";
   static const pending  = "Pending";

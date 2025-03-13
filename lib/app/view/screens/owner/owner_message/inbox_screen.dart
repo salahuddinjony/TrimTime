@@ -33,6 +33,7 @@ class InboxScreen extends StatelessWidget {
         role: userRole,
       ),
       appBar: AppBar(
+        backgroundColor: AppColors.linearFirst,
         centerTitle: true,
         title: const Text(AppStrings.messaging),
       ),

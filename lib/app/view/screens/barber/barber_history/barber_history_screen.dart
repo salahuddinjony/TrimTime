@@ -25,10 +25,10 @@ class BarberHistoryScreen extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: const CustomAppBar(
-          appBarBgColor: AppColors.linearFirst,
-          appBarContent: AppStrings.history,
-          iconData: Icons.arrow_back,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: AppColors.linearFirst,
+          title: const Text(AppStrings.history),
         ),
         bottomNavigationBar: BottomNavbar(
           currentIndex: 3,

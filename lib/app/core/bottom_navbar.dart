@@ -13,8 +13,7 @@ class BottomNavbar extends StatefulWidget {
   final int currentIndex;
   final UserRole role;
 
-  const BottomNavbar(
-      {required this.currentIndex, required this.role, super.key});
+  const BottomNavbar({required this.currentIndex, required this.role, super.key});
 
   @override
   State<BottomNavbar> createState() => _NavBarState();
@@ -36,7 +35,6 @@ class _NavBarState extends State<BottomNavbar> {
 
   void setNavigationItems(UserRole role) {
     switch (role) {
-      //TODo: Owner
       case UserRole.owner:
         unselectedIcon = [
           Assets.images.homeUnselected.image(),
@@ -50,12 +48,7 @@ class _NavBarState extends State<BottomNavbar> {
           Assets.images.hiringSelected.image(),
           Assets.images.profileUnselected.image(),
         ];
-        textList = [
-          AppStrings.home,
-          AppStrings.chat,
-          AppStrings.hiring,
-          AppStrings.profile
-        ];
+        textList = [AppStrings.home, AppStrings.chat, AppStrings.hiring, AppStrings.profile];
         routeNames = [
           RoutePath.ownerHomeScreen,
           RoutePath.inboxScreen,
@@ -63,8 +56,6 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.ownerProfileScreen,
         ];
         break;
-      //TODo: Barber
-
       case UserRole.barber:
         unselectedIcon = [
           Assets.images.homeUnselected.image(),
@@ -80,13 +71,7 @@ class _NavBarState extends State<BottomNavbar> {
           Assets.images.historySelected.image(),
           Assets.images.profileUnselected.image(),
         ];
-        textList = [
-          AppStrings.home,
-          AppStrings.chat,
-          '',
-          "History",
-          AppStrings.profile
-        ];
+        textList = [AppStrings.home, AppStrings.chat, '', "History", AppStrings.profile];
         routeNames = [
           RoutePath.barberHomeScreen,
           RoutePath.barberChat,
@@ -95,7 +80,6 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.barberProfile,
         ];
         break;
-      //TODo: User
       case UserRole.user:
       default:
         unselectedIcon = [
@@ -126,10 +110,7 @@ class _NavBarState extends State<BottomNavbar> {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.bottomColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
       ),
       height: 95.h,
       width: double.infinity,
@@ -143,7 +124,6 @@ class _NavBarState extends State<BottomNavbar> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Adjust the size of the icon at index 2 when the role is barber
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -151,24 +131,16 @@ class _NavBarState extends State<BottomNavbar> {
                         ? AppColors.secondary
                         : AppColors.bottomColor,
                   ),
-                  height: (index == 2 && widget.role == UserRole.barber)
-                      ? 40.h // Larger size for barber at index 2
-                      : 30.h, // Default size
-                  width: (index == 2 && widget.role == UserRole.barber)
-                      ? 40.w // Larger width for barber at index 2
-                      : 24.w, // Default width
-                  child: bottomNavIndex == index
-                      ? selectedIcon[index]
-                      : unselectedIcon[index],
+                  height: (index == 2 && widget.role == UserRole.barber) ? 40.h : 30.h,
+                  width: (index == 2 && widget.role == UserRole.barber) ? 40.w : 24.w,
+                  child: bottomNavIndex == index ? selectedIcon[index] : unselectedIcon[index],
                 ),
                 SizedBox(height: 5.h),
                 CustomText(
                   text: textList[index],
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: bottomNavIndex == index
-                      ? AppColors.white50
-                      : AppColors.gray300,
+                  color: bottomNavIndex == index ? AppColors.white50 : AppColors.gray300,
                 ),
               ],
             ),
@@ -178,12 +150,15 @@ class _NavBarState extends State<BottomNavbar> {
     );
   }
 
-
-  /// ✅ Navigation Logic
   void onTap(int index, BuildContext context) {
     if (bottomNavIndex != index) {
       setState(() => bottomNavIndex = index);
-      context.goNamed(routeNames[index]);
+      // Pass userRole as extra when navigating
+      context.goNamed(
+        routeNames[index],
+        extra: widget.role,  // Pass userRole here
+      );
     }
   }
 }
+

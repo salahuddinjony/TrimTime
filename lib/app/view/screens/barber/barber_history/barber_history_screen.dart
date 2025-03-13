@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:flutter/material.dart';
 
 class BarberHistoryScreen extends StatelessWidget {
@@ -5,6 +7,15 @@ class BarberHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    // ✅ Direct UserRole সেট করা
+    UserRole userRole = getRoleFromString("barber");
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('barber Home')),
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: 3,
+        role: userRole,
+      ),
+    );
   }
 }

@@ -135,6 +135,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/berber.png
   AssetGenImage get berber => const AssetGenImage('assets/images/berber.png');
 
+  /// File path: assets/images/camera.png
+  AssetGenImage get camera => const AssetGenImage('assets/images/camera.png');
+
   /// File path: assets/images/chart_selected.png
   AssetGenImage get chartSelected =>
       const AssetGenImage('assets/images/chart_selected.png');
@@ -164,6 +167,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/hiring_unselected.png
   AssetGenImage get hiringUnselected =>
       const AssetGenImage('assets/images/hiring_unselected.png');
+
+  /// File path: assets/images/history_selected.png
+  AssetGenImage get historySelected =>
+      const AssetGenImage('assets/images/history_selected.png');
+
+  /// File path: assets/images/history_unselected.png
+  AssetGenImage get historyUnselected =>
+      const AssetGenImage('assets/images/history_unselected.png');
 
   /// File path: assets/images/home_selected.png
   AssetGenImage get homeSelected =>
@@ -212,6 +223,7 @@ class $AssetsImagesGen {
         apple,
         barberRequest,
         berber,
+        camera,
         chartSelected,
         chartUnselected,
         customer,
@@ -220,6 +232,8 @@ class $AssetsImagesGen {
         google,
         hiringSelected,
         hiringUnselected,
+        historySelected,
+        historyUnselected,
         homeSelected,
         homeUnselected,
         logo,

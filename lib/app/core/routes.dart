@@ -9,6 +9,10 @@ import 'package:barber_time/app/view/screens/authentication/owner/unique_qr_code
 import 'package:barber_time/app/view/screens/authentication/reset_password/reset_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/sign_up/sign_up_screen.dart';
+import 'package:barber_time/app/view/screens/barber/barber_chat/barber_chat.dart';
+import 'package:barber_time/app/view/screens/barber/barber_history/barber_history_screen.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
+import 'package:barber_time/app/view/screens/barber/barber_profile/barber_profile.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
@@ -34,7 +38,7 @@ import 'route_path.dart';
 
 class AppRouter {
   static final GoRouter initRoute = GoRouter(
-      initialLocation: RoutePath.splashScreen.addBasePath,
+      initialLocation: RoutePath.signInScreen.addBasePath,
       debugLogDiagnostics: true,
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
@@ -194,6 +198,50 @@ class AppRouter {
             disableAnimation: true,
           ),
         ),
+        //TODO:Barber
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.barberHomeScreen,
+          path: RoutePath.barberHomeScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberHomeScreen(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.barberHistoryScreen,
+          path: RoutePath.barberHistoryScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberHistoryScreen(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.barberProfile,
+          path: RoutePath.barberProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberProfile(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.barberChat,
+          path: RoutePath.barberChat.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberChat(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),
 
         ///=======================PersonalInfo  =======================
         GoRoute(
@@ -310,15 +358,17 @@ class AppRouter {
           name: RoutePath.subscriptionPlan,
           path: RoutePath.subscriptionPlan.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  SubscriptionPlan(),
+            child: SubscriptionPlan(),
             state: state,
           ),
-        ),  ///=======================PaymentOption =======================
+        ),
+
+        ///=======================PaymentOption =======================
         GoRoute(
           name: RoutePath.paymentOption,
           path: RoutePath.paymentOption.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  PaymentOption(),
+            child: PaymentOption(),
             state: state,
           ),
         ),

@@ -1,5 +1,3 @@
-
-
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -38,13 +36,13 @@ class _NavBarState extends State<BottomNavbar> {
 
   void setNavigationItems(UserRole role) {
     switch (role) {
+      //TODo: Owner
       case UserRole.owner:
         unselectedIcon = [
           Assets.images.homeUnselected.image(),
           Assets.images.chartUnselected.image(),
           Assets.images.hiringUnselected.image(),
           Assets.images.profileUnselected.image(),
-
         ];
         selectedIcon = [
           Assets.images.homeSelected.image(),
@@ -65,29 +63,39 @@ class _NavBarState extends State<BottomNavbar> {
           RoutePath.ownerProfileScreen,
         ];
         break;
+      //TODo: Barber
 
       case UserRole.barber:
         unselectedIcon = [
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
+          Assets.images.homeUnselected.image(),
+          Assets.images.chartUnselected.image(),
+          Assets.images.camera.image(),
+          Assets.images.historyUnselected.image(),
+          Assets.images.profileUnselected.image(),
         ];
         selectedIcon = [
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
-          Assets.icons.terms.svg(),
+          Assets.images.homeSelected.image(),
+          Assets.images.chartSelected.image(),
+          Assets.images.camera.image(),
+          Assets.images.historySelected.image(),
+          Assets.images.profileUnselected.image(),
         ];
-        textList = ["Dashboard", "Schedule", "History", "Profile"];
+        textList = [
+          AppStrings.home,
+          AppStrings.chat,
+          '',
+          "History",
+          AppStrings.profile
+        ];
         routeNames = [
-          RoutePath.ownerHomeScreen,
-          RoutePath.ownerHomeScreen,
-          RoutePath.ownerHomeScreen,
-          RoutePath.ownerHomeScreen,
+          RoutePath.barberHomeScreen,
+          RoutePath.barberChat,
+          '',
+          RoutePath.barberHistoryScreen,
+          RoutePath.barberProfile,
         ];
         break;
-
+      //TODo: User
       case UserRole.user:
       default:
         unselectedIcon = [
@@ -130,14 +138,29 @@ class _NavBarState extends State<BottomNavbar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           unselectedIcon.length,
-          (index) => InkWell(
+              (index) => InkWell(
             onTap: () => onTap(index, context),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                bottomNavIndex == index
-                    ? selectedIcon[index]
-                    : unselectedIcon[index],
+                // Adjust the size of the icon at index 2 when the role is barber
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (index == 2 && widget.role == UserRole.barber)
+                        ? AppColors.secondary
+                        : AppColors.bottomColor,
+                  ),
+                  height: (index == 2 && widget.role == UserRole.barber)
+                      ? 40.h // Larger size for barber at index 2
+                      : 30.h, // Default size
+                  width: (index == 2 && widget.role == UserRole.barber)
+                      ? 40.w // Larger width for barber at index 2
+                      : 24.w, // Default width
+                  child: bottomNavIndex == index
+                      ? selectedIcon[index]
+                      : unselectedIcon[index],
+                ),
                 SizedBox(height: 5.h),
                 CustomText(
                   text: textList[index],
@@ -155,12 +178,12 @@ class _NavBarState extends State<BottomNavbar> {
     );
   }
 
+
   /// ✅ Navigation Logic
   void onTap(int index, BuildContext context) {
     if (bottomNavIndex != index) {
       setState(() => bottomNavIndex = index);
-      context
-          .goNamed(routeNames[index]);
+      context.goNamed(routeNames[index]);
     }
   }
 }

@@ -38,4 +38,10 @@ class RoutePath{
   static const String loyaltyScreen = 'LoyaltyScreen';
   static const String jobPost = 'JobPost';
 
+  //===================Barber Section ===================
+  static const String barberHomeScreen = 'BarberHomeScreen';
+  static const String barberHistoryScreen = 'BarberHistoryScreen';
+  static const String barberProfile = 'BarberProfile';
+  static const String barberChat = 'BarberChat';
+
 }

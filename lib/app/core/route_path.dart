@@ -40,6 +40,8 @@ class RoutePath{
   static const String termsScreen = 'TermsScreen';
   static const String loyaltyScreen = 'LoyaltyScreen';
   static const String jobPost = 'JobPost';
+  static const String myFeed = 'MyFeed';
+  static const String followingScreen = 'FollowingScreen';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';

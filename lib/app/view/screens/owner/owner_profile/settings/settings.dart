@@ -72,7 +72,7 @@ class Settings extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(
-                      RoutePath.faqsScreen,
+                      RoutePath.faqsScreen,extra: userRole
                     );
                   },
                   isContainerCard: true,
@@ -84,7 +84,7 @@ class Settings extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(
-                      RoutePath.termsScreen,
+                      RoutePath.termsScreen,extra: userRole
                     );
                   },
                   isContainerCard: true,
@@ -96,7 +96,7 @@ class Settings extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(
-                      RoutePath.privacyPolicyScreen,
+                      RoutePath.privacyPolicyScreen,extra: userRole
                     );
                   },
                   isContainerCard: true,
@@ -108,7 +108,7 @@ class Settings extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(
-                      RoutePath.changePasswordScreen,
+                      RoutePath.changePasswordScreen,extra: userRole
                     );
                   },
                   isContainerCard: true,

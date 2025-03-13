@@ -1,11 +1,13 @@
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class FaqsScreen extends StatelessWidget {
    FaqsScreen({super.key});
@@ -13,11 +15,20 @@ class FaqsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    debugPrint("===================${userRole?.name}");
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.white50,
 
       ///============================ Header ===============================
       appBar: const CustomAppBar(
+        appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.faq,
         iconData: Icons.arrow_back,
       ),
@@ -25,8 +36,16 @@ class FaqsScreen extends StatelessWidget {
         clipper: CurvedBannerClipper(),
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.5,
-          color: AppColors.normalHover,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC), // First color (with opacity)
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             itemCount: 2,

@@ -103,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(
-                        RoutePath.personalInfo,
+                        RoutePath.personalInfo,extra: userRole
                       );
                     },
                     text: AppStrings.personalInformation,
@@ -144,12 +144,22 @@ class ProfileScreen extends StatelessWidget {
                   //=========
                   //TOdo=====myFeed====
                   CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(
+                        RoutePath.myFeed,extra: userRole
+                      );
+                    },
                     text: AppStrings.myFeedBack,
                     icon: Assets.icons.myFeedBack.svg(color: Colors.black),
                   ),
 
                   //TOdo=====myFeed====
                   CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(
+                          RoutePath.myFeed,extra: userRole
+                      );
+                    },
                     text: AppStrings.following,
                     icon: Assets.icons.flowing.svg(color: Colors.black),
                   ),
@@ -164,7 +174,7 @@ class ProfileScreen extends StatelessWidget {
 
 
                   //=========
-                  //TOdo=====barbersTime====
+                  //TOdo=====settings====
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(

@@ -20,7 +20,9 @@ import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_scr
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
@@ -102,6 +104,23 @@ class AppRouter {
           path: RoutePath.signUpScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: SignUpScreen(),
+            state: state,
+          ),
+        ),
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.myFeed,
+          path: RoutePath.myFeed.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const MyFeed(),
+            state: state,
+          ),
+        ),   ///=======================  =======================
+        GoRoute(
+          name: RoutePath.followingScreen,
+          path: RoutePath.followingScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const FollowingScreen(),
             state: state,
           ),
         ),

@@ -41,16 +41,16 @@ class _NavBarState extends State<BottomNavbar> {
       case UserRole.owner:
         unselectedIcon = [
           Assets.images.homeUnselected.image(),
-          Assets.images.chatUnselected.image(),
+          Assets.images.chartUnselected.image(),
           Assets.images.hiringUnselected.image(),
           Assets.images.profileUnselected.image(),
 
         ];
         selectedIcon = [
           Assets.images.homeSelected.image(),
-          Assets.images.chatSelected.image(),
-          Assets.images.hiringUnselected.image(),
-          Assets.images.profileSelected.image(),
+          Assets.images.chartSelected.image(),
+          Assets.images.hiringSelected.image(),
+          Assets.images.profileUnselected.image(),
         ];
         textList = [
           AppStrings.home,

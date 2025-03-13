@@ -135,13 +135,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/berber.png
   AssetGenImage get berber => const AssetGenImage('assets/images/berber.png');
 
-  /// File path: assets/images/chat_selected.png
-  AssetGenImage get chatSelected =>
-      const AssetGenImage('assets/images/chat_selected.png');
+  /// File path: assets/images/chart_selected.png
+  AssetGenImage get chartSelected =>
+      const AssetGenImage('assets/images/chart_selected.png');
 
-  /// File path: assets/images/chat_unselected.png
-  AssetGenImage get chatUnselected =>
-      const AssetGenImage('assets/images/chat_unselected.png');
+  /// File path: assets/images/chart_unselected.png
+  AssetGenImage get chartUnselected =>
+      const AssetGenImage('assets/images/chart_unselected.png');
 
   /// File path: assets/images/customer.png
   AssetGenImage get customer =>
@@ -157,9 +157,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
-  /// File path: assets/images/hiring_post.png
-  AssetGenImage get hiringPost =>
-      const AssetGenImage('assets/images/hiring_post.png');
+  /// File path: assets/images/hiring_selected.png
+  AssetGenImage get hiringSelected =>
+      const AssetGenImage('assets/images/hiring_selected.png');
 
   /// File path: assets/images/hiring_unselected.png
   AssetGenImage get hiringUnselected =>
@@ -181,10 +181,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/pending.png
   AssetGenImage get pending => const AssetGenImage('assets/images/pending.png');
-
-  /// File path: assets/images/profile_selected.png
-  AssetGenImage get profileSelected =>
-      const AssetGenImage('assets/images/profile_selected.png');
 
   /// File path: assets/images/profile_unselected.png
   AssetGenImage get profileUnselected =>
@@ -216,20 +212,19 @@ class $AssetsImagesGen {
         apple,
         barberRequest,
         berber,
-        chatSelected,
-        chatUnselected,
+        chartSelected,
+        chartUnselected,
         customer,
         email,
         facebook,
         google,
-        hiringPost,
+        hiringSelected,
         hiringUnselected,
         homeSelected,
         homeUnselected,
         logo,
         owner,
         pending,
-        profileSelected,
         profileUnselected,
         right,
         signInLogo,

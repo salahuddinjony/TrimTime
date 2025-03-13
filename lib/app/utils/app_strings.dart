@@ -66,7 +66,8 @@ class AppStrings {
   static const liveLocation = "Live Location";
   static const open = "Open: ";
   static const availableBarber = "Available barber ";
-  static const add = "Add";
+  static const  add = "Add";
+  static const  addFeed = "Add Feed";
   static const seeProfile = "See profile";
   static const cancel = "Cancel";
   static const follow = "Follow ";

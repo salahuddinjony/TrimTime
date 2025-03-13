@@ -168,7 +168,7 @@ class ProfileScreen extends StatelessWidget {
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(
-                        RoutePath.settings,
+                        RoutePath.settings,extra: userRole
                       );
                     },
                     text: AppStrings.settings,

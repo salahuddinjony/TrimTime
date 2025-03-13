@@ -53,7 +53,7 @@ class CustomMessageCard extends StatelessWidget {
                     text: senderName,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.white50,
+                    color: AppColors.black,
                   ),
                   SizedBox(height: 4.h),
                   CustomText(
@@ -62,7 +62,7 @@ class CustomMessageCard extends StatelessWidget {
                     text: message,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,
-                    color: AppColors.whiteDark,
+                    color: AppColors.white50,
                   ),
                 ],
               ),

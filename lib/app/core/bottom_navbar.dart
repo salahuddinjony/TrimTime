@@ -74,7 +74,7 @@ class _NavBarState extends State<BottomNavbar> {
         textList = [AppStrings.home, AppStrings.chat, '', "History", AppStrings.profile];
         routeNames = [
           RoutePath.barberHomeScreen,
-          RoutePath.barberChat,
+          RoutePath.inboxScreen,
           RoutePath.barberFeed,
           RoutePath.barberHistoryScreen,
           RoutePath.profileScreen,

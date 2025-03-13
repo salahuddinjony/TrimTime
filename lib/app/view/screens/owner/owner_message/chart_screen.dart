@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
+
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -55,9 +56,12 @@ class _ChatScreenState extends State<ChatScreen> {
   // }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) =>
+
+      Scaffold(
     backgroundColor: AppColors.normalHover,
     appBar: const CustomAppBar(
+      appBarBgColor: AppColors.linearFirst,
       appBarContent: AppStrings.messaging,
       iconData: Icons.arrow_back,
     ),

@@ -108,14 +108,18 @@ class ProfileScreen extends StatelessWidget {
                   ),
 
                   //TOdo=====Professional Profile====
-                  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.professionalProfile,
-                          extra: userRole);
-                    },
-                    text: AppStrings.professionalProfile,
-                    icon: Assets.icons.personalInfo.svg(color: Colors.black),
-                  ),
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.professionalProfile,
+                                extra: userRole);
+                          },
+                          text: AppStrings.professionalProfile,
+                          icon: Assets.icons.personalInfo
+                              .svg(color: Colors.black),
+                        )
+                      : const SizedBox(),
 
                   //TOdo=====businessProfile====
                   userRole == UserRole.owner
@@ -180,8 +184,7 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.barber
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.rateScreen,
+                            AppRouter.route.pushNamed(RoutePath.rateScreen,
                                 extra: userRole);
                           },
                           text: AppStrings.rating,
@@ -192,26 +195,16 @@ class ProfileScreen extends StatelessWidget {
 
                   //TOdo=====following====
 
-                  userRole == UserRole.user
-                      ? CustomMenuCard(
+                  userRole == UserRole.barber
+                      ? const SizedBox()
+                      : CustomMenuCard(
                           onTap: () {
                             AppRouter.route
                                 .pushNamed(RoutePath.myFeed, extra: userRole);
                           },
-                          text: AppStrings.following,
+                          text: AppStrings.myFollowing,
                           icon: Assets.icons.flowing.svg(color: Colors.black),
-                        )
-                      : const SizedBox(),
-
-                  //=========
-                  //TOdo=====addService====
-                  userRole == UserRole.owner
-                      ? CustomMenuCard(
-                          text: AppStrings.addService,
-                          icon:
-                              Assets.icons.addService.svg(color: Colors.black),
-                        )
-                      : const SizedBox(),
+                        ),
 
                   //=========
                   //TOdo=====settings====

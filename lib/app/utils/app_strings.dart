@@ -70,6 +70,7 @@ class AppStrings {
   static const seeProfile = "See profile";
   static const cancel = "Cancel";
   static const follow = "Follow ";
+  static const following = "Following  ";
   static const totalFollowers = "Total Followers:";
   static const photo = "Photo";
   static const whatAreYouLookingFor = "What are you looking for?";

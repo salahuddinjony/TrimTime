@@ -11,6 +11,7 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
@@ -34,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNavbar(
         currentIndex: 4,
-        role: getRoleFromString(userRole.name),
+        role: userRole,
       ),
 
       ///============================ Header ===============================
@@ -57,7 +58,6 @@ class ProfileScreen extends StatelessWidget {
           child: Container(
 
             width: double.infinity,
-            // height: MediaQuery.of(context).size.height / 1.4,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -109,7 +109,11 @@ class ProfileScreen extends StatelessWidget {
                     text: AppStrings.personalInformation,
                     icon: Assets.icons.personalInfo.svg(color: Colors.black),
                   ),
-                  //=====businessProfile====
+
+
+
+                  //TOdo=====businessProfile====
+                userRole == UserRole.owner?
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(
@@ -118,8 +122,9 @@ class ProfileScreen extends StatelessWidget {
                     },
                     text: AppStrings.businessProfile,
                     icon: Assets.icons.business.svg(color: Colors.black),
-                  ),
-                  //=====jobPost====
+                  ):const SizedBox(),
+                  //TOdo=====jobPost====
+                  userRole == UserRole.owner?
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(
@@ -128,23 +133,38 @@ class ProfileScreen extends StatelessWidget {
                     },
                     text: AppStrings.jobPost,
                     icon: Assets.icons.job.svg(color: Colors.black),
-                  ),
-                  //=====barbersTime====
+                  ):const SizedBox(),
+                  //TOdo=====barber====
+                  userRole == UserRole.owner?
                   CustomMenuCard(
                     text: AppStrings.barber,
                     icon: Assets.images.berber
                         .image(height: 20, color: Colors.black),
-                  ),
-                  //=====myFeedBack====
+                  ):const SizedBox(),
+                  //=========
+                  //TOdo=====myFeed====
                   CustomMenuCard(
                     text: AppStrings.myFeedBack,
                     icon: Assets.icons.myFeedBack.svg(color: Colors.black),
-                  ), //=====addService====
+                  ),
+
+                  //TOdo=====myFeed====
+                  CustomMenuCard(
+                    text: AppStrings.following,
+                    icon: Assets.icons.flowing.svg(color: Colors.black),
+                  ),
+
+                  //=========
+                  //TOdo=====addService====
+                  userRole == UserRole.owner?
                   CustomMenuCard(
                     text: AppStrings.addService,
                     icon: Assets.icons.addService.svg(color: Colors.black),
-                  ),
-                  //=====barbersTime====
+                  ):const SizedBox(),
+
+
+                  //=========
+                  //TOdo=====barbersTime====
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route.pushNamed(
@@ -154,7 +174,8 @@ class ProfileScreen extends StatelessWidget {
                     text: AppStrings.settings,
                     icon: Assets.icons.settings.svg(color: Colors.black),
                   ),
-                  //=====logOut====
+                  //=========
+                  //TOdo=====logOut====
                   CustomMenuCard(
                     onTap: () {
                       permissionPopUp(
@@ -174,6 +195,8 @@ class ProfileScreen extends StatelessWidget {
                     text: AppStrings.logOut,
                     icon: Assets.icons.logout.svg(),
                   ),
+
+                  SizedBox(height: 25.h,)
 
                 ],
               ),

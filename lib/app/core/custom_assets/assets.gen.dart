@@ -50,6 +50,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/faq.svg
   SvgGenImage get faq => const SvgGenImage('assets/icons/faq.svg');
 
+  /// File path: assets/icons/flowing.svg
+  SvgGenImage get flowing => const SvgGenImage('assets/icons/flowing.svg');
+
   /// File path: assets/icons/gender.svg
   SvgGenImage get gender => const SvgGenImage('assets/icons/gender.svg');
 
@@ -106,6 +109,7 @@ class $AssetsIconsGen {
         eye,
         eyeOff,
         faq,
+        flowing,
         gender,
         job,
         key,

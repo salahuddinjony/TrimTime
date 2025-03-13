@@ -31,7 +31,7 @@ class CustomMenuCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration:  BoxDecoration(
-              color: AppColors.black,
+              color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(15)
             ),
             child: Padding(

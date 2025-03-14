@@ -82,7 +82,7 @@ class OwnerShopDetails extends StatelessWidget {
                       onTap: () {
 
                         context.pushNamed(
-                          RoutePath.subscriptionPlan,
+                          RoutePath.subscriptionPlan,extra: userRole
                         );
                       },
                       title: "Next",

@@ -244,6 +244,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/silver.png
   AssetGenImage get silver => const AssetGenImage('assets/images/silver.png');
 
+  /// File path: assets/images/stripe.png
+  AssetGenImage get stripe => const AssetGenImage('assets/images/stripe.png');
+
   /// File path: assets/images/total_barber.png
   AssetGenImage get totalBarber =>
       const AssetGenImage('assets/images/total_barber.png');
@@ -291,6 +294,7 @@ class $AssetsImagesGen {
         scanner,
         signInLogo,
         silver,
+        stripe,
         totalBarber,
         totalCustomer,
         upload,

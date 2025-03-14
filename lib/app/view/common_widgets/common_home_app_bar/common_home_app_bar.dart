@@ -4,8 +4,8 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BarberAppBar extends StatelessWidget {
-  const BarberAppBar({
+class CommonHomeAppBar extends StatelessWidget {
+  const CommonHomeAppBar({
     super.key,
     required this.scaffoldKey,
     required this.name,
@@ -21,7 +21,7 @@ class BarberAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: AppColors.secondary,
+      color: AppColors.linearFirst,
       margin: EdgeInsets.only(
         top: 32.h,
       ),

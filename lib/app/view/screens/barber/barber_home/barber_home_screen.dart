@@ -3,7 +3,7 @@ import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/screens/barber/barber_home/inner/barber_app_bar.dart';
+import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,13 +31,13 @@ class BarberHomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          BarberAppBar(
+          CommonHomeAppBar(
             scaffoldKey: scaffoldKey,
             name: "Masum",
             image: AppConstants.demoImage,
             onTap: () {
               AppRouter.route
-                  .pushNamed(RoutePath.notificationScreen, );
+                  .pushNamed(RoutePath.notificationScreen, extra: userRole);
             },
           ),
         ],

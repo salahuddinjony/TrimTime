@@ -111,19 +111,22 @@ class CustomFeedCard extends StatelessWidget {
               ),
               const Spacer(),
               // Visit Shop Button
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                  color: AppColors.black,
-                ),
-                child: const CustomText(
-                  textAlign: TextAlign.start,
-                  left: 8,
-                  text: AppStrings.visitShop,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: AppColors.white50,
+              GestureDetector(
+                onTap: onVisitShopPressed,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
+                    color: AppColors.black,
+                  ),
+                  child: const CustomText(
+                    textAlign: TextAlign.start,
+                    left: 8,
+                    text: AppStrings.visitShop,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.white50,
+                  ),
                 ),
               ),
             ],

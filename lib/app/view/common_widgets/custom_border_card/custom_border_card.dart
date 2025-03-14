@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +13,10 @@ class CustomBorderCard extends StatelessWidget {
   final String date;
   final String buttonText;
   final VoidCallback onButtonTap;
+  final VoidCallback seeDescriptionTap;
   final Widget? logoImage;
   final bool? isButton;
+  final bool? isSeeDescription;
 
   const CustomBorderCard({
     required this.title,
@@ -23,7 +26,10 @@ class CustomBorderCard extends StatelessWidget {
     required this.buttonText,
     required this.onButtonTap,
     this.logoImage,
-    super.key, this.isButton = false,
+    super.key,
+    this.isButton = false,
+    required this.seeDescriptionTap,
+    this.isSeeDescription = false,
   });
 
   @override
@@ -31,6 +37,7 @@ class CustomBorderCard extends StatelessWidget {
     return Column(
       children: [
         DottedBorder(
+          strokeWidth: 2,
           borderType: BorderType.RRect,
           color: Colors.black.withOpacity(0.5),
           radius: const Radius.circular(12),
@@ -57,7 +64,6 @@ class CustomBorderCard extends StatelessWidget {
                     logoImage ?? const SizedBox(),
                   ],
                 ),
-
                 Text(
                   time,
                   style: const TextStyle(
@@ -86,22 +92,60 @@ class CustomBorderCard extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    isButton == true?
-                    Expanded(
-                      child: CustomButton(
-                        textColor: AppColors.white50,
-                        fillColor:AppColors.bottomColor ,
-                        onTap: onButtonTap,
-                        title: buttonText,
-                      ),
-                    ):const SizedBox()
+                    isSeeDescription == true
+                        ? GestureDetector(
+                            onTap: seeDescriptionTap,
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  color: AppColors.black,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
+                              child: const CustomText(
+                                textAlign: TextAlign.start,
+                                left: 8,
+                                text: "See Description",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 8,
+                                color: AppColors.white50,
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    isButton == true
+                        ? GestureDetector(
+                            onTap: onButtonTap,
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  color: AppColors.secondary,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: CustomText(
+                                textAlign: TextAlign.start,
+                                left: 8,
+                                text: buttonText,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 8,
+                                color: AppColors.white50,
+                              ),
+                            ),
+                          )
+                        : const SizedBox()
                   ],
                 ),
               ],
             ),
           ),
         ),
-        SizedBox(height: 12.h,)
+        SizedBox(
+          height: 12.h,
+        )
       ],
     );
   }

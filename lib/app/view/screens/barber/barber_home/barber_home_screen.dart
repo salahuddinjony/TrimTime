@@ -62,12 +62,14 @@ class BarberHomeScreen extends StatelessWidget {
                           time: '10:00am-10:00pm',
                           price: '£20.00/Per hr',
                           date: '02/10/23',
-                          buttonText: 'Completed',
+                          buttonText: 'Apply',
                           isButton: true,
+                          isSeeDescription: true,
                           onButtonTap: () {
                             // Handle button tap logic
                           },
                           logoImage: Assets.images.logo.image(height: 50),
+                          seeDescriptionTap: () {},
                         );
                       }),
                     ),
@@ -91,7 +93,9 @@ class BarberHomeScreen extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: 12.h,),
+                    SizedBox(
+                      height: 12.h,
+                    ),
 
                     // Feed Cards Section
                     Column(

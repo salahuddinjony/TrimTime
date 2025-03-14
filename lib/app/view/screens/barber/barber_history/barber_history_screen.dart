@@ -33,12 +33,9 @@ class BarberHistoryScreen extends StatelessWidget {
           currentIndex: 3,
           role: userRole,
         ),
-        body:
-
-        Padding(
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          child:
-          CustomBorderCard(
+          child: CustomBorderCard(
             title: 'Barber Shop',
             time: '10:00am-10:00pm',
             price: '£20.00/Per hr',
@@ -49,8 +46,8 @@ class BarberHistoryScreen extends StatelessWidget {
               // Handle button tap logic
             },
             logoImage: Assets.images.logo.image(height: 50),
+            seeDescriptionTap: () {},
           ),
-
         ));
   }
 }

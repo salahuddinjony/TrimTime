@@ -1,11 +1,13 @@
 
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/inner/barber_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+   HomeScreen({super.key});
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,12 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavbar(
         currentIndex: 0,
         role: userRole,
+      ),
+
+      body: Column(
+        children: [
+
+        ],
       ),
     );
   }

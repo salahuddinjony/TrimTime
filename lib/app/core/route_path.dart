@@ -51,5 +51,6 @@ class RoutePath{
   static const String barberHistoryScreen = 'BarberHistoryScreen';
   static const String barberChat = 'BarberChat';
   static const String barberFeed = 'BarberFeed';
+  static const String notificationScreen = 'NotificationScreen';
 
 }

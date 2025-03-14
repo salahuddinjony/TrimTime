@@ -158,12 +158,18 @@ class $AssetsImagesGen {
   AssetGenImage get customer =>
       const AssetGenImage('assets/images/customer.png');
 
+  /// File path: assets/images/diamond.png
+  AssetGenImage get diamond => const AssetGenImage('assets/images/diamond.png');
+
   /// File path: assets/images/email.png
   AssetGenImage get email => const AssetGenImage('assets/images/email.png');
 
   /// File path: assets/images/facebook.png
   AssetGenImage get facebook =>
       const AssetGenImage('assets/images/facebook.png');
+
+  /// File path: assets/images/gold.png
+  AssetGenImage get gold => const AssetGenImage('assets/images/gold.png');
 
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
@@ -235,6 +241,9 @@ class $AssetsImagesGen {
   AssetGenImage get signInLogo =>
       const AssetGenImage('assets/images/sign_in_logo.png');
 
+  /// File path: assets/images/silver.png
+  AssetGenImage get silver => const AssetGenImage('assets/images/silver.png');
+
   /// File path: assets/images/total_barber.png
   AssetGenImage get totalBarber =>
       const AssetGenImage('assets/images/total_barber.png');
@@ -258,8 +267,10 @@ class $AssetsImagesGen {
         chartSelected,
         chartUnselected,
         customer,
+        diamond,
         email,
         facebook,
+        gold,
         google,
         hiringSelected,
         hiringUnselected,
@@ -279,6 +290,7 @@ class $AssetsImagesGen {
         savedUnselected,
         scanner,
         signInLogo,
+        silver,
         totalBarber,
         totalCustomer,
         upload,

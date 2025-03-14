@@ -1,5 +1,4 @@
 import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -43,20 +42,15 @@ class UniqueQrCode extends StatelessWidget {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
                   children: [
                     CustomButton(
                       onTap: () {
-                        if (userRole == UserRole.owner) {
-                          AppRouter.route.pushNamed(RoutePath.ownerHomeScreen,
-                              extra: userRole);
-                        } else if (userRole == UserRole.barber) {
-                          AppRouter.route.pushNamed(RoutePath.barberHomeScreen,
-                              extra: userRole);
-                        }else{
-                          debugPrint("No Route Selected");
-                        }
+
+                        context.pushNamed(
+                          RoutePath.ownerHomeScreen,extra: userRole
+                        );
                       },
                       textColor: AppColors.white50,
                       title: "Next",

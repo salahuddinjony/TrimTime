@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -91,9 +92,13 @@ class PaymentOption extends StatelessWidget {
                     ),
                     CustomButton(
                       onTap: () {
-                        context.pushNamed(
-                          RoutePath.uniqueQrCode,extra: userRole
-                        );
+                        if (userRole == UserRole.owner) {
+                          AppRouter.route.pushNamed(RoutePath.uniqueQrCode,
+                              extra: userRole);
+                        } else if (userRole == UserRole.barber) {
+                          AppRouter.route.pushNamed(RoutePath.barberHomeScreen,
+                              extra: userRole);
+                        }
                       },
                       textColor: AppColors.white50,
                       title: AppStrings.continues,

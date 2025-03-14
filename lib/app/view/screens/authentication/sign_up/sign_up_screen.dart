@@ -1,7 +1,9 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -19,6 +21,8 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouterState.of(context).extra as UserRole?;
+    debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -100,9 +104,16 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       CustomButton(
                         onTap: () {
-                          context.pushNamed(
-                            RoutePath.otpScreen,
-                          );
+                          if (userRole == UserRole.user) {
+                            AppRouter.route
+                                .pushNamed(RoutePath.otpScreen,);
+                          } else if (userRole == UserRole.barber) {
+                            AppRouter.route
+                                .pushNamed(RoutePath.subscriptionPlan, extra: userRole);
+                          }else{
+                            debugPrint("No Role Selectedl");
+                          }
+
                         },
                         title: AppStrings.signUp,
                         fillColor: Colors.black,
@@ -117,9 +128,7 @@ class SignUpScreen extends StatelessWidget {
                           firstText: AppStrings.alreadyHaveAnAccount,
                           secondText: AppStrings.signIn,
                           onTapAction: () {
-                            context.pushNamed(
-                              RoutePath.signInScreen,
-                            );
+                            context.pop();
                           })
                     ],
                   )),

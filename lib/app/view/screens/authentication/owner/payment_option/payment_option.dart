@@ -92,7 +92,7 @@ class PaymentOption extends StatelessWidget {
                     CustomButton(
                       onTap: () {
                         context.pushNamed(
-                          RoutePath.uniqueQrCode,
+                          RoutePath.uniqueQrCode,extra: userRole
                         );
                       },
                       textColor: AppColors.white50,

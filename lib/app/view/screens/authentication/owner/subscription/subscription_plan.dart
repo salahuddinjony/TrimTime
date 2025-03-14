@@ -57,7 +57,7 @@ class SubscriptionPlan extends StatelessWidget {
                       );
                       debugPrint("Silver plan selected");
                     },
-                    planName: 'ff',
+                    planName: 'Silver',
                   ),
                   SizedBox(height: 12.h),
                   CustomSubscriptionCard(

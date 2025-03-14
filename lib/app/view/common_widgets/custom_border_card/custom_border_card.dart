@@ -53,7 +53,7 @@ class CustomBorderCard extends StatelessWidget {
                 logoImage ?? const SizedBox(),
               ],
             ),
-            const SizedBox(height: 12),
+
             Text(
               time,
               style: const TextStyle(

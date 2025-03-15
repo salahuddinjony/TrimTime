@@ -43,6 +43,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settin
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_widgets/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
@@ -267,6 +268,16 @@ class AppRouter {
           path: RoutePath.createJobPost.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const CreateJobPost(),
+            state: state,
+          ),
+        ),
+
+        ///=======================CreateJobPost  =======================
+        GoRoute(
+          name: RoutePath.nearYouShopScreen,
+          path: RoutePath.nearYouShopScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const NearYouShopScreen(),
             state: state,
           ),
         ),

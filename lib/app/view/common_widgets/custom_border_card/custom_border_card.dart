@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -13,9 +14,11 @@ class CustomBorderCard extends StatelessWidget {
   final String date;
   final String buttonText;
   final VoidCallback onButtonTap;
+  final VoidCallback? isEditTap;
   final VoidCallback seeDescriptionTap;
   final Widget? logoImage;
   final bool? isButton;
+  final bool? isEdit;
   final bool? isSeeDescription;
 
   const CustomBorderCard({
@@ -29,7 +32,7 @@ class CustomBorderCard extends StatelessWidget {
     super.key,
     this.isButton = false,
     required this.seeDescriptionTap,
-    this.isSeeDescription = false,
+    this.isSeeDescription = false, this.isEdit = false,  this.isEditTap,
   });
 
   @override
@@ -135,6 +138,13 @@ class CustomBorderCard extends StatelessWidget {
                                 color: AppColors.white50,
                               ),
                             ),
+                          )
+                        : const SizedBox() ,
+
+                    isEdit == true
+                        ? GestureDetector(
+                            onTap: isEditTap,
+                            child: Assets.icons.edit.svg()
                           )
                         : const SizedBox()
                   ],

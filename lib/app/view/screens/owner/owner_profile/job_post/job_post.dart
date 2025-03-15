@@ -1,9 +1,11 @@
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
+import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +47,31 @@ class JobPost extends StatelessWidget {
       ),
 
       ///============================ body ===============================
-
+       body:   Padding(
+         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+         child: Column(
+           children: List.generate(2, (index) {
+             return CustomBorderCard(
+               isEdit: true,
+               isEditTap: (){
+                 debugPrint("gg");
+               },
+               title: 'Barber Shop',
+               time: '10:00am-10:00pm',
+               price: '£20.00/Per hr',
+               date: '02/10/23',
+               buttonText: 'Apply',
+               isButton: false,
+               isSeeDescription: true,
+               onButtonTap: () {
+                 // Handle button tap logic
+               },
+               logoImage: Assets.images.logo.image(height: 50),
+               seeDescriptionTap: () {},
+             );
+           }),
+         ),
+       ),
     );
   }
 }

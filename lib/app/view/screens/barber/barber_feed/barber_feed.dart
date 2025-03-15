@@ -1,4 +1,6 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -122,7 +124,8 @@ class BarberFeed extends StatelessWidget {
               title: AppStrings.post,
               textColor: AppColors.white50,
               onTap: () {
-
+                AppRouter.route
+                    .goNamed(RoutePath.myFeed, extra: userRole);
               },
               fillColor: AppColors.black,
             ),

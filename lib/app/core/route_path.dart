@@ -52,5 +52,6 @@ class RoutePath{
   static const String barberChat = 'BarberChat';
   static const String barberFeed = 'BarberFeed';
   static const String notificationScreen = 'NotificationScreen';
+  static const String jobPostAll = 'JobPostAll';
 
 }

@@ -61,7 +61,8 @@ class BarberHomeScreen extends StatelessWidget {
                       title: AppStrings.jobPost,
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
-                        // Navigate or perform an action
+                        AppRouter.route
+                            .pushNamed(RoutePath.jobPostAll, extra: userRole);
                       },
                       actionColor: AppColors.secondary,
                     ),SizedBox(

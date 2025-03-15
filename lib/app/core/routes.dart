@@ -13,6 +13,7 @@ import 'package:barber_time/app/view/screens/barber/barber_chat/barber_chat.dart
 import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed.dart';
 import 'package:barber_time/app/view/screens/barber/barber_history/barber_history_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/job_post_all.dart';
 import 'package:barber_time/app/view/screens/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
@@ -282,12 +283,25 @@ class AppRouter {
             state: state,
             disableAnimation: true,
           ),
-        ),  ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.barberFeed,
           path: RoutePath.barberFeed.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BarberFeed(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),
+
+    ///=======================  =======================
+        GoRoute(
+          name: RoutePath.jobPostAll,
+          path: RoutePath.jobPostAll.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  JobPostAll(),
             state: state,
             disableAnimation: true,
           ),

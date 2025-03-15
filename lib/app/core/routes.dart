@@ -235,7 +235,7 @@ class AppRouter {
           name: RoutePath.ownerHiringScreen,
           path: RoutePath.ownerHiringScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerHiringScreen(),
+            child:  OwnerHiringScreen(),
             state: state,
             disableAnimation: true,
           ),

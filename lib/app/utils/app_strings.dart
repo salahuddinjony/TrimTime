@@ -181,7 +181,7 @@ class AppStrings {
   static const typeSomething  = "Type something…";
   static const loyaLity  = "loyalty ";
   static const addPhoto  = "Add Photo ";
-  static const ongoing   = "Ongoing  ";
+  static const ongoing   = "Ongoing";
   static const completed   = "Completed  ";
   static const rejected    = "Rejected  ";
   static const doYouWantToRejectYourRe    = "Do you want to reject your request?  ";

@@ -11,7 +11,8 @@ class CustomHiringCard extends StatelessWidget {
   final String role;
   final double rating;
   final String location;
-  final VoidCallback onHireTap; // Callback for the Hire Now button
+  final VoidCallback onHireTap;
+  final bool? isMessage;
 
   const CustomHiringCard({
     super.key,
@@ -20,7 +21,7 @@ class CustomHiringCard extends StatelessWidget {
     required this.role,
     required this.rating,
     required this.location,
-    required this.onHireTap,
+    required this.onHireTap, this.isMessage = false,
   });
 
   @override
@@ -97,6 +98,7 @@ class CustomHiringCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     // Hire Now Button
+                    isMessage == false?
                     GestureDetector(
                       onTap: onHireTap, // Execute the callback when tapped
                       child: Container(
@@ -107,7 +109,7 @@ class CustomHiringCard extends StatelessWidget {
                         ),
                         child: Assets.images.chartSelected.image()
                       ),
-                    ),
+                    ):const SizedBox()
                   ],
                 ),
               ],

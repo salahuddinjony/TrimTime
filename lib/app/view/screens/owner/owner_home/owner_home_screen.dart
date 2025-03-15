@@ -1,20 +1,135 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
+import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
+import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class OwnerHomeScreen extends StatelessWidget {
-  const OwnerHomeScreen({super.key});
+  OwnerHomeScreen({super.key});
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Direct UserRole সেট করা
-    UserRole userRole = getRoleFromString("owner");
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
 
+    debugPrint("===================${userRole?.name}");
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
     return Scaffold(
-      appBar: AppBar(title: const Text('Owner Home')),
       bottomNavigationBar: BottomNavbar(
         currentIndex: 0,
-        role: userRole, // ✅ Direct পাঠানো হচ্ছে
+        role: userRole,
+      ),
+      body: Column(
+        children: [
+          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+          CommonHomeAppBar(
+            scaffoldKey: scaffoldKey,
+            name: "Masum",
+            image: AppConstants.demoImage,
+            onTap: () {
+              AppRouter.route
+                  .pushNamed(RoutePath.notificationScreen, extra: userRole);
+            },
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              // Wrap everything in a SingleChildScrollView
+              child: Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    ///: <<<<<<======✅✅ recentRequest✅✅>>>>>>>>===========
+                    CustomTitle(
+                      title: AppStrings.recentRequest,
+                      actionText: AppStrings.seeAll,
+                      onActionTap: () {
+                        AppRouter.route
+                            .pushNamed(RoutePath.recentRequestScreen, extra: userRole);
+                      },
+                      actionColor: AppColors.secondary,
+                    ),SizedBox(
+                      height: 12.h,
+                    ),
+                    // Barber shop cards
+                    Column(
+                      children: List.generate(2, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomHiringCard(
+                            isMessage: true,
+                            imageUrl: AppConstants.demoImage, // Image URL (dynamic)
+                            name:  "Unknown",  // Dynamic title (Job name)
+                            role: "Barber",                    // Hardcoded or dynamic role
+                            rating: 4.5,                       // Hardcoded or dynamic rating
+                            location: "New York, USA",         // Dynamic location or hardcoded
+                            onHireTap: () {},                  // Hire button action
+                          ),
+                        );
+                      }),
+                    ),
+
+                    ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
+
+                    CustomTitle(
+                      title: "Feed",
+                      actionText: AppStrings.seeAll,
+                      onActionTap: () {
+                        AppRouter.route
+                            .pushNamed(RoutePath.feedAll, extra: userRole);
+                      },
+                      actionColor: AppColors.secondary,
+                    ),
+
+
+                    SizedBox(
+                      height: 12.h,
+                    ),
+
+                    // Feed Cards Section
+                    Column(
+                      children: List.generate(4, (index) {
+                        return CustomFeedCard(
+                          userImageUrl: AppConstants.demoImage,
+                          userName: "Roger Hunt",
+                          userAddress:
+                          "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                          postImageUrl: AppConstants.demoImage,
+                          postText:
+                          "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+                          rating: "5.0 * (169)",
+                          onFavoritePressed: () {
+                            // Handle favorite button press
+                          },
+                          onVisitShopPressed: () {
+                            // Handle visit shop button press
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -20,6 +20,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
@@ -201,7 +202,16 @@ class AppRouter {
           name: RoutePath.ownerHomeScreen,
           path: RoutePath.ownerHomeScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerHomeScreen(),
+            child:  OwnerHomeScreen(),
+            state: state,
+            disableAnimation: true,
+          ),
+        ),   ///=======================ownerHomeScreen =======================
+        GoRoute(
+          name: RoutePath.recentRequestScreen,
+          path: RoutePath.recentRequestScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  const RecentRequestScreen(),
             state: state,
             disableAnimation: true,
           ),

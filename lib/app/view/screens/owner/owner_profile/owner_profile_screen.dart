@@ -205,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
                       : CustomMenuCard(
                           onTap: () {
                             AppRouter.route
-                                .pushNamed(RoutePath.myFeed, extra: userRole);
+                                .pushNamed(RoutePath.followingScreen, extra: userRole);
                           },
                           text: AppStrings.myFollowing,
                           icon: Assets.icons.flowing.svg(color: Colors.black),

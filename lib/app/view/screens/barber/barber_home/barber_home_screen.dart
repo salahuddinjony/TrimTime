@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -37,6 +38,7 @@ class BarberHomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
             scaffoldKey: scaffoldKey,
             name: "Masum",
@@ -54,6 +56,17 @@ class BarberHomeScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
+                    ///: <<<<<<======✅✅ job post✅✅>>>>>>>>===========
+                    CustomTitle(
+                      title: AppStrings.jobPost,
+                      actionText: AppStrings.seeAll,
+                      onActionTap: () {
+                        // Navigate or perform an action
+                      },
+                      actionColor: AppColors.secondary,
+                    ),SizedBox(
+                      height: 12.h,
+                    ),
                     // Barber shop cards
                     Column(
                       children: List.generate(2, (index) {
@@ -74,24 +87,17 @@ class BarberHomeScreen extends StatelessWidget {
                       }),
                     ),
 
-                    // Feed Section Header
-                    const Row(
-                      children: [
-                        CustomText(
-                          text: "Feed",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 24,
-                          color: Colors.black,
-                        ),
-                        Spacer(),
-                        CustomText(
-                          text: AppStrings.seeAll,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: AppColors.secondary,
-                        ),
-                      ],
+                    ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
+
+                    CustomTitle(
+                      title: "Feed",
+                      actionText: AppStrings.seeAll,
+                      onActionTap: () {
+                        // Navigate or perform an action
+                      },
+                      actionColor: AppColors.secondary,
                     ),
+
 
                     SizedBox(
                       height: 12.h,

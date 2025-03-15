@@ -138,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                       ? CustomMenuCard(
                           onTap: () {
                             AppRouter.route.pushNamed(
-                              RoutePath.jobPost,
+                              RoutePath.jobPost,extra: userRole
                             );
                           },
                           text: AppStrings.jobPost,
@@ -187,7 +187,7 @@ class ProfileScreen extends StatelessWidget {
                             AppRouter.route.pushNamed(RoutePath.rateScreen,
                                 extra: userRole);
                           },
-                          text: AppStrings.rating,
+                          text: AppStrings.ratings,
                           icon: Assets.icons.rate
                               .svg(height: 16, color: AppColors.gray500),
                         )

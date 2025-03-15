@@ -24,6 +24,7 @@ import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
@@ -247,6 +248,16 @@ class AppRouter {
             child: const ProfileScreen(),
             state: state,
             disableAnimation: true,
+          ),
+        ),
+
+        ///=======================CreateJobPost  =======================
+        GoRoute(
+          name: RoutePath.createJobPost,
+          path: RoutePath.createJobPost.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const CreateJobPost(),
+            state: state,
           ),
         ),
         //TODO:Barber

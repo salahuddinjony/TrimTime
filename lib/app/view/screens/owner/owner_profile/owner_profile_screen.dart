@@ -148,6 +148,11 @@ class ProfileScreen extends StatelessWidget {
                   //TOdo=====barber====
                   userRole == UserRole.owner
                       ? CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(
+                          RoutePath.hiringBarber,extra: userRole
+                      );
+                    },
                           text: AppStrings.barber,
                           icon: Assets.images.berber
                               .image(height: 20, color: Colors.black),

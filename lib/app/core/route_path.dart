@@ -46,6 +46,7 @@ class RoutePath{
   static const String myFavoriteScreen = 'MyFavoriteScreen';
   static const String rateScreen = 'RateScreen';
   static const String createJobPost = 'CreateJobPost';
+  static const String hiringBarber = 'HiringBarber';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';

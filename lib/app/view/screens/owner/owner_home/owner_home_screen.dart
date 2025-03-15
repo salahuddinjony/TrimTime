@@ -1,5 +1,4 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -8,8 +7,8 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,19 +52,70 @@ class OwnerHomeScreen extends StatelessWidget {
               // Wrap everything in a SingleChildScrollView
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
+                    const SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          CustomInfoCard(
+                            title: AppStrings.totalCustomer,         // Title text
+                            value: "00",                      // Dynamic value (could be fetched from a database)
+                          ), SizedBox(
+                            width: 5,
+                          ),
+                          CustomInfoCard(
+                            title:AppStrings.totalBarber,         // Title text
+                            value: "00",                      // Dynamic value (could be fetched from a database)
+                          ),SizedBox(width: 5,),
+                          CustomInfoCard(
+                            title: AppStrings.hiringPost, // Title text
+                            value:
+                                "00", // Dynamic value (could be fetched from a database)
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 10,),
+                    const SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          CustomInfoCard(
+                            title: AppStrings.barberRequest,         // Title text
+                            value: "00",                      // Dynamic value (could be fetched from a database)
+                          ), SizedBox(
+                            width: 5,
+                          ),
+                          CustomInfoCard(
+                            title:AppStrings.pending,         // Title text
+                            value: "00",                      // Dynamic value (could be fetched from a database)
+                          ),SizedBox(width: 5,),
+                          CustomInfoCard(
+                            title: AppStrings.waiting, // Title text
+                            value:
+                                "00", // Dynamic value (could be fetched from a database)
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 12,),
+
+
                     ///: <<<<<<======✅✅ recentRequest✅✅>>>>>>>>===========
                     CustomTitle(
                       title: AppStrings.recentRequest,
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
-                        AppRouter.route
-                            .pushNamed(RoutePath.recentRequestScreen, extra: userRole);
+                        AppRouter.route.pushNamed(RoutePath.recentRequestScreen,
+                            extra: userRole);
                       },
                       actionColor: AppColors.secondary,
-                    ),SizedBox(
+                    ),
+                    SizedBox(
                       height: 12.h,
                     ),
                     // Barber shop cards
@@ -75,12 +125,17 @@ class OwnerHomeScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomHiringCard(
                             isMessage: true,
-                            imageUrl: AppConstants.demoImage, // Image URL (dynamic)
-                            name:  "Unknown",  // Dynamic title (Job name)
-                            role: "Barber",                    // Hardcoded or dynamic role
-                            rating: 4.5,                       // Hardcoded or dynamic rating
-                            location: "New York, USA",         // Dynamic location or hardcoded
-                            onHireTap: () {},                  // Hire button action
+                            imageUrl: AppConstants.demoImage,
+                            // Image URL (dynamic)
+                            name: "Unknown",
+                            // Dynamic title (Job name)
+                            role: "Barber",
+                            // Hardcoded or dynamic role
+                            rating: 4.5,
+                            // Hardcoded or dynamic rating
+                            location: "New York, USA",
+                            // Dynamic location or hardcoded
+                            onHireTap: () {}, // Hire button action
                           ),
                         );
                       }),
@@ -98,7 +153,6 @@ class OwnerHomeScreen extends StatelessWidget {
                       actionColor: AppColors.secondary,
                     ),
 
-
                     SizedBox(
                       height: 12.h,
                     ),
@@ -110,10 +164,10 @@ class OwnerHomeScreen extends StatelessWidget {
                           userImageUrl: AppConstants.demoImage,
                           userName: "Roger Hunt",
                           userAddress:
-                          "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                              "2972 Westheimer Rd. Santa Ana, Illinois 85486",
                           postImageUrl: AppConstants.demoImage,
                           postText:
-                          "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+                              "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
                           rating: "5.0 * (169)",
                           onFavoritePressed: () {
                             // Handle favorite button press

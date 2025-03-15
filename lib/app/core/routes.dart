@@ -206,14 +206,13 @@ class AppRouter {
             state: state,
             disableAnimation: true,
           ),
-        ),   ///=======================ownerHomeScreen =======================
+        ),   ///======================= =======================
         GoRoute(
           name: RoutePath.recentRequestScreen,
           path: RoutePath.recentRequestScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child:  const RecentRequestScreen(),
             state: state,
-            disableAnimation: true,
           ),
         ),
 

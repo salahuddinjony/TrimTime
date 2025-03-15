@@ -55,6 +55,7 @@ class AppStrings {
   static const nearYou = "Near you";
   static const saveUpTO = "Save up to";
   static const feedBack = "Feed Back";
+  static const feed= "Feed";
   static const visitShop = "Visit Shop";
   static const view = " View";
   static const scanYourQrCode = " Scan your QR Code";

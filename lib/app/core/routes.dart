@@ -13,6 +13,7 @@ import 'package:barber_time/app/view/screens/barber/barber_chat/barber_chat.dart
 import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed.dart';
 import 'package:barber_time/app/view/screens/barber/barber_history/barber_history_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/feed_all.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/job_post_all.dart';
 import 'package:barber_time/app/view/screens/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
@@ -112,6 +113,7 @@ class AppRouter {
             state: state,
           ),
         ),
+
         ///=======================  =======================
         GoRoute(
           name: RoutePath.myFeed,
@@ -120,7 +122,9 @@ class AppRouter {
             child: const MyFeed(),
             state: state,
           ),
-        ),    ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.professionalProfile,
           path: RoutePath.professionalProfile.addBasePath,
@@ -128,7 +132,9 @@ class AppRouter {
             child: const ProfessionalProfile(),
             state: state,
           ),
-        ),    ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.myFavoriteScreen,
           path: RoutePath.myFavoriteScreen.addBasePath,
@@ -136,7 +142,9 @@ class AppRouter {
             child: const MyFavoriteScreen(),
             state: state,
           ),
-        ),   ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.followingScreen,
           path: RoutePath.followingScreen.addBasePath,
@@ -181,7 +189,7 @@ class AppRouter {
           name: RoutePath.homeScreen,
           path: RoutePath.homeScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  HomeScreen(),
+            child: HomeScreen(),
             state: state,
           ),
         ),
@@ -247,16 +255,18 @@ class AppRouter {
           name: RoutePath.barberHomeScreen,
           path: RoutePath.barberHomeScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  BarberHomeScreen(),
+            child: BarberHomeScreen(),
             state: state,
             disableAnimation: true,
           ),
-        ), ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.notificationScreen,
           path: RoutePath.notificationScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  const NotificationScreen(),
+            child: const NotificationScreen(),
             state: state,
           ),
         ),
@@ -271,8 +281,6 @@ class AppRouter {
             disableAnimation: true,
           ),
         ),
-
-
 
         ///=======================  =======================
         GoRoute(
@@ -296,12 +304,12 @@ class AppRouter {
           ),
         ),
 
-    ///=======================  =======================
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.jobPostAll,
           path: RoutePath.jobPostAll.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  JobPostAll(),
+            child: JobPostAll(),
             state: state,
             disableAnimation: true,
           ),
@@ -313,6 +321,16 @@ class AppRouter {
           path: RoutePath.personalInfo.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const PersonalInfo(),
+            state: state,
+          ),
+        ),
+
+        ///=======================PersonalInfo  =======================
+        GoRoute(
+          name: RoutePath.feedAll,
+          path: RoutePath.feedAll.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const FeedAll(),
             state: state,
           ),
         ),

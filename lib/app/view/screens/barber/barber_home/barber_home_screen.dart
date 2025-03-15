@@ -9,7 +9,6 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +93,8 @@ class BarberHomeScreen extends StatelessWidget {
                       title: "Feed",
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
-                        // Navigate or perform an action
+                        AppRouter.route
+                            .pushNamed(RoutePath.feedAll, extra: userRole);
                       },
                       actionColor: AppColors.secondary,
                     ),

@@ -125,7 +125,7 @@ class BarberFeed extends StatelessWidget {
               textColor: AppColors.white50,
               onTap: () {
                 AppRouter.route
-                    .goNamed(RoutePath.myFeed, extra: userRole);
+                    .pushNamed(RoutePath.myFeed, extra: userRole);
               },
               fillColor: AppColors.black,
             ),

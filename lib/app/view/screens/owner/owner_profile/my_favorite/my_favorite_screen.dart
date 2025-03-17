@@ -48,6 +48,9 @@ class MyFavoriteScreen extends StatelessWidget {
                   // Handle favorite button press
                 },
                 onVisitShopPressed: () {
+                  AppRouter.route.pushNamed(
+                      RoutePath.visitShop,
+                      extra: userRole);
                   // Handle visit shop button press
                 },
               );

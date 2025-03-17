@@ -60,5 +60,6 @@ class RoutePath{
   static const String feedAll = 'FeedAll';
   static const String editProfessionalProfile = 'EditProfessionalProfile';
   static const String visitShop = 'VisitShop';
+  static const String businessProfile = 'BusinessProfile';
 
 }

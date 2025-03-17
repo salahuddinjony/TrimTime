@@ -26,6 +26,7 @@ import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/barber/barber.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
@@ -302,6 +303,14 @@ class AppRouter {
           path: RoutePath.visitShop.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const VisitShop(),
+            state: state,
+          ),
+        ),     ///=======================VisitShop  =======================
+        GoRoute(
+          name: RoutePath.businessProfile,
+          path: RoutePath.businessProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BusinessProfile(),
             state: state,
           ),
         ),

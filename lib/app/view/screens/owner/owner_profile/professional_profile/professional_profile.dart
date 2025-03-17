@@ -71,18 +71,19 @@ class ProfessionalProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         userRole == UserRole.barber
-                            ?const SizedBox():
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _customButton(AppStrings.follow, Icons.person_add),
-                            const SizedBox(width: 10),
-                            _iconButton(Assets.images.chartSelected.image(
-                              color: Colors.white,
-                              height: 15,
-                            )),
-                          ],
-                        ),
+                            ? const SizedBox()
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _customButton(
+                                      AppStrings.follow, Icons.person_add),
+                                  const SizedBox(width: 10),
+                                  _iconButton(Assets.images.chartSelected.image(
+                                    color: Colors.white,
+                                    height: 15,
+                                  )),
+                                ],
+                              ),
                         const SizedBox(height: 20),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -214,12 +215,27 @@ class ProfessionalProfile extends StatelessWidget {
                             ],
                           );
                         }),
-                      )
+                      ),
+                      const CustomText(
+                        top: 10,
+                        text: 'Photo Gallery',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.white50,
+                        bottom: 10,
+                      ),
+
+                      CustomNetworkImage(
+                          imageUrl: AppConstants.demoImage,
+                          height: 78,
+                          width: 96),
+                      const SizedBox(
+                        height: 50,
+                      ),
                     ],
                   ),
                 ),
               ),
-
             ],
           ),
         ),

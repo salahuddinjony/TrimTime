@@ -37,6 +37,7 @@ class MyFeed extends StatelessWidget {
           child: Column(
             children: List.generate(4, (index) {
               return CustomFeedCard(
+                isVisitSHopButton: true,
                 userImageUrl: AppConstants.demoImage,
                 userName: "Roger Hunt",
                 userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",

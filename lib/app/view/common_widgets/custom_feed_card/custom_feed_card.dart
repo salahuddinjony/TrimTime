@@ -14,6 +14,7 @@ class CustomFeedCard extends StatelessWidget {
   final String rating;
   final VoidCallback onFavoritePressed;
   final VoidCallback onVisitShopPressed;
+  final bool? isVisitSHopButton;
 
   const CustomFeedCard({
     super.key,
@@ -24,7 +25,7 @@ class CustomFeedCard extends StatelessWidget {
     required this.postText,
     required this.rating,
     required this.onFavoritePressed,
-    required this.onVisitShopPressed,
+    required this.onVisitShopPressed, this.isVisitSHopButton = false,
   });
 
   @override
@@ -86,6 +87,8 @@ class CustomFeedCard extends StatelessWidget {
             fontSize: 14,
             color: AppColors.black,
           ),
+          isVisitSHopButton == true?
+              const SizedBox():
           Row(
             children: [
               // Favorite Button

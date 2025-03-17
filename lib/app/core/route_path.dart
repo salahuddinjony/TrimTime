@@ -58,5 +58,6 @@ class RoutePath{
   static const String notificationScreen = 'NotificationScreen';
   static const String jobPostAll = 'JobPostAll';
   static const String feedAll = 'FeedAll';
+  static const String editProfessionalProfile = 'EditProfessionalProfile';
 
 }

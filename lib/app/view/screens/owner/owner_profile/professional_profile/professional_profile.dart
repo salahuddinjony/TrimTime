@@ -1,3 +1,6 @@
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
@@ -8,12 +11,22 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfessionalProfile extends StatelessWidget {
   const ProfessionalProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+
+    debugPrint("===================${userRole?.name}");
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
       //==================✅✅Header✅✅===================
@@ -57,6 +70,8 @@ class ProfessionalProfile extends StatelessWidget {
                           color: AppColors.black,
                         ),
                         const SizedBox(height: 10),
+                        userRole == UserRole.barber
+                            ?const SizedBox():
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -101,7 +116,11 @@ class ProfessionalProfile extends StatelessWidget {
                           right: 0,
                           bottom: 0,
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              AppRouter.route.pushNamed(
+                                  RoutePath.editProfessionalProfile,
+                                  extra: userRole);
+                            },
                             child: const CircleAvatar(
                               radius: 16,
                               backgroundColor: AppColors.black,

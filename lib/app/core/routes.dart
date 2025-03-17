@@ -33,6 +33,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/edit_professional_profile/edit_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/rate_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
@@ -203,16 +204,18 @@ class AppRouter {
           name: RoutePath.ownerHomeScreen,
           path: RoutePath.ownerHomeScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  OwnerHomeScreen(),
+            child: OwnerHomeScreen(),
             state: state,
             disableAnimation: true,
           ),
-        ),   ///======================= =======================
+        ),
+
+        ///======================= =======================
         GoRoute(
           name: RoutePath.recentRequestScreen,
           path: RoutePath.recentRequestScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  const RecentRequestScreen(),
+            child: const RecentRequestScreen(),
             state: state,
           ),
         ),
@@ -245,7 +248,7 @@ class AppRouter {
           name: RoutePath.ownerHiringScreen,
           path: RoutePath.ownerHiringScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  OwnerHiringScreen(),
+            child: OwnerHiringScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -288,6 +291,16 @@ class AppRouter {
           path: RoutePath.hiringBarber.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const HiringBarber(),
+            state: state,
+          ),
+        ),
+
+        ///=======================editProfessionalProfile  =======================
+        GoRoute(
+          name: RoutePath.editProfessionalProfile,
+          path: RoutePath.editProfessionalProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const EditProfessionalProfile(),
             state: state,
           ),
         ),

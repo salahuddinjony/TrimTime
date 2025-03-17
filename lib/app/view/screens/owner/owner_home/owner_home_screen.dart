@@ -123,19 +123,26 @@ class OwnerHomeScreen extends StatelessWidget {
                       children: List.generate(2, (index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomHiringCard(
-                            isMessage: true,
-                            imageUrl: AppConstants.demoImage,
-                            // Image URL (dynamic)
-                            name: "Unknown",
-                            // Dynamic title (Job name)
-                            role: "Barber",
-                            // Hardcoded or dynamic role
-                            rating: 4.5,
-                            // Hardcoded or dynamic rating
-                            location: "New York, USA",
-                            // Dynamic location or hardcoded
-                            onHireTap: () {}, // Hire button action
+                          child: GestureDetector(
+                            onTap: (){
+                              AppRouter.route.pushNamed(
+                                  RoutePath.visitShop,
+                                  extra: userRole);
+                            },
+                            child: CustomHiringCard(
+                              isMessage: true,
+                              imageUrl: AppConstants.demoImage,
+                              // Image URL (dynamic)
+                              name: "Unknown",
+                              // Dynamic title (Job name)
+                              role: "Barber",
+                              // Hardcoded or dynamic role
+                              rating: 4.5,
+                              // Hardcoded or dynamic rating
+                              location: "New York, USA",
+                              // Dynamic location or hardcoded
+                              onHireTap: () {}, // Hire button action
+                            ),
                           ),
                         );
                       }),
@@ -173,6 +180,9 @@ class OwnerHomeScreen extends StatelessWidget {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.visitShop,
+                                extra: userRole);
                             // Handle visit shop button press
                           },
                         );

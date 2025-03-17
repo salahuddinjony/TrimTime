@@ -1,6 +1,6 @@
-
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -72,8 +72,7 @@ class VisitShop extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _customButton(
-                                AppStrings.follow, Icons.person_add),
+                            _customButton(AppStrings.follow, Icons.person_add),
                             const SizedBox(width: 10),
                             _iconButton(Assets.images.chartSelected.image(
                               color: Colors.white,
@@ -87,7 +86,7 @@ class VisitShop extends StatelessWidget {
                           child: CustomText(
                             maxLines: 20,
                             text:
-                            "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
+                                "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.black,
@@ -110,7 +109,6 @@ class VisitShop extends StatelessWidget {
                           width: 100,
                           boxShape: BoxShape.circle,
                         ),
-
                       ],
                     ),
                   ),
@@ -152,7 +150,7 @@ class VisitShop extends StatelessWidget {
                         textAlign: TextAlign.start,
                         maxLines: 20,
                         text:
-                        "I am currently employed as a barber at [Barber Time ], where I perform a variety of tasks including cutting, styling, and grooming hair for clients.",
+                            "I am currently employed as a barber at [Barber Time ], where I perform a variety of tasks including cutting, styling, and grooming hair for clients.",
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
                         color: AppColors.black,
@@ -184,7 +182,7 @@ class VisitShop extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   maxLines: 5,
                                   text:
-                                  "Fades & Tapers –Clean low, mid, high, and skin fades",
+                                      "Fades & Tapers –Clean low, mid, high, and skin fades",
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.black,
@@ -207,6 +205,35 @@ class VisitShop extends StatelessWidget {
                           imageUrl: AppConstants.demoImage,
                           height: 78,
                           width: 96),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+
+                      userRole == UserRole.owner?
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 5,
+                              child: CustomButton(
+                                title: AppStrings.rejected,
+                                onTap: () {},
+                                fillColor: Colors.white,
+                              )),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                              flex: 5,
+                              child: CustomButton(
+                                onTap: () {},
+                                fillColor: AppColors.bottomColor,
+                                title: AppStrings.approve,
+                                textColor: Colors.white,
+                              )),
+                        ],
+                      ):const SizedBox(),
+
                       const SizedBox(
                         height: 50,
                       ),

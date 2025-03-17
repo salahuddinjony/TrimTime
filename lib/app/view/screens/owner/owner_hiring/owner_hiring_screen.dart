@@ -33,7 +33,6 @@ class OwnerHiringScreen extends StatelessWidget {
       appBar: const CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.hiring,
-        iconData: Icons.arrow_back,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

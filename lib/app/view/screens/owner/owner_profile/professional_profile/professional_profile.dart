@@ -13,6 +13,8 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/common_profile_card/common_profile_card.dart';
+
 class ProfessionalProfile extends StatelessWidget {
   const ProfessionalProfile({super.key});
 
@@ -42,102 +44,19 @@ class ProfessionalProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 60),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.1),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 50),
-                        const CustomText(
-                          text: "Christian Ronaldo",
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.black,
-                        ),
-                        const SizedBox(height: 10),
-                        userRole == UserRole.barber
-                            ? const SizedBox()
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  _customButton(
-                                      AppStrings.follow, Icons.person_add),
-                                  const SizedBox(width: 10),
-                                  _iconButton(Assets.images.chartSelected.image(
-                                    color: Colors.white,
-                                    height: 15,
-                                  )),
-                                ],
-                              ),
-                        const SizedBox(height: 20),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: CustomText(
-                            maxLines: 20,
-                            text:
-                                "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.black,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        //==================✅✅Image✅✅===================
-                        CustomNetworkImage(
-                          imageUrl: AppConstants.demoImage,
-                          height: 100,
-                          width: 100,
-                          boxShape: BoxShape.circle,
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: GestureDetector(
-                            onTap: () {
-                              AppRouter.route.pushNamed(
-                                  RoutePath.editProfessionalProfile,
-                                  extra: userRole);
-                            },
-                            child: const CircleAvatar(
-                              radius: 16,
-                              backgroundColor: AppColors.black,
-                              child: Icon(
-                                Icons.edit,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              CommonProfileCard(
+                name: "Christian Ronaldo",
+                bio: "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
+                imageUrl: AppConstants.demoImage,
+                onEditTap: () {
+                  AppRouter.route.pushNamed(
+                    RoutePath.editProfessionalProfile,
+                    extra: userRole,
+                  );
+                },
+
               ),
+
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -244,7 +163,7 @@ class ProfessionalProfile extends StatelessWidget {
   }
 
   //follow button and chart button
-  Widget _customButton(String text, IconData icon) {
+  Widget _customButton(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -253,8 +172,7 @@ class ProfessionalProfile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 14, color: Colors.white),
-          const SizedBox(width: 6),
+
           CustomText(
             text: text,
             fontSize: 12,

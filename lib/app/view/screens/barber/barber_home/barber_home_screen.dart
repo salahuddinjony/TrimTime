@@ -120,7 +120,9 @@ class BarberHomeScreen extends StatelessWidget {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
-                            // Handle visit shop button press
+                            // AppRouter.route.pushNamed(
+                            //     RoutePath.professionalProfile,
+                            //     extra: userRole);
                           },
                         );
                       }),

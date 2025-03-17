@@ -1,8 +1,8 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
+
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:flutter/material.dart';
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -12,10 +12,8 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common_widgets/common_profile_card/common_profile_card.dart';
-
-class ProfessionalProfile extends StatelessWidget {
-  const ProfessionalProfile({super.key});
+class VisitShop extends StatelessWidget {
+  const VisitShop({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +41,81 @@ class ProfessionalProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CommonProfileCard(
-                name: "Christian Ronaldo",
-                bio: "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
-                imageUrl: AppConstants.demoImage,
-                onEditTap: () {
-                  AppRouter.route.pushNamed(
-                    RoutePath.editProfessionalProfile,
-                    extra: userRole,
-                  );
-                },
+              Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 60),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.1),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 50),
+                        const CustomText(
+                          text: "Christian Ronaldo",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.black,
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _customButton(
+                                AppStrings.follow, Icons.person_add),
+                            const SizedBox(width: 10),
+                            _iconButton(Assets.images.chartSelected.image(
+                              color: Colors.white,
+                              height: 15,
+                            )),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: CustomText(
+                            maxLines: 20,
+                            text:
+                            "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        //==================✅✅Image✅✅===================
+                        CustomNetworkImage(
+                          imageUrl: AppConstants.demoImage,
+                          height: 100,
+                          width: 100,
+                          boxShape: BoxShape.circle,
+                        ),
 
+                      ],
+                    ),
+                  ),
+                ],
               ),
-
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -82,7 +142,7 @@ class ProfessionalProfile extends StatelessWidget {
                       const CustomText(
                         top: 10,
                         bottom: 8,
-                        text: "My Current Work",
+                        text: " Current Work",
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: AppColors.black,
@@ -161,5 +221,37 @@ class ProfessionalProfile extends StatelessWidget {
     );
   }
 
+  //follow button and chart button
+  Widget _customButton(String text, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.black,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 14, color: Colors.white),
+          const SizedBox(width: 6),
+          CustomText(
+            text: text,
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _iconButton(Widget icon) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: AppColors.black,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: icon,
+    );
+  }
 }

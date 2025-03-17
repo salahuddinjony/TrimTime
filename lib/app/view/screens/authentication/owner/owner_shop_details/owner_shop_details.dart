@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
@@ -13,11 +15,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
-class OwnerShopDetails extends StatelessWidget {
+class OwnerShopDetails extends StatefulWidget {
   OwnerShopDetails({super.key});
 
+  @override
+  State<OwnerShopDetails> createState() => _OwnerShopDetailsState();
+}
+
+class _OwnerShopDetailsState extends State<OwnerShopDetails> {
   final AuthController authController = Get.find<AuthController>();
+  final ImagePicker _picker = ImagePicker();
+  List<XFile> _imageFiles = [];
+
+  Future<void> _pickImages() async {
+    final List<XFile>? pickedFiles = await _picker.pickMultiImage();
+
+    if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      setState(() {
+        if (_imageFiles.length + pickedFiles.length <= 4) {
+          _imageFiles.addAll(pickedFiles);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Maximum 4 images allowed!")),
+          );
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +64,6 @@ class OwnerShopDetails extends StatelessWidget {
                   clipper: CurvedBannerClipper(),
                   child: Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 1.3,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -80,6 +105,54 @@ class OwnerShopDetails extends StatelessWidget {
                                 title: AppStrings.addService,
                                 controller: authController.emailController,
                                 validator: (v) {}),
+
+                            const CustomText(
+                              top: 12,
+                              text: "Shop Pictures (max 4)",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.white50,
+                            ),
+                            const SizedBox(height: 10),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // দুইটা কলামে দেখাবে
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 1,
+                              ),
+                              itemCount: (_imageFiles.length < 4) ? _imageFiles.length + 1 : 4,
+                              itemBuilder: (context, index) {
+                                if (index == _imageFiles.length && _imageFiles.length < 4) {
+                                  return GestureDetector(
+                                    onTap: _pickImages,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white50.withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: AppColors.white50, width: 1),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add_a_photo,
+                                        color: AppColors.white50,
+                                        size: 40,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      File(_imageFiles[index].path), // `Image.file` দিয়ে লোকাল ইমেজ দেখানো হচ্ছে
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+
 
                           ],
                         ),

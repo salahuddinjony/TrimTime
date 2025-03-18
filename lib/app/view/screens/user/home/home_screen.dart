@@ -6,9 +6,9 @@ import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
+import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info_card.dart';
+
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,10 +40,9 @@ class HomeScreen extends StatelessWidget {
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
             isSearch: true,
-            onSearch: (){
-              AppRouter.route.pushNamed(
-                  RoutePath.searchSaloon,
-                  extra: userRole);
+            onSearch: () {
+              AppRouter.route
+                  .pushNamed(RoutePath.searchSaloon, extra: userRole);
             },
             scaffoldKey: scaffoldKey,
             name: "Masum",
@@ -58,14 +57,9 @@ class HomeScreen extends StatelessWidget {
               // Wrap everything in a SingleChildScrollView
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
-
-
-
-
-
                     ///: <<<<<<======✅✅ nearYou✅✅>>>>>>>>===========
                     CustomTitle(
                       title: AppStrings.nearYou,
@@ -79,7 +73,20 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 12.h,
                     ),
+                    CommonShopCard(
+                      imageUrl: AppConstants.shop,
+                      title: "Barber Time",
+                      rating: "5.0 ★ (169)",
+                      location: "Oldesloer Strasse 82",
+                      discount: "15%",
+                      onSaved: () {
+                        print("Saved Clicked!");
+                      },
+                    ),
 
+                    SizedBox(
+                      height: 12.h,
+                    ),
 
                     ///: <<<<<<======✅✅ Top Rated✅✅>>>>>>>>===========
                     CustomTitle(
@@ -95,7 +102,6 @@ class HomeScreen extends StatelessWidget {
                       height: 12.h,
                     ),
                     // Barber shop cards
-
 
                     ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
 
@@ -120,17 +126,16 @@ class HomeScreen extends StatelessWidget {
                           userImageUrl: AppConstants.demoImage,
                           userName: "Roger Hunt",
                           userAddress:
-                          "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                              "2972 Westheimer Rd. Santa Ana, Illinois 85486",
                           postImageUrl: AppConstants.demoImage,
                           postText:
-                          "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+                              "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
                           rating: "5.0 * (169)",
                           onFavoritePressed: () {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.visitShop,
                                 extra: userRole);
                           },
                         );

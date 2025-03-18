@@ -199,6 +199,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: HomeScreen(),
             state: state,
+            disableAnimation: true,
+
           ),
         ),
 
@@ -558,6 +560,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const QueScreen(),
             state: state,
+            disableAnimation: true,
+
           ),
         ),
 
@@ -568,6 +572,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ScannerScreen(),
             state: state,
+            disableAnimation: true,
+
           ),
         ),
 
@@ -578,6 +584,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const SavedScreen(),
             state: state,
+            disableAnimation: true,
           ),
         ),
 

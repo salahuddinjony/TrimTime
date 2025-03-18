@@ -39,6 +39,12 @@ class HomeScreen extends StatelessWidget {
         children: [
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
+            isSearch: true,
+            onSearch: (){
+              AppRouter.route.pushNamed(
+                  RoutePath.searchSaloon,
+                  extra: userRole);
+            },
             scaffoldKey: scaffoldKey,
             name: "Masum",
             image: AppConstants.demoImage,
@@ -123,7 +129,9 @@ class HomeScreen extends StatelessWidget {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
-                            // Handle visit shop button press
+                            AppRouter.route.pushNamed(
+                                RoutePath.visitShop,
+                                extra: userRole);
                           },
                         );
                       }),

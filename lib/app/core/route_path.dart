@@ -25,6 +25,7 @@ class RoutePath{
   static const String queScreen = 'QueScreen';
   static const String scannerScreen = 'ScannerScreen';
   static const String savedScreen = 'SavedScreen';
+  static const String searchSaloon = 'SearchSaloon';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

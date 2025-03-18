@@ -22,6 +22,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_sc
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/search_saloon.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
@@ -303,6 +304,16 @@ class AppRouter {
           path: RoutePath.visitShop.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const VisitShop(),
+            state: state,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.searchSaloon,
+          path: RoutePath.searchSaloon.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const SearchSaloon(),
             state: state,
           ),
         ),     ///=======================VisitShop  =======================

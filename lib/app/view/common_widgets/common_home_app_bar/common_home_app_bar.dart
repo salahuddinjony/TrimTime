@@ -1,6 +1,9 @@
+
 import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,12 +12,16 @@ class CommonHomeAppBar extends StatelessWidget {
     super.key,
     required this.scaffoldKey,
     required this.name,
-    required this.image, required this.onTap,
+    required this.image,
+    required this.onTap,
+    required, this.onSearch, this.isSearch
   });
 
   final String name;
   final VoidCallback onTap;
   final String image;
+  final VoidCallback? onSearch ;
+  final bool? isSearch;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
@@ -73,10 +80,24 @@ class CommonHomeAppBar extends StatelessWidget {
 
               ///==========================Notification button ====================
               IconButton(
-                  onPressed: onTap,
-                  icon: const Icon(Icons.notification_add))
+                  onPressed: onTap, icon: const Icon(Icons.notification_add))
             ],
           ),
+          SizedBox(
+            height: 20.h,
+          ),
+
+          ///====================================Top Section================================
+
+          isSearch == true?
+           CustomTextField(
+            onTap: onSearch,
+            readOnly: true,
+            fieldBorderColor: AppColors.black,
+            fillColor: AppColors.linearFirst,
+            hintText: AppStrings.searchSaloons,
+            suffixIcon: const Icon(Icons.search),
+          ):const SizedBox()
         ],
       ),
     );

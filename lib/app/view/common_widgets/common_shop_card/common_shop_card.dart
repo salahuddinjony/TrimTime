@@ -26,7 +26,8 @@ class CommonShopCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 233,
-      width: double.infinity,
+      width: 326,
+      // width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: AppColors.linearFirst,
@@ -48,7 +49,7 @@ class CommonShopCard extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         height: 145,
-        width: double.infinity,
+        width:326,
         fit: BoxFit.cover,
       ),
     );

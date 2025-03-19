@@ -8,7 +8,6 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

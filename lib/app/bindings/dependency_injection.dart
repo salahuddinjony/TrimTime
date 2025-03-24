@@ -1,5 +1,6 @@
 
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
+import 'package:barber_time/app/global/controller/bottom_nav_controller/bottom_nav_color.dart';
 import 'package:barber_time/app/global/controller/general_controller/general_controller.dart';
 import 'package:barber_time/app/global/controller/payment_controller/payment_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
@@ -21,6 +22,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => GeneralController(), fenix: true);
     Get.lazyPut(() => BarberHomeController(), fenix: true);
     Get.lazyPut(() => OwnerHiringController(), fenix: true);
+    Get.lazyPut(() => BottomNavbarController(), fenix: true);
     // Get.lazyPut(() => MessagingController(), fenix: true);
 
 

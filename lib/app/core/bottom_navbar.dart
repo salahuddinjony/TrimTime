@@ -203,16 +203,16 @@ class _NavBarState extends State<BottomNavbar> {
     switch (role) {
       case UserRole.owner:
         unselectedIcon = [
-          Assets.images.homeUnselected.image(),
-          Assets.images.chartUnselected.image(),
-          Assets.images.hiringUnselected.image(),
-          Assets.images.profileUnselected.image(),
+          Assets.images.homeUnselected.image(color: Colors.black),
+          Assets.images.chartUnselected.image(color: Colors.black),
+          Assets.images.hiringUnselected.image(color: Colors.black),
+          Assets.images.profileUnselected.image(color: Colors.black),
         ];
         selectedIcon = [
-          Assets.images.homeSelected.image(),
-          Assets.images.chartSelected.image(),
-          Assets.images.hiringSelected.image(),
-          Assets.images.profileUnselected.image(),
+          Assets.images.homeSelected.image(color: Colors.black),
+          Assets.images.chartSelected.image(color: Colors.black),
+          Assets.images.hiringSelected.image(color: Colors.black),
+          Assets.images.profileUnselected.image(color: Colors.black),
         ];
         textList = [AppStrings.home, AppStrings.chat, AppStrings.hiring, AppStrings.profile];
         routeNames = [
@@ -249,18 +249,18 @@ class _NavBarState extends State<BottomNavbar> {
       case UserRole.user:
       default:
         unselectedIcon = [
-          Assets.images.homeUnselected.image(),
-          Assets.images.queUnselected.image(),
-          Assets.images.scanner.image(),
-          Assets.images.savedUnselected.image(),
-          Assets.images.profileUnselected.image(),
+          Assets.images.homeUnselected.image(color: Colors.black),
+          Assets.images.queUnselected.image(color: Colors.black),
+          Assets.images.scanner.image(color: Colors.black),
+          Assets.images.savedUnselected.image(color: Colors.black),
+          Assets.images.profileUnselected.image(color: Colors.black),
         ];
         selectedIcon = [
-          Assets.images.homeSelected.image(),
-          Assets.images.queSelected.image(),
-          Assets.images.scanner.image(),
-          Assets.images.savedSelected.image(),
-          Assets.images.profileSelected.image(),
+          Assets.images.homeSelected.image(color: Colors.black),
+          Assets.images.queSelected.image(color: Colors.black),
+          Assets.images.scanner.image(color: Colors.black),
+          Assets.images.savedSelected.image(color: Colors.black),
+          Assets.images.profileSelected.image(color: Colors.black),
         ];
         textList = [AppStrings.home, AppStrings.que, '', AppStrings.saved, AppStrings.profile];
         routeNames = [

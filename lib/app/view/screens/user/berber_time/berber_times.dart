@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class QueScreen extends StatelessWidget {
-  const QueScreen({super.key});
+class BerberTimes extends StatelessWidget {
+  const BerberTimes({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class QueScreen extends StatelessWidget {
                             decoration: const BoxDecoration(
                                 color: AppColors.black,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(14))),
+                                BorderRadius.all(Radius.circular(14))),
                             child: Row(
                               children: [
                                 Assets.icons.liveLocation.svg(),
@@ -128,7 +128,7 @@ class QueScreen extends StatelessWidget {
                         height: 300, // প্রয়োজন অনুযায়ী ঠিক করো
                         child: GridView.builder(
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,

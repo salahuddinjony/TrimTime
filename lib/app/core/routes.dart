@@ -46,6 +46,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privac
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
+import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_widgets/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/que/que_screen.dart';
@@ -267,6 +268,18 @@ class AppRouter {
             child: const ProfileScreen(),
             state: state,
             disableAnimation: true,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.berberTimes,
+          path: RoutePath.berberTimes.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BerberTimes(),
+            state: state,
+            disableAnimation: false,
+
           ),
         ),
 

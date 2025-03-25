@@ -1,5 +1,7 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -158,7 +160,10 @@ class BerberTimes extends StatelessWidget {
                         ),
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          AppRouter.route.pushNamed(RoutePath.queScreen,
+                              extra: userRole);
+                        },
                         fillColor: AppColors.black,
                         title: AppStrings.add,
                         textColor: Colors.white,

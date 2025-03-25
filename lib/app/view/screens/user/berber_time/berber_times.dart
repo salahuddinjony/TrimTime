@@ -125,7 +125,7 @@ class BerberTimes extends StatelessWidget {
                         height: 10,
                       ),
                       SizedBox(
-                        height: 300, // প্রয়োজন অনুযায়ী ঠিক করো
+                        height: 300,
                         child: GridView.builder(
                           gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -167,7 +167,9 @@ class BerberTimes extends StatelessWidget {
                         height: 20.h,
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         fillColor: Colors.white,
                         borderColor: AppColors.orange700,
                         title: AppStrings.addReview,

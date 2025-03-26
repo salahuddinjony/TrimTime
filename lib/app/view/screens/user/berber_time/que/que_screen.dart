@@ -32,103 +32,140 @@ class QueScreen extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Stack(
+              alignment: Alignment.topCenter,
               children: [
-                CustomNetworkImage(
-                    imageUrl: AppConstants.shop, height: 184, width: double.infinity),
-
-
-
-                Center(
-                  child: Column(
-                    children: [
-                      const CustomText(
-                        text: "Jane Cooper",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        color: Colors.black,
+                Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.only(top: 60, ),
+                  decoration: BoxDecoration(
+                    color: AppColors.navColor,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.1),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 8),
                       ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: AppColors.black,
-                            borderRadius: BorderRadius.all(Radius.circular(7))),
-                        child: const CustomText(
-                          text: AppStrings.seeProfile,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 11,
-                          color: Colors.white,
-                        ),
+                    ],
+                  ),
+                  child:
+
+                  CustomNetworkImage(
+                      imageUrl: AppConstants.shop,
+                      height: 184,
+                      width: double.infinity),
+                ),
+                Positioned(
+                  top: 0,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      //==================✅✅Image✅✅===================
+                      CustomNetworkImage(
+                        imageUrl: AppConstants.demoImage,
+                        height: 100,
+                        width: 100,
+                        boxShape: BoxShape.circle,
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const CustomText(
-                        top: 16,
-                        text: AppStrings.availableBarber,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                        color: AppColors.gray500,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        height: 350, // প্রয়োজন অনুযায়ী ঠিক করো
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            childAspectRatio: 1,
-                          ),
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CustomNetworkImage(
-                                  boxShape: BoxShape.circle,
-                                  imageUrl: AppConstants.demoImage,
-                                  height: 62,
-                                  width: 62,
-                                ),
-                                const SizedBox(height: 8),
-                                const CustomText(
-                                  text: "Jane Cooper",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                  color: AppColors.gray500,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                      ),
-                      CustomButton(
-                        onTap: () {},
-                        fillColor: AppColors.black,
-                        title: "Add to Queue",
-                        textColor: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                    ],
-                  ),
-                )
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        const CustomText(
+                          top: 16,
+                          text: "Jane Cooper",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: AppColors.gray500,
+                        ),
+
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: AppColors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(15))
+                        ),
+                          child: const CustomText(
+                            text: AppStrings.seeProfile,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  const CustomText(
+                    top: 16,
+                    text: AppStrings.availableBarber,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    color: AppColors.gray500,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 350,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomNetworkImage(
+                              boxShape: BoxShape.circle,
+                              imageUrl: AppConstants.demoImage,
+                              height: 62,
+                              width: 62,
+                            ),
+                            const SizedBox(height: 8),
+                            const CustomText(
+                              text: "Jane Cooper",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: AppColors.gray500,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100.h,
+                  ),
+                  CustomButton(
+                    onTap: () {},
+                    fillColor: AppColors.black,
+                    title: "Add to Queue",
+                    textColor: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                ],
+              ),
             ),
           ],
         ));

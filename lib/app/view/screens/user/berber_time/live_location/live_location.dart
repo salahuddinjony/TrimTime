@@ -18,9 +18,9 @@ class LiveLocation extends StatelessWidget {
       );
     }
 
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.linearFirst,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         iconData: Icons.arrow_back,
         appBarContent: AppStrings.barbersTime,
         appBarBgColor: AppColors.linearFirst,

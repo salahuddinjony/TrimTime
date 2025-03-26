@@ -298,39 +298,36 @@ class _NavBarState extends State<BottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 600), // Animation duration
-      child: CurvedNavigationBar(
-        key: ValueKey<int>(bottomNavIndex),
-        // Ensure the widget is recreated when the index changes
-        index: bottomNavIndex,
-        items: <Widget>[
-          _buildNavItem(unselectedIcon[0], selectedIcon[0], textList[0],
-              bottomNavIndex == 0),
-          _buildNavItem(unselectedIcon[1], selectedIcon[1], textList[1],
-              bottomNavIndex == 1),
-          _buildNavItem(unselectedIcon[2], selectedIcon[2], textList[2],
-              bottomNavIndex == 2),
-          _buildNavItem(unselectedIcon[3], selectedIcon[3], textList[3],
-              bottomNavIndex == 3),
-          _buildNavItem(unselectedIcon[4], selectedIcon[4], textList[4],
-              bottomNavIndex == 4),
-        ],
-        color: AppColors.navColor,
-        backgroundColor: Colors.white,
-        buttonBackgroundColor: AppColors.navColor,
-        animationCurve: Curves.easeInOut,
-        // Animation curve
-        onTap: (index) {
-          setState(() {
-            bottomNavIndex = index;
-          });
-          context.goNamed(
-            routeNames[index],
-            extra: widget.role, // Pass userRole here
-          );
-        },
-      ),
+    return CurvedNavigationBar(
+      key: ValueKey<int>(bottomNavIndex),
+      // Ensure the widget is recreated when the index changes
+      index: bottomNavIndex,
+      items: <Widget>[
+        _buildNavItem(unselectedIcon[0], selectedIcon[0], textList[0],
+            bottomNavIndex == 0),
+        _buildNavItem(unselectedIcon[1], selectedIcon[1], textList[1],
+            bottomNavIndex == 1),
+        _buildNavItem(unselectedIcon[2], selectedIcon[2], textList[2],
+            bottomNavIndex == 2),
+        _buildNavItem(unselectedIcon[3], selectedIcon[3], textList[3],
+            bottomNavIndex == 3),
+        _buildNavItem(unselectedIcon[4], selectedIcon[4], textList[4],
+            bottomNavIndex == 4),
+      ],
+      color: AppColors.navColor,
+      backgroundColor: Colors.white,
+      buttonBackgroundColor: AppColors.navColor,
+      animationCurve: Curves.easeInOut,
+      // Animation curve
+      onTap: (index) {
+        setState(() {
+          bottomNavIndex = index;
+        });
+        context.goNamed(
+          routeNames[index],
+          extra: widget.role, // Pass userRole here
+        );
+      },
     );
   }
 

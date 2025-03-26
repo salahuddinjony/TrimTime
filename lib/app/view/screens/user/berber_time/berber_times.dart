@@ -56,24 +56,30 @@ class BerberTimes extends StatelessWidget {
                             color: AppColors.gray500,
                           ),
                           const Spacer(),
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(14))),
-                            child: Row(
-                              children: [
-                                Assets.icons.liveLocation.svg(),
-                                const CustomText(
-                                  left: 10,
-                                  text: AppStrings.liveLocation,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: AppColors.white50,
-                                ),
-                              ],
+                          GestureDetector(
+                            onTap: (){
+                              AppRouter.route.pushNamed(RoutePath.liveLocation,
+                                  extra: userRole);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                  color: AppColors.black,
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(14))),
+                              child: Row(
+                                children: [
+                                  Assets.icons.liveLocation.svg(),
+                                  const CustomText(
+                                    left: 10,
+                                    text: AppStrings.liveLocation,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10,
+                                    color: AppColors.white50,
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -159,6 +165,8 @@ class BerberTimes extends StatelessWidget {
                           },
                         ),
                       ),
+
+
                       CustomButton(
                         onTap: () {
                           AppRouter.route.pushNamed(RoutePath.queScreen,
@@ -168,9 +176,16 @@ class BerberTimes extends StatelessWidget {
                         title: AppStrings.add,
                         textColor: Colors.white,
                       ),
+
+
+
+
                       SizedBox(
                         height: 20.h,
                       ),
+
+
+
                       CustomButton(
                         onTap: () {
 

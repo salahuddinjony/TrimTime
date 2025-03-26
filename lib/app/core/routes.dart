@@ -47,9 +47,10 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settin
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
+import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
+import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_widgets/near_you_shop_screen.dart';
-import 'package:barber_time/app/view/screens/user/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,6 +130,17 @@ class AppRouter {
           path: RoutePath.myFeed.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyFeed(),
+            state: state,
+          ),
+        ),
+
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.liveLocation,
+          path: RoutePath.liveLocation.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const LiveLocation(),
             state: state,
           ),
         ),
@@ -278,7 +290,6 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BerberTimes(),
             state: state,
-            disableAnimation: false,
 
           ),
         ),

@@ -26,10 +26,10 @@ class QueScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        bottomNavigationBar: BottomNavbar(currentIndex: 1, role: userRole),
         backgroundColor: AppColors.linearFirst,
         appBar: const CustomAppBar(
-          appBarContent: AppStrings.barbersTime,
+          iconData: Icons.arrow_back,
+          appBarContent: AppStrings.que,
           appBarBgColor: AppColors.linearFirst,
         ),
         body: ListView(
@@ -44,76 +44,6 @@ class QueScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const CustomText(
-                            top: 10,
-                            text: "Barber time",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: AppColors.gray500,
-                          ),
-                          const Spacer(),
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(14))),
-                            child: Row(
-                              children: [
-                                Assets.icons.liveLocation.svg(),
-                                const CustomText(
-                                  left: 10,
-                                  text: AppStrings.liveLocation,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: AppColors.white50,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: List.generate(5, (index) {
-                              return const Icon(
-                                Icons.star,
-                                color: Colors.black,
-                                size: 16,
-                              );
-                            }),
-                          ),
-                          const CustomText(
-                            text: "(550)",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 11,
-                            color: AppColors.gray500,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.place,
-                            color: Colors.black,
-                            size: 21,
-                          ),
-                          CustomText(
-                            left: 10,
-                            text: "Oldesloer Strasse 82",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 21,
-                            color: AppColors.gray500,
-                          ),
-                        ],
-                      ),
                       const CustomText(
                         top: 16,
                         text: AppStrings.availableBarber,
@@ -125,7 +55,7 @@ class QueScreen extends StatelessWidget {
                         height: 10,
                       ),
                       SizedBox(
-                        height: 300, // প্রয়োজন অনুযায়ী ঠিক করো
+                        height: 350, // প্রয়োজন অনুযায়ী ঠিক করো
                         child: GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -157,21 +87,14 @@ class QueScreen extends StatelessWidget {
                           },
                         ),
                       ),
+                      SizedBox(
+                        height: 100.h,
+                      ),
                       CustomButton(
                         onTap: () {},
                         fillColor: AppColors.black,
-                        title: AppStrings.add,
+                        title: "Add to Queue",
                         textColor: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      CustomButton(
-                        onTap: () {},
-                        fillColor: Colors.white,
-                        borderColor: AppColors.orange700,
-                        title: AppStrings.addReview,
-                        textColor: Colors.orange,
                       ),
                       SizedBox(
                         height: 20.h,

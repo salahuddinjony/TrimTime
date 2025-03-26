@@ -1,5 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -39,6 +37,34 @@ class QueScreen extends StatelessWidget {
               children: [
                 CustomNetworkImage(
                     imageUrl: AppConstants.shop, height: 184, width: 379),
+
+
+
+                Center(
+                  child: Column(
+                    children: [
+                      const CustomText(
+                        text: "Jane Cooper",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                            color: AppColors.black,
+                            borderRadius: BorderRadius.all(Radius.circular(7))),
+                        child: const CustomText(
+                          text: AppStrings.seeProfile,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(

@@ -40,7 +40,7 @@ class BerberTimes extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomNetworkImage(
-                    imageUrl: AppConstants.shop, height: 184, width: 379),
+                    imageUrl: AppConstants.shop, height: 184, width: double.infinity),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(

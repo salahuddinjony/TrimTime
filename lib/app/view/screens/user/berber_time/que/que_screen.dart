@@ -36,7 +36,7 @@ class QueScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomNetworkImage(
-                    imageUrl: AppConstants.shop, height: 184, width: 379),
+                    imageUrl: AppConstants.shop, height: 184, width: double.infinity),
 
 
 

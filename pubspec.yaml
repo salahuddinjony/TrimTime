@@ -60,6 +60,8 @@ dependencies:
   dotted_border: ^2.1.0
   stylish_bottom_bar: ^1.1.1
   curved_navigation_bar: ^1.0.6
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^3.4.1
 
 
 dev_dependencies:

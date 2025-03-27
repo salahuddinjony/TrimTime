@@ -226,8 +226,8 @@ class _NavBarState extends State<BottomNavbar> {
         ];
         routeNames = [
           RoutePath.ownerHomeScreen,
-          RoutePath.queScreen,
-          RoutePath.scannerScreen,
+          RoutePath.berberTimes,
+          RoutePath.barberFeed,
           RoutePath.ownerHiringScreen,
           RoutePath.profileScreen,
         ];

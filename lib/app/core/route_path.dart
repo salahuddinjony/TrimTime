@@ -29,6 +29,7 @@ class RoutePath{
   static const String berberTimes = 'BerberTimes';
   static const String liveLocation = 'LiveLocation';
   static const String myLoyality = 'MyLoyality';
+  static const String ownerQue = 'OwnerQue';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

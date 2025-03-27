@@ -46,6 +46,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyalt
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/owner_que.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
@@ -594,6 +595,16 @@ class AppRouter {
           path: RoutePath.myLoyality.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyLoyality(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.ownerQue,
+          path: RoutePath.ownerQue.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerQue(),
             state: state,
           ),
         ),

@@ -125,9 +125,8 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                              RoutePath.businessProfile,extra: userRole
-                            );
+                            AppRouter.route.pushNamed(RoutePath.businessProfile,
+                                extra: userRole);
                           },
                           text: AppStrings.businessProfile,
                           icon: Assets.icons.business.svg(color: Colors.black),
@@ -137,9 +136,8 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                              RoutePath.jobPost,extra: userRole
-                            );
+                            AppRouter.route
+                                .pushNamed(RoutePath.jobPost, extra: userRole);
                           },
                           text: AppStrings.jobPost,
                           icon: Assets.icons.job.svg(color: Colors.black),
@@ -148,11 +146,10 @@ class ProfileScreen extends StatelessWidget {
                   //TOdo=====barber====
                   userRole == UserRole.owner
                       ? CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(
-                          RoutePath.hiringBarber,extra: userRole
-                      );
-                    },
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.hiringBarber,
+                                extra: userRole);
+                          },
                           text: AppStrings.barber,
                           icon: Assets.images.berber
                               .image(height: 20, color: Colors.black),
@@ -204,12 +201,25 @@ class ProfileScreen extends StatelessWidget {
                       ? const SizedBox()
                       : CustomMenuCard(
                           onTap: () {
-                            AppRouter.route
-                                .pushNamed(RoutePath.followingScreen, extra: userRole);
+                            AppRouter.route.pushNamed(RoutePath.followingScreen,
+                                extra: userRole);
                           },
                           text: AppStrings.myFollowing,
                           icon: Assets.icons.flowing.svg(color: Colors.black),
                         ),
+
+                  //TOdo=========
+
+                  userRole == UserRole.user
+                      ?
+                       CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.myLoyality,
+                                extra: userRole);
+                          },
+                          text: "My Loyalty Rewards",
+                          icon: Assets.icons.loyality.svg(color: Colors.black),
+                        ): const SizedBox(),
 
                   //=========
                   //TOdo=====settings====

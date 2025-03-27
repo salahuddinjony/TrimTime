@@ -72,6 +72,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/logout.svg
   SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
 
+  /// File path: assets/icons/loyality.svg
+  SvgGenImage get loyality => const SvgGenImage('assets/icons/loyality.svg');
+
   /// File path: assets/icons/my_feed_back.svg
   SvgGenImage get myFeedBack =>
       const SvgGenImage('assets/icons/my_feed_back.svg');
@@ -119,6 +122,7 @@ class $AssetsIconsGen {
         liveLocation,
         location,
         logout,
+        loyality,
         myFeedBack,
         notification,
         personalInfo,

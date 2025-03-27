@@ -33,6 +33,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/my_loyality/my_loyality.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
@@ -134,7 +135,6 @@ class AppRouter {
           ),
         ),
 
-
         ///=======================  =======================
         GoRoute(
           name: RoutePath.liveLocation,
@@ -213,7 +213,6 @@ class AppRouter {
             child: HomeScreen(),
             state: state,
             disableAnimation: true,
-
           ),
         ),
 
@@ -290,7 +289,6 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BerberTimes(),
             state: state,
-
           ),
         ),
 
@@ -342,7 +340,9 @@ class AppRouter {
             child: const SearchSaloon(),
             state: state,
           ),
-        ),     ///=======================VisitShop  =======================
+        ),
+
+        ///=======================VisitShop  =======================
         GoRoute(
           name: RoutePath.businessProfile,
           path: RoutePath.businessProfile.addBasePath,
@@ -585,7 +585,16 @@ class AppRouter {
             child: const QueScreen(),
             state: state,
             disableAnimation: true,
+          ),
+        ),
 
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.myLoyality,
+          path: RoutePath.myLoyality.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const MyLoyality(),
+            state: state,
           ),
         ),
 
@@ -597,7 +606,6 @@ class AppRouter {
             child: const ScannerScreen(),
             state: state,
             disableAnimation: true,
-
           ),
         ),
 

@@ -7,8 +7,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   DeviceUtils.lockDevicePortrait();
   runApp(const MyApp());
-
 }
+
 
 
 

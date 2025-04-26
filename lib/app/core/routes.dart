@@ -292,6 +292,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BerberTimes(),
             state: state,
+            disableAnimation: true
           ),
         ),
 
@@ -626,6 +627,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const OwnerQue(),
             state: state,
+            disableAnimation: true
           ),
         ),
 

@@ -30,6 +30,7 @@ class RoutePath{
   static const String liveLocation = 'LiveLocation';
   static const String myLoyality = 'MyLoyality';
   static const String ownerQue = 'OwnerQue';
+  static const String tipsScreen = 'TipsScreen';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

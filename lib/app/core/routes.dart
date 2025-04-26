@@ -52,7 +52,8 @@ import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart'
 import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
-import 'package:barber_time/app/view/screens/user/home/inner_widgets/near_you_shop_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -349,6 +350,16 @@ class AppRouter {
           path: RoutePath.businessProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BusinessProfile(),
+            state: state,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.tipsScreen,
+          path: RoutePath.tipsScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TipsScreen(),
             state: state,
           ),
         ),

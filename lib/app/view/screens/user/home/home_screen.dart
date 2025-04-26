@@ -100,11 +100,19 @@ class HomeScreen extends StatelessWidget {
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
                       CustomCard(
-                          onTap: () {},
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.tipsScreen,
+                                extra: userRole);
+                          },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
                       CustomCard(
-                          onTap: () {},
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.visitShop,
+                                extra: userRole);
+                          },
                           title: "MapView",
                           icon: Assets.icons.mapview.svg()),
                     ],

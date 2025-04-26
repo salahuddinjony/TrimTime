@@ -32,7 +32,9 @@ class PaymentOption extends StatelessWidget {
       body: SingleChildScrollView(
         child: ClipPath(
           clipper: CurvedBannerClipper(),
-          child: Container(
+          child:
+
+          Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 1.3,
               decoration: const BoxDecoration(
@@ -48,7 +50,9 @@ class PaymentOption extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Column(
+                child:
+
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const CustomText(

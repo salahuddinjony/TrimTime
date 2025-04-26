@@ -8,4 +8,8 @@ class PaymentController extends GetxController{
     "2.Extended Redemption Period",
     "3.Bonus Savings Opportunity"
   ];
+
+
+
+
 }

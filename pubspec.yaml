@@ -62,10 +62,7 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   qr_flutter: ^4.1.0
   mobile_scanner: ^3.4.1
-  google_maps_flutter: ^2.5.0
-  geolocator: ^10.1.0
-  geocoding: ^2.1.0
-  permission_handler: ^11.0.1
+
 
 
 dev_dependencies:

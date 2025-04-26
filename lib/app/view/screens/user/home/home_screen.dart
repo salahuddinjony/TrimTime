@@ -59,7 +59,6 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-
                     children: [
                       CustomCard(
                           onTap: () {
@@ -71,16 +70,14 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.bookings.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.loyaltyScreen,
+                            AppRouter.route.pushNamed(RoutePath.loyaltyScreen,
                                 extra: userRole);
                           },
                           title: "Loyalty",
                           icon: Assets.icons.loyalitys.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.scannerScreen,
+                            AppRouter.route.pushNamed(RoutePath.scannerScreen,
                                 extra: userRole);
                           },
                           title: "Queue",
@@ -93,24 +90,21 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.visitShop,
                                 extra: userRole);
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.tipsScreen,
+                            AppRouter.route.pushNamed(RoutePath.tipsScreen,
                                 extra: userRole);
                           },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.mapViewScreen,
                                 extra: userRole);
                           },
                           title: "MapView",

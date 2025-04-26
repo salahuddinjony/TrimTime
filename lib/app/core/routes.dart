@@ -52,6 +52,7 @@ import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart'
 import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_screens/map_view_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
@@ -360,6 +361,14 @@ class AppRouter {
           path: RoutePath.tipsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const TipsScreen(),
+            state: state,
+          ),
+        ),     ///=======================  =======================
+        GoRoute(
+          name: RoutePath.mapViewScreen,
+          path: RoutePath.mapViewScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const MapViewScreen(),
             state: state,
           ),
         ),

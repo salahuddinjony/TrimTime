@@ -52,7 +52,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding:  EdgeInsets.symmetric(horizontal: 16.w),
                   child: Form(
                     key: formKey,
                     child: SingleChildScrollView(
@@ -60,13 +60,13 @@ class ForgetPasswordScreen extends StatelessWidget {
                         children: [
                           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-                          const CustomText(
+                           CustomText(
                             textAlign: TextAlign.center,
-                            top: 15,
+                            top: 15.h,
                             maxLines: 5,
                             text: AppStrings.enterYourEmailANdWe,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: AppColors.black,
                           ),
                           SizedBox(

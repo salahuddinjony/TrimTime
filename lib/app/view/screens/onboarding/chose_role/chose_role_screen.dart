@@ -15,7 +15,7 @@ class ChoseRoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+        padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 80.h),
         child: SingleChildScrollView(
           child: Column(
             children: [

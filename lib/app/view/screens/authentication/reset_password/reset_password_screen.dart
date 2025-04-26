@@ -52,7 +52,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding:  EdgeInsets.symmetric(horizontal: 16.w),
                     child: Form(
                       key: formKey,
                       child: SingleChildScrollView(

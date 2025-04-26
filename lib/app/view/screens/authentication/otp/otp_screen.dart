@@ -63,34 +63,34 @@ class OtpScreen extends StatelessWidget {
                 ),
 
                 child:  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding:  EdgeInsets.symmetric(horizontal: 16.w),
                   child: Form(
                     key: formKey,
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           ///: <<<<<<====== Header ======>>>>>>>>
-                          const CustomText(
+                           CustomText(
                             text: AppStrings.checkYourEmail,
                             fontWeight: FontWeight.w500,
-                            fontSize: 22,
+                            fontSize: 22.sp,
                             color: AppColors.black,
                           ),
 
-                          const CustomText(
+                           CustomText(
                             textAlign: TextAlign.center,
-                            top: 15,
+                            top: 15.h,
                             maxLines: 5,
                             text: AppStrings.weHaveSentYouANAu,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: AppColors.black,
                           ),
                           SizedBox(height: 60.h),
 
                           ///: <<<<<<====== OTP Pin Code Field ======>>>>>>>>
                           PinCodeTextField(
-                            textStyle: const TextStyle(color: AppColors.black, fontSize: 24),
+                            textStyle:  TextStyle(color: AppColors.black, fontSize: 24.sp),
                             keyboardType: TextInputType.number,
                             autoDisposeControllers: false,
                             cursorColor: AppColors.black,
@@ -107,7 +107,7 @@ class OtpScreen extends StatelessWidget {
                             pinTheme: PinTheme(
                               shape: PinCodeFieldShape.underline,
                               fieldHeight: 49.h,
-                              fieldWidth: 40,
+                              fieldWidth: 40.w,
                               borderWidth: 1.5,
                               activeColor: Colors.white,
                               inactiveColor: Colors.white,

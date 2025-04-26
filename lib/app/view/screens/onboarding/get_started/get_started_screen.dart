@@ -36,23 +36,23 @@ class GetStartedScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding:  EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 120.h,
                     ),
-                    const CustomText(
+                     CustomText(
                       text: AppStrings.getStarted,
                       fontWeight: FontWeight.w700,
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       color: AppColors.black,
                     ),
-                    const CustomText(
+                     CustomText(
                       text: AppStrings.startWithSign,
                       fontWeight: FontWeight.w300,
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       color: AppColors.black,
                     )
                   ],
@@ -61,7 +61,7 @@ class GetStartedScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),
             child: Column(
               children: [
                 //ToDo ==========✅✅ Sing In Button ✅✅==========

@@ -44,19 +44,19 @@ class SignInScreen extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 30),
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: 20.w, vertical: 30.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
                             height: 30.h,
                           ),
-                          const CustomText(
+                           CustomText(
                             textAlign: TextAlign.start,
                             text: AppStrings.welcomeBack,
                             fontWeight: FontWeight.w700,
-                            fontSize: 24,
+                            fontSize: 24.sp,
                             color: AppColors.black,
                           ),
 
@@ -94,13 +94,13 @@ class SignInScreen extends StatelessWidget {
                                       "Checkbox clicked, Remember value: ${authController.isRemember.value}");
                                 },
                               ),
-                              const CustomText(
-                                top: 12,
+                               CustomText(
+                                top: 12.h,
                                 text: AppStrings.rememberMe,
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.black,
-                                bottom: 15,
+                                bottom: 15.h,
                               ),
                               const Spacer(),
                               GestureDetector(
@@ -110,12 +110,12 @@ class SignInScreen extends StatelessWidget {
                                       extra: userRole);
                                 },
                                 child: CustomText(
-                                  top: 12,
+                                  top: 12.h,
                                   text: AppStrings.forgotPassword.tr,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.black,
-                                  bottom: 15,
+                                  bottom: 15.h,
                                 ),
                               ),
                             ],
@@ -126,7 +126,7 @@ class SignInScreen extends StatelessWidget {
               ),
               Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                   child: Column(
                     children: [
                       //ToDo ==========✅✅ Sing In Button✅✅==========

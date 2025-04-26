@@ -18,7 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class OwnerShopDetails extends StatefulWidget {
-  OwnerShopDetails({super.key});
+  const OwnerShopDetails({super.key});
 
   @override
   State<OwnerShopDetails> createState() => _OwnerShopDetailsState();

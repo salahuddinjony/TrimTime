@@ -21,7 +21,7 @@ class ChoseAuthScreen extends StatelessWidget {
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -31,18 +31,18 @@ class ChoseAuthScreen extends StatelessWidget {
               // Logo in the center
               Center(child: Assets.images.logo.image()),
 
-              const CustomText(
+               CustomText(
                 text: AppStrings.barbersTime,
-                fontSize: 32,
+                fontSize: 32.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.normalHover,
               ),
 
-              const CustomText(
+               CustomText(
                 textAlign: TextAlign.center,
                 maxLines: 5,
                 text: AppStrings.inAWorldFullOFTrends,
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
                 color: AppColors.gray800,
               ),

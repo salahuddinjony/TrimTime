@@ -303,6 +303,7 @@ class _NavBarState extends State<BottomNavbar> {
       // Ensure the widget is recreated when the index changes
       index: bottomNavIndex,
       items: <Widget>[
+
         _buildNavItem(unselectedIcon[0], selectedIcon[0], textList[0],
             bottomNavIndex == 0),
         _buildNavItem(unselectedIcon[1], selectedIcon[1], textList[1],

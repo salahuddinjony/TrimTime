@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   final UserHomeController homeController = Get.find<UserHomeController>();
+
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -51,37 +51,68 @@ class HomeScreen extends StatelessWidget {
                 .pushNamed(RoutePath.notificationScreen, extra: userRole),
           ),
 
-
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 300.h,
-                    width: double.infinity,
-                    child: GridView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 1.0,
-                      ),
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        return CustomCard(
-                            title: homeController.userHomeList[index]
-                            ["title"], icon: homeController.userHomeList[index]
-                        ["icon"]);
-                      },
-                    ),
+                    children: [
+                      CustomCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.nearYouShopScreen,
+                                extra: userRole);
+                          },
+                          title: "Bookings",
+                          icon: Assets.icons.bookings.svg()),
+                      CustomCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.loyaltyScreen,
+                                extra: userRole);
+                          },
+                          title: "Loyalty",
+                          icon: Assets.icons.loyalitys.svg()),
+                      CustomCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.scannerScreen,
+                                extra: userRole);
+                          },
+                          title: "Queue",
+                          icon: Assets.icons.ques.svg()),
+                    ],
                   ),
-                  SizedBox(height: 10.h,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CustomCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.visitShop,
+                                extra: userRole);
+                          },
+                          title: "Review",
+                          icon: Assets.icons.reviews.svg()),
+                      CustomCard(
+                          onTap: () {},
+                          title: "Tips",
+                          icon: Assets.icons.tips.svg(height: 35)),
+                      CustomCard(
+                          onTap: () {},
+                          title: "MapView",
+                          icon: Assets.icons.mapview.svg()),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+
                   /// 🔥 Near You Section
                   CustomTitle(
                     title: AppStrings.nearYou,

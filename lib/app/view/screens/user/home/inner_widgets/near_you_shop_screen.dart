@@ -12,7 +12,7 @@ class NearYouShopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white50,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: AppStrings.nearYou,
         appBarBgColor: AppColors.linearFirst,
         iconData: Icons.arrow_back,

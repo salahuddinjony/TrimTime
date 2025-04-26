@@ -49,7 +49,7 @@ class CommonShopCard extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         height: 145,
-        width:326,
+        width:double.infinity,
         fit: BoxFit.cover,
       ),
     );

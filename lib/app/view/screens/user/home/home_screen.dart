@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -7,10 +8,13 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_home_app_bar.dart';
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_card/custom_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,6 +22,8 @@ class HomeScreen extends StatelessWidget {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+
+  final UserHomeController homeController = Get.find<UserHomeController>();
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -39,17 +45,43 @@ class HomeScreen extends StatelessWidget {
             onSearch: () => AppRouter.route
                 .pushNamed(RoutePath.searchSaloon, extra: userRole),
             scaffoldKey: scaffoldKey,
-            name: "Masum",
+            name: "Anwer",
             image: AppConstants.demoImage,
             onTap: () => AppRouter.route
                 .pushNamed(RoutePath.notificationScreen, extra: userRole),
           ),
+
+
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 300.h,
+                    width: double.infinity,
+                    child: GridView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.0,
+                      ),
+                      itemCount: 6,
+                      itemBuilder: (context, index) {
+                        return CustomCard(
+                            title: homeController.userHomeList[index]
+                            ["title"], icon: homeController.userHomeList[index]
+                        ["icon"]);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10.h,),
                   /// 🔥 Near You Section
                   CustomTitle(
                     title: AppStrings.nearYou,

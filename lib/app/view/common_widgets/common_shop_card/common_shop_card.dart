@@ -30,7 +30,7 @@ class CommonShopCard extends StatelessWidget {
       // width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: AppColors.linearFirst,
+        color: AppColors.secondary,
       ),
       child: Stack(
         children: [

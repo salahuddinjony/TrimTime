@@ -31,6 +31,8 @@ class AppColors {
   static const Color red = Color(0xff990505);
   static const Color linearFirst = Color(0xffEDC4AC);
   static const Color navColor = Color(0xffF4EBDC);
+  static const Color first = Color(0xffEEC2A8);
+  static const Color last = Color(0xffEA8A53);
 
 
 

@@ -19,6 +19,9 @@ class $AssetsIconsGen {
   SvgGenImage get addService =>
       const SvgGenImage('assets/icons/add_service.svg');
 
+  /// File path: assets/icons/bookings.svg
+  SvgGenImage get bookings => const SvgGenImage('assets/icons/bookings.svg');
+
   /// File path: assets/icons/business.svg
   SvgGenImage get business => const SvgGenImage('assets/icons/business.svg');
 
@@ -75,6 +78,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/loyality.svg
   SvgGenImage get loyality => const SvgGenImage('assets/icons/loyality.svg');
 
+  /// File path: assets/icons/loyalitys.svg
+  SvgGenImage get loyalitys => const SvgGenImage('assets/icons/loyalitys.svg');
+
+  /// File path: assets/icons/mapview.svg
+  SvgGenImage get mapview => const SvgGenImage('assets/icons/mapview.svg');
+
   /// File path: assets/icons/my_feed_back.svg
   SvgGenImage get myFeedBack =>
       const SvgGenImage('assets/icons/my_feed_back.svg');
@@ -93,8 +102,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/privacy.svg
   SvgGenImage get privacy => const SvgGenImage('assets/icons/privacy.svg');
 
+  /// File path: assets/icons/ques.svg
+  SvgGenImage get ques => const SvgGenImage('assets/icons/ques.svg');
+
   /// File path: assets/icons/rate.svg
   SvgGenImage get rate => const SvgGenImage('assets/icons/rate.svg');
+
+  /// File path: assets/icons/reviews.svg
+  SvgGenImage get reviews => const SvgGenImage('assets/icons/reviews.svg');
 
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
@@ -102,9 +117,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/terms.svg
   SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
 
+  /// File path: assets/icons/tips.svg
+  SvgGenImage get tips => const SvgGenImage('assets/icons/tips.svg');
+
   /// List of all assets
   List<dynamic> get values => [
         addService,
+        bookings,
         business,
         camera,
         chevronRight,
@@ -123,14 +142,19 @@ class $AssetsIconsGen {
         location,
         logout,
         loyality,
+        loyalitys,
+        mapview,
         myFeedBack,
         notification,
         personalInfo,
         phone,
         privacy,
+        ques,
         rate,
+        reviews,
         settings,
-        terms
+        terms,
+        tips
       ];
 }
 

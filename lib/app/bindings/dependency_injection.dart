@@ -9,6 +9,7 @@ import 'package:barber_time/app/view/screens/owner/owner_message/controller/mess
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
 import 'package:barber_time/app/view/screens/splash/controller/splash_controller.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection extends Bindings {
@@ -23,6 +24,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => BarberHomeController(), fenix: true);
     Get.lazyPut(() => OwnerHiringController(), fenix: true);
     Get.lazyPut(() => BottomNavbarController(), fenix: true);
+    Get.lazyPut(() => UserHomeController(), fenix: true);
     // Get.lazyPut(() => MessagingController(), fenix: true);
 
 

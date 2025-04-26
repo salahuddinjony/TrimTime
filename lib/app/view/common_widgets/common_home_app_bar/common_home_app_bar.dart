@@ -26,80 +26,93 @@ class CommonHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: AppColors.linearFirst,
-      margin: EdgeInsets.only(
-        top: 32.h,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
-      child: Column(
-        children: [
-          ///====================================Top Section================================
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  ///==================== Profile image =====================
-                  CustomNetworkImage(
-                      backgroundColor: Colors.white,
-                      boxShape: BoxShape.circle,
-                      imageUrl: image,
-                      height: 46,
-                      width: 46),
+    return
 
-                  SizedBox(
-                    width: 16.w,
-                  ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const CustomText(
-                        text: 'Welcome Back!',
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                        fontSize: 14,
-                      ),
-
-                      ///=====================user name =======================
-                      CustomText(
-                        text: name,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                        color: AppColors.black,
-                      )
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 65.w,
-              ),
-
-              ///==========================Notification button ====================
-              IconButton(
-                  onPressed: onTap, icon: const Icon(Icons.notification_add))
+      Container(
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.only(
+          top: 32.h,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.first, // start color
+              AppColors.last, // end color
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          SizedBox(
-            height: 20.h,
-          ),
+        ),
+        child: Column(
+          children: [
+            ///====================================Top Section================================
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ///==================== Profile image =====================
+                    CustomNetworkImage(
+                        backgroundColor: Colors.white,
+                        boxShape: BoxShape.circle,
+                        imageUrl: image,
+                        height: 46,
+                        width: 46),
 
-          ///====================================Top Section================================
+                    SizedBox(
+                      width: 16.w,
+                    ),
 
-          isSearch == true?
-           CustomTextField(
-            onTap: onSearch,
-            readOnly: true,
-            fieldBorderColor: AppColors.black,
-            fillColor: AppColors.linearFirst,
-            hintText: AppStrings.searchSaloons,
-            suffixIcon: const Icon(Icons.search),
-          ):const SizedBox()
-        ],
-      ),
-    );
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const CustomText(
+                          text: 'Welcome Back!',
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.black,
+                          fontSize: 14,
+                        ),
+
+                        ///=====================user name =======================
+                        CustomText(
+                          text: name,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          color: AppColors.black,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 65.w,
+                ),
+
+                ///==========================Notification button ====================
+                IconButton(
+                    onPressed: onTap, icon: const Icon(Icons.notification_add))
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+
+            ///====================================Top Section================================
+
+            isSearch == true?
+            CustomTextField(
+              onTap: onSearch,
+              readOnly: true,
+              fieldBorderColor: AppColors.black,
+              fillColor: AppColors.linearFirst,
+              hintText: AppStrings.searchSaloons,
+              suffixIcon: const Icon(Icons.search),
+            ):const SizedBox()
+          ],
+        ),
+      );
+
+
   }
 }

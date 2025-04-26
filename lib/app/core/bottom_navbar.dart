@@ -220,7 +220,7 @@ class _NavBarState extends State<BottomNavbar> {
         textList = [
           AppStrings.home,
           AppStrings.que,
-          AppStrings.post,
+          "",
           AppStrings.hiring,
           AppStrings.profile
         ];

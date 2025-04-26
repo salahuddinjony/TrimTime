@@ -181,18 +181,17 @@ class ProfileScreen extends StatelessWidget {
                         )
                       : const SizedBox(),
 
-                  //TOdo=====favorite====
+                  //TOdo=====  ====
 
                   userRole == UserRole.barber
                       ? CustomMenuCard(
                           onTap: () {
                             AppRouter.route.pushNamed(
-                                RoutePath.myFavoriteScreen,
+                                RoutePath.paymentOption,
                                 extra: userRole);
                           },
-                          text: AppStrings.myFavorite,
-                          icon: Assets.images.savedUnselected
-                              .image(height: 16, color: AppColors.gray500),
+                          text: "withdraw money",
+                          icon: Assets.images.withdrawMoney.svg()
                         )
                       : const SizedBox(),
 
@@ -206,6 +205,21 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.ratings,
                           icon: Assets.icons.rate
+                              .svg(height: 16, color: AppColors.gray500),
+                        )
+                      : const SizedBox(),
+
+
+                  //TOdo=========
+
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.barberQueScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.que,
+                          icon: Assets.icons.ques
                               .svg(height: 16, color: AppColors.gray500),
                         )
                       : const SizedBox(),

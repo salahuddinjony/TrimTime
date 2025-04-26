@@ -292,8 +292,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/waiting.png
   AssetGenImage get waiting => const AssetGenImage('assets/images/waiting.png');
 
+  /// File path: assets/images/withdraw_money.svg
+  SvgGenImage get withdrawMoney =>
+      const SvgGenImage('assets/images/withdraw_money.svg');
+
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
         apple,
         barberRequest,
         berber,
@@ -330,7 +334,8 @@ class $AssetsImagesGen {
         totalBarber,
         totalCustomer,
         upload,
-        waiting
+        waiting,
+        withdrawMoney
       ];
 }
 

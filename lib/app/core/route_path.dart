@@ -69,5 +69,6 @@ class RoutePath{
   static const String editProfessionalProfile = 'EditProfessionalProfile';
   static const String visitShop = 'VisitShop';
   static const String businessProfile = 'BusinessProfile';
+  static const String barberQueScreen = 'BarberQueScreen';
 
 }

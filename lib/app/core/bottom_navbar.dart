@@ -267,28 +267,28 @@ class _NavBarState extends State<BottomNavbar> {
         unselectedIcon = [
           Assets.images.homeUnselected.image(color: Colors.black),
           Assets.images.queUnselected.image(color: Colors.black),
-          Assets.images.scanner.image(color: Colors.black),
+          Assets.images.booking.image(color: Colors.black),
           Assets.images.savedUnselected.image(color: Colors.black),
           Assets.images.profileUnselected.image(color: Colors.black),
         ];
         selectedIcon = [
           Assets.images.homeSelected.image(color: Colors.black),
           Assets.images.queSelected.image(color: Colors.black),
-          Assets.images.scanner.image(color: Colors.black),
+          Assets.images.booking.image(color: Colors.black),
           Assets.images.savedSelected.image(color: Colors.black),
           Assets.images.profileSelected.image(color: Colors.black),
         ];
         textList = [
           AppStrings.home,
           AppStrings.que,
-          '',
+          'Booking',
           AppStrings.saved,
           AppStrings.profile
         ];
         routeNames = [
           RoutePath.homeScreen,
           RoutePath.berberTimes,
-          RoutePath.scannerScreen,
+          RoutePath.bookingScreen,
           RoutePath.savedScreen,
           RoutePath.profileScreen
         ];
@@ -335,7 +335,7 @@ class _NavBarState extends State<BottomNavbar> {
   Widget _buildNavItem(Widget unselectedIcon, Widget selectedIcon, String text,
       bool isSelected) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

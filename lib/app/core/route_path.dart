@@ -32,6 +32,7 @@ class RoutePath{
   static const String ownerQue = 'OwnerQue';
   static const String tipsScreen = 'TipsScreen';
   static const String mapViewScreen = 'MapViewScreen';
+  static const String bookingScreen = 'BookingScreen';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

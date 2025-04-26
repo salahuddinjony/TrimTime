@@ -166,7 +166,22 @@ class ProfileScreen extends StatelessWidget {
                     icon: Assets.icons.myFeedBack.svg(color: Colors.black),
                   ),
 
-                  //TOdo=====following====
+                  //TOdo=====favorite====
+
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.myFavoriteScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.myFavorite,
+                          icon: Assets.images.savedUnselected
+                              .image(height: 16, color: AppColors.gray500),
+                        )
+                      : const SizedBox(),
+
+                  //TOdo=====favorite====
 
                   userRole == UserRole.barber
                       ? CustomMenuCard(

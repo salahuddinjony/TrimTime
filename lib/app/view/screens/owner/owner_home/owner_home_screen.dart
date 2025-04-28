@@ -39,6 +39,7 @@ class OwnerHomeScreen extends StatelessWidget {
         children: [
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
+            isDashboard: true,
             scaffoldKey: scaffoldKey,
             name: "Masum",
             image: AppConstants.demoImage,

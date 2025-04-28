@@ -189,6 +189,10 @@ class $AssetsImagesGen {
   AssetGenImage get customer =>
       const AssetGenImage('assets/images/customer.png');
 
+  /// File path: assets/images/dashboard.png
+  AssetGenImage get dashboard =>
+      const AssetGenImage('assets/images/dashboard.png');
+
   /// File path: assets/images/diamond.png
   AssetGenImage get diamond => const AssetGenImage('assets/images/diamond.png');
 
@@ -306,6 +310,7 @@ class $AssetsImagesGen {
         chartSelected,
         chartUnselected,
         customer,
+        dashboard,
         diamond,
         email,
         facebook,

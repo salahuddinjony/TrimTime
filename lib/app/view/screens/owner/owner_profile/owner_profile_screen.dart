@@ -104,8 +104,10 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.personalInfo, extra: userRole);
                     },
                     text: AppStrings.personalInformation,
-                    icon: Assets.icons.personalInfo.svg(  colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),),
+                    icon: Assets.icons.personalInfo.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
                   ),
 
                   //TOdo=====Professional Profile====
@@ -117,9 +119,10 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.professionalProfile,
-                          icon: Assets.icons.personalInfo
-                              .svg(  colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),),
+                          icon: Assets.icons.personalInfo.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
                         )
                       : const SizedBox(),
 
@@ -131,8 +134,10 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.businessProfile,
-                          icon: Assets.icons.business.svg(  colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),),
+                          icon: Assets.icons.business.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
                         )
                       : const SizedBox(),
                   //TOdo=====jobPost====
@@ -143,8 +148,39 @@ class ProfileScreen extends StatelessWidget {
                                 .pushNamed(RoutePath.jobPost, extra: userRole);
                           },
                           text: AppStrings.jobPost,
-                          icon: Assets.icons.job.svg(  colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),),
+                          icon: Assets.icons.job.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(),
+
+                  //TOdo=========
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.rateScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.rating,
+                          icon: Assets.icons.rate.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(),
+
+                  //chat=========
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.chatScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.chat,
+                          icon: Assets.images.chartSelected.image(
+
+                          ),
                         )
                       : const SizedBox(),
                   //TOdo=====barber====
@@ -167,8 +203,10 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.myFeed, extra: userRole);
                     },
                     text: AppStrings.myFeedBack,
-                    icon: Assets.icons.myFeedBack.svg(  colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),),
+                    icon: Assets.icons.myFeedBack.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
                   ),
 
                   //TOdo=====favorite====
@@ -191,13 +229,11 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.barber
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.paymentOption,
+                            AppRouter.route.pushNamed(RoutePath.paymentOption,
                                 extra: userRole);
                           },
                           text: "withdraw money",
-                          icon: Assets.images.withdrawMoney.svg()
-                        )
+                          icon: Assets.images.withdrawMoney.svg())
                       : const SizedBox(),
 
                   //TOdo=====rating====
@@ -209,12 +245,13 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.ratings,
-                          icon: Assets.icons.rate
-                              .svg(height: 16,   colorFilter: const ColorFilter.mode(
-                              AppColors.gray500, BlendMode.srcIn),),
+                          icon: Assets.icons.rate.svg(
+                            height: 16,
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.gray500, BlendMode.srcIn),
+                          ),
                         )
                       : const SizedBox(),
-
 
                   //TOdo=========
 
@@ -225,9 +262,11 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.que,
-                          icon: Assets.icons.ques
-                              .svg(height: 16,   colorFilter: const ColorFilter.mode(
-                              AppColors.gray500, BlendMode.srcIn),),
+                          icon: Assets.icons.ques.svg(
+                            height: 16,
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.gray500, BlendMode.srcIn),
+                          ),
                         )
                       : const SizedBox(),
 
@@ -241,23 +280,27 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.myFollowing,
-                          icon: Assets.icons.flowing.svg(  colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),),
+                          icon: Assets.icons.flowing.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
                         ),
 
                   //TOdo=========
 
                   userRole == UserRole.user
-                      ?
-                       CustomMenuCard(
+                      ? CustomMenuCard(
                           onTap: () {
                             AppRouter.route.pushNamed(RoutePath.myLoyality,
                                 extra: userRole);
                           },
                           text: "My Loyalty Rewards",
-                          icon: Assets.icons.loyality.svg(  colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),),
-                        ): const SizedBox(),
+                          icon: Assets.icons.loyality.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(),
 
                   //=========
                   //TOdo=====settings====
@@ -267,8 +310,10 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.settings, extra: userRole);
                     },
                     text: AppStrings.settings,
-                    icon: Assets.icons.settings.svg(  colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),),
+                    icon: Assets.icons.settings.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
                   ),
                   //=========
                   //TOdo=====logOut====

@@ -467,7 +467,6 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: JobPostAll(),
             state: state,
-            disableAnimation: true,
           ),
         ),
 

@@ -236,6 +236,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/my_booking.png
+  AssetGenImage get myBooking =>
+      const AssetGenImage('assets/images/my_booking.png');
+
   /// File path: assets/images/owner.png
   AssetGenImage get owner => const AssetGenImage('assets/images/owner.png');
 
@@ -327,6 +331,7 @@ class $AssetsImagesGen {
         homeSelected,
         homeUnselected,
         logo,
+        myBooking,
         owner,
         pending,
         profileSelected,

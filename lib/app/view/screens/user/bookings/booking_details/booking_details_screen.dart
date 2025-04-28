@@ -1,6 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -11,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class BookingScreen extends StatelessWidget {
-  const BookingScreen({super.key});
+class BookingDetailsScreen extends StatelessWidget {
+  const BookingDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,31 +22,16 @@ class BookingScreen extends StatelessWidget {
       );
     }
     return Scaffold(
-      bottomNavigationBar: BottomNavbar(currentIndex: 2, role: userRole),
       backgroundColor: AppColors.white50,
       appBar: const CustomAppBar(
-        appBarContent: "Bookings",
+        appBarContent: "Booking Details",
         appBarBgColor: AppColors.linearFirst,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 20),
         child: Column(
           children: [
-            const CustomTabBar(),
-            SizedBox(
-              height: 10.h,
-            ),
-            CustomBookingCard(
-              onTap: (){
-                AppRouter.route.pushNamed(RoutePath.bookingDetailsScreen,
-                    extra: userRole);
-              },
-              imageUrl: AppConstants.shop,
-              title: "Italian Barbers THL",
-              dateTime: "Fri 28 Sep 2023 at 11:30 AM",
-              location: "Berlin strasse 87",
-              price: "£90",
-            )
+
           ],
         ),
       ),

@@ -54,6 +54,7 @@ import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
+import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/map_view_screen.dart';
@@ -375,12 +376,24 @@ class AppRouter {
             child: const BusinessProfile(),
             state: state,
           ),
-        ),    ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.businessProfileEdit,
           path: RoutePath.businessProfileEdit.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BusinessProfileEdit(),
+            state: state,
+          ),
+        ),
+
+        ///=======================  =======================
+        GoRoute(
+          name: RoutePath.bookingDetailsScreen,
+          path: RoutePath.bookingDetailsScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BookingDetailsScreen(),
             state: state,
           ),
         ),

@@ -302,6 +302,21 @@ class ProfileScreen extends StatelessWidget {
                         )
                       : const SizedBox(),
 
+                  //TOdo=========
+
+                  userRole == UserRole.user
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                                extra: userRole);
+                          },
+                          text: "My Booking",
+                          icon: Assets.images.myBooking.image(
+
+                          ),
+                        )
+                      : const SizedBox(),
+
                   //=========
                   //TOdo=====settings====
                   CustomMenuCard(

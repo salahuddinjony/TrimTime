@@ -129,21 +129,24 @@ class OtpScreen extends StatelessWidget {
             ),
 
             ///: <<<<<<====== Verify Code Button ======>>>>>>>>
-            CustomButton(
-              isRadius: false,
-              width: MediaQuery.of(context).size.width,
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  isForget
-                      ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
-                      extra: userRole)
-                      :  AppRouter.route.goNamed(RoutePath.signInScreen,
-                      extra: userRole);
-                }
-              },
-              title: AppStrings.verifyCode,
-              fillColor: AppColors.black,
-              textColor: AppColors.white50,
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 16.w),
+              child: CustomButton(
+                isRadius: false,
+                width: MediaQuery.of(context).size.width,
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    isForget
+                        ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                        extra: userRole)
+                        :  AppRouter.route.goNamed(RoutePath.signInScreen,
+                        extra: userRole);
+                  }
+                },
+                title: AppStrings.verifyCode,
+                fillColor: AppColors.black,
+                textColor: AppColors.white50,
+              ),
             ),
           ],
         ),

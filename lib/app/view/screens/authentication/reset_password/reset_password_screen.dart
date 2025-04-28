@@ -94,16 +94,19 @@ class ResetPasswordScreen extends StatelessWidget {
 
             ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-            CustomButton(
-              isRadius: false,
-              width: MediaQuery.of(context).size.width,
-              onTap: () {
-                AppRouter.route
-                    .goNamed(RoutePath.signInScreen, extra: userRole);
-              },
-              title: AppStrings.resetPassword,
-              fillColor: AppColors.black,
-              textColor: AppColors.white50,
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 16.w),
+              child: CustomButton(
+                isRadius: false,
+                width: MediaQuery.of(context).size.width,
+                onTap: () {
+                  AppRouter.route
+                      .goNamed(RoutePath.signInScreen, extra: userRole);
+                },
+                title: AppStrings.resetPassword,
+                fillColor: AppColors.black,
+                textColor: AppColors.white50,
+              ),
             ),
           ],
         ),

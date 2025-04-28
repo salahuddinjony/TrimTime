@@ -94,23 +94,26 @@ class ForgetPasswordScreen extends StatelessWidget {
 
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-          CustomButton(
-            isRadius: false,
-            textColor: AppColors.white50,
-            width: MediaQuery.of(context).size.width,
-            onTap: () {
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 16.w),
+            child: CustomButton(
+              isRadius: false,
+              textColor: AppColors.white50,
+              width: MediaQuery.of(context).size.width,
+              onTap: () {
 
-              AppRouter.route.pushNamed(
-                RoutePath.otpScreen,
-                extra: {
-                  'isForget': true,
-                  'userRole': userRole?.name, // ✅ Convert UserRole to string
-                },
-              );
+                AppRouter.route.pushNamed(
+                  RoutePath.otpScreen,
+                  extra: {
+                    'isForget': true,
+                    'userRole': userRole?.name, // ✅ Convert UserRole to string
+                  },
+                );
 
-            },
-            title: AppStrings.sendCode,
-            fillColor: AppColors.black,
+              },
+              title: AppStrings.sendCode,
+              fillColor: AppColors.black,
+            ),
           ),
         ],
       )

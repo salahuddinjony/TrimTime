@@ -314,7 +314,6 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BarberQueScreen(),
             state: state,
-            disableAnimation: true
           ),
         ),
 

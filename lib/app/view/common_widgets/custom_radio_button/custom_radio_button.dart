@@ -30,7 +30,7 @@ class CustomRadioButtonRow extends StatelessWidget {
             groupValue: controller.selectedValue.value,
             onChanged: (String? newValue) {
               controller.updateSelection(newValue!, genderController);  // Update the value in GetX controller and TextEditingController
-              print('Selected value: $newValue');  // Print the selected value to console
+              debugPrint('Selected value: $newValue');  // Print the selected value to console
             },
           );
         }),

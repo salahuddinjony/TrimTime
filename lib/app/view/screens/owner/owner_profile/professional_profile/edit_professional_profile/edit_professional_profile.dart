@@ -1,9 +1,6 @@
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -63,41 +60,41 @@ class EditProfessionalProfile extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 50),
+                          SizedBox(height: 50.h),
                           CustomFromCard(
                             title:AppStrings.name,
                             controller: TextEditingController(),
                             validator: (v) {},
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           CustomFromCard(
                             title:"Bio",
                             maxLine: 5,
                             controller: TextEditingController(),
                             validator: (v) {},
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Experience",
                             controller: TextEditingController(),
                             validator: (v) {},
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Current Work",
                             controller: TextEditingController(),
                             validator: (v) {},
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Add Skill",
                             controller: TextEditingController(),
                             validator: (v) {},
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.h),
                         ],
                       ),
                     ),

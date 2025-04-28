@@ -1,6 +1,5 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +21,12 @@ class BookingScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNavbar(currentIndex: 2, role: userRole),
       backgroundColor: AppColors.white50,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: "Bookings",
         appBarBgColor: AppColors.linearFirst,
       ),
     );
   }
 }
+
+

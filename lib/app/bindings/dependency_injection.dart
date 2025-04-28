@@ -5,7 +5,6 @@ import 'package:barber_time/app/global/controller/general_controller/general_con
 import 'package:barber_time/app/global/controller/payment_controller/payment_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/controller/owner_hiring_controller.dart';
-import 'package:barber_time/app/view/screens/owner/owner_message/controller/messaging_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
 import 'package:barber_time/app/view/screens/splash/controller/splash_controller.dart';

@@ -139,7 +139,7 @@ class SignInScreen extends StatelessWidget {
                           } else if (userRole == UserRole.owner) {
                             AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: userRole);
                           } else {
-                            print('No route selected');
+                            debugPrint('No route selected');
                           }
                         },
                         title: AppStrings.signIn,

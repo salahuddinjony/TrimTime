@@ -108,7 +108,13 @@ class CommonHomeAppBar extends StatelessWidget {
               fillColor: AppColors.linearFirst,
               hintText: AppStrings.searchSaloons,
               suffixIcon: const Icon(Icons.search),
-            ):const SizedBox()
+            ):const SizedBox(),
+
+
+
+            const Align(
+                alignment: Alignment.bottomRight,
+                child: Icon(Icons.calendar_month))
           ],
         ),
       );

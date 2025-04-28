@@ -11,12 +11,12 @@ class CustomBarberCard extends StatelessWidget {
   final String contact;
 
   const CustomBarberCard({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.role,
     required this.contact,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

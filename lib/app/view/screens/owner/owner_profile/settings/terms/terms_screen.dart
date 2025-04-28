@@ -22,7 +22,7 @@ class TermsScreen extends StatelessWidget {
     return const Scaffold(
       backgroundColor: AppColors.linearFirst,
       ///============================ Header ===============================
-      appBar: const CustomAppBar(
+      appBar:  CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.termsAndConditions,
         iconData: Icons.arrow_back,

@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -47,7 +46,7 @@ class NotificationScreen extends StatelessWidget {
           ),
           child:  Padding(
             padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.h),
-            child: Column(
+            child: const Column(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

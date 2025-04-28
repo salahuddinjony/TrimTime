@@ -22,7 +22,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return const Scaffold(
       backgroundColor: AppColors.linearFirst,
       ///============================ Header ===============================
-      appBar: const CustomAppBar(
+      appBar:  CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
 
         appBarContent: AppStrings.privacyPolicy,

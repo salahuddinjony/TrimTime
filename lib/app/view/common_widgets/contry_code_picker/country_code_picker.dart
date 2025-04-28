@@ -6,10 +6,10 @@ class CountryCodePickerField extends StatefulWidget {
   final Function onTap;
 
   const CountryCodePickerField({
-    Key? key,
+    super.key,
     required this.readOnly,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   _CountryCodePickerFieldState createState() => _CountryCodePickerFieldState();
@@ -48,7 +48,7 @@ class _CountryCodePickerFieldState extends State<CountryCodePickerField> {
               hintText: 'Enter phone number',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.black),
+                borderSide: const BorderSide(color: Colors.black),
               ),
             ),
             inputBorder: InputBorder.none,

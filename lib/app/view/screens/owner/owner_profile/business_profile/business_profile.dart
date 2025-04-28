@@ -16,7 +16,7 @@ class BusinessProfile extends StatelessWidget {
         body: const Center(child: Text('No user role received')),
       );
     }
-    return Scaffold(
+    return const Scaffold(
 
     );
   }

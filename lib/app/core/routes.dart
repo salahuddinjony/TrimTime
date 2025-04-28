@@ -585,7 +585,7 @@ class AppRouter {
           name: RoutePath.ownerShopDetails,
           path: RoutePath.ownerShopDetails.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: OwnerShopDetails(),
+            child: const OwnerShopDetails(),
             state: state,
           ),
         ),

@@ -55,7 +55,7 @@ class CustomHiringCard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: AppColors.black,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 // Role/Title of the person (e.g., Barber, Manager, etc.)
                 CustomText(
                   text: role,
@@ -63,7 +63,7 @@ class CustomHiringCard extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: AppColors.black,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 // Rating Row
                 Row(
                   children: [

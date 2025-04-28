@@ -27,10 +27,10 @@ class OwnerShopDetails extends StatefulWidget {
 class _OwnerShopDetailsState extends State<OwnerShopDetails> {
   final AuthController authController = Get.find<AuthController>();
   final ImagePicker _picker = ImagePicker();
-  List<XFile> _imageFiles = [];
+ final List<XFile> _imageFiles = [];
 
   Future<void> _pickImages() async {
-    final List<XFile>? pickedFiles = await _picker.pickMultiImage();
+    final List<XFile> pickedFiles = await _picker.pickMultiImage();
 
     if (pickedFiles != null && pickedFiles.isNotEmpty) {
       setState(() {

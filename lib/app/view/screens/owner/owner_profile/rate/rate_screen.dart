@@ -1,6 +1,4 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
+
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -12,7 +10,6 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class RateScreen extends StatelessWidget {
   const RateScreen({
@@ -66,8 +63,8 @@ class RateScreen extends StatelessWidget {
                         imageUrl: AppConstants.demoImage,
                         height: 34,
                         width: 34),
-                    Expanded(
-                      child: const Column(
+                    const Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(

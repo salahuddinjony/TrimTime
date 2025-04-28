@@ -30,6 +30,7 @@ import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.da
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/barber/barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile_edit/business_profile_edit.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
@@ -372,6 +373,14 @@ class AppRouter {
           path: RoutePath.businessProfile.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BusinessProfile(),
+            state: state,
+          ),
+        ),    ///=======================  =======================
+        GoRoute(
+          name: RoutePath.businessProfileEdit,
+          path: RoutePath.businessProfileEdit.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BusinessProfileEdit(),
             state: state,
           ),
         ),

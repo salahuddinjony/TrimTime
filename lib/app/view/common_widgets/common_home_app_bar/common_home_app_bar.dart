@@ -20,7 +20,8 @@ class CommonHomeAppBar extends StatelessWidget {
       this.isCalender,
       this.onCalender,
       this.isDashboard,
-      this.onDashboard});
+      this.onDashboard,
+      this.isQrCode, this.uniqueQrCode});
 
   final String name;
   final VoidCallback onTap;
@@ -30,10 +31,12 @@ class CommonHomeAppBar extends StatelessWidget {
   final VoidCallback? onCalender;
 
   final VoidCallback? onDashboard;
+  final VoidCallback? uniqueQrCode;
 
   final bool? isSearch;
   final bool? isCalender;
   final bool? isDashboard;
+  final bool? isQrCode;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
@@ -138,48 +141,60 @@ class CommonHomeAppBar extends StatelessWidget {
 
           isDashboard == true
               ? Row(
-                children: [
-
-                  GestureDetector(
-                    onTap: onDashboard,
-                    child: Container(
-                        padding: EdgeInsets.all(10.r),
-                        decoration: BoxDecoration(
-                          color: AppColors.brown50,
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
-                        child: CustomText(
-
-                          text: "Unique QR code",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15.sp,
-                          color: AppColors.black,
-                        )),
-                  ),
-
-                  GestureDetector(
-                    onTap: onDashboard,
-                    child: Container(
-                        padding: EdgeInsets.all(10.r),
-                        decoration: BoxDecoration(
-                          color: AppColors.brown50,
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
-                        child: Row(
-                          children: [
-                            Assets.images.dashboard.image(),
-                            CustomText(
-                              left: 10,
-                              text: "Dash Board",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15.sp,
-                              color: AppColors.secondary,
-                            )
-                          ],
-                        )),
-                  ),
-                ],
-              )
+                  children: [
+                    GestureDetector(
+                      onTap: uniqueQrCode,
+                      child: Container(
+                          padding: EdgeInsets.all(10.r),
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                          child: CustomText(
+                            text: "Unique QR code",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15.sp,
+                            color: AppColors.black,
+                          )),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    GestureDetector(
+                      onTap: onCalender,
+                      child: Container(
+                          padding: EdgeInsets.all(10.r),
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                          child: const Icon(Icons.calendar_month)),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: onDashboard,
+                      child: Container(
+                          padding: EdgeInsets.all(10.r),
+                          decoration: BoxDecoration(
+                            color: AppColors.brown50,
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                          child: Row(
+                            children: [
+                              Assets.images.dashboard
+                                  .image(height: 16, width: 16),
+                              CustomText(
+                                left: 4,
+                                text: "Dash Board",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 10.sp,
+                                color: AppColors.secondary,
+                              )
+                            ],
+                          )),
+                    ),
+                  ],
+                )
               : const SizedBox()
         ],
       ),

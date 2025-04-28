@@ -39,7 +39,18 @@ class OwnerHomeScreen extends StatelessWidget {
         children: [
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
+            uniqueQrCode: (){
+              AppRouter.route
+                  .pushNamed(RoutePath.uniqueQrCode, extra: userRole);
+            },
             isDashboard: true,
+            onDashboard: (){
+              debugPrint("click");
+            },
+            onCalender: (){
+              AppRouter.route
+                  .pushNamed(RoutePath.scheduleScreen, extra: userRole);
+            },
             scaffoldKey: scaffoldKey,
             name: "Masum",
             image: AppConstants.demoImage,

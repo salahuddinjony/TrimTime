@@ -272,6 +272,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/scanner.png
   AssetGenImage get scanner => const AssetGenImage('assets/images/scanner.png');
 
+  /// File path: assets/images/scanner_image.png
+  AssetGenImage get scannerImage =>
+      const AssetGenImage('assets/images/scanner_image.png');
+
   /// File path: assets/images/sign_in_logo.png
   AssetGenImage get signInLogo =>
       const AssetGenImage('assets/images/sign_in_logo.png');
@@ -333,6 +337,7 @@ class $AssetsImagesGen {
         savedSelected,
         savedUnselected,
         scanner,
+        scannerImage,
         signInLogo,
         silver,
         stripe,

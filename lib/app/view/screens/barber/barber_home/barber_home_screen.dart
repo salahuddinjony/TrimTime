@@ -39,6 +39,11 @@ class BarberHomeScreen extends StatelessWidget {
         children: [
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
+            onCalender: (){
+              AppRouter.route
+                  .pushNamed(RoutePath.scheduleScreen, extra: userRole);
+            },
+            isCalender: true,
             scaffoldKey: scaffoldKey,
             name: "Masum",
             image: AppConstants.demoImage,

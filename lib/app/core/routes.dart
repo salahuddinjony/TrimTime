@@ -15,6 +15,7 @@ import 'package:barber_time/app/view/screens/barber/barber_history/barber_histor
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/feed_all.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/job_post_all.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/schedule_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
 import 'package:barber_time/app/view/screens/notification/notification_screen.dart';
@@ -292,10 +293,7 @@ class AppRouter {
           name: RoutePath.berberTimes,
           path: RoutePath.berberTimes.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BerberTimes(),
-            state: state,
-            disableAnimation: true
-          ),
+              child: const BerberTimes(), state: state, disableAnimation: true),
         ),
 
         ///=======================  =======================
@@ -303,11 +301,12 @@ class AppRouter {
           name: RoutePath.bookingScreen,
           path: RoutePath.bookingScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BookingScreen(),
-            state: state,
-            disableAnimation: true
-          ),
-        ),    ///=======================  =======================
+              child: const BookingScreen(),
+              state: state,
+              disableAnimation: true),
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.barberQueScreen,
           path: RoutePath.barberQueScreen.addBasePath,
@@ -385,7 +384,9 @@ class AppRouter {
             child: const TipsScreen(),
             state: state,
           ),
-        ),     ///=======================  =======================
+        ),
+
+        ///=======================  =======================
         GoRoute(
           name: RoutePath.mapViewScreen,
           path: RoutePath.mapViewScreen.addBasePath,
@@ -590,6 +591,16 @@ class AppRouter {
           ),
         ),
 
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.scheduleScreen,
+          path: RoutePath.scheduleScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ScheduleScreen(),
+            state: state,
+          ),
+        ),
+
         ///=======================SubscriptionPlan =======================
         GoRoute(
           name: RoutePath.subscriptionPlan,
@@ -646,10 +657,7 @@ class AppRouter {
           name: RoutePath.ownerQue,
           path: RoutePath.ownerQue.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerQue(),
-            state: state,
-            disableAnimation: true
-          ),
+              child: const OwnerQue(), state: state, disableAnimation: true),
         ),
 
         ///======================= =======================

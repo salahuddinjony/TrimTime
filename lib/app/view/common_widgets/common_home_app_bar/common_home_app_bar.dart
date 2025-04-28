@@ -14,14 +14,16 @@ class CommonHomeAppBar extends StatelessWidget {
     required this.name,
     required this.image,
     required this.onTap,
-    required, this.onSearch, this.isSearch
+    required, this.onSearch, this.isSearch, this.isCalender, this.onCalender
   });
 
   final String name;
   final VoidCallback onTap;
   final String image;
   final VoidCallback? onSearch ;
+  final VoidCallback? onCalender ;
   final bool? isSearch;
+  final bool? isCalender;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
@@ -111,16 +113,20 @@ class CommonHomeAppBar extends StatelessWidget {
             ):const SizedBox(),
 
 
-
+            isCalender == true?
              Align(
                 alignment: Alignment.bottomRight,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(5.r),
+                child: GestureDetector(
+                  onTap:onCalender ,
+                  child: Container(
+                    padding: EdgeInsets.all(10.r),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteColor,
+                        borderRadius: BorderRadius.circular(5.r),
 
-                    ),
-                    child: const Icon(Icons.calendar_month)))
+                      ),
+                      child: const Icon(Icons.calendar_month)),
+                )):const SizedBox()
           ],
         ),
       );

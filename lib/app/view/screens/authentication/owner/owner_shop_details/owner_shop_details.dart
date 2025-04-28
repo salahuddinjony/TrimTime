@@ -32,7 +32,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
   Future<void> _pickImages() async {
     final List<XFile> pickedFiles = await _picker.pickMultiImage();
 
-    if (pickedFiles != null && pickedFiles.isNotEmpty) {
+    if (pickedFiles.isNotEmpty) {
       setState(() {
         if (_imageFiles.length + pickedFiles.length <= 4) {
           _imageFiles.addAll(pickedFiles);
@@ -90,22 +90,25 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                 hinText: AppStrings.enterYourSHopName,
                                 title: AppStrings.shopNames,
                                 controller: authController.fullNameController,
-                                validator: (v) {}),
-                            //ToDo ==========✅✅ registrationNumber✅✅==========
+                                validator: (v) {
+                                  return null;
+                                }),                            //ToDo ==========✅✅ registrationNumber✅✅==========
                             CustomFromCard(
                                 hinText: AppStrings.enterYourRegistrationNumber,
                                 title: AppStrings.registrationNumber,
                                 controller: authController.emailController,
-                                validator: (v) {}),
-
+                                validator: (v) {
+                                  return null;
+                                }),
                             //ToDo ==========✅✅ registrationNumber✅✅==========
                             CustomFromCard(
                               suffixIcon: const Icon(Icons.add),
                                 hinText: AppStrings.addService,
                                 title: AppStrings.addService,
                                 controller: authController.emailController,
-                                validator: (v) {}),
-
+                                validator: (v) {
+                                  return null;
+                                }),
                             const CustomText(
                               top: 12,
                               text: "Shop Pictures (max 4)",

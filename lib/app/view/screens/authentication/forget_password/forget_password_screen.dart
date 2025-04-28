@@ -78,8 +78,9 @@ class ForgetPasswordScreen extends StatelessWidget {
                               hinText: AppStrings.enterYourEmail,
                               title: AppStrings.email,
                               controller: TextEditingController(),
-                              validator: (v) {}),
-                          SizedBox(
+                              validator: (v) {
+                                return null;
+                              }),                          SizedBox(
                             height: 100.h,
                           ),
 

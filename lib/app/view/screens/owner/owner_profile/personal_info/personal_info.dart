@@ -32,14 +32,13 @@ class PersonalInfo extends StatelessWidget {
     }
     return Scaffold(
       ///============================ Header ===============================
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         appBarContent: AppStrings.profile,
         iconData: Icons.arrow_back,
         isIcon: true,
-        onTap: (){
-          AppRouter.route.pushNamed(
-            RoutePath.editOwnerProfile,extra: userRole
-          );
+        onTap: () {
+          AppRouter.route
+              .pushNamed(RoutePath.editOwnerProfile, extra: userRole);
         },
         appBarBgColor: AppColors.linearFirst,
       ),
@@ -67,60 +66,66 @@ class PersonalInfo extends StatelessWidget {
                 //TOdo=====Header====
                 Center(
                     child: Column(
-                      children: [
-                        CustomNetworkImage(
-                            boxShape: BoxShape.circle,
-                            imageUrl: AppConstants.demoImage,
-                            height: 102,
-                            width: 102),
-                        const CustomText(
-                          top: 8,
-                          text: "Jane Cooper",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          color: AppColors.black,
-                        ),
-                        const CustomText(
-                          top: 8,
-                          text: "Jane@example.com",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: AppColors.black,
-                        ),
-                      ],
-                    )),
+                  children: [
+                    CustomNetworkImage(
+                        boxShape: BoxShape.circle,
+                        imageUrl: AppConstants.demoImage,
+                        height: 102,
+                        width: 102),
+                    const CustomText(
+                      top: 8,
+                      text: "Jane Cooper",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: AppColors.black,
+                    ),
+                    const CustomText(
+                      top: 8,
+                      text: "Jane@example.com",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: AppColors.black,
+                    ),
+                  ],
+                )),
                 //TOdo=====name====
                 CustomMenuCard(
                   onTap: () {},
                   isArrow: true,
                   text: "james",
-                  icon: Assets.icons.personalInfo.svg(color: AppColors.black),
+                  icon: Assets.icons.personalInfo.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
                 ),
                 //=====date====
                 CustomMenuCard(
                   isArrow: true,
                   text: "22-03-1998",
-                  icon: Assets.icons.date.svg(color: AppColors.black),
+                  icon: Assets.icons.date.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
                 ),
                 //=====gender====
                 CustomMenuCard(
                   isArrow: true,
                   text: "male",
-                  icon: Assets.icons.gender.svg(color: AppColors.black),
+                  icon: Assets.icons.gender.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
                 ),
                 //=========phone===
                 CustomMenuCard(
                   text: '+4412451211',
-                  icon: Assets.icons.phone.svg(color: AppColors.black),
+                  icon: Assets.icons.phone.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
                   isArrow: true,
                 ),
                 //=====location====
                 CustomMenuCard(
                   isArrow: true,
                   text: 'Abu dhabi',
-                  icon: Assets.icons.location.svg(color: AppColors.black),
+                  icon: Assets.icons.location.svg(
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),
+                  ),
                 ), //=====addService====
-
               ],
             ),
           ),

@@ -15,7 +15,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<types.Message> _messages = [];
+  List<types.Message> messages = [];
   final _user = const types.User(id: 'user_1', firstName: "Me");
 
   @override
@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   /// ✅ Add new text message to chat
   void _addMessage(types.Message message) {
     setState(() {
-      _messages.insert(0, message);
+      messages.insert(0, message);
     });
   }
 
@@ -66,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
       iconData: Icons.arrow_back,
     ),
     body: Chat(
-      messages: _messages,
+      messages: messages,
       onSendPressed: _handleSendPressed,
       showUserAvatars: true,
       showUserNames: true,

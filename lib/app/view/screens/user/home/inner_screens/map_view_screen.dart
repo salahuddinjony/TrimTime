@@ -16,9 +16,9 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.white50,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         appBarContent: AppStrings.mapView,
         appBarBgColor: AppColors.linearFirst,
         iconData: Icons.arrow_back,

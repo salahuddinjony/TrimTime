@@ -66,7 +66,7 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.loyaLity,
                   icon: Assets.icons.location.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
                   ),
                 ):const SizedBox(),//=====faq====
                 CustomMenuCard(
@@ -78,7 +78,7 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.faq,
                   icon: Assets.icons.faq.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
                   ),
                 ), //=====termsAndConditions====
                 CustomMenuCard(
@@ -90,7 +90,8 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.termsAndConditions,
                   icon: Assets.icons.terms.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
                   ),
                 ), //=====privacyPolicy====
                 CustomMenuCard(
@@ -102,7 +103,8 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.privacyPolicy,
                   icon: Assets.icons.privacy.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
                   ),
                 ), //=====changePassword====
                 CustomMenuCard(
@@ -114,7 +116,8 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.changePassword,
                   icon: Assets.icons.key.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
                   ),
                 ),
                 //=====deleteAccount====
@@ -127,7 +130,8 @@ class Settings extends StatelessWidget {
                   isContainerCard: true,
                   text: AppStrings.deleteAccount,
                   icon: Assets.icons.delete.svg(
-                    color: AppColors.normalHover,
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
                   ),
                 ),
               ],

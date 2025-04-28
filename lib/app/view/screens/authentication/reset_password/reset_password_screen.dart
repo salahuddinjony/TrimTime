@@ -70,15 +70,17 @@ class ResetPasswordScreen extends StatelessWidget {
                                 hinText: AppStrings.enterNewPassword,
                                 title: AppStrings.enterYourNewPassword,
                                 controller: TextEditingController(),
-                                validator: (v) {}),
-
+                                validator: (v) {
+                                  return null;
+                                }),
                             CustomFromCard(
                                 isPassword: true,
                                 hinText: AppStrings.confirmNewPassword,
                                 title: AppStrings.confirmNewPassword,
                                 controller: TextEditingController(),
-                                validator: (v) {}),
-                            SizedBox(
+                                validator: (v) {
+                                  return null;
+                                }),                            SizedBox(
                               height: 100.h,
                             ),
 

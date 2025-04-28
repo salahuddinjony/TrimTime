@@ -12,10 +12,10 @@ class CountryCodePickerField extends StatefulWidget {
   });
 
   @override
-  _CountryCodePickerFieldState createState() => _CountryCodePickerFieldState();
+  CountryCodePickerFieldState createState() => CountryCodePickerFieldState();
 }
 
-class _CountryCodePickerFieldState extends State<CountryCodePickerField> {
+class CountryCodePickerFieldState extends State<CountryCodePickerField> {
   PhoneNumber number = PhoneNumber(isoCode: 'US'); // Default to 'US' (United States)
   TextEditingController controller = TextEditingController();
 

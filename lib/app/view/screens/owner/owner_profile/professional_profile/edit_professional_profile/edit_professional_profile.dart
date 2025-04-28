@@ -6,7 +6,6 @@ import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -64,36 +63,41 @@ class EditProfessionalProfile extends StatelessWidget {
                           CustomFromCard(
                             title:AppStrings.name,
                             controller: TextEditingController(),
-                            validator: (v) {},
-                          ),
+                              validator: (v) {
+                                return null;
+                              }),
                           SizedBox(height: 20.h),
                           CustomFromCard(
                             title:"Bio",
                             maxLine: 5,
                             controller: TextEditingController(),
-                            validator: (v) {},
-                          ),
+                              validator: (v) {
+                                return null;
+                              }),
                           SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Experience",
                             controller: TextEditingController(),
-                            validator: (v) {},
-                          ),
+                              validator: (v) {
+                                return null;
+                              }),
                           SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Current Work",
                             controller: TextEditingController(),
-                            validator: (v) {},
-                          ),
+                              validator: (v) {
+                                return null;
+                              }),
                           SizedBox(height: 15.h),
 
                           CustomFromCard(
                             title:"Add Skill",
                             controller: TextEditingController(),
-                            validator: (v) {},
-                          ),
+                              validator: (v) {
+                                return null;
+                              }),
                           SizedBox(height: 15.h),
                         ],
                       ),
@@ -140,37 +144,37 @@ class EditProfessionalProfile extends StatelessWidget {
     );
   }
 
-  //follow button and chart button
-  Widget _customButton(String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 14, color: Colors.white),
-          const SizedBox(width: 6),
-          CustomText(
-            text: text,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _iconButton(Widget icon) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: icon,
-    );
-  }
+  // //follow button and chart button
+  // Widget _customButton(String text, IconData icon) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  //     decoration: BoxDecoration(
+  //       color: AppColors.black,
+  //       borderRadius: BorderRadius.circular(8),
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Icon(icon, size: 14, color: Colors.white),
+  //         const SizedBox(width: 6),
+  //         CustomText(
+  //           text: text,
+  //           fontSize: 12,
+  //           fontWeight: FontWeight.w700,
+  //           color: Colors.white,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _iconButton(Widget icon) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(8),
+  //     decoration: BoxDecoration(
+  //       color: AppColors.black,
+  //       borderRadius: BorderRadius.circular(8),
+  //     ),
+  //     child: icon,
+  //   );
+  // }
 }

@@ -70,14 +70,18 @@ class SignInScreen extends StatelessWidget {
                               hinText: AppStrings.enterYourEmail,
                               title: AppStrings.email,
                               controller: authController.emailController,
-                              validator: (v) {}),
+                              validator: (v) {
+                                return null;
+                              }),
                           //ToDo ==========✅✅ password ✅✅==========
                           CustomFromCard(
                               isPassword: true,
                               hinText: AppStrings.enterYourPassword,
                               title: AppStrings.password,
                               controller: authController.passwordController,
-                              validator: (v) {}),
+                              validator: (v) {
+                                return null;
+                              }),
 
                           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Forgot Password💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 

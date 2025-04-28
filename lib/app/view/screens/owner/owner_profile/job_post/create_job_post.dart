@@ -43,7 +43,9 @@ class CreateJobPost extends StatelessWidget {
                   suffixIcon: const Icon(Icons.calendar_month),
                   title: 'Date',
                   controller: TextEditingController(text: 'MM/DD/YY'),
-                  validator: (v) {}),
+                  validator: (v) {
+                    return null;
+                  }),
               Row(
                 children: [
                   Expanded(
@@ -51,7 +53,9 @@ class CreateJobPost extends StatelessWidget {
                         suffixIcon: const Icon(Icons.calendar_month),
                         title: 'Start time',
                         controller: TextEditingController(text: ''),
-                        validator: (v) {}),
+                        validator: (v) {
+                          return null;
+                        }),
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
@@ -59,7 +63,9 @@ class CreateJobPost extends StatelessWidget {
                         suffixIcon: const Icon(Icons.calendar_month),
                         title: 'End time',
                         controller: TextEditingController(text: ''),
-                        validator: (v) {}),
+                        validator: (v) {
+                          return null;
+                        }),
                   ),
                 ],
               ),
@@ -67,26 +73,34 @@ class CreateJobPost extends StatelessWidget {
                   title: 'Rate(hourly)',
                   hinText: "Enter rate",
                   controller: TextEditingController(),
-                  validator: (v) {}),
+                  validator: (v) {
+                    return null;
+                  }),
 
               CustomFromCard(
                   title: AppStrings.shopName,
                   hinText: AppStrings.name,
                   controller: TextEditingController(),
-                  validator: (v) {}),
+                  validator: (v) {
+                    return null;
+                  }),
 
               CustomFromCard(
                   suffixIcon: const Icon(Icons.camera),
                   title: "Add shop logo",
                   hinText:"Upload your logo",
                   controller: TextEditingController(),
-                  validator: (v) {}),
+                  validator: (v) {
+                    return null;
+                  }),
 
               CustomFromCard(
                   title: AppStrings.description,
                   hinText: AppStrings.description,
                   controller: TextEditingController(),
-                  validator: (v) {}),
+                  validator: (v) {
+                    return null;
+                  }),
             ],
           ),
         ),

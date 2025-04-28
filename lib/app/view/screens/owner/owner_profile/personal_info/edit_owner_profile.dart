@@ -71,7 +71,9 @@ class EditOwnerProfile extends StatelessWidget {
                       isBorderColor: true,
                       title: AppStrings.name,
                       controller: TextEditingController(text: " james"),
-                      validator: (f) {}),
+                      validator: (v) {
+                        return null;
+                      }),
                   //dateOfBirth
                   CustomFromCard(
                       suffixIcon: const Icon(
@@ -83,7 +85,9 @@ class EditOwnerProfile extends StatelessWidget {
                       isBorderColor: true,
                       title: AppStrings.dateOfBirth,
                       controller: TextEditingController(text: '22/10/2024l'),
-                      validator: (f) {}),
+                      validator: (v) {
+                        return null;
+                      }),
                   const CustomText(
                     color: AppColors.black,
                     text: AppStrings.gender,
@@ -142,7 +146,9 @@ class EditOwnerProfile extends StatelessWidget {
                       isBorderColor: true,
                       title: AppStrings.location,
                       controller: TextEditingController(text: 'Abu Dhabi'),
-                      validator: (f) {}),
+                      validator: (v) {
+                        return null;
+                      }),
 
                   SizedBox(
                     height: 20.h,

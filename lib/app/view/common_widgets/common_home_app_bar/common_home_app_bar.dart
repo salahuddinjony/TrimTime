@@ -112,9 +112,15 @@ class CommonHomeAppBar extends StatelessWidget {
 
 
 
-            const Align(
+             Align(
                 alignment: Alignment.bottomRight,
-                child: Icon(Icons.calendar_month))
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(5.r),
+
+                    ),
+                    child: const Icon(Icons.calendar_month)))
           ],
         ),
       );

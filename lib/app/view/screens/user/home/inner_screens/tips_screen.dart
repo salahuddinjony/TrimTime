@@ -66,7 +66,7 @@ class TipsScreen extends StatelessWidget {
                       imageUrl: AppConstants.demoImage,
                       name: "Barber $index",
                       onSendTip: () {
-                        print('Tip sent for Barber $index!');
+                        debugPrint('Tip sent for Barber $index!');
                       },
                     );
                   },

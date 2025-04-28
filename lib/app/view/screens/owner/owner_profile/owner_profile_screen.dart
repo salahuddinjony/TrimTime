@@ -104,7 +104,8 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.personalInfo, extra: userRole);
                     },
                     text: AppStrings.personalInformation,
-                    icon: Assets.icons.personalInfo.svg(color: Colors.black),
+                    icon: Assets.icons.personalInfo.svg(  colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),),
                   ),
 
                   //TOdo=====Professional Profile====
@@ -117,7 +118,8 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.professionalProfile,
                           icon: Assets.icons.personalInfo
-                              .svg(color: Colors.black),
+                              .svg(  colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),),
                         )
                       : const SizedBox(),
 
@@ -129,7 +131,8 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.businessProfile,
-                          icon: Assets.icons.business.svg(color: Colors.black),
+                          icon: Assets.icons.business.svg(  colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),),
                         )
                       : const SizedBox(),
                   //TOdo=====jobPost====
@@ -140,7 +143,8 @@ class ProfileScreen extends StatelessWidget {
                                 .pushNamed(RoutePath.jobPost, extra: userRole);
                           },
                           text: AppStrings.jobPost,
-                          icon: Assets.icons.job.svg(color: Colors.black),
+                          icon: Assets.icons.job.svg(  colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),),
                         )
                       : const SizedBox(),
                   //TOdo=====barber====
@@ -163,7 +167,8 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.myFeed, extra: userRole);
                     },
                     text: AppStrings.myFeedBack,
-                    icon: Assets.icons.myFeedBack.svg(color: Colors.black),
+                    icon: Assets.icons.myFeedBack.svg(  colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),),
                   ),
 
                   //TOdo=====favorite====
@@ -205,7 +210,8 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.ratings,
                           icon: Assets.icons.rate
-                              .svg(height: 16, color: AppColors.gray500),
+                              .svg(height: 16,   colorFilter: const ColorFilter.mode(
+                              AppColors.gray500, BlendMode.srcIn),),
                         )
                       : const SizedBox(),
 
@@ -220,7 +226,8 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.que,
                           icon: Assets.icons.ques
-                              .svg(height: 16, color: AppColors.gray500),
+                              .svg(height: 16,   colorFilter: const ColorFilter.mode(
+                              AppColors.gray500, BlendMode.srcIn),),
                         )
                       : const SizedBox(),
 
@@ -234,7 +241,8 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.myFollowing,
-                          icon: Assets.icons.flowing.svg(color: Colors.black),
+                          icon: Assets.icons.flowing.svg(  colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),),
                         ),
 
                   //TOdo=========
@@ -247,7 +255,8 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: "My Loyalty Rewards",
-                          icon: Assets.icons.loyality.svg(color: Colors.black),
+                          icon: Assets.icons.loyality.svg(  colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),),
                         ): const SizedBox(),
 
                   //=========
@@ -258,7 +267,8 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.settings, extra: userRole);
                     },
                     text: AppStrings.settings,
-                    icon: Assets.icons.settings.svg(color: Colors.black),
+                    icon: Assets.icons.settings.svg(  colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),),
                   ),
                   //=========
                   //TOdo=====logOut====

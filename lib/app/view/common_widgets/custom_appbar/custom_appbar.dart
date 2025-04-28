@@ -1,4 +1,3 @@
-
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -21,7 +20,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.appBarContent,
     super.key,
     this.iconData,
-    this.isIcon = false, this.onTap, // Default to false
+    this.isIcon = false,
+    this.onTap, // Default to false
   });
 
   @override
@@ -46,7 +46,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 icon: Icon(widget.iconData),
                 color: AppColors.black,
                 onPressed: () {
-                 context.pop();
+                  context.pop();
                 },
               ),
             if (widget.appBarContent != null)
@@ -59,11 +59,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   color: AppColors.black,
                 ),
               ),
-
             if (widget.isIcon)
               GestureDetector(
                 onTap: widget.onTap,
-                child: Assets.icons.edit.svg(color: AppColors.black),
+                child: Assets.icons.edit.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                ),
               ),
           ],
         ),

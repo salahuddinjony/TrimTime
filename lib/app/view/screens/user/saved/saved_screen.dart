@@ -24,7 +24,7 @@ class SavedScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNavbar(currentIndex: 3, role: userRole),
       backgroundColor: AppColors.white50,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: AppStrings.saved,
         appBarBgColor: AppColors.linearFirst,
       ),

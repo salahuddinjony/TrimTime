@@ -73,25 +73,33 @@ class SignUpScreen extends StatelessWidget {
                           hinText: AppStrings.enterYourName,
                             title: AppStrings.fullName,
                             controller: authController.fullNameController,
-                            validator: (v) {}),
+                            validator: (v) {
+                              return null;
+                            }),
                         //ToDo ==========✅✅ Email✅✅==========
                         CustomFromCard( hinText: AppStrings.enterYourEmail,
                             title: AppStrings.email,
                             controller: authController.emailController,
-                            validator: (v) {}),
+                            validator: (v) {
+                              return null;
+                            }),
                         //ToDo ==========✅✅ password ✅✅==========
                         CustomFromCard(
                             hinText: AppStrings.enterYourPassword,
                             title: AppStrings.password,
                             controller: authController.passwordController,
-                            validator: (v) {}),
+                            validator: (v) {
+                              return null;
+                            }),
 
                         //ToDo ==========✅✅ Confirm ✅✅==========
                         CustomFromCard(
                             hinText: AppStrings.confirmNewPassword,
                             title: AppStrings.confirmPassword,
                             controller: authController.confirmPasswordController,
-                            validator: (v) {}),
+                            validator: (v) {
+                              return null;
+                            }),
                       ],
                     ),
                   )),

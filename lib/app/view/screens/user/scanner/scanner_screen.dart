@@ -6,6 +6,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -92,7 +93,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
               children: [
                 Assets.images.scanner.image(),
                 CustomText(
-                  left: 10,
+                  left: 10.w,
                   text: AppStrings.scanQrCode,
                   fontWeight: FontWeight.w600,
                   fontSize: 18,

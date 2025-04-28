@@ -56,8 +56,9 @@ class ChangePasswordScreen extends StatelessWidget {
                       title: AppStrings.currentPassword,
                       hinText: AppStrings.enterCurrentPassword,
                       controller: TextEditingController(),
-                      validator: (v) {}),
-
+                      validator: (v) {
+                        return null;
+                      }),
                   //New Password
                   CustomFromCard(
                       isBorderColor: true,
@@ -65,7 +66,9 @@ class ChangePasswordScreen extends StatelessWidget {
                       title: AppStrings.newPassword,
                       hinText: AppStrings.enterNewPassword,
                       controller: TextEditingController(),
-                      validator: (v) {}),
+                      validator: (v) {
+                        return null;
+                      }),
 
                   //retype password
                   CustomFromCard(
@@ -74,7 +77,9 @@ class ChangePasswordScreen extends StatelessWidget {
                       title: AppStrings.retypePassword,
                       hinText: AppStrings.retypeNewPassword,
                       controller: TextEditingController(),
-                      validator: (v) {}),
+                      validator: (v) {
+                        return null;
+                      }),
                   SizedBox(
                     height: 50.h,
                   ),

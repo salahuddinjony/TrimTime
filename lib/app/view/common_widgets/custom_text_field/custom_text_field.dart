@@ -1,7 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -19,8 +19,8 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.maxLines = 1,
     this.validator,
-    this.hintText ,
-    this.hintStyle ,
+    this.hintText,
+    this.hintStyle,
     this.fillColor = Colors.white,
     this.suffixIcon,
     this.suffixIconColor,
@@ -115,8 +115,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 16, bottom: 16),
                   child: obscureText
-                      ? Assets.icons.eyeOff.svg(color: Colors.black)
-                      : Assets.icons.eye.svg(color: Colors.black),
+                      ? Assets.icons.eyeOff.svg(
+                          colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),
+                        )
+                      : Assets.icons.eye.svg(
+                          colorFilter: const ColorFilter.mode(
+                              AppColors.black, BlendMode.srcIn),
+                        ),
                 ),
               )
             : widget.suffixIcon,

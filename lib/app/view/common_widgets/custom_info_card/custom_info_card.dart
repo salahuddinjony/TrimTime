@@ -7,12 +7,13 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 class CustomInfoCard extends StatelessWidget {
   final String title;
   final String value;
+  final Widget image;
 
   // Constructor to accept dynamic content
   const CustomInfoCard({
     super.key,
     required this.title,
-    required this.value,
+    required this.value, required this.image,
   });
 
   @override
@@ -37,7 +38,7 @@ class CustomInfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Dynamic image (you can pass different image URLs here)
-          Assets.images.totalCustomer.image(),
+         image,
           const SizedBox(height: 12), // Space between image and title
           CustomText(
             text: title, // Title passed dynamically

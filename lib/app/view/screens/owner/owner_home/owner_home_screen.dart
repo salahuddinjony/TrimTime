@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -67,21 +68,24 @@ class OwnerHomeScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
-                    const SingleChildScrollView(
+                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
                           CustomInfoCard(
                             title: AppStrings.totalCustomer,         // Title text
-                            value: "00",                      // Dynamic value (could be fetched from a database)
+                            value: "00", image: Assets.images.totalCustomer.image(),                      // Dynamic value (could be fetched from a database)
                           ), SizedBox(
                             width: 5,
                           ),
                           CustomInfoCard(
+                            image: Assets.images.totalBarber.image(),
                             title:AppStrings.totalBarber,         // Title text
                             value: "00",                      // Dynamic value (could be fetched from a database)
                           ),SizedBox(width: 5,),
                           CustomInfoCard(
+                            image: Assets.images.hiringSelected.image(),
+
                             title: AppStrings.hiringPost, // Title text
                             value:
                                 "00", // Dynamic value (could be fetched from a database)
@@ -91,21 +95,27 @@ class OwnerHomeScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 10,),
-                    const SingleChildScrollView(
+                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
                           CustomInfoCard(
+                            image: Assets.images.barberRequest.image(),
+
                             title: AppStrings.barberRequest,         // Title text
                             value: "00",                      // Dynamic value (could be fetched from a database)
                           ), SizedBox(
                             width: 5,
                           ),
                           CustomInfoCard(
+                            image: Assets.images.pending.image(),
+
                             title:AppStrings.pending,         // Title text
                             value: "00",                      // Dynamic value (could be fetched from a database)
                           ),SizedBox(width: 5,),
                           CustomInfoCard(
+                            image: Assets.images.waiting.image(),
+
                             title: AppStrings.waiting, // Title text
                             value:
                                 "00", // Dynamic value (could be fetched from a database)

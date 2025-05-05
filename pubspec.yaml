@@ -49,9 +49,6 @@ dependencies:
   fluttertoast: ^8.2.12
   flutter_chat_ui: ^1.6.15
   flutter_chat_types: ^3.6.2
-#  http:
-#  mime:
-#  path_provider:
   uuid: ^4.5.1
   image_picker: ^1.1.2
   file_picker: ^9.0.2
@@ -62,6 +59,10 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   qr_flutter: ^4.1.0
   mobile_scanner: ^3.4.1
+  google_maps_flutter: ^2.6.1
+#  geolocator: ^14.0.0
+  permission_handler: ^11.3.1
+  geocoding: ^3.0.0
 
 
 

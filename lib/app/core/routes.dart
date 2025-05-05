@@ -18,6 +18,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/jo
 import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/schedule_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/map/map_view_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/search_saloon/search_saloon_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
@@ -57,7 +58,6 @@ import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dar
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
-import 'package:barber_time/app/view/screens/user/home/inner_screens/map_view_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
@@ -413,7 +413,7 @@ class AppRouter {
           name: RoutePath.mapViewScreen,
           path: RoutePath.mapViewScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const MapViewScreen(),
+            child:  MapViewScreen(),
             state: state,
           ),
         ),

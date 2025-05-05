@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.bookings.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.loyaltyScreen,
+                            AppRouter.route.pushNamed(RoutePath.myLoyality,
                                 extra: userRole);
                           },
                           title: "Loyalty",

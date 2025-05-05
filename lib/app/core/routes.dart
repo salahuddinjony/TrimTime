@@ -19,6 +19,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/map/map_view_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/search_saloon/search_saloon_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
@@ -37,7 +38,6 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/my_loyality/my_loyality.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
@@ -46,7 +46,6 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/professional_pr
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/rate_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyalty/loyalty_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
@@ -572,15 +571,7 @@ class AppRouter {
           ),
         ),
 
-        ///=======================LoyaltyScreen  =======================
-        GoRoute(
-          name: RoutePath.loyaltyScreen,
-          path: RoutePath.loyaltyScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const LoyaltyScreen(),
-            state: state,
-          ),
-        ),
+
 
         ///=======================Job Post  =======================
         GoRoute(

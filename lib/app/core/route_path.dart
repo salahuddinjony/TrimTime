@@ -47,7 +47,6 @@ class RoutePath{
   static const String faqsScreen = 'FaqsScreen';
   static const String privacyPolicyScreen = 'PrivacyPolicyScreen';
   static const String termsScreen = 'TermsScreen';
-  static const String loyaltyScreen = 'LoyaltyScreen';
   static const String jobPost = 'JobPost';
   static const String myFeed = 'MyFeed';
   static const String followingScreen = 'FollowingScreen';

@@ -26,6 +26,7 @@ class AppColors {
   static const Color homeColor = Color(0xff2c611e);
   static const Color normalHover = Color(0xffB76D42);
   static const Color orange700 = Color(0xff794A37);
+  static const Color orange500 = Color(0xffAB684D);
   static const Color secondary = Color(0xffD17C51);
   static const Color gray800 = Color(0xff1D1C1C);
   static const Color bottomColor = Color(0xff472a1a);
@@ -34,6 +35,7 @@ class AppColors {
   static const Color navColor = Color(0xffF4EBDC);
   static const Color first = Color(0xffEEC2A8);
   static const Color last = Color(0xffEA8A53);
+  static const Color visit = Color(0xffCFE4B0);
 
 
 

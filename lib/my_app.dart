@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
         routeInformationParser: AppRouter.route.routeInformationParser,
         routerDelegate: AppRouter.route.routerDelegate,
         routeInformationProvider: AppRouter.route.routeInformationProvider,
-
       ),
     );
   }

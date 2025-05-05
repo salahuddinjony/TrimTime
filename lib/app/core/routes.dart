@@ -20,6 +20,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/map/map_view_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality.dart';
+import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality_rewards.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/search_saloon/search_saloon_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
@@ -700,6 +701,16 @@ class AppRouter {
           path: RoutePath.rateScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const RateScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.myLoyalityRewards,
+          path: RoutePath.myLoyalityRewards.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const MyLoyalityRewards(),
             state: state,
           ),
         ),

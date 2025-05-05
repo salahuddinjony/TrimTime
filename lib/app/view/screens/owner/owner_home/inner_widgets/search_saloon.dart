@@ -9,20 +9,31 @@ class SearchSaloon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
-      appBar: AppBar(
-        title: const Text("What are you looking for?"),
-        backgroundColor: AppColors.linearFirst,
-      ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: CustomTextField(
-          fieldBorderColor: AppColors.black,
-          fillColor: AppColors.white50,
-          hintText: AppStrings.searchSaloons,
-          suffixIcon: Icon(Icons.search),
+        // backgroundColor: AppColors.first,
+        appBar: AppBar(
+          title: const Text("What are you looking for?"),
+          backgroundColor: AppColors.linearFirst,
         ),
-      ),
-    );
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.first, // start color
+                AppColors.last, // end color
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: CustomTextField(
+              fieldBorderColor: AppColors.black,
+              fillColor: AppColors.white50,
+              hintText: AppStrings.searchSaloons,
+              suffixIcon: Icon(Icons.search),
+            ),
+          ),
+        ));
   }
 }

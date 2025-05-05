@@ -104,7 +104,7 @@ class CommonHomeAppBar extends StatelessWidget {
 
               ///==========================Notification button ====================
               IconButton(
-                  onPressed: onTap, icon: const Icon(Icons.notification_add))
+                  onPressed: onTap, icon: const Icon(Icons.notification_add,color: Colors.white,))
             ],
           ),
           SizedBox(

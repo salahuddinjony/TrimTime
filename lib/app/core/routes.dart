@@ -18,13 +18,13 @@ import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/jo
 import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/schedule_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
-import 'package:barber_time/app/view/screens/notification/notification_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/search_saloon/search_saloon_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
-import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/search_saloon.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
@@ -360,10 +360,10 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.searchSaloon,
-          path: RoutePath.searchSaloon.addBasePath,
+          name: RoutePath.searchSaloonScreen,
+          path: RoutePath.searchSaloonScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const SearchSaloon(),
+            child: const SearchSaloonScreen(),
             state: state,
           ),
         ),

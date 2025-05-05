@@ -3,8 +3,8 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
-class SearchSaloon extends StatelessWidget {
-  const SearchSaloon({super.key});
+class SearchSaloonScreen extends StatelessWidget {
+  const SearchSaloonScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SearchSaloon extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: CustomTextField(
               fieldBorderColor: AppColors.black,
-              fillColor: AppColors.white50,
+              fillColor: AppColors.first,
               hintText: AppStrings.searchSaloons,
               suffixIcon: Icon(Icons.search),
             ),

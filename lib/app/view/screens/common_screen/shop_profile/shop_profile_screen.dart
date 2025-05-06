@@ -99,8 +99,9 @@ class ShopProfileScreen extends StatelessWidget {
                           Row(
                             children: [
                               GestureDetector(
-                                onTap: (){
-                                  AppRouter.route.pushNamed(RoutePath.mapViewScreen,
+                                onTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.mapViewScreen,
                                       extra: userRole);
                                 },
                                 child: Container(
@@ -129,21 +130,26 @@ class ShopProfileScreen extends StatelessWidget {
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Container(
-                                padding: EdgeInsets.all(5.r),
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Row(
-                                  children: [
-                                    CustomText(
-                                      left: 5,
-                                      text: "More Info",
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.whiteColor,
-                                    ),
-                                  ],
+                              GestureDetector(
+                                onTap: () {
+                                  _showInformationDialog(context);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5.r),
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: Row(
+                                    children: [
+                                      CustomText(
+                                        left: 5,
+                                        text: "More Info",
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.whiteColor,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -269,5 +275,122 @@ class ShopProfileScreen extends StatelessWidget {
       ),
     );
   }
-}
 
+  void _showInformationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white50,
+          title: CustomText(
+            text: "Information",
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w400,
+            color: AppColors.black,
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    color: AppColors.orange500,
+                  ),
+                  SizedBox(width: 8),
+                  CustomText(
+                    text: "James Tracy",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.cake,
+                    color: AppColors.orange500,
+                  ),
+                  SizedBox(width: 8),
+                  CustomText(
+                    text: "22-03-1998",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.email,
+                    color: AppColors.orange500,
+                  ),
+                  SizedBox(width: 8),
+                  CustomText(
+                    text: "James@gmail.com",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.phone,
+                    color: AppColors.orange500,
+                  ),
+                  SizedBox(width: 8),
+                  CustomText(
+                    text: "+44 26537 26347",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: AppColors.orange500,
+                  ),
+                  SizedBox(width: 8),
+                  CustomText(
+                    text: "Abu Dhabi",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

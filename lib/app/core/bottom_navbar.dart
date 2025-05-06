@@ -175,7 +175,7 @@ class _NavBarState extends State<BottomNavbar> {
           const SizedBox(height: 4.0),
           CustomText(
             text: text,
-            fontSize: 12,
+            fontSize: 16,
             color: isSelected ? AppColors.secondary : AppColors.black,
           )
         ],

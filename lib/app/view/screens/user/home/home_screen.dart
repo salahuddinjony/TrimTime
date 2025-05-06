@@ -37,6 +37,23 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      floatingActionButton: IconButton(
+        onPressed: () {
+          AppRouter.route
+              .pushNamed(RoutePath.scannerScreen, extra: userRole);
+        },
+        icon: Container(
+          height: 79,
+          width: 79,
+          padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.navColor,  // Custom color for the button
+          ),
+          child: Assets.images.scanner.image(color: AppColors.black),  // Scanner icon
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavbar(currentIndex: 0, role: userRole),
       body: Column(
         children: [
@@ -100,7 +117,6 @@ class HomeScreen extends StatelessWidget {
                       CustomCard(
                           onTap: () {
                             _showTipDialog(context);
-
                           },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
@@ -225,7 +241,6 @@ class HomeScreen extends StatelessWidget {
   void _showTipDialog(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
 
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -259,13 +274,13 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Yes button
-              _buildRadioButton("Yes", context,(){
-                AppRouter.route.pushNamed(RoutePath.tipsScreen,
-                    extra: userRole);
+              _buildRadioButton("Yes", context, () {
+                AppRouter.route
+                    .pushNamed(RoutePath.tipsScreen, extra: userRole);
               }),
               const SizedBox(width: 20),
               // No button
-              _buildRadioButton("No", context,(){}),
+              _buildRadioButton("No", context, () {}),
             ],
           ),
           actions: <Widget>[
@@ -283,7 +298,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to create radio-like buttons for Yes/No selection
-  Widget _buildRadioButton(String label, BuildContext context,VoidCallback onTap) {
+  Widget _buildRadioButton(
+      String label, BuildContext context, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

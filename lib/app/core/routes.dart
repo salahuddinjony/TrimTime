@@ -781,8 +781,5 @@ class AppRouter {
       },
     );
   }
-
-
-
   static GoRouter get route => initRoute;
 }

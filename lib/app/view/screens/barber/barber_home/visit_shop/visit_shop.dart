@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
@@ -12,8 +14,15 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class VisitShop extends StatelessWidget {
+class VisitShop extends StatefulWidget {
   const VisitShop({super.key});
+
+  @override
+  State<VisitShop> createState() => _VisitShopState();
+}
+
+class _VisitShopState extends State<VisitShop> {
+  bool isFollowing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +81,7 @@ class VisitShop extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _customButton(AppStrings.follow, Icons.person_add),
+                            _customButton(isFollowing ? "Unfollow" : "Follow", Icons.person_add),
                             const SizedBox(width: 10),
                             _iconButton(Assets.images.chartSelected.image(
                               color: Colors.white,
@@ -248,37 +257,53 @@ class VisitShop extends StatelessWidget {
     );
   }
 
-  //follow button and chart button
+
+  // Function to toggle Follow/Unfollow state
+  void _toggleFollow() {
+    setState(() {
+      isFollowing = !isFollowing; // Toggle the follow state
+    });
+  }
+
+  // Custom Follow/Unfollow button
   Widget _customButton(String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 14, color: Colors.white),
-          const SizedBox(width: 6),
-          CustomText(
-            text: text,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ],
+    return GestureDetector(
+      onTap: _toggleFollow, // Toggle follow state on tap
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 14, color: Colors.white),
+            const SizedBox(width: 6),
+            CustomText(
+              text: text,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ],
+        ),
       ),
     );
   }
-
   Widget _iconButton(Widget icon) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
+    return GestureDetector(
+        onTap: (){
+          AppRouter.route
+              .pushNamed(RoutePath.chatScreen, );
+        },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: icon,
       ),
-      child: icon,
     );
   }
 }

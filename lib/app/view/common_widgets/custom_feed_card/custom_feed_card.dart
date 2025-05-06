@@ -5,7 +5,7 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomFeedCard extends StatelessWidget {
+class CustomFeedCard extends StatefulWidget {
   final String userImageUrl;
   final String userName;
   final String userAddress;
@@ -25,8 +25,17 @@ class CustomFeedCard extends StatelessWidget {
     required this.postText,
     required this.rating,
     required this.onFavoritePressed,
-    required this.onVisitShopPressed, this.isVisitSHopButton = false,
+    required this.onVisitShopPressed,
+    this.isVisitSHopButton = false,
   });
+
+  @override
+  _CustomFeedCardState createState() => _CustomFeedCardState();
+}
+
+class _CustomFeedCardState extends State<CustomFeedCard> {
+  // Variable to track if the item is favorited or not
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +49,7 @@ class CustomFeedCard extends StatelessWidget {
             children: [
               CustomNetworkImage(
                 boxShape: BoxShape.circle,
-                imageUrl: userImageUrl,
+                imageUrl: widget.userImageUrl,
                 height: 48,
                 width: 48,
               ),
@@ -50,14 +59,14 @@ class CustomFeedCard extends StatelessWidget {
                   children: [
                     CustomText(
                       left: 8,
-                      text: userName,
+                      text: widget.userName,
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
                       color: AppColors.black,
                     ),
                     CustomText(
                       left: 8,
-                      text: userAddress,
+                      text: widget.userAddress,
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
                       color: AppColors.black,
@@ -73,7 +82,7 @@ class CustomFeedCard extends StatelessWidget {
           // Post Image
           CustomNetworkImage(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            imageUrl: postImageUrl,
+            imageUrl: widget.postImageUrl,
             height: 364,
             width: double.infinity,
           ),
@@ -87,9 +96,9 @@ class CustomFeedCard extends StatelessWidget {
             fontSize: 14,
             color: AppColors.black,
           ),
-          isVisitSHopButton == true?
-              const SizedBox():
-          Row(
+          widget.isVisitSHopButton == true
+              ? const SizedBox()
+              : Row(
             children: [
               // Favorite Button
               Container(
@@ -97,17 +106,19 @@ class CustomFeedCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                     color: AppColors.secondary, shape: BoxShape.circle),
                 child: IconButton(
-                  onPressed: onFavoritePressed,
-                  icon: const Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
+                  onPressed: _toggleFavorite,
+                  icon: Icon(
+                    isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.white, // Red when favorited
                   ),
                 ),
               ),
               CustomText(
                 textAlign: TextAlign.start,
                 left: 8,
-                text: rating,
+                text: widget.rating,
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
                 color: AppColors.black,
@@ -115,7 +126,7 @@ class CustomFeedCard extends StatelessWidget {
               const Spacer(),
               // Visit Shop Button
               GestureDetector(
-                onTap: onVisitShopPressed,
+                onTap: widget.onVisitShopPressed,
                 child: Container(
                   margin: const EdgeInsets.only(top: 10),
                   padding: const EdgeInsets.all(5),
@@ -137,5 +148,13 @@ class CustomFeedCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Function to toggle the favorite state
+  void _toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite; // Toggle the favorite state
+    });
+    widget.onFavoritePressed(); // Call the onFavoritePressed callback
   }
 }

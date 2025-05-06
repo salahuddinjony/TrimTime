@@ -58,7 +58,7 @@ class BerberTimes extends StatelessWidget {
                           const Spacer(),
                           GestureDetector(
                             onTap: (){
-                              AppRouter.route.pushNamed(RoutePath.liveLocation,
+                              AppRouter.route.pushNamed(RoutePath.mapViewScreen,
                                   extra: userRole);
                             },
                             child: Container(

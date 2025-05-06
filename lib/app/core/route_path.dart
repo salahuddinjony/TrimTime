@@ -27,7 +27,6 @@ class RoutePath{
   static const String savedScreen = 'SavedScreen';
   static const String searchSaloonScreen = 'SearchSaloonScreen';
   static const String berberTimes = 'BerberTimes';
-  static const String liveLocation = 'LiveLocation';
   static const String myLoyality = 'MyLoyality';
   static const String loyalityScreen = 'LoyalityScreen';
   static const String ownerQue = 'OwnerQue';

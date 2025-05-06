@@ -147,15 +147,6 @@ class AppRouter {
           ),
         ),
 
-        ///=======================  =======================
-        GoRoute(
-          name: RoutePath.liveLocation,
-          path: RoutePath.liveLocation.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const LiveLocation(),
-            state: state,
-          ),
-        ),
 
         ///=======================  =======================
         GoRoute(

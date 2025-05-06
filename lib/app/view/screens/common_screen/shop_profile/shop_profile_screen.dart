@@ -411,7 +411,7 @@ class ShopProfileScreen extends StatelessWidget {
           backgroundColor: Colors.orange.shade50,
           title: Column(
             children: [
-              Icon(
+              const Icon(
                 Icons.check_circle,
                 color: Colors.orange,
                 size: 40,
@@ -420,7 +420,7 @@ class ShopProfileScreen extends StatelessWidget {
                 "Give rating out of 5!",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               RatingBar.builder(
                 initialRating: 3,
                 minRating: 1,

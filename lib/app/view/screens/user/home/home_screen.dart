@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_card/custom_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
@@ -90,15 +91,16 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
+                            AppRouter.route.pushNamed(
+                                RoutePath.shopProfileScreen,
                                 extra: userRole);
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.tipsScreen,
-                                extra: userRole);
+                            _showTipDialog(context);
+
                           },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
@@ -215,6 +217,90 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Function to show the Tip dialog
+  void _showTipDialog(BuildContext context) {
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+
+    // if (userRole == null) {
+    //   return Scaffold(
+    //     appBar: AppBar(title: const Text('Error')),
+    //     body: const Center(child: Text('No user role received')),
+    //   );
+    // }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: AppColors.white,
+          title: Column(
+            children: [
+              Icon(
+                Icons.attach_money,
+                color: Colors.orange,
+                size: 40,
+              ),
+              const Text(
+                "Tip",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              CustomText(
+                maxLines: 2,
+                text: "Would you like to leave this or barber a tip?",
+                fontWeight: FontWeight.w400,
+                color: AppColors.black,
+                fontSize: 15.sp,
+              )
+            ],
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Yes button
+              _buildRadioButton("Yes", context,(){
+                AppRouter.route.pushNamed(RoutePath.tipsScreen,
+                    extra: userRole);
+              }),
+              const SizedBox(width: 20),
+              // No button
+              _buildRadioButton("No", context,(){}),
+            ],
+          ),
+          actions: <Widget>[
+            // Close button
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Helper method to create radio-like buttons for Yes/No selection
+  Widget _buildRadioButton(String label, BuildContext context,VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.orange, width: 1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(color: Colors.orange, fontSize: 16),
+        ),
       ),
     );
   }

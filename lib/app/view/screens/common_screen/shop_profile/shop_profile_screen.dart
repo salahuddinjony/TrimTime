@@ -89,13 +89,13 @@ class ShopProfileScreen extends StatelessWidget {
                               maxLines: 20,
                               text:
                                   "Great haircuts aren’t just a service; they’re an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.black,
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.w),
                           Row(
                             children: [
                               GestureDetector(
@@ -270,3 +270,4 @@ class ShopProfileScreen extends StatelessWidget {
     );
   }
 }
+

@@ -32,9 +32,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
     }
 
     return Scaffold(
-      bottomNavigationBar: BottomNavbar(currentIndex: 2, role: userRole),
+      // bottomNavigationBar: BottomNavbar(currentIndex: 2, role: userRole),
       backgroundColor: AppColors.linearFirst,
       appBar: const CustomAppBar(
+        iconData: Icons.arrow_back,
         appBarContent: AppStrings.scanQrCode,
         appBarBgColor: AppColors.linearFirst,
       ),

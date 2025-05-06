@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
                                 extra: userRole);
                           },
                           title: "Review",

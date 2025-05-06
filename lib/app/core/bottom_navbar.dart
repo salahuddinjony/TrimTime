@@ -1,5 +1,4 @@
 
-
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -134,7 +133,6 @@ class _NavBarState extends State<BottomNavbar> {
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       key: ValueKey<int>(bottomNavIndex),
-      // Ensure the widget is recreated when the index changes
       index: bottomNavIndex,
       items: <Widget>[
 
@@ -165,8 +163,6 @@ class _NavBarState extends State<BottomNavbar> {
       },
     );
   }
-
-  // Custom method to build each navigation item
   Widget _buildNavItem(Widget unselectedIcon, Widget selectedIcon, String text,
       bool isSelected) {
     return Padding(
@@ -175,9 +171,7 @@ class _NavBarState extends State<BottomNavbar> {
         mainAxisSize: MainAxisSize.min,
         children: [
           isSelected ? selectedIcon : unselectedIcon,
-          // Display selected or unselected icon
           const SizedBox(height: 4.0),
-          // Space between icon and text
           Text(
             text,
             style: TextStyle(

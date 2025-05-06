@@ -23,6 +23,7 @@ import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyali
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality_rewards.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/search_saloon/search_saloon_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/shop_profile/shop_profile_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
@@ -413,7 +414,7 @@ class AppRouter {
           name: RoutePath.mapViewScreen,
           path: RoutePath.mapViewScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  MapViewScreen(),
+            child: MapViewScreen(),
             state: state,
           ),
         ),
@@ -572,8 +573,6 @@ class AppRouter {
           ),
         ),
 
-
-
         ///=======================Job Post  =======================
         GoRoute(
           name: RoutePath.jobPost,
@@ -711,6 +710,16 @@ class AppRouter {
           path: RoutePath.myLoyalityRewards.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyLoyalityRewards(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.shopProfileScreen,
+          path: RoutePath.shopProfileScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ShopProfileScreen(),
             state: state,
           ),
         ),

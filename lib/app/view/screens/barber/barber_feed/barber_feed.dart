@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -14,12 +16,31 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
-class BarberFeed extends StatelessWidget {
+class BarberFeed extends StatefulWidget {
   const BarberFeed({
     super.key,
   });
 
+  @override
+  State<BarberFeed> createState() => _BarberFeedState();
+}
+
+class _BarberFeedState extends State<BarberFeed> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _imageFile;
+
+  Future<void> _pickImage() async {
+    // Open gallery to pick an image
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = pickedFile;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -80,23 +101,37 @@ class BarberFeed extends StatelessWidget {
                         SizedBox(
                           width: 10.w,
                         ),
-                        DottedBorder(
-                          padding: const EdgeInsets.all(25),
-                          child: const Column(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                              CustomText(
-                                text: AppStrings.upload,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.black,
-                                fontSize: 16,
-                              ),
-                            ],
+                Center(
+                  child: DottedBorder(
+                    padding: const EdgeInsets.all(25),
+                    // Border thickness
+                    child: GestureDetector(
+                      onTap: _pickImage, // Open gallery when clicked
+                      child: Column(
+                        children: [
+                          _imageFile == null
+                              ? const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          )
+                              : Image.file(
+                            File(_imageFile!.path),
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
                           ),
-                        )
+                          const CustomText(
+                            text: AppStrings.upload,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
+                            fontSize: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
                       ],
                     ),
                     SizedBox(

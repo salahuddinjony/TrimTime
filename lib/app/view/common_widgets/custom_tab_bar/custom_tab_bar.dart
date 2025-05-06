@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomTabBar extends StatefulWidget {
-  const CustomTabBar({super.key});
+class CustomTabBar extends StatelessWidget {
+  final ValueChanged<bool> onTabSelected;
+  final bool isUpcomingSelected; // Track the selected tab
 
-  @override
-  _CustomTabBarState createState() => _CustomTabBarState();
-}
-
-class _CustomTabBarState extends State<CustomTabBar> {
-  bool isUpcomingSelected = true;
+  const CustomTabBar({super.key, required this.onTabSelected, required this.isUpcomingSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +22,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  isUpcomingSelected = true;
-                });
+                onTabSelected(true); // Notify the parent screen that "Upcoming" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -50,9 +44,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  isUpcomingSelected = false;
-                });
+                onTabSelected(false); // Notify the parent screen that "Previous" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -75,3 +67,4 @@ class _CustomTabBarState extends State<CustomTabBar> {
     );
   }
 }
+

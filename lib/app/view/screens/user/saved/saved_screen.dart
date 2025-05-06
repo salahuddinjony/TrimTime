@@ -1,4 +1,6 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -31,13 +33,19 @@ class SavedScreen extends StatelessWidget {
       body: ListView.builder(itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-          child: CommonShopCard(
-            imageUrl: AppConstants.shop,
-            title: "Barber Time ",
-            rating: "5.0 ★ (169)",
-            location: "Oldesloer Strasse 82",
-            discount: "15%",
-            onSaved: () => debugPrint("Saved Clicked!"),
+          child: GestureDetector(
+            onTap: (){
+              AppRouter.route
+                  .pushNamed(RoutePath.shopProfileScreen, extra: userRole);
+            },
+            child: CommonShopCard(
+              imageUrl: AppConstants.shop,
+              title: "Barber Time ",
+              rating: "5.0 ★ (169)",
+              location: "Oldesloer Strasse 82",
+              discount: "15%",
+              onSaved: () => debugPrint("Saved Clicked!"),
+            ),
           ),
         );
       }),

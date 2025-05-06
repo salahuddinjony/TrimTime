@@ -58,24 +58,27 @@ class CustomMenuCard extends StatelessWidget {
         ):
         GestureDetector(
           onTap: onTap,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: Row(
-              children: [
-                icon,
-                SizedBox(width: 16.w),
-                CustomText(
-                  text: text,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16.sp,
-                  color: isTextRed ? AppColors.red : AppColors.black,
-                ),
-                const Spacer(),
-                if (isArrow)
-                  const SizedBox()
-                else
-                  Assets.icons.chevronRight.image(color: Colors.black),
-              ],
+          child: Container(
+            decoration: const BoxDecoration(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              child: Row(
+                children: [
+                  icon,
+                  SizedBox(width: 16.w),
+                  CustomText(
+                    text: text,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 16.sp,
+                    color: isTextRed ? AppColors.red : AppColors.black,
+                  ),
+                  const Spacer(),
+                  if (isArrow)
+                    const SizedBox()
+                  else
+                    Assets.icons.chevronRight.image(color: Colors.black),
+                ],
+              ),
             ),
           ),
         ),

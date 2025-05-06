@@ -1,7 +1,7 @@
-
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -135,7 +135,6 @@ class _NavBarState extends State<BottomNavbar> {
       key: ValueKey<int>(bottomNavIndex),
       index: bottomNavIndex,
       items: <Widget>[
-
         _buildNavItem(unselectedIcon[0], selectedIcon[0], textList[0],
             bottomNavIndex == 0),
         _buildNavItem(unselectedIcon[1], selectedIcon[1], textList[1],
@@ -163,6 +162,7 @@ class _NavBarState extends State<BottomNavbar> {
       },
     );
   }
+
   Widget _buildNavItem(Widget unselectedIcon, Widget selectedIcon, String text,
       bool isSelected) {
     return Padding(
@@ -170,15 +170,14 @@ class _NavBarState extends State<BottomNavbar> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 10.0),
           isSelected ? selectedIcon : unselectedIcon,
           const SizedBox(height: 4.0),
-          Text(
-            text,
-            style: TextStyle(
-              color: isSelected ? AppColors.secondary : AppColors.black,
-              fontSize: 12.0,
-            ),
-          ),
+          CustomText(
+            text: text,
+            fontSize: 12,
+            color: isSelected ? AppColors.secondary : AppColors.black,
+          )
         ],
       ),
     );

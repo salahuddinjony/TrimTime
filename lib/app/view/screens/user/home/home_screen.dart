@@ -225,12 +225,7 @@ class HomeScreen extends StatelessWidget {
   void _showTipDialog(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
 
-    // if (userRole == null) {
-    //   return Scaffold(
-    //     appBar: AppBar(title: const Text('Error')),
-    //     body: const Center(child: Text('No user role received')),
-    //   );
-    // }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {

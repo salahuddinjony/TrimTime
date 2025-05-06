@@ -1,3 +1,4 @@
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -48,29 +49,27 @@ class TipsScreen extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            /// Barber Grid
+            /// Barber Grid (Fixed height without Expanded)
             SizedBox(
-              height: 300.h,
-              child: Expanded(
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Adjusted for better look
-                    crossAxisSpacing: 0.w,
-                    mainAxisSpacing: 15.h,
-                    childAspectRatio: 1.9, // Perfect height/width
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return CustomTipCard(
-                      imageUrl: AppConstants.demoImage,
-                      name: "Barber $index",
-                      onSendTip: () {
-                        debugPrint('Tip sent for Barber $index!');
-                      },
-                    );
-                  },
+              height: 300.h, // Fixed height for the GridView
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Adjusted for better look
+                  crossAxisSpacing: 0.w,
+                  mainAxisSpacing: 15.h,
+                  childAspectRatio: 1.9, // Perfect height/width
                 ),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return CustomTipCard(
+                    imageUrl: AppConstants.demoImage,
+                    name: "Barber $index",
+                    onSendTip: () {
+                      _showTipDialog(context, TextEditingController());
+                    },
+                  );
+                },
               ),
             ),
 
@@ -99,6 +98,81 @@ class TipsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  // Function to show the Tip dialog
+  void _showTipDialog(
+      BuildContext context, TextEditingController tipController) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: Colors.white,
+          title: Column(
+            children: [
+              Assets.images.hugeiconsTips.image(),
+              const Text(
+                "Give tips !",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Tips Amount Input
+              const Text(
+                "Tips amount",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: tipController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "Enter tips amount",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            // Cancel Button
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            // Submit Button
+            TextButton(
+              onPressed: () {
+                String tipAmount = tipController.text;
+                if (tipAmount.isNotEmpty) {
+                  print("Tip amount: $tipAmount");
+                  Navigator.of(context).pop();
+                  // Add your logic to handle the tip submission
+                } else {
+                  // Handle case where the user hasn't entered a tip
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Please enter a tip amount")),
+                  );
+                }
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

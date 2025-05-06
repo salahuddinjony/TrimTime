@@ -236,7 +236,7 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: AppColors.white,
           title: Column(
             children: [
-              Icon(
+              const Icon(
                 Icons.attach_money,
                 color: Colors.orange,
                 size: 40,

@@ -56,7 +56,6 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/
 import 'package:barber_time/app/view/screens/owner/owner_que/owner_que.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
-import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';

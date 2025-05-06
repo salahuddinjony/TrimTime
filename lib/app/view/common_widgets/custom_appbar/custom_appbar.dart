@@ -11,7 +11,9 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String? appBarContent;
   final IconData? iconData;
   final bool isIcon;
+  final bool add;
   final VoidCallback? onTap;
+  final VoidCallback? onTapAdd;
 
   const CustomAppBar({
     this.appBarHeight = 64,
@@ -21,7 +23,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     super.key,
     this.iconData,
     this.isIcon = false,
-    this.onTap, // Default to false
+    this.onTap,  this.add = false, this.onTapAdd, // Default to false
   });
 
   @override
@@ -66,6 +68,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   colorFilter:
                       const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
                 ),
+              ),
+
+            if (widget.add)
+              GestureDetector(
+                onTap: widget.onTapAdd,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    shape: BoxShape.circle,
+
+                  ),child: Icon(Icons.add,color: AppColors.orange700,),
+                )
               ),
           ],
         ),

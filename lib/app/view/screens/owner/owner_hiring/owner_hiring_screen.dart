@@ -1,4 +1,6 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -68,7 +70,10 @@ class OwnerHiringScreen extends StatelessWidget {
                     role: "Barber",                    // Hardcoded or dynamic role
                     rating: 4.5,                       // Hardcoded or dynamic rating
                     location: "New York, USA",         // Dynamic location or hardcoded
-                    onHireTap: () {},                  // Hire button action
+                    onHireTap: () {
+                      AppRouter.route
+                          .pushNamed(RoutePath.chatScreen, extra: userRole);
+                    },                  // Hire button action
                   );
                 }).toList(),
               );

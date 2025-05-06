@@ -60,7 +60,7 @@ class Settings extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(
-                      RoutePath.myLoyality,
+                      RoutePath.loyalityScreen,extra: userRole
                     );
                   },
                   isContainerCard: true,

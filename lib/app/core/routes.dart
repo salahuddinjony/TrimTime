@@ -49,6 +49,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/professional_pr
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/rate_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyality/loyality_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
@@ -338,7 +339,6 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const NearYouShopScreen(),
             state: state,
-
           ),
         ),
 
@@ -397,10 +397,9 @@ class AppRouter {
           name: RoutePath.bookingDetailsScreen,
           path: RoutePath.bookingDetailsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BookingDetailsScreen(),
-            state: state,
-            transitionType: TransitionType.detailsScreen
-          ),
+              child: const BookingDetailsScreen(),
+              state: state,
+              transitionType: TransitionType.detailsScreen),
         ),
 
         ///=======================  =======================
@@ -678,6 +677,16 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
+          name: RoutePath.loyalityScreen,
+          path: RoutePath.loyalityScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const LoyalityScreen(),
+            state: state,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
           name: RoutePath.scannerScreen,
           path: RoutePath.scannerScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
@@ -725,8 +734,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ShopProfileScreen(),
             state: state,
-            transitionType: TransitionType.detailsScreen, // Custom transition type for detail screens
-
+            transitionType: TransitionType
+                .detailsScreen, // Custom transition type for detail screens
           ),
         ),
 
@@ -737,8 +746,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const RescheduleScreen(),
             state: state,
-            transitionType: TransitionType.detailsScreen, // Custom transition type for detail screens
-
+            transitionType: TransitionType
+                .detailsScreen, // Custom transition type for detail screens
           ),
         ),
       ]);
@@ -766,9 +775,10 @@ class AppRouter {
         transitionDuration: const Duration(milliseconds: 600),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           // Center Open Animation
-          var curve = Curves.easeOut;  // Smooth opening
-          var tween = Tween(begin: 0.0, end: 1.0);  // Scale transition
-          var scaleAnimation = animation.drive(tween.chain(CurveTween(curve: curve)));
+          var curve = Curves.easeOut; // Smooth opening
+          var tween = Tween(begin: 0.0, end: 1.0); // Scale transition
+          var scaleAnimation =
+              animation.drive(tween.chain(CurveTween(curve: curve)));
 
           return ScaleTransition(
             scale: scaleAnimation,
@@ -795,5 +805,6 @@ class AppRouter {
       },
     );
   }
+
   static GoRouter get route => initRoute;
 }

@@ -196,6 +196,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/diamond.png
   AssetGenImage get diamond => const AssetGenImage('assets/images/diamond.png');
 
+  /// File path: assets/images/dumy.png
+  AssetGenImage get dumy => const AssetGenImage('assets/images/dumy.png');
+
   /// File path: assets/images/email.png
   AssetGenImage get email => const AssetGenImage('assets/images/email.png');
 
@@ -324,6 +327,7 @@ class $AssetsImagesGen {
         customer,
         dashboard,
         diamond,
+        dumy,
         email,
         facebook,
         gold,

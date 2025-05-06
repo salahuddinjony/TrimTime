@@ -6,10 +6,35 @@ import 'package:barber_time/app/view/common_widgets/following_card/following_car
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FollowingScreen extends StatelessWidget {
-  const FollowingScreen({
-    super.key,
-  });
+class FollowingScreen extends StatefulWidget {
+  const FollowingScreen({super.key});
+
+  @override
+  _FollowingScreenState createState() => _FollowingScreenState();
+}
+
+class _FollowingScreenState extends State<FollowingScreen> {
+  // List of users that are followed
+  List<Map<String, String>> followingUsers = [
+    {
+      "name": "Christian Ronaldo",
+      "imageUrl": AppConstants.demoImage,
+      "status": "Unfollow",
+    },
+    {
+      "name": "Lionel Messi",
+      "imageUrl": AppConstants.demoImage,
+      "status": "Unfollow",
+    },
+    // Add more users as needed
+  ];
+
+  // Method to handle unfollow action
+  void _unfollowUser(int index) {
+    setState(() {
+      followingUsers.removeAt(index); // Remove the user from the list
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +56,19 @@ class FollowingScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: ListView(
-          children: [
-            FollowingCard(
-              imageUrl: AppConstants.demoImage, // Replace with actual image URL
-              name: "Christian Ronaldo", // Example name
-              status: "Unfollow", // Button text can be "Follow" or "Unfollow"
+        child: ListView.builder(
+          itemCount: followingUsers.length,
+          itemBuilder: (context, index) {
+            final user = followingUsers[index];
+            return FollowingCard(
+              imageUrl: user["imageUrl"]!,
+              name: user["name"]!,
+              status: user["status"]!,
               onUnfollowPressed: () {
-                // Handle unfollow action here
-                debugPrint("Unfollowed Christian Ronaldo");
+                _unfollowUser(index); // Unfollow the user at the selected index
               },
-            ),
-            FollowingCard(
-              imageUrl: AppConstants.demoImage, // Replace with actual image URL
-              name: "Lionel Messi", // Example name
-              status: "Unfollow", // Button text can be "Follow" or "Unfollow"
-              onUnfollowPressed: () {
-                // Handle unfollow action here
-                debugPrint("Unfollowed Lionel Messi");
-              },
-            ),
-            // Add more FollowingCard widgets as needed
-          ],
+            );
+          },
         ),
       ),
     );

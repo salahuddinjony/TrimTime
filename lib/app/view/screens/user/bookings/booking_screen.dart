@@ -95,16 +95,19 @@ class _BookingScreenState extends State<BookingScreen> {
                 itemCount: isUpcomingSelected ? upcomingData.length : previousData.length,
                 itemBuilder: (context, index) {
                   final data = isUpcomingSelected ? upcomingData[index] : previousData[index];
-                  return CustomBookingCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.bookingDetailsScreen,
-                          extra: userRole);
-                    },
-                    imageUrl: AppConstants.shop,
-                    title: data["title"] ?? "",
-                    dateTime: data["dateTime"] ?? "",
-                    location: data["location"] ?? "",
-                    price: data["price"] ?? "",
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomBookingCard(
+                      onTap: () {
+                        AppRouter.route.pushNamed(RoutePath.bookingDetailsScreen,
+                            extra: userRole);
+                      },
+                      imageUrl: AppConstants.shop,
+                      title: data["title"] ?? "",
+                      dateTime: data["dateTime"] ?? "",
+                      location: data["location"] ?? "",
+                      price: data["price"] ?? "",
+                    ),
                   );
                 },
               ),

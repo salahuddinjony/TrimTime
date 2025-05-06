@@ -150,34 +150,45 @@ class BookingDetailsScreen extends StatelessWidget {
                   right: 10,
                 ),
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10.r),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15.r)),
-                        border: Border.all(color: AppColors.black)),
-                    child: CustomText(
-                      text: "Cancel Booking",
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.red,
+                  child: GestureDetector(
+                    onTap: () {
+                      showCancelBookingDialog(context);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.r),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                          border: Border.all(color: AppColors.black)),
+                      child: CustomText(
+                        text: "Cancel Booking",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.red,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   width: 10.w,
                 ),
-                Container(
-                  padding: EdgeInsets.all(10.r),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.all(Radius.circular(15.r)),
-                      border: Border.all(color: AppColors.black)),
-                  child: CustomText(
-                    text: "Reschedule",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white50,
+                GestureDetector(
+                  onTap: () {
+                    AppRouter.route
+                        .pushNamed(RoutePath.rescheduleScreen, extra: userRole);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.r),
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                        border: Border.all(color: AppColors.black)),
+                    child: CustomText(
+                      text: "Reschedule",
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white50,
+                    ),
                   ),
                 ),
               ],
@@ -185,6 +196,62 @@ class BookingDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showCancelBookingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: CustomText(
+            text: "Are you sure want \n to cancel the booking?",
+            maxLines: 2,
+            fontSize: 16.sp,
+            color: AppColors.black,
+          ),
+          actions: <Widget>[
+            // Cancel Button
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              ),
+              onPressed: () {
+                // Handle cancel action
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            // Confirm Button
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              ),
+              onPressed: () {
+                // Handle confirm action
+                // For example, you can add logic to cancel the booking
+                Navigator.of(context).pop(); // Close the dialog
+                print('Booking canceled');
+              },
+              child: const Text(
+                'Confirm',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

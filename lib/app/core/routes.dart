@@ -59,6 +59,7 @@ import 'package:barber_time/app/view/screens/user/berber_time/live_location/live
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
+import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/reschedule_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
@@ -398,6 +399,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const BookingDetailsScreen(),
             state: state,
+            transitionType: TransitionType.detailsScreen
           ),
         ),
 
@@ -722,6 +724,18 @@ class AppRouter {
           path: RoutePath.shopProfileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ShopProfileScreen(),
+            state: state,
+            transitionType: TransitionType.detailsScreen, // Custom transition type for detail screens
+
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.rescheduleScreen,
+          path: RoutePath.rescheduleScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const RescheduleScreen(),
             state: state,
             transitionType: TransitionType.detailsScreen, // Custom transition type for detail screens
 

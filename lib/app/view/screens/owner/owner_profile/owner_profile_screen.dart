@@ -40,14 +40,14 @@ class ProfileScreen extends StatelessWidget {
           AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
         },
         icon: Container(
-          height: 79,
-          width: 79,
+          height: 85,
+          width: 85,
           padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.navColor,  // Custom color for the button
           ),
-          child: Assets.images.scanner.image(color: AppColors.black),  // Scanner icon
+          child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
         ),
       )
           : null, // Return null if the role is not 'user'

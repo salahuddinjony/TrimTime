@@ -174,6 +174,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/booking.png
   AssetGenImage get booking => const AssetGenImage('assets/images/booking.png');
 
+  /// File path: assets/images/bx_scan.png
+  AssetGenImage get bxScan => const AssetGenImage('assets/images/bx_scan.png');
+
   /// File path: assets/images/camera.png
   AssetGenImage get camera => const AssetGenImage('assets/images/camera.png');
 
@@ -321,6 +324,7 @@ class $AssetsImagesGen {
         barberRequest,
         berber,
         booking,
+        bxScan,
         camera,
         chartSelected,
         chartUnselected,

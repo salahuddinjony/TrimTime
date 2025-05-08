@@ -120,7 +120,7 @@ class QueScreen extends StatelessWidget {
                     height: 10,
                   ),
                   SizedBox(
-                    height: 350,
+                    height: 200,
                     child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -129,7 +129,7 @@ class QueScreen extends StatelessWidget {
                         mainAxisSpacing: 8,
                         childAspectRatio: 1,
                       ),
-                      itemCount: 10,
+                      itemCount: 3,
                       itemBuilder: (context, index) {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
@@ -147,6 +147,14 @@ class QueScreen extends StatelessWidget {
                               fontSize: 12,
                               color: AppColors.gray500,
                             ),
+
+                            const SizedBox(height: 8),
+                            const CustomText(
+                              text: "40 min",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: AppColors.gray500,
+                            ),
                           ],
                         );
                       },
@@ -154,6 +162,18 @@ class QueScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 100.h,
+                  ),
+                  Center(
+                    child: const CustomText(
+                      textAlign: TextAlign.center,
+                      text: "Estimated Waiting Time 40min",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: AppColors.gray500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
                   ),
                   CustomButton(
                     onTap: () {},

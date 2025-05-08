@@ -4,7 +4,7 @@ class AppStrings {
   ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Authentication💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
   static const signUp = "Sign up";
   static const customer = "Customer";
-  static const berber = "Berber";
+  static const berber = "Barber";
   static const owner = "Owner";
   static const password = "Password";
   static const barbersTime = "Barbers Time";

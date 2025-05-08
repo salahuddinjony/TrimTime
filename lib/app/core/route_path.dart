@@ -75,5 +75,6 @@ class RoutePath{
   static const String myLoyalityRewards = 'MyLoyalityRewards';
   static const String shopProfileScreen = 'ShopProfileScreen';
   static const String rescheduleScreen = 'RescheduleScreen';
+  static const String berberBookings = 'BerberBookings';
 
 }

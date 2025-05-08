@@ -34,9 +34,9 @@ class NearYouShopScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
           child: GestureDetector(
             onTap: (){
-              AppRouter.route.pushNamed(
-                  RoutePath.shopProfileScreen,
-                  extra: userRole);
+              // AppRouter.route.pushNamed(
+              //     RoutePath.berberBookings,
+              //     extra: userRole);
             },
             child: CommonShopCard(
               imageUrl: AppConstants.shop,

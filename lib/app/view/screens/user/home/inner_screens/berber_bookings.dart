@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -14,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class BerberTimes extends StatelessWidget {
-  const BerberTimes({super.key});
+class BerberBookings extends StatelessWidget {
+  const BerberBookings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,29 +27,12 @@ class BerberTimes extends StatelessWidget {
     }
 
     return Scaffold(
-        floatingActionButton: userRole == UserRole.user
-            ? IconButton(
-          onPressed: () {
-            AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
-          },
-          icon: Container(
-            height: 79,
-            width: 79,
-            padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.navColor,  // Custom color for the button
-            ),
-            child: Assets.images.scanner.image(color: AppColors.black),  // Scanner icon
-          ),
-        )
-            : null, // Return null if the role is not 'user'
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        bottomNavigationBar: BottomNavbar(currentIndex: 1, role: userRole),
+
         backgroundColor: AppColors.linearFirst,
         appBar: const CustomAppBar(
           appBarContent: AppStrings.barbersTime,
           appBarBgColor: AppColors.linearFirst,
+          iconData: Icons.arrow_back,
         ),
         body: ListView(
           children: [
@@ -151,7 +133,7 @@ class BerberTimes extends StatelessWidget {
                         height: 10,
                       ),
                       SizedBox(
-                        height: 200,
+                        height: 300,
                         child: GridView.builder(
                           gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -184,12 +166,13 @@ class BerberTimes extends StatelessWidget {
                         ),
                       ),
 
-
+                      SizedBox(
+                        height: 50.h,
+                      ),
                       CustomButton(
                         onTap: () {
                           showChooseBarberDialog(context);
-                          // AppRouter.route.pushNamed(RoutePath.queScreen,
-                          //     extra: userRole);
+
                         },
                         fillColor: AppColors.black,
                         title: AppStrings.add,
@@ -199,13 +182,10 @@ class BerberTimes extends StatelessWidget {
 
 
 
+
                       SizedBox(
                         height: 20.h,
                       ),
-
-
-
-
                     ],
                   ),
                 )

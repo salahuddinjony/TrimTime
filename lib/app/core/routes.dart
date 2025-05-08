@@ -61,11 +61,11 @@ import 'package:barber_time/app/view/screens/user/bookings/booking_details/booki
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/reschedule_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
-import 'package:barber_time/app/view/screens/user/home/inner_screens/berber_bookings.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'route_path.dart';
@@ -146,7 +146,6 @@ class AppRouter {
             state: state,
           ),
         ),
-
 
         ///=======================  =======================
         GoRoute(
@@ -744,11 +743,13 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.berberBookings,
-          path: RoutePath.berberBookings.addBasePath,
+          name: RoutePath.userBookingScreen,
+          path: RoutePath.userBookingScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BerberBookings(),
+            child: const UserBookingScreen(),
             state: state,
+            // transitionType: TransitionType
+            //     .detailsScreen, // Custom transition type for detail screens
           ),
         ),
       ]);

@@ -31,12 +31,11 @@ class NearYouShopScreen extends StatelessWidget {
       ),
       body: ListView.builder(itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: GestureDetector(
-            onTap: (){
-              // AppRouter.route.pushNamed(
-              //     RoutePath.berberBookings,
-              //     extra: userRole);
+            onTap: () {
+              context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
+
             },
             child: CommonShopCard(
               imageUrl: AppConstants.shop,

@@ -65,6 +65,8 @@ import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_sh
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/choose_barber_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/summery_screen.dart';
 import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -747,6 +749,30 @@ class AppRouter {
           path: RoutePath.userBookingScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const UserBookingScreen(),
+            state: state,
+            transitionType: TransitionType
+                .detailsScreen, // Custom transition type for detail screens
+          ),
+        ),
+
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.chooseBarberScreen,
+          path: RoutePath. chooseBarberScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ChooseBarberScreen(),
+            state: state,
+            // transitionType: TransitionType
+            //     .detailsScreen, // Custom transition type for detail screens
+          ),
+        ),
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.summeryScreen,
+          path: RoutePath. summeryScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const SummeryScreen(),
             state: state,
             // transitionType: TransitionType
             //     .detailsScreen, // Custom transition type for detail screens

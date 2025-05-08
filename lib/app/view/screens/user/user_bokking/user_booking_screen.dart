@@ -57,7 +57,7 @@ class UserBookingScreenState extends State<UserBookingScreen> {
                               GoRouter.of(context)
                                   .pop();
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back,
                               color: Colors.white,
                             ))))
@@ -136,7 +136,7 @@ class UserBookingScreenState extends State<UserBookingScreen> {
                   CustomButton(
                     onTap: () {
                       // Using GoRouter for pushing a route
-                      // context.pushNamed(RoutePath.someOtherScreen);
+                      context.pushNamed(RoutePath.chooseBarberScreen,extra: userRole);
                     },
                     title: AppStrings.continues,
                     fillColor: AppColors.gray500,

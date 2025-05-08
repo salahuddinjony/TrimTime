@@ -76,5 +76,7 @@ class RoutePath{
   static const String shopProfileScreen = 'ShopProfileScreen';
   static const String rescheduleScreen = 'RescheduleScreen';
   static const String userBookingScreen = 'UserBookingScreen';
+  static const String chooseBarberScreen = 'ChooseBarberScreen';
+  static const String summeryScreen = 'SummeryScreen';
 
 }

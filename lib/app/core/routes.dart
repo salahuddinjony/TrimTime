@@ -29,6 +29,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
@@ -351,6 +352,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const VisitShop(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -401,6 +404,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const TipsScreen(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -442,6 +447,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const NotificationScreen(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -605,6 +612,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ScheduleScreen(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -633,8 +642,10 @@ class AppRouter {
           name: RoutePath.uniqueQrCode,
           path: RoutePath.uniqueQrCode.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: UniqueQrCode(),
+            child: const UniqueQrCode(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -716,6 +727,8 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyLoyalityRewards(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen,
           ),
         ),
 
@@ -755,6 +768,16 @@ class AppRouter {
           ),
         ),
 
+        ///=======================ownerRequestBooking =======================
+        GoRoute(
+          name: RoutePath.ownerRequestBooking,
+          path: RoutePath.ownerRequestBooking.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerRequestBooking(),
+            state: state,
+          ),
+        ),
+
 
         ///======================= =======================
         GoRoute(
@@ -764,7 +787,7 @@ class AppRouter {
             child: const ChooseBarberScreen(),
             state: state,
             // transitionType: TransitionType
-            //     .detailsScreen, // Custom transition type for detail screens
+            //     .detailsScreen,
           ),
         ),
         ///======================= =======================

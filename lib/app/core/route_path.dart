@@ -78,5 +78,6 @@ class RoutePath{
   static const String userBookingScreen = 'UserBookingScreen';
   static const String chooseBarberScreen = 'ChooseBarberScreen';
   static const String summeryScreen = 'SummeryScreen';
+  static const String ownerRequestBooking = 'OwnerRequestBooking';
 
 }

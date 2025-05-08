@@ -154,13 +154,18 @@ class HomeScreen extends StatelessWidget {
                       children: List.generate(4, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: CommonShopCard(
-                            imageUrl: AppConstants.shop,
-                            title: "Barber Time ",
-                            rating: "5.0 ★ (169)",
-                            location: "Oldesloer Strasse 82",
-                            discount: "15%",
-                            onSaved: () => debugPrint("Saved Clicked!"),
+                          child: GestureDetector(
+                            onTap: (){
+                              context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
+                            },
+                            child: CommonShopCard(
+                              imageUrl: AppConstants.shop,
+                              title: "Barber Time ",
+                              rating: "5.0 ★ (169)",
+                              location: "Oldesloer Strasse 82",
+                              discount: "15%",
+                              onSaved: () => debugPrint("Saved Clicked!"),
+                            ),
                           ),
                         );
                       }),
@@ -185,13 +190,18 @@ class HomeScreen extends StatelessWidget {
                       children: List.generate(4, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: CommonShopCard(
-                            imageUrl: AppConstants.shop,
-                            title: "Barber Time ",
-                            rating: "5.0 ★ (169)",
-                            location: "Oldesloer Strasse 82",
-                            discount: "15%",
-                            onSaved: () => debugPrint("Saved Clicked!"),
+                          child: GestureDetector(
+                            onTap: (){
+                              context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
+                            },
+                            child: CommonShopCard(
+                              imageUrl: AppConstants.shop,
+                              title: "Barber Time ",
+                              rating: "5.0 ★ (169)",
+                              location: "Oldesloer Strasse 82",
+                              discount: "15%",
+                              onSaved: () => debugPrint("Saved Clicked!"),
+                            ),
                           ),
                         );
                       }),
@@ -282,7 +292,9 @@ class HomeScreen extends StatelessWidget {
               }),
               const SizedBox(width: 20),
               // No button
-              _buildRadioButton("No", context, () {}),
+              _buildRadioButton("No", context, () {
+                context.pop();
+              }),
             ],
           ),
           actions: <Widget>[

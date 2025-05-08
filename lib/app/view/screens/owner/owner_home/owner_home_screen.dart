@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,15 +41,15 @@ class OwnerHomeScreen extends StatelessWidget {
         children: [
           ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
           CommonHomeAppBar(
-            uniqueQrCode: (){
+            uniqueQrCode: () {
               AppRouter.route
                   .pushNamed(RoutePath.uniqueQrCode, extra: userRole);
             },
             isDashboard: true,
-            onDashboard: (){
+            onDashboard: () {
               debugPrint("click");
             },
-            onCalender: (){
+            onCalender: () {
               AppRouter.route
                   .pushNamed(RoutePath.scheduleScreen, extra: userRole);
             },
@@ -67,65 +68,86 @@ class OwnerHomeScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CustomInfoCard(
-                            title: AppStrings.totalCustomer,         // Title text
-                            value: "00", image: Assets.images.totalCustomer.image(),                      // Dynamic value (could be fetched from a database)
-                          ), SizedBox(
-                            width: 5,
-                          ),
-                          CustomInfoCard(
-                            image: Assets.images.totalBarber.image(),
-                            title:AppStrings.totalBarber,         // Title text
-                            value: "00",                      // Dynamic value (could be fetched from a database)
-                          ),SizedBox(width: 5,),
-                          CustomInfoCard(
-                            image: Assets.images.hiringSelected.image(),
+                    Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            CustomInfoCard(
+                              title: AppStrings.totalCustomer, // Title text
+                              value: "00",
+                              image: Assets.images.totalCustomer
+                                  .image(), // Dynamic value (could be fetched from a database)
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CustomInfoCard(
+                              image: Assets.images.totalBarber.image(),
+                              title: AppStrings.totalBarber, // Title text
+                              value:
+                                  "00", // Dynamic value (could be fetched from a database)
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CustomInfoCard(
+                              image: Assets.images.hiringSelected.image(),
 
-                            title: AppStrings.hiringPost, // Title text
-                            value:
-                                "00", // Dynamic value (could be fetched from a database)
-                          ),
-                        ],
+                              title: AppStrings.hiringPost, // Title text
+                              value:
+                                  "00", // Dynamic value (could be fetched from a database)
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 
-                    const SizedBox(height: 10,),
-                     SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CustomInfoCard(
-                            image: Assets.images.barberRequest.image(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            CustomInfoCard(
+                              image: Assets.images.barberRequest.image(),
 
-                            title: AppStrings.barberRequest,         // Title text
-                            value: "00",                      // Dynamic value (could be fetched from a database)
-                          ), SizedBox(
-                            width: 5,
-                          ),
-                          CustomInfoCard(
-                            image: Assets.images.pending.image(),
+                              title: AppStrings.barberRequest, // Title text
+                              value:
+                                  "00", // Dynamic value (could be fetched from a database)
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CustomInfoCard(
+                              image: Assets.images.pending.image(),
 
-                            title:AppStrings.pending,         // Title text
-                            value: "00",                      // Dynamic value (could be fetched from a database)
-                          ),SizedBox(width: 5,),
-                          CustomInfoCard(
-                            image: Assets.images.waiting.image(),
+                              title: AppStrings.pending, // Title text
+                              value:
+                                  "00", // Dynamic value (could be fetched from a database)
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CustomInfoCard(
+                              image: Assets.images.waiting.image(),
 
-                            title: AppStrings.waiting, // Title text
-                            value:
-                                "00", // Dynamic value (could be fetched from a database)
-                          ),
-                        ],
+                              title: AppStrings.waiting, // Title text
+                              value:
+                                  "00", // Dynamic value (could be fetched from a database)
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 
-                    SizedBox(height: 12.h,),
-
+                    SizedBox(
+                      height: 12.h,
+                    ),
 
                     ///: <<<<<<======✅✅ recentRequest✅✅>>>>>>>>===========
                     CustomTitle(
@@ -146,9 +168,8 @@ class OwnerHomeScreen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: GestureDetector(
-                            onTap: (){
-                              AppRouter.route.pushNamed(
-                                  RoutePath.visitShop,
+                            onTap: () {
+                              AppRouter.route.pushNamed(RoutePath.visitShop,
                                   extra: userRole);
                             },
                             child: CustomHiringCard(
@@ -168,6 +189,35 @@ class OwnerHomeScreen extends StatelessWidget {
                           ),
                         );
                       }),
+                    ),
+
+                    Row(
+                      children: [
+                        CustomText(
+                          textAlign: TextAlign.start,
+                          text:
+                              'You have 5 \n appointments waiting for you today!',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: AppColors.black,
+                          bottom: 20,
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            context.pushNamed(RoutePath.ownerRequestBooking,
+                                extra: userRole);
+                          },
+                          child: Text(
+                            AppStrings.seeAll,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.secondary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
 
                     ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
@@ -202,8 +252,7 @@ class OwnerHomeScreen extends StatelessWidget {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.visitShop,
                                 extra: userRole);
                             // Handle visit shop button press
                           },

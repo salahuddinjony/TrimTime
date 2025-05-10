@@ -193,7 +193,21 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.chatScreen,
+                            AppRouter.route.pushNamed(RoutePath.inboxScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.chat,
+                          icon: Assets.images.chartSelected.image(
+
+                          ),
+                        )
+                      : const SizedBox(),
+
+                  //chat=========
+                  userRole == UserRole.user
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.inboxScreen,
                                 extra: userRole);
                           },
                           text: AppStrings.chat,

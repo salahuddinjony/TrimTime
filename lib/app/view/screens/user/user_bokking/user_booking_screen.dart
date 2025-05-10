@@ -47,20 +47,37 @@ class UserBookingScreenState extends State<UserBookingScreen> {
                     left: 10,
                     top: 25,
                     child: Container(
-                        padding: EdgeInsets.all(10.r),
+                        padding: EdgeInsets.all(8.r),
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.black),
                         child: IconButton(
                             onPressed: () {
                               print('object');
                               // Using GoRouter for navigation
-                              GoRouter.of(context)
-                                  .pop();
+                              GoRouter.of(context).pop();
                             },
                             icon: const Icon(
                               Icons.arrow_back,
                               color: Colors.white,
-                            ))))
+                            )))),
+
+
+                Positioned(
+                    right: 10,
+                    top: 25,
+                    child: Container(
+                        padding: EdgeInsets.all(7.r),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.black),
+                        child: IconButton(
+                            onPressed: () {
+                              AppRouter.route.pushNamed(RoutePath.chatScreen,
+                                  extra: userRole);
+                            },
+                            icon: const Icon(
+                              Icons.chat,
+                              color: Colors.white,
+                            )))),
               ],
             ),
             Padding(
@@ -136,7 +153,8 @@ class UserBookingScreenState extends State<UserBookingScreen> {
                   CustomButton(
                     onTap: () {
                       // Using GoRouter for pushing a route
-                      context.pushNamed(RoutePath.chooseBarberScreen,extra: userRole);
+                      context.pushNamed(RoutePath.chooseBarberScreen,
+                          extra: userRole);
                     },
                     title: AppStrings.continues,
                     fillColor: AppColors.gray500,

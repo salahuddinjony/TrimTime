@@ -15,6 +15,9 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
+
   /// File path: assets/icons/add_service.svg
   SvgGenImage get addService =>
       const SvgGenImage('assets/icons/add_service.svg');
@@ -122,6 +125,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<dynamic> get values => [
+        add,
         addService,
         bookings,
         business,
@@ -250,6 +254,10 @@ class $AssetsImagesGen {
   AssetGenImage get myBooking =>
       const AssetGenImage('assets/images/my_booking.png');
 
+  /// File path: assets/images/onboard3.png
+  AssetGenImage get onboard3 =>
+      const AssetGenImage('assets/images/onboard3.png');
+
   /// File path: assets/images/owner.png
   AssetGenImage get owner => const AssetGenImage('assets/images/owner.png');
 
@@ -345,6 +353,7 @@ class $AssetsImagesGen {
         hugeiconsTips,
         logo,
         myBooking,
+        onboard3,
         owner,
         pending,
         profileSelected,

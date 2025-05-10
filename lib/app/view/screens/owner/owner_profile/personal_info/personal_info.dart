@@ -41,28 +41,33 @@ class PersonalInfo extends StatelessWidget {
       ),
 
       ///============================ body ===============================
-      body: ClipPath(
-        clipper: CurvedBannerClipper(),
-        child: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xCCEDC4AC), // First color (with opacity)
-                Color(0xFFE9874E),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      body: Container(
+        width: double.infinity,
+        // height: MediaQuery.of(context).size.height/1.1,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xCCEDC4AC), // First color (with opacity)
+              Color(0xFFE9874E),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //TOdo=====Header====
-                Center(
-                    child: Column(
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //TOdo=====Header====
+              Center(
+                  child: Container(
+                width: 214.w,
+                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
                   children: [
                     CustomNetworkImage(
                         boxShape: BoxShape.circle,
@@ -84,113 +89,143 @@ class PersonalInfo extends StatelessWidget {
                       bottom: 10,
                       color: AppColors.black,
                     ),
-                  ],
-                )),
-
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.editOwnerProfile,
-                          extra: userRole);
-                    },
-                    child: Container(
-                      width: 130.w,
-                      padding: EdgeInsets.all(10.r),
-                      decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Row(
-                        children: [
-                          CustomText(
-                            textAlign: TextAlign.center,
-                            text: AppStrings.editProfile,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                            color: AppColors.secondary,
-                            left: 8,
-                            right: 8,
+                    Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          AppRouter.route.pushNamed(RoutePath.editOwnerProfile,
+                              extra: userRole);
+                        },
+                        child: Container(
+                          width: 130.w,
+                          padding: EdgeInsets.all(10.r),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.secondary),
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Row(
+                            children: [
+                              CustomText(
+                                textAlign: TextAlign.center,
+                                text: AppStrings.editProfile,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.secondary,
+                                left: 8,
+                                right: 8,
+                              ),
+                              Assets.icons.edit.svg()
+                            ],
                           ),
-                          Assets.icons.edit.svg()
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 10.h,),
-                Container(
-                  width: 100.w,
-                  padding: EdgeInsets.all(10.r),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      CustomText(
-                        text: 'Following',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.gray500,
-                      ),
-                      const Divider(),
-                      CustomText(
-                        text: '10k',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.gray500,
-                      ),
-                    ],
-                  ),
+              )),
+
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
+                width: 100.w,
+                padding: EdgeInsets.all(10.r),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                //TOdo=====name====
-                CustomMenuCard(
-                  onTap: () {},
-                  isArrow: true,
-                  text: "james",
-                  icon: Assets.icons.personalInfo.svg(
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),
-                  ),
+                child: Column(
+                  children: [
+                    CustomText(
+                      text: 'Following',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.gray500,
+                    ),
+                    const Divider(),
+                    CustomText(
+                      text: '10k',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.gray500,
+                    ),
+                  ],
                 ),
-                //=====date====
-                CustomMenuCard(
-                  isArrow: true,
-                  text: "22-03-1998",
-                  icon: Assets.icons.date.svg(
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),
-                  ),
+              ),
+              //TOdo=====name====
+              CustomMenuCard(
+                onTap: () {},
+                isArrow: true,
+                text: "james",
+                icon: Assets.icons.personalInfo.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
                 ),
-                //=====gender====
-                CustomMenuCard(
-                  isArrow: true,
-                  text: "male",
-                  icon: Assets.icons.gender.svg(
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),
-                  ),
+              ),
+              //=====date====
+              CustomMenuCard(
+                isArrow: true,
+                text: "22-03-1998",
+                icon: Assets.icons.date.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
                 ),
-                //=========phone===
-                CustomMenuCard(
-                  text: '+4412451211',
-                  icon: Assets.icons.phone.svg(
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),
-                  ),
-                  isArrow: true,
+              ),
+              //=====gender====
+              CustomMenuCard(
+                isArrow: true,
+                text: "male",
+                icon: Assets.icons.gender.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
                 ),
-                //=====location====
-                CustomMenuCard(
-                  isArrow: true,
-                  text: 'Abu dhabi',
-                  icon: Assets.icons.location.svg(
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.black, BlendMode.srcIn),
-                  ),
-                ), //=====addService====
-              ],
-            ),
+              ),
+              //=========phone===
+              CustomMenuCard(
+                text: '+4412451211',
+                icon: Assets.icons.phone.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                ),
+                isArrow: true,
+              ),
+              //=====location====
+              CustomMenuCard(
+                isArrow: true,
+                text: 'Abu dhabi',
+                icon: Assets.icons.location.svg(
+                  colorFilter:
+                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                ),
+              ),
+
+              //=====addService====
+
+              CustomText(
+                text: "Photo Gallery",
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                color: AppColors.whiteDarker,
+                bottom: 10,
+              ),
+
+              Row(
+                children: [
+                  CustomNetworkImage(
+                      borderRadius: BorderRadius.circular(10),
+                      imageUrl: AppConstants.style1,
+                      height: 78,
+                      width: 96),
+
+                  SizedBox(width: 10.w,),
+                  CustomNetworkImage(
+                      borderRadius: BorderRadius.circular(10),
+                      imageUrl: AppConstants.style1,
+                      height: 78,
+                      width: 96),
+                ],
+              ),
+            ],
           ),
         ),
       ),

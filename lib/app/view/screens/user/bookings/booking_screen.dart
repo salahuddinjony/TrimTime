@@ -71,9 +71,9 @@ class _BookingScreenState extends State<BookingScreen> {
     }
 
     return Scaffold(
-      bottomNavigationBar: BottomNavbar(currentIndex: 2, role: userRole),
       backgroundColor: AppColors.white50,
       appBar: const CustomAppBar(
+        iconData: Icons.arrow_back,
         appBarContent: "Bookings",
         appBarBgColor: AppColors.linearFirst,
       ),

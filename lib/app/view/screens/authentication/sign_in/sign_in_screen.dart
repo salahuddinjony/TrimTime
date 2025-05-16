@@ -75,6 +75,7 @@ class SignInScreen extends StatelessWidget {
                               }),
                           //ToDo ==========✅✅ password ✅✅==========
                           CustomFromCard(
+
                               isPassword: true,
                               hinText: AppStrings.enterYourPassword,
                               title: AppStrings.password,

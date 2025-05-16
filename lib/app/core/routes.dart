@@ -71,6 +71,7 @@ import 'package:barber_time/app/view/screens/user/user_bokking/summery_screen.da
 import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
 class AppRouter {
@@ -352,8 +353,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const VisitShop(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -404,8 +404,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const TipsScreen(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -447,8 +446,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const NotificationScreen(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -612,8 +610,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ScheduleScreen(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -644,8 +641,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const UniqueQrCode(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -727,8 +723,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyLoyalityRewards(),
             state: state,
-            transitionType: TransitionType
-                .detailsScreen,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -778,11 +773,10 @@ class AppRouter {
           ),
         ),
 
-
         ///======================= =======================
         GoRoute(
           name: RoutePath.chooseBarberScreen,
-          path: RoutePath. chooseBarberScreen.addBasePath,
+          path: RoutePath.chooseBarberScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ChooseBarberScreen(),
             state: state,
@@ -790,15 +784,27 @@ class AppRouter {
             //     .detailsScreen,
           ),
         ),
+
         ///======================= =======================
         GoRoute(
           name: RoutePath.summeryScreen,
-          path: RoutePath. summeryScreen.addBasePath,
+          path: RoutePath.summeryScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const SummeryScreen(),
             state: state,
             // transitionType: TransitionType
             //     .detailsScreen, // Custom transition type for detail screens
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.userProfileScreen,
+          path: RoutePath.userProfileScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const UserProfileScreen(),
+            state: state,
+            disableAnimation: true
           ),
         ),
       ]);

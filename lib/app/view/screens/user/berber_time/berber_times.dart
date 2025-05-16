@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
+
 class BerberTimes extends StatelessWidget {
   const BerberTimes({super.key});
 
@@ -28,25 +30,27 @@ class BerberTimes extends StatelessWidget {
     }
 
     return Scaffold(
-        floatingActionButton: userRole == UserRole.user
-            ? IconButton(
-          onPressed: () {
-            AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
-          },
-          icon:Container(
-            height: 85,
-            width: 85,
-            padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.navColor,  // Custom color for the button
-            ),
-            child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
-          ),
-        )
-            : null, // Return null if the role is not 'user'
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        bottomNavigationBar: BottomNavbar(currentIndex: 1, role: userRole),
+        bottomNavigationBar: CustomNavBar(currentIndex: 1, role: userRole),
+
+        // floatingActionButton: userRole == UserRole.user
+        //     ? IconButton(
+        //   onPressed: () {
+        //     AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
+        //   },
+        //   icon:Container(
+        //     height: 85,
+        //     width: 85,
+        //     padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
+        //     decoration: const BoxDecoration(
+        //       shape: BoxShape.circle,
+        //       color: AppColors.navColor,  // Custom color for the button
+        //     ),
+        //     child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
+        //   ),
+        // )
+        //     : null, // Return null if the role is not 'user'
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        // bottomNavigationBar: BottomNavbar(currentIndex: 1, role: userRole),
         backgroundColor: AppColors.linearFirst,
         appBar: const CustomAppBar(
           appBarContent: AppStrings.barbersTime,

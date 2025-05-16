@@ -8,6 +8,7 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
+import 'package:barber_time/app/view/common_widgets/user_nav_bar/user_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -26,25 +27,27 @@ class SavedScreen extends StatelessWidget {
       );
     }
     return Scaffold(
-      floatingActionButton: userRole == UserRole.user
-          ? IconButton(
-        onPressed: () {
-          AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
-        },
-        icon: Container(
-          height: 85,
-          width: 85,
-          padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.navColor,  // Custom color for the button
-          ),
-          child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
-        ),
-      )
-          : null, // Return null if the role is not 'user'
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar: BottomNavbar(currentIndex: 3, role: userRole),
+      bottomNavigationBar: CustomNavBar(currentIndex:3 , role: userRole),
+
+      // floatingActionButton: userRole == UserRole.user
+      //     ? IconButton(
+      //   onPressed: () {
+      //     AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
+      //   },
+      //   icon: Container(
+      //     height: 85,
+      //     width: 85,
+      //     padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
+      //     decoration: const BoxDecoration(
+      //       shape: BoxShape.circle,
+      //       color: AppColors.navColor,  // Custom color for the button
+      //     ),
+      //     child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
+      //   ),
+      // )
+      //     : null, // Return null if the role is not 'user'
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // bottomNavigationBar: BottomNavbar(currentIndex: 3, role: userRole),
       backgroundColor: AppColors.white50,
       appBar: const CustomAppBar(
         appBarContent: AppStrings.saved,

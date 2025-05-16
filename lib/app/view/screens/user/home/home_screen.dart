@@ -18,6 +18,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -37,24 +39,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      floatingActionButton: IconButton(
-        onPressed: () {
-          AppRouter.route
-              .pushNamed(RoutePath.scannerScreen, extra: userRole);
-        },
-        icon: Container(
-          height: 85,
-          width: 85,
-          padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.navColor,  // Custom color for the button
-          ),
-          child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar: BottomNavbar(currentIndex: 0, role: userRole),
+      bottomNavigationBar: CustomNavBar(currentIndex: 0, role: userRole),
       body: Column(
         children: [
           /// 🏡 Common Home AppBar

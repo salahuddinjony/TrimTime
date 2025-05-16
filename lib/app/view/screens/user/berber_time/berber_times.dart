@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -31,26 +30,6 @@ class BerberTimes extends StatelessWidget {
 
     return Scaffold(
         bottomNavigationBar: CustomNavBar(currentIndex: 1, role: userRole),
-
-        // floatingActionButton: userRole == UserRole.user
-        //     ? IconButton(
-        //   onPressed: () {
-        //     AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
-        //   },
-        //   icon:Container(
-        //     height: 85,
-        //     width: 85,
-        //     padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-        //     decoration: const BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       color: AppColors.navColor,  // Custom color for the button
-        //     ),
-        //     child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
-        //   ),
-        // )
-        //     : null, // Return null if the role is not 'user'
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // bottomNavigationBar: BottomNavbar(currentIndex: 1, role: userRole),
         backgroundColor: AppColors.linearFirst,
         appBar: const CustomAppBar(
           appBarContent: AppStrings.barbersTime,
@@ -166,34 +145,41 @@ class BerberTimes extends StatelessWidget {
                           ),
                           itemCount: 10,
                           itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CustomNetworkImage(
-                                  boxShape: BoxShape.circle,
-                                  imageUrl: AppConstants.demoImage,
-                                  height: 62,
-                                  width: 62,
-                                ),
-                                const SizedBox(height: 8),
-                                const CustomText(
-                                  text: "Jane Cooper",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                  color: AppColors.gray500,
-                                ),
-                              ],
+                            return GestureDetector(
+                              onTap: (){
+                                AppRouter.route.pushNamed(RoutePath.queScreen,
+                                    extra: [userRole,"IsQue"]);
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomNetworkImage(
+                                    boxShape: BoxShape.circle,
+                                    imageUrl: AppConstants.demoImage,
+                                    height: 62,
+                                    width: 62,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const CustomText(
+                                    text: "Jane Cooper",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    color: AppColors.gray500,
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         ),
                       ),
 
+                      SizedBox(
+                        height: 40.h,
+                      ),
 
                       CustomButton(
                         onTap: () {
                           showChooseBarberDialog(context);
-                          // AppRouter.route.pushNamed(RoutePath.queScreen,
-                          //     extra: userRole);
                         },
                         fillColor: AppColors.black,
                         title: AppStrings.add,
@@ -219,7 +205,7 @@ class BerberTimes extends StatelessWidget {
         ));
   }
 
-  void showChooseBarberDialog(BuildContext context) {
+static  void showChooseBarberDialog(BuildContext context) {
     // Define a list of selected barbers and services
     List<bool> selectedBarbers = List.filled(5, false);  // Assuming 5 barbers
     List<bool> selectedServices = List.filled(4, false); // 4 service options

@@ -10,16 +10,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/route_path.dart';
+import '../../../../../core/routes.dart';
+import '../berber_times.dart';
+
 class QueScreen extends StatelessWidget {
   const QueScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
-    if (userRole == null) {
+    final extra = GoRouter.of(context).state.extra;
+
+    UserRole? userRole;
+    String? statusString;
+
+    if (extra is List && extra.length == 2) {
+      // Try casting safely
+      if (extra[0] is UserRole) {
+        userRole = extra[0] as UserRole;
+      }
+      if (extra[1] is String) {
+        statusString = extra[1] as String;
+      }
+    }
+
+    // Fallback if you want to support single-type extras too (optional)
+    else if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is String) {
+      statusString = extra;
+    }
+
+    if (userRole == null && statusString == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
-        body: const Center(child: Text('No user role received')),
+        body: const Center(child: Text('No valid extra received')),
       );
     }
 
@@ -37,8 +62,9 @@ class QueScreen extends StatelessWidget {
               children: [
                 Container(
                   width: double.infinity,
-                  margin:
-                      const EdgeInsets.only(top: 60, ),
+                  margin: const EdgeInsets.only(
+                    top: 60,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.navColor,
                     borderRadius: BorderRadius.circular(12),
@@ -51,9 +77,7 @@ class QueScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child:
-
-                  CustomNetworkImage(
+                  child: CustomNetworkImage(
                       imageUrl: AppConstants.shop,
                       height: 184,
                       width: double.infinity),
@@ -83,35 +107,41 @@ class QueScreen extends StatelessWidget {
                   Center(
                     child: Column(
                       children: [
-                        const CustomText(
+                        CustomText(
                           top: 16,
                           text: "Jane Cooper",
                           fontWeight: FontWeight.w500,
-                          fontSize: 12,
+                          fontSize: 14.sp,
                           color: AppColors.gray500,
                         ),
-
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          color: AppColors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(15))
-                        ),
-                          child: const CustomText(
-                            text: AppStrings.seeProfile,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 11,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            if (userRole != null) {
+                              AppRouter.route.pushNamed(RoutePath.visitShop,
+                                  extra: userRole);
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
+                                color: AppColors.black,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: const CustomText(
+                              text: AppStrings.seeProfile,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 11,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],
                     ),
                   ),
-
                   const CustomText(
                     top: 16,
-                    text: AppStrings.availableBarber,
+                    text: "Ongoing Customer",
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
                     color: AppColors.gray500,
@@ -147,7 +177,6 @@ class QueScreen extends StatelessWidget {
                               fontSize: 12,
                               color: AppColors.gray500,
                             ),
-
                             const SizedBox(height: 8),
                             const CustomText(
                               text: "40 min",
@@ -176,9 +205,15 @@ class QueScreen extends StatelessWidget {
                     height: 20.h,
                   ),
                   CustomButton(
-                    onTap: () {},
-                    fillColor: AppColors.black,
-                    title: "Add to Queue",
+                    onTap: () {
+                      BerberTimes.showChooseBarberDialog(context);
+                    },
+                    fillColor: statusString == "IsQue"
+                        ? AppColors.black
+                        : AppColors.red,
+                    title: statusString == "IsQue"
+                        ? "Add to Queue"
+                        : "Remove form Que",
                     textColor: Colors.white,
                   ),
                   SizedBox(

@@ -21,16 +21,17 @@ class CommonTextRow extends StatelessWidget {
       children: [
         CustomText(
           text: "$keyText",
-          fontSize: 14.sp,
+          fontSize: 17.sp,
           fontWeight: FontWeight.w400,
-          color: AppColors.white,
+          color: AppColors.gray500,
           bottom: 10.h,
+          right: 5,
         ),
         CustomText(
           text: valueText,
-          fontSize: 14.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w400,
-          color: AppColors.white,
+          color: AppColors.whiteDarker,
           bottom: 10.h,
         ),
       ],

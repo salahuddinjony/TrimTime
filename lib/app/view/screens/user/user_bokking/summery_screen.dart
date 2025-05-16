@@ -23,7 +23,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: "Summary",
         iconData: Icons.arrow_back,
       ),
@@ -43,7 +43,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 ),
               ),
 
-              Divider(
+              const Divider(
                 color: Colors.grey,
               ),
               SizedBox(height: 20.h),
@@ -73,7 +73,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
               ),
               SizedBox(height: 20.h),
 
-              Divider(
+              const Divider(
                 color: Colors.grey,
               ),
 
@@ -103,7 +103,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orange),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.star,
                             color: Colors.orange,
                             size: 16,
@@ -116,7 +116,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
               ),
 
               SizedBox(height: 20.h),
-              Divider(
+              const Divider(
                 color: Colors.grey,
               ),
 
@@ -125,13 +125,13 @@ class _SummaryScreenState extends State<SummeryScreen> {
               // Date & Time Section
               Row(
                 children: [
-                  Icon(Icons.calendar_today, color: Colors.grey),
+                  const Icon(Icons.calendar_today, color: Colors.grey),
                   SizedBox(width: 10.w),
                   Text(
                     'Sat 7 Oct 2023',
                     style: TextStyle(fontSize: 16.sp),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     '11:00 - 11:45 pm',
                     style: TextStyle(fontSize: 16.sp),
@@ -152,13 +152,13 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 itemBuilder: (context, index) {
                   return Row(
                     children: [
-                      Icon(Icons.check_circle, color: Colors.green),
+                      const Icon(Icons.check_circle, color: Colors.green),
                       SizedBox(width: 10.w),
                       Text(
                         selectedServices[index]['service'],
                         style: TextStyle(fontSize: 14.sp),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         '£ ${selectedServices[index]['price']}',
                         style: TextStyle(fontSize: 14.sp),
@@ -168,8 +168,33 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 },
               ),
               SizedBox(height: 20.h),
+              // Selected Services
+              Row(
+                children: [
+                  Text(
+                    'Service Charge',
+                    style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+
+                  Text(
+                    '50 ',
+                    style: TextStyle(fontSize: 14.sp, ),
+                  ),
+                ],
+              ),
+              // Text(
+              //   selectedServices[index]['service'],
+              //   style: TextStyle(fontSize: 14.sp),
+              // ),
+              // const Spacer(),
+              // Text(
+              //   '£ ${selectedServices[index]['price']}',
+              //   style: TextStyle(fontSize: 14.sp),
+              // ),
+              SizedBox(height: 20.h),
               // Invoice Details
-              Divider(
+              const Divider(
                 color: Colors.grey,
               ),
 
@@ -182,7 +207,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                   ),
                   Spacer(),
                   Text(
-                    '£100.00',
+                    '£150.00',
                     style: TextStyle(fontSize: 16.sp),
                   ),
                 ],

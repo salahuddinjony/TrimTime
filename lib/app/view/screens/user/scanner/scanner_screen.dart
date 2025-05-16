@@ -39,71 +39,75 @@ class _ScannerScreenState extends State<ScannerScreen> {
         appBarContent: AppStrings.scanQrCode,
         appBarBgColor: AppColors.linearFirst,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // QR Scanner Box
-          Container(
-            height: 250,
-            width: 250,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: MobileScanner(
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                for (final barcode in barcodes) {
-                  setState(() {
-                    scannedData = barcode.rawValue ?? "Invalid QR Code";
-                  });
-                }
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Scanned Data Text
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.normalHover,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: CustomText(
-              text: "Scanned Data: $scannedData",
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Scanner Icon with Label
-          Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.normalHover,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Assets.images.scanner.image(),
-                CustomText(
-                  left: 10.w,
-                  text: AppStrings.scanQrCode,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+          child: Column(
+            children: [
+              // QR Scanner Box
+              Container(
+                height: 600.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 2),
+                  borderRadius: BorderRadius.circular(15),
                 ),
-              ],
-            ),
+                child: MobileScanner(
+                  onDetect: (capture) {
+                    final List<Barcode> barcodes = capture.barcodes;
+                    for (final barcode in barcodes) {
+                      setState(() {
+                        scannedData = barcode.rawValue ?? "Invalid QR Code";
+                      });
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // // Scanned Data Text
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              //   padding: const EdgeInsets.all(12),
+              //   decoration: BoxDecoration(
+              //     color: AppColors.normalHover,
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: CustomText(
+              //     text: "Scanned Data: $scannedData",
+              //     fontWeight: FontWeight.w600,
+              //     fontSize: 16,
+              //     color: Colors.white,
+              //   ),
+              // ),
+              //
+              // const SizedBox(height: 20),
+
+              // // Scanner Icon with Label
+              // Container(
+              //   margin: const EdgeInsets.all(10),
+              //   padding: const EdgeInsets.all(10),
+              //   decoration: BoxDecoration(
+              //     color: AppColors.normalHover,
+              //     borderRadius: BorderRadius.circular(15),
+              //   ),
+              //   child: Row(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       Assets.images.scanner.image(),
+              //       CustomText(
+              //         left: 10.w,
+              //         text: AppStrings.scanQrCode,
+              //         fontWeight: FontWeight.w600,
+              //         fontSize: 18,
+              //         color: Colors.white,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

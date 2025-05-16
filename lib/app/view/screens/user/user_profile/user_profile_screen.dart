@@ -102,7 +102,7 @@ class UserProfileScreen extends StatelessWidget {
                       AppRouter.route
                           .pushNamed(RoutePath.personalInfo, extra: userRole);
                     },
-                    text: AppStrings.personalInformation,
+                    text: AppStrings.profile,
                     icon: Assets.icons.personalInfo.svg(
                       colorFilter: const ColorFilter.mode(
                           AppColors.black, BlendMode.srcIn),

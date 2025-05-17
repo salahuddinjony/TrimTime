@@ -61,7 +61,7 @@ class MyFeed extends StatelessWidget {
         child: CustomButton(
           onTap: () {
             AppRouter.route
-                .goNamed(RoutePath.barberFeed, extra: userRole);
+                .goNamed(RoutePath.barberFeed, extra: [userRole]);
           },
           fillColor: AppColors.black,
           title: AppStrings.addFeed,

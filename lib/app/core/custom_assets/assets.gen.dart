@@ -235,6 +235,9 @@ class $AssetsImagesGen {
   AssetGenImage get historyUnselected =>
       const AssetGenImage('assets/images/history_unselected.png');
 
+  /// File path: assets/images/home.png
+  AssetGenImage get home => const AssetGenImage('assets/images/home.png');
+
   /// File path: assets/images/home_selected.png
   AssetGenImage get homeSelected =>
       const AssetGenImage('assets/images/home_selected.png');
@@ -348,6 +351,7 @@ class $AssetsImagesGen {
         hiringUnselected,
         historySelected,
         historyUnselected,
+        home,
         homeSelected,
         homeUnselected,
         hugeiconsTips,

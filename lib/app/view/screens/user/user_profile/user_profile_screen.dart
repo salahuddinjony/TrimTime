@@ -115,19 +115,7 @@ class UserProfileScreen extends StatelessWidget {
 
 
 
-                  //chat=========
-                  userRole == UserRole.user
-                      ? CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.inboxScreen,
-                          extra: userRole);
-                    },
-                    text: AppStrings.chat,
-                    icon: Assets.images.chartSelected.image(
 
-                    ),
-                  )
-                      : const SizedBox(),
 
                   //=========
                   //TOdo=====myFeed====

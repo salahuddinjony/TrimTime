@@ -44,8 +44,8 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
         _navItems = [
           (
           route: RoutePath.homeScreen,
-          selectedIcon: Assets.images.homeSelected.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.homeUnselected.image(color: Colors.black),
+          selectedIcon: Assets.images.home.image(color: AppColors.secondary),
+          unselectedIcon: Assets.images.home.image(color: Colors.black),
           label: AppStrings.home,
           ),
           (
@@ -69,7 +69,7 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
           (
           route: RoutePath.userProfileScreen,
           selectedIcon: Assets.images.profileSelected.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.profileUnselected.image(color: Colors.black),
+          unselectedIcon: Assets.images.profileSelected.image(color: Colors.black),
           label: AppStrings.profile,
           ),
         ];

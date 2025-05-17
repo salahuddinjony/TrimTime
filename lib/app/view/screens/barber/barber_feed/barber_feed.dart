@@ -32,9 +32,7 @@ class _BarberFeedState extends State<BarberFeed> {
   XFile? _imageFile;
 
   Future<void> _pickImage() async {
-    // Open gallery to pick an image
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;

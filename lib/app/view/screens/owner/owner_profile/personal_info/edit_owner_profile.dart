@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -118,7 +116,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                                     ),
                                   ],
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.camera_alt, // Camera icon for image picker
                                   color: Colors.white, // Icon color
                                   size: 24, // Icon size
@@ -182,6 +180,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
            Padding(
              padding: const EdgeInsets.symmetric(horizontal: 20),
              child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  CustomFromCard(
                      isBgColor: true,

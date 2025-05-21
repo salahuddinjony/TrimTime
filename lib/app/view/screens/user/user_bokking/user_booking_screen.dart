@@ -63,7 +63,7 @@ class UserBookingScreenState extends State<UserBookingScreen> {
 
 
                 Positioned(
-                    right: 10,
+                    right: 70,
                     top: 25,
                     child: Container(
                         padding: EdgeInsets.all(7.r),
@@ -76,6 +76,21 @@ class UserBookingScreenState extends State<UserBookingScreen> {
                             },
                             icon: const Icon(
                               Icons.chat,
+                              color: Colors.white,
+                            )))),
+                Positioned(
+                    right: 0,
+                    top: 25,
+                    child: Container(
+                        padding: EdgeInsets.all(7.r),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.black),
+                        child: IconButton(
+                            onPressed: () {
+
+                            },
+                            icon: const Icon(
+                              Icons.call,
                               color: Colors.white,
                             )))),
               ],

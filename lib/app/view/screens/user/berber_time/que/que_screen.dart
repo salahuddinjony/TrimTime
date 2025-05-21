@@ -206,7 +206,8 @@ class QueScreen extends StatelessWidget {
                   ),
                   CustomButton(
                     onTap: () {
-                      BerberTimes.showChooseBarberDialog(context);
+                      statusString == "IsQue"
+                          ?   BerberTimes.showChooseBarberDialog(context):SizedBox();
                     },
                     fillColor: statusString == "IsQue"
                         ? AppColors.black

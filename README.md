@@ -1,8 +1,4 @@
-# barber_time
 
-A new Flutter project.
-1.Dashboard link
-//https://barber-shift-dashboard.vercel.app/
 
 2.total customer,total barber,hiring post,barber request,waiting
 3.pending == booking click korle see all page e jabe

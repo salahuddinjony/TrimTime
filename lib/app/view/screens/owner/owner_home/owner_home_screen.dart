@@ -15,6 +15,7 @@ import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OwnerHomeScreen extends StatelessWidget {
   OwnerHomeScreen({super.key});
@@ -46,9 +47,21 @@ class OwnerHomeScreen extends StatelessWidget {
                   .pushNamed(RoutePath.uniqueQrCode, extra: userRole);
             },
             isDashboard: true,
-            onDashboard: () {
-              debugPrint("click");
+            onDashboard: () async {
+              final Uri url = Uri.parse('https://barber-shift-dashboard.vercel.app/');
+              debugPrint("Dashboard button clicked");
+
+              if (await canLaunchUrl(url)) {
+                bool launched = await launchUrl(url, mode: LaunchMode.platformDefault);
+                if (!launched) {
+                  debugPrint("Failed to launch URL with platformDefault mode, trying externalApplication");
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                }
+              } else {
+                debugPrint("Could not launch $url");
+              }
             },
+
             onCalender: () {
               AppRouter.route
                   .pushNamed(RoutePath.scheduleScreen, extra: userRole);
@@ -208,7 +221,7 @@ class OwnerHomeScreen extends StatelessWidget {
                             context.pushNamed(RoutePath.ownerRequestBooking,
                                 extra: userRole);
                           },
-                          child: Text(
+                          child: const Text(
                             AppStrings.seeAll,
                             style: TextStyle(
                               fontSize: 14,

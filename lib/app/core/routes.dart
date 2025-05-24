@@ -31,6 +31,7 @@ import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/total_customer_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
@@ -71,6 +72,11 @@ import 'package:barber_time/app/view/screens/user/user_bokking/summery_screen.da
 import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import '../view/screens/owner/owner_home/inner_widgets/barber_request.dart';
+import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
+    show HiringPost;
+import '../view/screens/owner/owner_home/inner_widgets/total_barber.dart'
+    show TotalBarber;
 import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
@@ -645,6 +651,50 @@ class AppRouter {
           ),
         ),
 
+        ///=======================totalScreen =======================
+        GoRoute(
+          name: RoutePath.totalCustomerScreen,
+          path: RoutePath.totalCustomerScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TotalCustomerScreen(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================TotalBarber =======================
+        GoRoute(
+          name: RoutePath.totalBarber,
+          path: RoutePath.totalBarber.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TotalBarber(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================hiringPost =======================
+        GoRoute(
+          name: RoutePath.hiringPost,
+          path: RoutePath.hiringPost.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const HiringPost(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================barberRequest =======================
+        GoRoute(
+          name: RoutePath.barberRequest,
+          path: RoutePath.barberRequest.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberRequest(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
         ///======================= =======================
         GoRoute(
           name: RoutePath.queScreen,
@@ -802,10 +852,9 @@ class AppRouter {
           name: RoutePath.userProfileScreen,
           path: RoutePath.userProfileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const UserProfileScreen(),
-            state: state,
-            disableAnimation: true
-          ),
+              child: const UserProfileScreen(),
+              state: state,
+              disableAnimation: true),
         ),
       ]);
 

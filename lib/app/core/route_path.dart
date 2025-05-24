@@ -20,6 +20,10 @@ class RoutePath{
   static const String subscriptionPlan = 'SubscriptionPlan';
   static const String paymentOption = 'PaymentOption';
   static const String uniqueQrCode = 'UniqueQrCode';
+  static const String totalCustomerScreen = 'TotalCustomerScreen';
+  static const String totalBarber = 'TotalBarber';
+  static const String hiringPost = 'HiringPost';
+  static const String barberRequest = 'BarberRequest';
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   static const String queScreen = 'QueScreen';

@@ -96,7 +96,10 @@ class OwnerHomeScreen extends StatelessWidget {
                               value: "00",
                               image: Assets.images.totalCustomer.image(),
                               onTap:
-                                  () {}, // Dynamic value (could be fetched from a database)
+                                  () {
+                                    AppRouter.route.pushNamed(RoutePath.totalCustomerScreen,
+                                        extra: userRole);
+                                  },
                             ),
                             SizedBox(
                               width: 5.w,
@@ -107,7 +110,11 @@ class OwnerHomeScreen extends StatelessWidget {
                               // Title text
                               value: "00",
                               onTap:
-                                  () {}, // Dynamic value (could be fetched from a database)
+                                  () {
+                                    AppRouter.route.pushNamed(RoutePath.totalBarber,
+                                        extra: userRole);
+                                  },
+
                             ),
                             SizedBox(
                               width: 5.w,
@@ -119,7 +126,11 @@ class OwnerHomeScreen extends StatelessWidget {
                               // Title text
                               value: "00",
                               onTap:
-                                  () {}, // Dynamic value (could be fetched from a database)
+                                  ()
+                              {
+                                AppRouter.route.pushNamed(RoutePath.hiringPost,
+                                    extra: userRole);
+                              }, // Dynamic value (could be fetched from a database)
                             ),
                           ],
                         ),
@@ -141,7 +152,8 @@ class OwnerHomeScreen extends StatelessWidget {
                               // Title text
                               value: "00",
                               onTap:
-                                  () {}, // Dynamic value (could be fetched from a database)
+                                  () {   AppRouter.route.pushNamed(RoutePath.barberRequest,
+                                      extra: userRole);}, // Dynamic value (could be fetched from a database)
                             ),
                             SizedBox(
                               width: 5.w,

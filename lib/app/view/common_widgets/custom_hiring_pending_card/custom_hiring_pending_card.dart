@@ -13,6 +13,7 @@ class CustomHiringCard extends StatelessWidget {
   final String location;
   final VoidCallback onHireTap;
   final bool? isMessage;
+  final bool? isCalling;
 
   const CustomHiringCard({
     super.key,
@@ -21,7 +22,8 @@ class CustomHiringCard extends StatelessWidget {
     required this.role,
     required this.rating,
     required this.location,
-    required this.onHireTap, this.isMessage = false,
+    required this.onHireTap,
+    this.isMessage = false, this.isCalling = false,
   });
 
   @override
@@ -98,18 +100,33 @@ class CustomHiringCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     // Hire Now Button
+                    isMessage == false
+                        ? GestureDetector(
+                            onTap:
+                                onHireTap, // Execute the callback when tapped
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: AppColors.container, // Button color
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Assets.images.chartSelected.image()),
+                          )
+                        : const SizedBox(),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+
                     isMessage == false?
-                    GestureDetector(
-                      onTap: onHireTap, // Execute the callback when tapped
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         decoration: BoxDecoration(
                           color: AppColors.container, // Button color
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Assets.images.chartSelected.image()
-                      ),
-                    ):const SizedBox()
+                        child: const Icon(Icons.call,size: 20,)):const SizedBox()
                   ],
                 ),
               ],

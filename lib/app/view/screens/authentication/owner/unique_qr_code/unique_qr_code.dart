@@ -55,24 +55,7 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
                   children: [
-                    // Container(
-                    //   height: 250,
-                    //   width: 250,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(color: Colors.white, width: 2),
-                    //     borderRadius: BorderRadius.circular(15),
-                    //   ),
-                    //   child: MobileScanner(
-                    //     onDetect: (capture) {
-                    //       final List<Barcode> barcodes = capture.barcodes;
-                    //       for (final barcode in barcodes) {
-                    //         setState(() {
-                    //           scannedData = barcode.rawValue ?? "Invalid QR Code";
-                    //         });
-                    //       }
-                    //     },
-                    //   ),
-                    // ),
+
                     Assets.images.scannerImage.image(),
 
                     SizedBox(
@@ -84,7 +67,7 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                             extra: userRole);
                       },
                       textColor: AppColors.white50,
-                      title: "Next",
+                      title: "Print ",
                       fillColor: AppColors.black,
                     ),
                   ],

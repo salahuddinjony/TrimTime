@@ -48,20 +48,22 @@ class OwnerHomeScreen extends StatelessWidget {
             },
             isDashboard: true,
             onDashboard: () async {
-              final Uri url = Uri.parse('https://barber-shift-dashboard.vercel.app/');
+              final Uri url =
+                  Uri.parse('https://barber-shift-dashboard.vercel.app/');
               debugPrint("Dashboard button clicked");
 
               if (await canLaunchUrl(url)) {
-                bool launched = await launchUrl(url, mode: LaunchMode.platformDefault);
+                bool launched =
+                    await launchUrl(url, mode: LaunchMode.platformDefault);
                 if (!launched) {
-                  debugPrint("Failed to launch URL with platformDefault mode, trying externalApplication");
+                  debugPrint(
+                      "Failed to launch URL with platformDefault mode, trying externalApplication");
                   await launchUrl(url, mode: LaunchMode.externalApplication);
                 }
               } else {
                 debugPrint("Could not launch $url");
               }
             },
-
             onCalender: () {
               AppRouter.route
                   .pushNamed(RoutePath.scheduleScreen, extra: userRole);
@@ -89,29 +91,35 @@ class OwnerHomeScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             CustomInfoCard(
-                              title: AppStrings.totalCustomer, // Title text
+                              title: AppStrings.totalCustomer,
+                              // Title text
                               value: "00",
-                              image: Assets.images.totalCustomer
-                                  .image(), // Dynamic value (could be fetched from a database)
+                              image: Assets.images.totalCustomer.image(),
+                              onTap:
+                                  () {}, // Dynamic value (could be fetched from a database)
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 5.w,
                             ),
                             CustomInfoCard(
                               image: Assets.images.totalBarber.image(),
-                              title: AppStrings.totalBarber, // Title text
-                              value:
-                                  "00", // Dynamic value (could be fetched from a database)
+                              title: AppStrings.totalBarber,
+                              // Title text
+                              value: "00",
+                              onTap:
+                                  () {}, // Dynamic value (could be fetched from a database)
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 5.w,
                             ),
                             CustomInfoCard(
                               image: Assets.images.hiringSelected.image(),
 
-                              title: AppStrings.hiringPost, // Title text
-                              value:
-                                  "00", // Dynamic value (could be fetched from a database)
+                              title: AppStrings.hiringPost,
+                              // Title text
+                              value: "00",
+                              onTap:
+                                  () {}, // Dynamic value (could be fetched from a database)
                             ),
                           ],
                         ),
@@ -129,29 +137,39 @@ class OwnerHomeScreen extends StatelessWidget {
                             CustomInfoCard(
                               image: Assets.images.barberRequest.image(),
 
-                              title: AppStrings.barberRequest, // Title text
-                              value:
-                                  "00", // Dynamic value (could be fetched from a database)
+                              title: AppStrings.barberRequest,
+                              // Title text
+                              value: "00",
+                              onTap:
+                                  () {}, // Dynamic value (could be fetched from a database)
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 5.w,
                             ),
                             CustomInfoCard(
                               image: Assets.images.pending.image(),
 
-                              title: AppStrings.pending, // Title text
-                              value:
-                                  "00", // Dynamic value (could be fetched from a database)
+                              title: AppStrings.pending,
+                              // Title text
+                              value: "00",
+                              onTap:
+                                  () {
+                                    context.pushNamed(RoutePath.ownerRequestBooking,
+                                        extra: userRole);
+                                  },
+
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 5.w,
                             ),
                             CustomInfoCard(
                               image: Assets.images.waiting.image(),
 
-                              title: AppStrings.waiting, // Title text
-                              value:
-                                  "00", // Dynamic value (could be fetched from a database)
+                              title: AppStrings.waiting,
+                              // Title text
+                              value: "00",
+                              onTap:
+                                  () {}, // Dynamic value (could be fetched from a database)
                             ),
                           ],
                         ),

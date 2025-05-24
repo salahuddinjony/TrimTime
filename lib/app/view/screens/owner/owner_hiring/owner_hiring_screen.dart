@@ -65,6 +65,7 @@ class OwnerHiringScreen extends StatelessWidget {
                   : Column(
                 children: filteredJobs.map((job) {
                   return CustomHiringCard(
+                    isCalling: true,
                     imageUrl: AppConstants.demoImage, // Image URL (dynamic)
                     name: job['title'] ?? "Unknown",  // Dynamic title (Job name)
                     role: "Barber",                    // Hardcoded or dynamic role

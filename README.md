@@ -1,6 +1,5 @@
 
 
-2.total customer,total barber,hiring post,barber request,waiting
 7.ios check kore dekhate hobe
 
 

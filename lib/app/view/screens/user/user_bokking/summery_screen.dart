@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class SummeryScreen extends StatefulWidget {
   const SummeryScreen({super.key});
 
@@ -23,210 +25,235 @@ class _SummaryScreenState extends State<SummeryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        appBarContent: "Summary",
-        iconData: Icons.arrow_back,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Review & Confirm Section
-              Text(
-                'Review & Confirm',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        appBar: const CustomAppBar(
+          appBarContent: "Summary",
+          iconData: Icons.arrow_back,
+        ),
+        body: ClipPath(
+            clipper: CurvedBannerClipper(),
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9874E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
-
-              const Divider(
-                color: Colors.grey,
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  CustomNetworkImage(
-                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                      imageUrl: AppConstants.demoImage,
-                      height: 53,
-                      width: 53),
-                  SizedBox(width: 10.w),
-                  Column(
+              child: Padding(
+                padding: EdgeInsets.all(16.w),
+                child: SingleChildScrollView(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Review & Confirm Section
                       Text(
-                        'Serenity Saloon',
+                        'Review & Confirm',
                         style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                      Text(
-                        'Chev 36 St, London',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+
+                      const Divider(
+                        color: Colors.grey,
                       ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
+                      SizedBox(height: 20.h),
+                      Row(
+                        children: [
+                          CustomNetworkImage(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r)),
+                              imageUrl: AppConstants.demoImage,
+                              height: 53,
+                              width: 53),
+                          SizedBox(width: 10.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Serenity Saloon',
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Chev 36 St, London',
+                                style: TextStyle(
+                                    fontSize: 14.sp, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.h),
 
-              const Divider(
-                color: Colors.grey,
-              ),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
 
-              SizedBox(height: 20.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomNetworkImage(
-                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                      imageUrl: AppConstants.demoImage,
-                      height: 53,
-                      width: 53),
-                  SizedBox(width: 10.w),
-                  Column(
-                    children: [
+                      SizedBox(height: 20.h),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomNetworkImage(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r)),
+                              imageUrl: AppConstants.demoImage,
+                              height: 53,
+                              width: 53),
+                          SizedBox(width: 10.w),
+                          Column(
+                            children: [
+                              Text(
+                                'Talha',
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '5.0 ',
+                                    style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.orange),
+                                  ),
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.orange,
+                                    size: 16,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20.h),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+
+                      SizedBox(height: 20.h),
+
+                      // Date & Time Section
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today, color: Colors.grey),
+                          SizedBox(width: 10.w),
+                          Text(
+                            'Sat 7 Oct 2023',
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '11:00 - 11:45 pm',
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20.h),
+                      // Selected Services
                       Text(
-                        'Talha',
+                        'Selected services',
                         style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                            fontSize: 18.sp, fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(height: 10.h),
+                      ListView.builder(
+                        itemCount: selectedServices.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              const Icon(Icons.check_circle,
+                                  color: Colors.green),
+                              SizedBox(width: 10.w),
+                              Text(
+                                selectedServices[index]['service'],
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                              const Spacer(),
+                              Text(
+                                '£ ${selectedServices[index]['price']}',
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                      // Selected Services
                       Row(
                         children: [
                           Text(
-                            '5.0 ',
+                            'Service Charge',
                             style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.orange),
+                                fontSize: 18.sp, fontWeight: FontWeight.bold),
                           ),
-                          const Icon(
-                            Icons.star,
-                            color: Colors.orange,
-                            size: 16,
-                          )
+                          const Spacer(),
+                          Text(
+                            '0.50 ',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                            ),
+                          ),
                         ],
                       ),
+                      // Text(
+                      //   selectedServices[index]['service'],
+                      //   style: TextStyle(fontSize: 14.sp),
+                      // ),
+                      // const Spacer(),
+                      // Text(
+                      //   '£ ${selectedServices[index]['price']}',
+                      //   style: TextStyle(fontSize: 14.sp),
+                      // ),
+                      SizedBox(height: 20.h),
+                      // Invoice Details
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+
+                      SizedBox(height: 10.h),
+                      Row(
+                        children: [
+                          Text(
+                            'Subtotal',
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '£100.00',
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 50.h),
+
+                      CustomButton(
+                        onTap: () {
+                          // Using GoRouter for pushing a route
+                          context.pushNamed(RoutePath.paymentOption);
+                        },
+                        textColor: Colors.white,
+                        fillColor: Colors.black,
+                        title: "Select Payment",
+                      ),
+                      SizedBox(height: 50.h),
+
                     ],
                   ),
-                ],
+                ),
               ),
-
-              SizedBox(height: 20.h),
-              const Divider(
-                color: Colors.grey,
-              ),
-
-              SizedBox(height: 20.h),
-
-              // Date & Time Section
-              Row(
-                children: [
-                  const Icon(Icons.calendar_today, color: Colors.grey),
-                  SizedBox(width: 10.w),
-                  Text(
-                    'Sat 7 Oct 2023',
-                    style: TextStyle(fontSize: 16.sp),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '11:00 - 11:45 pm',
-                    style: TextStyle(fontSize: 16.sp),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 20.h),
-              // Selected Services
-              Text(
-                'Selected services',
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10.h),
-              ListView.builder(
-                itemCount: selectedServices.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      const Icon(Icons.check_circle, color: Colors.green),
-                      SizedBox(width: 10.w),
-                      Text(
-                        selectedServices[index]['service'],
-                        style: TextStyle(fontSize: 14.sp),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '£ ${selectedServices[index]['price']}',
-                        style: TextStyle(fontSize: 14.sp),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 20.h),
-              // Selected Services
-              Row(
-                children: [
-                  Text(
-                    'Service Charge',
-                    style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-
-                  Text(
-                    '50 ',
-                    style: TextStyle(fontSize: 14.sp, ),
-                  ),
-                ],
-              ),
-              // Text(
-              //   selectedServices[index]['service'],
-              //   style: TextStyle(fontSize: 14.sp),
-              // ),
-              // const Spacer(),
-              // Text(
-              //   '£ ${selectedServices[index]['price']}',
-              //   style: TextStyle(fontSize: 14.sp),
-              // ),
-              SizedBox(height: 20.h),
-              // Invoice Details
-              const Divider(
-                color: Colors.grey,
-              ),
-
-              SizedBox(height: 10.h),
-              Row(
-                children: [
-                  Text(
-                    'Subtotal',
-                    style: TextStyle(fontSize: 16.sp),
-                  ),
-                  Spacer(),
-                  Text(
-                    '£150.00',
-                    style: TextStyle(fontSize: 16.sp),
-                  ),
-                ],
-              ),
-              SizedBox(height: 50.h),
-
-              CustomButton(
-                onTap: () {
-                  // Using GoRouter for pushing a route
-                  context.pushNamed(RoutePath.paymentOption);
-                },
-                textColor: Colors.white,
-                fillColor: Colors.black,
-                title: "Select Payment",
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            )));
   }
 }

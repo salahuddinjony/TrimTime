@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class ChooseBarberScreen extends StatefulWidget {
   const ChooseBarberScreen({super.key});
 
@@ -43,138 +45,158 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
       );
     }
     return Scaffold(
-      backgroundColor: AppColors.first,
-      appBar: const CustomAppBar(
-        appBarContent: "Gentlemen’s..",
-        iconData: Icons.arrow_back,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Available Barber Section
-            Text(
-              'Available Barber',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                barberTile('Shakib', 'assets/shakib.png'),
-                barberTile('Talha', 'assets/talha.png'),
-                barberTile('Faizan', 'assets/faizan.png'),
-              ],
-            ),
-            SizedBox(height: 20.h),
-
-            SizedBox(height: 20),
-            Text(
-              'Select Date',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-
-            // Grid of Dates
-            SizedBox(
-              height: 100,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                ),
-                itemCount: dates.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedDate = dates[index];
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedDate == dates[index]
-                            ? Colors.orange
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        dates[index],
-                        style: TextStyle(
-                          color: selectedDate == dates[index]
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            SizedBox(height: 20),
-            Text(
-              'Select Time',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-              ),
-              itemCount: times.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedTime = times[index];
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: selectedTime == times[index]
-                          ? Colors.orange
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      times[index],
-                      style: TextStyle(
-                        color: selectedTime == times[index]
-                            ? Colors.white
-                            : Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 100),
-
-            CustomButton(
-              onTap: () {
-                // Using GoRouter for pushing a route
-                context.pushNamed(RoutePath.summeryScreen,extra: userRole);
-              },
-              title: AppStrings.continues,
-              fillColor: AppColors.gray500,
-              textColor: AppColors.white,
-            )
-          ],
+        backgroundColor: AppColors.first,
+        appBar: const CustomAppBar(
+          appBarContent: "Gentlemen’s..",
+          iconData: Icons.arrow_back,
         ),
-      ),
-    );
+        body: ClipPath(
+            clipper: CurvedBannerClipper(),
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9874E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Available Barber Section
+                    Text(
+                      'Available Barber',
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    ),
+                    const Divider(color: AppColors.white,),
+                    SizedBox(height: 16.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        barberTile('Shakib', 'assets/shakib.png'),
+                        barberTile('Talha', 'assets/talha.png'),
+                        barberTile('Faizan', 'assets/faizan.png'),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+
+                    SizedBox(height: 20),
+                    Text(
+                      'Select Date',
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+
+                    // Grid of Dates
+                    SizedBox(
+                      height: 100,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 8.0,
+                        ),
+                        itemCount: dates.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedDate = dates[index];
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: selectedDate == dates[index]
+                                    ? AppColors.secondary
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                dates[index],
+                                style: TextStyle(
+                                  color: selectedDate == dates[index]
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                    Text(
+                      'Select Time',
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                      ),
+                      itemCount: times.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedTime = times[index];
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: selectedTime == times[index]
+                                  ? AppColors.secondary
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              times[index],
+                              style: TextStyle(
+                                color: selectedTime == times[index]
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 50),
+
+                    CustomButton(
+                      onTap: () {
+                        // Using GoRouter for pushing a route
+                        context.pushNamed(RoutePath.summeryScreen,
+                            extra: userRole);
+                      },
+                      title: AppStrings.continues,
+                      fillColor: AppColors.gray500,
+                      textColor: AppColors.white,
+                    )
+                  ],
+                ),
+              ),
+            )));
   }
 
   // Barber selection tile
@@ -191,10 +213,10 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
         width: 90.w,
         margin: EdgeInsets.only(right: 10.w),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.orange.shade100 : Colors.transparent,
+          color: isSelected ? AppColors.secondary : Colors.transparent,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isSelected ? Colors.orange : Colors.grey,
+            color: isSelected ? AppColors.secondary : Colors.grey,
             width: 2,
           ),
         ),
@@ -209,7 +231,7 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
             SizedBox(height: 8.h),
             Text(
               name,
-              style: TextStyle(fontSize: 14.sp),
+              style: TextStyle(fontSize: 14.sp,color: AppColors.white),
             ),
             if (isSelected)
               const Icon(

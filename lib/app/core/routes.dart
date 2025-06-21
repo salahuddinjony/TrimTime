@@ -79,7 +79,9 @@ import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
 import '../view/screens/owner/owner_home/inner_widgets/total_barber.dart'
     show TotalBarber;
 import '../view/screens/owner/owner_profile/owner_payment/hiring_barber/hiring_barber.dart';
+import '../view/screens/owner/owner_profile/owner_payment/invoice_payment/invoice_payment_screen.dart';
 import '../view/screens/owner/owner_profile/owner_payment/owner_payment.dart';
+import '../view/screens/owner/owner_profile/owner_payment/owner_payment_option/owner_payment_option.dart';
 import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
@@ -371,6 +373,25 @@ class AppRouter {
           path: RoutePath.hiringBarberPayment.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const HiringBarberPayment(),
+            state: state,
+          ),
+        ),
+
+        ///=======================InvoicePaymentScreen  =======================
+        GoRoute(
+          name: RoutePath.invoicePaymentScreen,
+          path: RoutePath.invoicePaymentScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const InvoicePaymentScreen(),
+            state: state,
+          ),
+        ),
+     ///=======================OwnerPaymentOption  =======================
+        GoRoute(
+          name: RoutePath.ownerPaymentOption,
+          path: RoutePath.ownerPaymentOption.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child:  OwnerPaymentOption(),
             state: state,
           ),
         ),

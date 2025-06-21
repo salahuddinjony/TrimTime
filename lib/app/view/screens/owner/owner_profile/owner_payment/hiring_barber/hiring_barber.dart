@@ -75,7 +75,7 @@ class HiringBarberPayment extends StatelessWidget {
                       text: 'Online Payment',
                       iconPath: Assets.images.hugeiconsPayment02.path,
                       onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.paymentOption,
+                        AppRouter.route.pushNamed(RoutePath.ownerPaymentOption,
                             extra: userRole);
                       },
                     ),

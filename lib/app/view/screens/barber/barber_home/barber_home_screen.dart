@@ -91,8 +91,7 @@ class BarberHomeScreen extends StatelessWidget {
                           },
                           logoImage: Assets.images.logo.image(height: 50),
                           seeDescriptionTap: () {
-                            showGroomingDialog(context); // 🔥 Call the dialog here
-
+                            showGroomingDialog(context);
                           },
                         );
                       }),

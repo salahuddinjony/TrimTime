@@ -8,3 +8,4 @@ open Runner.xcworkspace
 # print and download button added
 # unique qr code next button add
 # description button fix
+# owner date missing fixed

@@ -7,6 +7,9 @@ import 'package:barber_time/app/view/common_widgets/custom_barber_card/custom_ba
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/route_path.dart';
+import '../../../../../core/routes.dart';
+
 class HiringBarber extends StatelessWidget {
   const HiringBarber({
     super.key,
@@ -36,11 +39,17 @@ class HiringBarber extends StatelessWidget {
       ///============================ body ===============================
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: CustomBarberCard(
-            imageUrl: AppConstants.demoImage, // Barber's image URL
-            name: 'Christian Ronaldo', // Barber's name
-            role: 'Barber', // Barber's role
-            contact: '+1 111 467 378 399', // Barber's contact number
+          child: GestureDetector(
+            onTap: (){
+              AppRouter.route
+                  .pushNamed(RoutePath.visitShop, extra: userRole);
+            },
+            child: CustomBarberCard(
+              imageUrl: AppConstants.demoImage, // Barber's image URL
+              name: 'Christian Ronaldo', // Barber's name
+              role: 'Barber', // Barber's role
+              contact: '+1 111 467 378 399', // Barber's contact number
+            ),
           )
       ),
     );

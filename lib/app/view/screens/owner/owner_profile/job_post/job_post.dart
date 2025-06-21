@@ -10,6 +10,8 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/show_grooming_dialoge/show_grooming_dialoge.dart';
+
 class JobPost extends StatelessWidget {
   const JobPost({
     super.key,
@@ -54,7 +56,8 @@ class JobPost extends StatelessWidget {
              return CustomBorderCard(
                isEdit: true,
                isEditTap: (){
-                 debugPrint("gg");
+                 AppRouter.route
+                     .pushNamed(RoutePath.createJobPost, extra: userRole);
                },
                title: 'Barber Shop',
                time: '10:00am-10:00pm',
@@ -64,10 +67,12 @@ class JobPost extends StatelessWidget {
                isButton: false,
                isSeeDescription: true,
                onButtonTap: () {
-                 // Handle button tap logic
+
                },
                logoImage: Assets.images.logo.image(height: 50),
-               seeDescriptionTap: () {},
+               seeDescriptionTap: () {
+                 showGroomingDialog(context);
+               },
              );
            }),
          ),

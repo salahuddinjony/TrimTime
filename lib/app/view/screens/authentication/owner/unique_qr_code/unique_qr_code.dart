@@ -69,6 +69,9 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomIconButton(
+                          iconColor:AppColors.black ,
+                          textColor: AppColors.black,
+                        isBgColor: AppColors.white,
                           onTap: () {
                             AppRouter.route.goNamed(RoutePath.ownerHomeScreen,
                                 extra: userRole);
@@ -79,6 +82,9 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                         ),
                         SizedBox(width: 20.w),
                         CustomIconButton(
+                          iconColor: AppColors.black,
+                          textColor: AppColors.black,
+                          isBgColor: AppColors.white,
                           onTap: () {
                             AppRouter.route.goNamed(RoutePath.ownerHomeScreen,
                                 extra: userRole);

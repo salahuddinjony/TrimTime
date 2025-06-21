@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class TipsScreen extends StatelessWidget {
   const TipsScreen({super.key});
 
@@ -28,77 +30,128 @@ class TipsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
-      appBar: const CustomAppBar(
-        appBarContent: "Tip",
-        appBarBgColor: AppColors.linearFirst,
-        iconData: Icons.arrow_back,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// All Barbers title
-            CustomText(
-              text: "All Barbers",
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.gray500,
-            ),
-
-            SizedBox(height: 20.h),
-
-            /// Barber Grid (Fixed height without Expanded)
-            SizedBox(
-              height: 300.h, // Fixed height for the GridView
-              child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Adjusted for better look
-                  crossAxisSpacing: 0.w,
-                  mainAxisSpacing: 15.h,
-                  childAspectRatio: 1.9, // Perfect height/width
-                ),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return CustomTipCard(
-                    imageUrl: AppConstants.demoImage,
-                    name: "Barber $index",
-                    onSendTip: () {
-                      _showTipDialog(context, TextEditingController());
-                    },
-                  );
-                },
-              ),
-            ),
-
-            SizedBox(height: 20.h),
-            CustomText(
-              text: "Service Charge:",
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.gray500,
-            ),
-            SizedBox(height: 100.h),
-
-            /// Submit Button
-            CustomButton(
-              onTap: () {
-                AppRouter.route.pushNamed(
-                  RoutePath.paymentOption,
-                  extra: userRole,
-                );
-              },
-              title: AppStrings.submit,
-              fillColor: Colors.black,
-              textColor: AppColors.whiteColor,
-              height: 50.h,
-            ),
-          ],
+        backgroundColor: AppColors.linearFirst,
+        appBar: const CustomAppBar(
+          appBarContent: "Tip",
+          appBarBgColor: AppColors.linearFirst,
+          iconData: Icons.arrow_back,
         ),
-      ),
-    );
+        body: ClipPath(
+            clipper: CurvedBannerClipper(),
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9874E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// All Barbers title
+                    CustomText(
+                      text: "All Barbers",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.gray500,
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    /// Barber Grid (Fixed height without Expanded)
+                    SizedBox(
+                      height: 300.h, // Fixed height for the GridView
+                      child: GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // Adjusted for better look
+                          crossAxisSpacing: 0.w,
+                          mainAxisSpacing: 15.h,
+                          childAspectRatio: 1.9, // Perfect height/width
+                        ),
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return CustomTipCard(
+                            imageUrl: AppConstants.demoImage,
+                            name: "Barber $index",
+                            onSendTip: () {
+                              _showTipDialog(context, TextEditingController());
+                            },
+                          );
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 20.h),
+                    CustomText(
+                      text: "Service Charge:",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.gray500,
+                    ),
+
+                    // Subtitle + Check Icon
+                    const Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Service charge is applied to every tip',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.white,
+                          size: 20,
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Charge Amount
+                    const Text(
+                      '£0.10',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+
+                    // Bottom Divider
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 100.h),
+
+                    /// Submit Button
+                    CustomButton(
+                      onTap: () {
+                        AppRouter.route.pushNamed(
+                          RoutePath.paymentOption,
+                          extra: userRole,
+                        );
+                      },
+                      title: AppStrings.submit,
+                      fillColor: Colors.black,
+                      textColor: AppColors.whiteColor,
+                      height: 50.h,
+                    ),
+                  ],
+                ),
+              ),
+            )));
   }
 
   // Function to show the Tip dialog

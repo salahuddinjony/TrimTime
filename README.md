@@ -9,6 +9,8 @@ open Runner.xcworkspace
 # unique qr code next button add
 # description button fix
 # owner date missing fixed
+# tip section missing is service charge figma wise
+
 
 # SHop Profile 
 # loyality user
@@ -20,7 +22,6 @@ open Runner.xcworkspace
 # chosse barber screen figma wise
 # Summery Screen figma wise and added service charge 0.50
 # saved screen 2 tab bar need
-# tip section missing is service charge figma wise
 
 
 

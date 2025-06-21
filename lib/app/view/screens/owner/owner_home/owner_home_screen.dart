@@ -10,12 +10,15 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'inner_widgets/monitization_date_picar.dart';
 
 class OwnerHomeScreen extends StatelessWidget {
   OwnerHomeScreen({super.key});
@@ -95,11 +98,11 @@ class OwnerHomeScreen extends StatelessWidget {
                               // Title text
                               value: "00",
                               image: Assets.images.totalCustomer.image(),
-                              onTap:
-                                  () {
-                                    AppRouter.route.pushNamed(RoutePath.totalCustomerScreen,
-                                        extra: userRole);
-                                  },
+                              onTap: () {
+                                AppRouter.route.pushNamed(
+                                    RoutePath.totalCustomerScreen,
+                                    extra: userRole);
+                              },
                             ),
                             SizedBox(
                               width: 5.w,
@@ -109,12 +112,10 @@ class OwnerHomeScreen extends StatelessWidget {
                               title: AppStrings.totalBarber,
                               // Title text
                               value: "00",
-                              onTap:
-                                  () {
-                                    AppRouter.route.pushNamed(RoutePath.totalBarber,
-                                        extra: userRole);
-                                  },
-
+                              onTap: () {
+                                AppRouter.route.pushNamed(RoutePath.totalBarber,
+                                    extra: userRole);
+                              },
                             ),
                             SizedBox(
                               width: 5.w,
@@ -125,9 +126,7 @@ class OwnerHomeScreen extends StatelessWidget {
                               title: AppStrings.hiringPost,
                               // Title text
                               value: "00",
-                              onTap:
-                                  ()
-                              {
+                              onTap: () {
                                 AppRouter.route.pushNamed(RoutePath.hiringPost,
                                     extra: userRole);
                               }, // Dynamic value (could be fetched from a database)
@@ -151,9 +150,11 @@ class OwnerHomeScreen extends StatelessWidget {
                               title: AppStrings.barberRequest,
                               // Title text
                               value: "00",
-                              onTap:
-                                  () {   AppRouter.route.pushNamed(RoutePath.barberRequest,
-                                      extra: userRole);}, // Dynamic value (could be fetched from a database)
+                              onTap: () {
+                                AppRouter.route.pushNamed(
+                                    RoutePath.barberRequest,
+                                    extra: userRole);
+                              }, // Dynamic value (could be fetched from a database)
                             ),
                             SizedBox(
                               width: 5.w,
@@ -164,12 +165,10 @@ class OwnerHomeScreen extends StatelessWidget {
                               title: AppStrings.pending,
                               // Title text
                               value: "00",
-                              onTap:
-                                  () {
-                                    context.pushNamed(RoutePath.ownerRequestBooking,
-                                        extra: userRole);
-                                  },
-
+                              onTap: () {
+                                context.pushNamed(RoutePath.ownerRequestBooking,
+                                    extra: userRole);
+                              },
                             ),
                             SizedBox(
                               width: 5.w,
@@ -262,6 +261,48 @@ class OwnerHomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+
+                    HorizontalDatePicker(),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+
+                    Container(
+                      padding: EdgeInsets.all(10.r),
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Row(
+                        children: [
+                          CustomNetworkImage(
+                            imageUrl: AppConstants.demoImage,
+                            height: 42,
+                            width: 42,
+                            boxShape: BoxShape.circle,
+                          ),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                left: 8,
+                                text: "Hair Cut & Beard Cut",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                                color: AppColors.black,
+                              ),  CustomText(
+                                left: 8,
+                                text: "09:00 - 09:30,  Barber: Talha",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                                color: AppColors.black,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.h,),
 
                     ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
 

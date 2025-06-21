@@ -49,7 +49,7 @@ class OwnerHomeScreen extends StatelessWidget {
             isDashboard: true,
             onDashboard: () async {
               final Uri url =
-                  Uri.parse('https://barber-shift-dashboard.vercel.app/');
+                  Uri.parse('https://barber-shift-owner-dashboard.vercel.app/');
               debugPrint("Dashboard button clicked");
 
               if (await canLaunchUrl(url)) {

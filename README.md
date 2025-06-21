@@ -1,3 +1,7 @@
 cd ios
 pod install  # যদি আগেই না দাও
 open Runner.xcworkspace
+
+
+
+# barber dashboard  link setup

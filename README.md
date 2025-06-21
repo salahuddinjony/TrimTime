@@ -16,14 +16,13 @@ open Runner.xcworkspace
 # Summery Screen figma wise and added service charge 0.50
 # cancel booking pop up
 # reschedule booking pop up
-
-# SHop Profile 
-# loyality user
-# shop profile all barber 2 screen added and edit
 # payment invoice 2 screen
+
+# SHop Profile
+# shop profile all barber 2 screen added and edit
 # customer profile and edit profile figma wise
 
 
 
 
-
+# loyalit user

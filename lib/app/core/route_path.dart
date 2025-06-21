@@ -65,6 +65,7 @@ class RoutePath{
   static const String businessProfileEdit = 'BusinessProfileEdit';
   static const String ownerQrCode = 'OwnerQrCode';
   static const String ownerPayment = 'OwnerPayment';
+  static const String hiringBarberPayment = 'HiringBarberPayment';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';

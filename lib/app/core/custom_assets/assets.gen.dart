@@ -250,6 +250,10 @@ class $AssetsImagesGen {
   AssetGenImage get homeUnselected =>
       const AssetGenImage('assets/images/home_unselected.png');
 
+  /// File path: assets/images/hugeicons_payment-02.png
+  AssetGenImage get hugeiconsPayment02 =>
+      const AssetGenImage('assets/images/hugeicons_payment-02.png');
+
   /// File path: assets/images/hugeicons_tips.png
   AssetGenImage get hugeiconsTips =>
       const AssetGenImage('assets/images/hugeicons_tips.png');
@@ -359,6 +363,7 @@ class $AssetsImagesGen {
     home,
     homeSelected,
     homeUnselected,
+    hugeiconsPayment02,
     hugeiconsTips,
     logo,
     myBooking,

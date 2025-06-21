@@ -228,7 +228,20 @@ class ProfileScreen extends StatelessWidget {
                               .image(height: 20, color: Colors.black),
                         )
                       : const SizedBox(),
-                  //=========
+
+                  //TOdo=====Payment====
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.ownerPayment,
+                                extra: userRole);
+                          },
+                          text: "Payment",
+                          icon: Assets.images.hugeiconsPayment02
+                              .image(height: 20, color: Colors.black),
+                        )
+                      : const SizedBox(),
+
                   //TOdo=====myFeed====
                   CustomMenuCard(
                     onTap: () {

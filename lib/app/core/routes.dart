@@ -78,6 +78,7 @@ import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
     show HiringPost;
 import '../view/screens/owner/owner_home/inner_widgets/total_barber.dart'
     show TotalBarber;
+import '../view/screens/owner/owner_profile/owner_payment/owner_payment.dart';
 import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
@@ -349,6 +350,16 @@ class AppRouter {
           path: RoutePath.hiringBarber.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const HiringBarber(),
+            state: state,
+          ),
+        ),
+
+        ///=======================OwnerPayment  =======================
+        GoRoute(
+          name: RoutePath.ownerPayment,
+          path: RoutePath.ownerPayment.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerPayment(),
             state: state,
           ),
         ),

@@ -63,6 +63,7 @@ class RoutePath{
   static const String recentRequestScreen = 'RecentRequestScreen';
   static const String nearYouShopScreen = 'NearYouShopScreen';
   static const String businessProfileEdit = 'BusinessProfileEdit';
+  static const String ownerQrCode = 'OwnerQrCode';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';

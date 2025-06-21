@@ -72,18 +72,18 @@ class _OwnerQueState extends State<OwnerQue> {
                             ),
                             const SizedBox(width: 15),
                             // User Info and Time Slot
-                            Expanded(
+                            const Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Jane Cooper', // Example name
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     '9:00 - 11:00', // Example time slot
                                     style: TextStyle(fontSize: 14),
                                   ),

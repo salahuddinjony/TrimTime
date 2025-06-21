@@ -7,3 +7,4 @@ open Runner.xcworkspace
 # barber dashboard  link setup
 # print and download button added
 # unique qr code next button add
+# description button fix

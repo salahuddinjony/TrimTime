@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../../../core/routes.dart';
 import '../../../../common_widgets/custom_icon_button/custom_icon_button.dart';
 
 class UniqueQrCode extends StatefulWidget {
@@ -62,27 +63,32 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                     Assets.images.scannerImage.image(),
                     SizedBox(
                       height: 50.h,
-
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomIconButton(
+                          onTap: () {
+                            AppRouter.route.goNamed(RoutePath.ownerHomeScreen,
+                                extra: userRole);
+                          },
                           text: "Print",
                           iconPath: Assets.images.downloadIcon.path,
                           iconLeftPadding: 10,
                         ),
                         SizedBox(width: 20.w),
                         CustomIconButton(
+                          onTap: () {
+                            AppRouter.route.goNamed(RoutePath.ownerHomeScreen,
+                                extra: userRole);
+                          },
                           text: "Download",
                           iconPath: Assets.images.downloadIcon.path,
                           iconLeftPadding: 5,
                         ),
                       ],
                     )
-
-
                   ],
                 ),
               )),

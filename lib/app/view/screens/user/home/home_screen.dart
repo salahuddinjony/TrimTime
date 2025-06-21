@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';

@@ -62,46 +62,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
               ),
               const SizedBox(height: 20),
 
-              // // Scanned Data Text
-              // Container(
-              //   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              //   padding: const EdgeInsets.all(12),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.normalHover,
-              //     borderRadius: BorderRadius.circular(10),
-              //   ),
-              //   child: CustomText(
-              //     text: "Scanned Data: $scannedData",
-              //     fontWeight: FontWeight.w600,
-              //     fontSize: 16,
-              //     color: Colors.white,
-              //   ),
-              // ),
-              //
-              // const SizedBox(height: 20),
-
-              // // Scanner Icon with Label
-              // Container(
-              //   margin: const EdgeInsets.all(10),
-              //   padding: const EdgeInsets.all(10),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.normalHover,
-              //     borderRadius: BorderRadius.circular(15),
-              //   ),
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       Assets.images.scanner.image(),
-              //       CustomText(
-              //         left: 10.w,
-              //         text: AppStrings.scanQrCode,
-              //         fontWeight: FontWeight.w600,
-              //         fontSize: 18,
-              //         color: Colors.white,
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

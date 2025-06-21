@@ -7,11 +7,14 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+
+import '../../../../common_widgets/custom_icon_button/custom_icon_button.dart';
 
 class UniqueQrCode extends StatefulWidget {
   const UniqueQrCode({super.key});
@@ -54,22 +57,32 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     Assets.images.scannerImage.image(),
-
                     SizedBox(
                       height: 50.h,
+
                     ),
-                    CustomButton(
-                      onTap: () {
-                        context.pushNamed(RoutePath.ownerHomeScreen,
-                            extra: userRole);
-                      },
-                      textColor: AppColors.white50,
-                      title: "Print ",
-                      fillColor: AppColors.black,
-                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomIconButton(
+                          text: "Print",
+                          iconPath: Assets.images.downloadIcon.path,
+                          iconLeftPadding: 10,
+                        ),
+                        SizedBox(width: 20.w),
+                        CustomIconButton(
+                          text: "Download",
+                          iconPath: Assets.images.downloadIcon.path,
+                          iconLeftPadding: 5,
+                        ),
+                      ],
+                    )
+
+
                   ],
                 ),
               )),

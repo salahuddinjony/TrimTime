@@ -5,3 +5,4 @@ open Runner.xcworkspace
 
 
 # barber dashboard  link setup
+# print and download button added

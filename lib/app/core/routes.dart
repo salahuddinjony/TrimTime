@@ -72,6 +72,7 @@ import 'package:barber_time/app/view/screens/user/user_bokking/summery_screen.da
 import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import '../view/screens/authentication/sign_up/owner_qr_code.dart';
 import '../view/screens/owner/owner_home/inner_widgets/barber_request.dart';
 import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
     show HiringPost;
@@ -636,6 +637,16 @@ class AppRouter {
           path: RoutePath.paymentOption.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: PaymentOption(),
+            state: state,
+          ),
+        ),
+
+        ///=======================OwnerQrCode =======================
+        GoRoute(
+          name: RoutePath.ownerQrCode,
+          path: RoutePath.ownerQrCode.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerQrCode(),
             state: state,
           ),
         ),

@@ -97,7 +97,7 @@ class PaymentOption extends StatelessWidget {
                     CustomButton(
                       onTap: () {
                         if (userRole == UserRole.owner) {
-                          AppRouter.route.pushNamed(RoutePath.uniqueQrCode,
+                          AppRouter.route.pushNamed(RoutePath.ownerQrCode,
                               extra: userRole);
                         } else if (userRole == UserRole.barber) {
                           AppRouter.route.pushNamed(RoutePath.barberHomeScreen,

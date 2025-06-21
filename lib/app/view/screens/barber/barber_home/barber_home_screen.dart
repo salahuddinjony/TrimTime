@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/show_grooming_dialoge/show_grooming_dialoge.dart';
+
 class BarberHomeScreen extends StatelessWidget {
   BarberHomeScreen({super.key});
 
@@ -84,10 +86,14 @@ class BarberHomeScreen extends StatelessWidget {
                           isButton: true,
                           isSeeDescription: true,
                           onButtonTap: () {
-                            // Handle button tap logic
+
+
                           },
                           logoImage: Assets.images.logo.image(height: 50),
-                          seeDescriptionTap: () {},
+                          seeDescriptionTap: () {
+                            showGroomingDialog(context); // 🔥 Call the dialog here
+
+                          },
                         );
                       }),
                     ),
@@ -142,3 +148,5 @@ class BarberHomeScreen extends StatelessWidget {
     );
   }
 }
+
+

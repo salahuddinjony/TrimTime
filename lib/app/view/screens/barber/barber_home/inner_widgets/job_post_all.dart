@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/show_grooming_dialoge/show_grooming_dialoge.dart';
+
 class JobPostAll extends StatelessWidget {
   JobPostAll({super.key});
 
@@ -73,7 +75,10 @@ class JobPostAll extends StatelessWidget {
                       // Handle apply logic
                     },
                     logoImage: Assets.images.logo.image(height: 50),
-                    seeDescriptionTap: () {},
+                    seeDescriptionTap: () {
+                      showGroomingDialog(context); // 🔥 Call the dialog here
+
+                    },
                   );
                 }).toList(),
               );

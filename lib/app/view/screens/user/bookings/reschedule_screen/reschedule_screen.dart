@@ -1,9 +1,11 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../widget/showSuccessDialog.dart';
 
 class RescheduleScreen extends StatefulWidget {
   const RescheduleScreen({super.key});
@@ -31,7 +33,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: "Reschedule",
         iconData: Icons.arrow_back,
       ),
@@ -45,7 +47,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
               'Select reschedule date & time',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Grid of Dates
             SizedBox(
               height: 100,
@@ -87,7 +89,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
               ),
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Grid of Times
             GridView.builder(
               shrinkWrap: true,
@@ -126,12 +128,12 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
                 );
               },
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 100.h),
             // Confirm button
 
             CustomButton(
               onTap: () {
-                context.pop();
+                showSuccessDialog(context);
               },
               textColor: AppColors.white,
               fillColor: AppColors.black,

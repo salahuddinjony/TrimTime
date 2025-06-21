@@ -2,11 +2,11 @@ import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
-import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/user/bookings/widget/booking_cancel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -239,9 +239,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               ),
               onPressed: () {
-                // Handle confirm action
-                // For example, you can add logic to cancel the booking
-                Navigator.of(context).pop(); // Close the dialog
+                bookingCancel(context);
                 print('Booking canceled');
               },
               child: const Text(

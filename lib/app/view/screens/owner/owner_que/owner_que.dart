@@ -170,7 +170,7 @@ class _OwnerQueState extends State<OwnerQue> {
             borderRadius: BorderRadius.circular(15),
           ),
           title: const Text(
-            'Choice Customer',
+            'Chose Customer',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(

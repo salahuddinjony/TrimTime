@@ -36,21 +36,25 @@ class ProfileScreen extends StatelessWidget {
       // Only show the floatingActionButton if the role is 'user'
       floatingActionButton: userRole == UserRole.user
           ? IconButton(
-        onPressed: () {
-          AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: userRole);
-        },
-        icon: Container(
-          height: 85,
-          width: 85,
-          padding: EdgeInsets.all(12.r),  // You can adjust the padding as needed
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.navColor,  // Custom color for the button
-          ),
-          child: Assets.images.bxScan.image(color: AppColors.black),  // Scanner icon
-        ),
-      )
-          : null, // Return null if the role is not 'user'
+              onPressed: () {
+                AppRouter.route
+                    .pushNamed(RoutePath.scannerScreen, extra: userRole);
+              },
+              icon: Container(
+                height: 85,
+                width: 85,
+                padding: EdgeInsets.all(12.r),
+                // You can adjust the padding as needed
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.navColor, // Custom color for the button
+                ),
+                child: Assets.images.bxScan
+                    .image(color: AppColors.black), // Scanner icon
+              ),
+            )
+          : null,
+      // Return null if the role is not 'user'
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavbar(
         currentIndex: 4,
@@ -118,17 +122,35 @@ class ProfileScreen extends StatelessWidget {
 
                   //TOdo=====personalInformation====
                   userRole == UserRole.barber
-                      ?  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.barberPersonalProfile, extra: userRole);
-                    },
-                    text: AppStrings.profile,
-                    icon: Assets.icons.personalInfo.svg(
-                      colorFilter: const ColorFilter.mode(
-                          AppColors.black, BlendMode.srcIn),
-                    ),
-                  ):const SizedBox.shrink(),
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.barberPersonalProfile,
+                                extra: userRole);
+                          },
+                          text: AppStrings.profile,
+                          icon: Assets.icons.personalInfo.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+
+                  //TOdo=====personalInformation====
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(
+                                RoutePath.barberPersonalProfile,
+                                extra: userRole);
+                          },
+                          text: AppStrings.profile,
+                          icon: Assets.icons.personalInfo.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
 
                   //TOdo=====Professional Profile====
                   userRole == UserRole.barber
@@ -198,9 +220,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.chat,
-                          icon: Assets.images.chartSelected.image(
-
-                          ),
+                          icon: Assets.images.chartSelected.image(),
                         )
                       : const SizedBox(),
 
@@ -212,9 +232,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.chat,
-                          icon: Assets.images.chartSelected.image(
-
-                          ),
+                          icon: Assets.images.chartSelected.image(),
                         )
                       : const SizedBox(),
                   //TOdo=====barber====
@@ -358,9 +376,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: "My Booking",
-                          icon: Assets.images.myBooking.image(
-
-                          ),
+                          icon: Assets.images.myBooking.image(),
                         )
                       : const SizedBox(),
 

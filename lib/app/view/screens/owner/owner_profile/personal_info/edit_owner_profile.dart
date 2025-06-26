@@ -77,103 +77,8 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Stack(
-                  children: [
-                    CustomNetworkImage(
-                      imageUrl: AppConstants.demoImage,
-                      height: 196.h,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                    Center(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 80.h,),
-                          Positioned(
-                            // top: 0,
-                            // Position the icon at the bottom of the circle image
-                            top: 0,
-                            // Position the icon at the right of the circle image
-                            child: GestureDetector(
-                              onTap: () {
-                                _pickImage(ImageSource.camera); // Pick from camera
-                                // Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(5),
-                                // Padding around the icon
-                                decoration: BoxDecoration(
-                                  color: AppColors.secondary,
-                                  // Background color for the icon button
-                                  shape: BoxShape.circle,
-                                  // Make the button round
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.3),
-                                      blurRadius: 6,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.camera_alt, // Camera icon for image picker
-                                  color: Colors.white, // Icon color
-                                  size: 24, // Icon size
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 20.h,),
-                          Stack(
-                            children: [
-                              CustomNetworkImage(
-                                boxShape: BoxShape.circle,
-                                imageUrl: AppConstants.demoImage,
-                                height: 102.h,
-                                width: 102.w,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                // Position the icon at the bottom of the circle image
-                                right: 0,
-                                // Position the icon at the right of the circle image
-                                child: GestureDetector(
-                                  onTap: () {
-                                    _pickImage(ImageSource.camera);
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    // Padding around the icon
-                                    decoration: BoxDecoration(
-                                      color: AppColors.secondary,
-                                      // Background color for the icon button
-                                      shape: BoxShape.circle,
-                                      // Make the button round
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          blurRadius: 6,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: const Icon(
-                                      Icons.camera_alt, // Camera icon for image picker
-                                      color: Colors.white, // Icon color
-                                      size: 24, // Icon size
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              buildProfileHeader(),
+           SizedBox(height: 30.h,),
 
               //name
            Padding(
@@ -317,4 +222,59 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
       ),
     );
   }
+}
+
+
+
+Widget buildProfileHeader() {
+  return Center(
+    child: Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
+        CustomNetworkImage(
+          imageUrl: AppConstants.demoImage,
+          height: 196.h,
+          width: double.infinity,
+        ),
+        Positioned(
+          top: 130.h,
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              CustomNetworkImage(
+                boxShape: BoxShape.circle,
+                imageUrl: AppConstants.demoImage,
+                height: 102.h,
+                width: 102.w,
+              ),
+              GestureDetector(
+                onTap: (){},
+                // onTap: () => _pickImage(ImageSource.camera),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondary,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

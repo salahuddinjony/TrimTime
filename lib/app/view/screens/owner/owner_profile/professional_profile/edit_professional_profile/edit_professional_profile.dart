@@ -1,4 +1,5 @@
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -61,43 +62,48 @@ class EditProfessionalProfile extends StatelessWidget {
                         children: [
                           SizedBox(height: 50.h),
                           CustomFromCard(
-                            title:AppStrings.name,
-                            controller: TextEditingController(),
+                              title: AppStrings.name,
+                              controller: TextEditingController(),
                               validator: (v) {
                                 return null;
                               }),
                           SizedBox(height: 20.h),
                           CustomFromCard(
-                            title:"Bio",
-                            maxLine: 5,
-                            controller: TextEditingController(),
+                              title: "Bio",
+                              maxLine: 5,
+                              controller: TextEditingController(),
                               validator: (v) {
                                 return null;
                               }),
                           SizedBox(height: 15.h),
-
                           CustomFromCard(
-                            title:"Experience",
-                            controller: TextEditingController(),
+                              title: "Experience",
+                              controller: TextEditingController(),
                               validator: (v) {
                                 return null;
                               }),
                           SizedBox(height: 15.h),
-
                           CustomFromCard(
-                            title:"Current Work",
-                            controller: TextEditingController(),
+                              title: "Current Work",
+                              controller: TextEditingController(),
                               validator: (v) {
                                 return null;
                               }),
                           SizedBox(height: 15.h),
-
                           CustomFromCard(
-                            title:"Add Skill",
-                            controller: TextEditingController(),
+                              title: "Add Skill",
+                              controller: TextEditingController(),
                               validator: (v) {
                                 return null;
                               }),
+                          CustomButton(
+                            onTap: () {
+                              context.pop();
+                            },
+                            title: AppStrings.save,
+                            fillColor: AppColors.black,
+                            textColor: AppColors.white,
+                          ),
                           SizedBox(height: 15.h),
                         ],
                       ),
@@ -135,7 +141,6 @@ class EditProfessionalProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
@@ -144,37 +149,37 @@ class EditProfessionalProfile extends StatelessWidget {
     );
   }
 
-  // //follow button and chart button
-  // Widget _customButton(String text, IconData icon) {
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  //     decoration: BoxDecoration(
-  //       color: AppColors.black,
-  //       borderRadius: BorderRadius.circular(8),
-  //     ),
-  //     child: Row(
-  //       children: [
-  //         Icon(icon, size: 14, color: Colors.white),
-  //         const SizedBox(width: 6),
-  //         CustomText(
-  //           text: text,
-  //           fontSize: 12,
-  //           fontWeight: FontWeight.w700,
-  //           color: Colors.white,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _iconButton(Widget icon) {
-  //   return Container(
-  //     padding: const EdgeInsets.all(8),
-  //     decoration: BoxDecoration(
-  //       color: AppColors.black,
-  //       borderRadius: BorderRadius.circular(8),
-  //     ),
-  //     child: icon,
-  //   );
-  // }
+// //follow button and chart button
+// Widget _customButton(String text, IconData icon) {
+//   return Container(
+//     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//     decoration: BoxDecoration(
+//       color: AppColors.black,
+//       borderRadius: BorderRadius.circular(8),
+//     ),
+//     child: Row(
+//       children: [
+//         Icon(icon, size: 14, color: Colors.white),
+//         const SizedBox(width: 6),
+//         CustomText(
+//           text: text,
+//           fontSize: 12,
+//           fontWeight: FontWeight.w700,
+//           color: Colors.white,
+//         ),
+//       ],
+//     ),
+//   );
+// }
+//
+// Widget _iconButton(Widget icon) {
+//   return Container(
+//     padding: const EdgeInsets.all(8),
+//     decoration: BoxDecoration(
+//       color: AppColors.black,
+//       borderRadius: BorderRadius.circular(8),
+//     ),
+//     child: icon,
+//   );
+// }
 }

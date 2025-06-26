@@ -113,7 +113,16 @@ class UserProfileScreen extends StatelessWidget {
 
 
 
-
+                  //TOdo=====personalInformation====
+               CustomMenuCard(
+                      onTap: () {
+                        AppRouter.route.pushNamed(
+                            RoutePath.pixMatch,
+                            extra: userRole);
+                      },
+                      text: "PixMatch",
+                      icon: Assets.images.al.image(height: 20,)
+                  ),
 
 
 

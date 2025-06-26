@@ -36,7 +36,7 @@ class OtpScreen extends StatelessWidget {
 
       ///: <<<<<<====== AppBar ======>>>>>>>>
       appBar: CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.first,
         appBarContent: AppStrings.verifyCode,
         iconData: Icons.arrow_back,
         onTap: () {
@@ -50,12 +50,12 @@ class OtpScreen extends StatelessWidget {
               clipper: CurvedShortClipper(),
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height/2,
+                height: MediaQuery.of(context).size.height/1.6,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xCCEDC4AC), // First color (with opacity)
-                      Color(0xFFE9864E),
+                      AppColors.first, // First color (with opacity)
+                      AppColors.last
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -70,11 +70,12 @@ class OtpScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           ///: <<<<<<====== Header ======>>>>>>>>
+                          SizedBox(height: 30.h,),
                            CustomText(
                             text: AppStrings.checkYourEmail,
                             fontWeight: FontWeight.w500,
                             fontSize: 22.sp,
-                            color: AppColors.black,
+                            color: AppColors.gray500,
                           ),
 
                            CustomText(
@@ -84,13 +85,13 @@ class OtpScreen extends StatelessWidget {
                             text: AppStrings.weHaveSentYouANAu,
                             fontWeight: FontWeight.w400,
                             fontSize: 14.sp,
-                            color: AppColors.black,
+                            color: AppColors.gray500,
                           ),
                           SizedBox(height: 60.h),
 
                           ///: <<<<<<====== OTP Pin Code Field ======>>>>>>>>
                           PinCodeTextField(
-                            textStyle:  TextStyle(color: AppColors.black, fontSize: 24.sp),
+                            textStyle: TextStyle(color: AppColors.black, fontSize: 24.sp),
                             keyboardType: TextInputType.number,
                             autoDisposeControllers: false,
                             cursorColor: AppColors.black,
@@ -105,20 +106,43 @@ class OtpScreen extends StatelessWidget {
                             },
                             autoFocus: true,
                             pinTheme: PinTheme(
-                              shape: PinCodeFieldShape.underline,
+                              shape: PinCodeFieldShape.box,
+                              borderRadius: BorderRadius.circular(12.r),
                               fieldHeight: 49.h,
                               fieldWidth: 40.w,
                               borderWidth: 1.5,
-                              activeColor: Colors.white,
-                              inactiveColor: Colors.white,
-                              selectedColor: Colors.black, // Black underline for the selected field
+                              activeColor: AppColors.gray300,
+                              inactiveColor: AppColors.gray300,
+                              selectedColor: AppColors.black,
+                              activeFillColor: AppColors.first,
+                              inactiveFillColor: AppColors.first,
+                              selectedFillColor:AppColors.first,
                             ),
                             length: 4,
-                            enableActiveFill: false, // Disable fill for better appearance
+                            enableActiveFill: true, // ✅ এটা true করতে হবে
                             onChanged: (value) {},
                           ),
+
                           SizedBox(height: 100.h),
 
+                          ///: <<<<<<====== Verify Code Button ======>>>>>>>>
+                          CustomButton(
+                            isRadius: false,
+                            width: MediaQuery.of(context).size.width,
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                isForget
+                                    ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                                    extra: userRole)
+                                    :  AppRouter.route.goNamed(RoutePath.signInScreen,
+                                    extra: userRole);
+                              }
+                            },
+                            title: AppStrings.verifyCode,
+                            fillColor: AppColors.black,
+                            textColor: AppColors.white50,
+                          ),
+                          SizedBox(height: 40.h),
 
                         ],
                       ),
@@ -128,26 +152,7 @@ class OtpScreen extends StatelessWidget {
               ),
             ),
 
-            ///: <<<<<<====== Verify Code Button ======>>>>>>>>
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomButton(
-                isRadius: false,
-                width: MediaQuery.of(context).size.width,
-                onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    isForget
-                        ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
-                        extra: userRole)
-                        :  AppRouter.route.goNamed(RoutePath.signInScreen,
-                        extra: userRole);
-                  }
-                },
-                title: AppStrings.verifyCode,
-                fillColor: AppColors.black,
-                textColor: AppColors.white50,
-              ),
-            ),
+
           ],
         ),
       )

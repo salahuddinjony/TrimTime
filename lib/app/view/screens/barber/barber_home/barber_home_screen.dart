@@ -87,7 +87,7 @@ class BarberHomeScreen extends StatelessWidget {
                           isSeeDescription: true,
                           onButtonTap: () {
 
-
+                            _showBottomSheet(context);
                           },
                           logoImage: Assets.images.logo.image(height: 50),
                           seeDescriptionTap: () {
@@ -149,3 +149,53 @@ class BarberHomeScreen extends StatelessWidget {
 }
 
 
+void _showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(
+              Icons.check_circle,
+              color: Colors.orange,
+              size: 50.0,
+            ),
+            SizedBox(height: 16.0.h),
+            const Text(
+              'Congratulations!',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 8.0.h),
+            const Text(
+              'You have completed the job.',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.black54,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 24.0.h),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to Home or any other action you want
+                Navigator.pop(context); // Close the BottomSheet
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange, // button color
+                minimumSize: const Size(double.infinity, 50), // full-width button
+              ),
+              child: const Text('Go to Home'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}

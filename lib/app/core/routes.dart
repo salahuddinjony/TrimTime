@@ -83,6 +83,8 @@ import '../view/screens/owner/owner_profile/owner_payment/hiring_barber/hiring_b
 import '../view/screens/owner/owner_profile/owner_payment/invoice_payment/invoice_payment_screen.dart';
 import '../view/screens/owner/owner_profile/owner_payment/owner_payment.dart';
 import '../view/screens/owner/owner_profile/owner_payment/owner_payment_option/owner_payment_option.dart';
+import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_edit_profile.dart';
+import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_personal_profile.dart';
 import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
@@ -242,6 +244,25 @@ class AppRouter {
             child: OwnerHomeScreen(),
             state: state,
             disableAnimation: true,
+          ),
+        ),
+    ///=======================barberPersonalProfile =======================
+        GoRoute(
+          name: RoutePath.barberPersonalProfile,
+          path: RoutePath.barberPersonalProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberPersonalProfile(),
+            state: state,
+          ),
+        ),
+
+        ///=======================barberPersonalProfile =======================
+        GoRoute(
+          name: RoutePath.barberEditProfile,
+          path: RoutePath.barberEditProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberEditProfile(),
+            state: state,
           ),
         ),
 

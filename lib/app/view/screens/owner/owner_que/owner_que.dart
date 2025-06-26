@@ -170,7 +170,7 @@ class _OwnerQueState extends State<OwnerQue> {
             borderRadius: BorderRadius.circular(15),
           ),
           title: const Text(
-            'Choice Barber',
+            'Choice Customer',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(
@@ -204,42 +204,42 @@ class _OwnerQueState extends State<OwnerQue> {
                   }),
                 ),
                 const SizedBox(height: 20),
-                // Auto selection
-                Row(
-                  children: [
-                    const Text('Auto', style: TextStyle(fontWeight: FontWeight.w600)),
-                    const Spacer(),
-                    Checkbox(
-                      value: selectedBarbers[4], // Assuming Auto is the last option in the list
-                      onChanged: (bool? value) {
-                        selectedBarbers[4] = value ?? false;
-                        (context as Element).markNeedsBuild();
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Services Section
-                const Text("Choice you’s Service", style: TextStyle(fontWeight: FontWeight.w600)),
-                Column(
-                  children: List.generate(4, (index) {
-                    List<String> services = ['Hair Cut', 'Shaving', 'Beard Trim', 'Massage'];
-                    return Row(
-                      children: [
-                        Text(services[index]),
-                        const Spacer(),
-                        Checkbox(
-                          value: selectedServices[index],
-                          onChanged: (bool? value) {
-                            selectedServices[index] = value ?? false;
-                            // Refresh the UI
-                            (context as Element).markNeedsBuild();
-                          },
-                        ),
-                      ],
-                    );
-                  }),
-                ),
+                // // Auto selection
+                // Row(
+                //   children: [
+                //     const Text('Auto', style: TextStyle(fontWeight: FontWeight.w600)),
+                //     const Spacer(),
+                //     Checkbox(
+                //       value: selectedBarbers[4], // Assuming Auto is the last option in the list
+                //       onChanged: (bool? value) {
+                //         selectedBarbers[4] = value ?? false;
+                //         (context as Element).markNeedsBuild();
+                //       },
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(height: 20),
+                // // Services Section
+                // const Text("Choice you’s Service", style: TextStyle(fontWeight: FontWeight.w600)),
+                // Column(
+                //   children: List.generate(4, (index) {
+                //     List<String> services = ['Hair Cut', 'Shaving', 'Beard Trim', 'Massage'];
+                //     return Row(
+                //       children: [
+                //         Text(services[index]),
+                //         const Spacer(),
+                //         Checkbox(
+                //           value: selectedServices[index],
+                //           onChanged: (bool? value) {
+                //             selectedServices[index] = value ?? false;
+                //             // Refresh the UI
+                //             (context as Element).markNeedsBuild();
+                //           },
+                //         ),
+                //       ],
+                //     );
+                //   }),
+                // ),
               ],
             ),
           ),

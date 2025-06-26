@@ -121,7 +121,7 @@ class UserProfileScreen extends StatelessWidget {
                             extra: userRole);
                       },
                       text: "PixMatch",
-                      icon: Assets.images.al.image(height: 20,)
+                      icon: Assets.images.alRemovebgPreview.image(height: 20,)
                   ),
 
 

@@ -120,6 +120,9 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   )),
 
+
+
+
                   //TOdo=====personalInformation====
                   userRole == UserRole.barber
                       ? CustomMenuCard(

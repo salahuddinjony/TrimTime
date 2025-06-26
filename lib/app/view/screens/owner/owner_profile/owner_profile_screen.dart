@@ -117,17 +117,18 @@ class ProfileScreen extends StatelessWidget {
                   )),
 
                   //TOdo=====personalInformation====
-                  CustomMenuCard(
+                  userRole == UserRole.barber
+                      ?  CustomMenuCard(
                     onTap: () {
                       AppRouter.route
-                          .pushNamed(RoutePath.personalInfo, extra: userRole);
+                          .pushNamed(RoutePath.barberPersonalProfile, extra: userRole);
                     },
                     text: AppStrings.profile,
                     icon: Assets.icons.personalInfo.svg(
                       colorFilter: const ColorFilter.mode(
                           AppColors.black, BlendMode.srcIn),
                     ),
-                  ),
+                  ):const SizedBox.shrink(),
 
                   //TOdo=====Professional Profile====
                   userRole == UserRole.barber

@@ -90,5 +90,7 @@ class RoutePath{
   static const String chooseBarberScreen = 'ChooseBarberScreen';
   static const String summeryScreen = 'SummeryScreen';
   static const String ownerRequestBooking = 'OwnerRequestBooking';
+  static const String barberPersonalProfile = 'BarberPersonalProfile';
+  static const String barberEditProfile = 'BarberEditProfile';
 
 }

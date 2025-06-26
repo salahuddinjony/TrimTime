@@ -111,7 +111,7 @@ class CustomHiringCard extends StatelessWidget {
                                   color: AppColors.container, // Button color
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Assets.images.chartSelected.image()),
+                                child: Assets.icons.path.svg()),
                           )
                         : const SizedBox(),
                     SizedBox(

@@ -61,23 +61,37 @@ class OwnerHiringScreen extends StatelessWidget {
                   .toList();
 
               return filteredJobs.isEmpty
-                  ? const Center(child: CustomText(text: "No jobs found"))
+                  ? Padding(
+                    padding:  EdgeInsets.only(top: 50.h),
+                    child: const Center(
+                        child: CustomText(
+                          textAlign: TextAlign.center,
+                        text: "No jobs found",
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  )
                   : Column(
-                children: filteredJobs.map((job) {
-                  return CustomHiringCard(
-                    isCalling: true,
-                    imageUrl: AppConstants.demoImage, // Image URL (dynamic)
-                    name: job['title'] ?? "Unknown",  // Dynamic title (Job name)
-                    role: "Barber",                    // Hardcoded or dynamic role
-                    rating: 4.5,                       // Hardcoded or dynamic rating
-                    location: "New York, USA",         // Dynamic location or hardcoded
-                    onHireTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.chatScreen, extra: userRole);
-                    },                  // Hire button action
-                  );
-                }).toList(),
-              );
+                      children: filteredJobs.map((job) {
+                        return CustomHiringCard(
+                          isCalling: true,
+                          imageUrl: AppConstants.demoImage,
+                          // Image URL (dynamic)
+                          name: job['title'] ?? "Unknown",
+                          // Dynamic title (Job name)
+                          role: "Barber",
+                          // Hardcoded or dynamic role
+                          rating: 4.5,
+                          // Hardcoded or dynamic rating
+                          location: "New York, USA",
+                          // Dynamic location or hardcoded
+                          onHireTap: () {
+                            AppRouter.route.pushNamed(RoutePath.chatScreen,
+                                extra: userRole);
+                          }, // Hire button action
+                        );
+                      }).toList(),
+                    );
             }),
           ],
         ),
@@ -92,21 +106,23 @@ class OwnerHiringScreen extends StatelessWidget {
         controller.selectedFilter.value = filterText;
       },
       child: Obx(() => Container(
-        padding: const EdgeInsets.all(12),
-        margin: EdgeInsets.only(right: 8.w),
-        decoration: BoxDecoration(
-          color: controller.selectedFilter.value == filterText
-              ? AppColors.secondary
-              : AppColors.innerText,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-        ),
-        child: CustomText(
-          text: filterText,
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-      )),
+            padding: const EdgeInsets.all(12),
+            margin: EdgeInsets.only(right: 8.w),
+            decoration: BoxDecoration(
+              color: controller.selectedFilter.value == filterText
+                  ? AppColors.orange700
+                  : AppColors.container,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+            ),
+            child: CustomText(
+              text: filterText,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: controller.selectedFilter.value == filterText
+                  ? AppColors.white
+                  : AppColors.black,
+            ),
+          )),
     );
   }
 }

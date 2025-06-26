@@ -99,15 +99,17 @@ class JobPostAll extends StatelessWidget {
         margin: EdgeInsets.only(right: 8.w),
         decoration: BoxDecoration(
           color: controller.selectedFilter.value == filterText
-              ? AppColors.secondary
-              : AppColors.innerText,
+              ? AppColors.orange700
+              : AppColors.container,
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: CustomText(
           text: filterText,
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          color: Colors.white,
+          color: controller.selectedFilter.value == filterText
+              ? AppColors.white
+              : AppColors.black,
         ),
       )),
     );

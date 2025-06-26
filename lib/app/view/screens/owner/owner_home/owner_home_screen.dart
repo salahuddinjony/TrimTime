@@ -336,7 +336,7 @@ class OwnerHomeScreen extends StatelessWidget {
                             // Handle favorite button press
                           },
                           onVisitShopPressed: () {
-                            AppRouter.route.pushNamed(RoutePath.visitShop,
+                            AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
                                 extra: userRole);
                             // Handle visit shop button press
                           },

@@ -241,7 +241,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: OwnerHomeScreen(),
             state: state,
-            // disableAnimation: true,
+            disableAnimation: true,
           ),
         ),
 

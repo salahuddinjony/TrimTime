@@ -33,7 +33,7 @@ class OwnerHiringScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNavbar(currentIndex: 3, role: userRole),
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.normalHover,
         appBarContent: AppStrings.hiring,
       ),
       body: Padding(

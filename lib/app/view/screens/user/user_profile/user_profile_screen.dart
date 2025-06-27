@@ -113,14 +113,14 @@ class UserProfileScreen extends StatelessWidget {
 
 
 
-                  //TOdo=====personalInformation====
+                  //TOdo=====Ask rey (AI)====
                CustomMenuCard(
                       onTap: () {
                         AppRouter.route.pushNamed(
                             RoutePath.pixMatch,
                             extra: userRole);
                       },
-                      text: "PixMatch",
+                      text: "Ask rey (AI)",
                       icon: Assets.images.alRemovebgPreview.image(height: 20,)
                   ),
 

@@ -8,12 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../core/route_path.dart';
 import '../../../../../core/routes.dart';
 import '../../../../../utils/app_colors.dart';
-import '../../../../../utils/app_constants.dart';
 import '../../../../../utils/app_strings.dart';
 import '../../../../../utils/enums/user_role.dart';
 import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
-import '../../../../common_widgets/custom_button/custom_button.dart';
-import '../../../../common_widgets/custom_network_image/custom_network_image.dart';
 import '../../../../common_widgets/custom_text/custom_text.dart';
 
 class PixMatch extends StatefulWidget {
@@ -29,8 +26,8 @@ class _PixMatchState extends State<PixMatch> {
   UserRole? userRole;
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile =
-    await _picker.pickImage(source: ImageSource.gallery);
+    // Open camera instead of gallery
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;
@@ -52,7 +49,7 @@ class _PixMatchState extends State<PixMatch> {
       Navigator.of(context).pop();
 
       // Navigate to the target screen
-      AppRouter.route.pushNamed(RoutePath.nearYouShopScreen,extra: userRole);
+      AppRouter.route.pushNamed(RoutePath.nearYouShopScreen, extra: userRole);
     }
   }
 
@@ -95,8 +92,7 @@ class _PixMatchState extends State<PixMatch> {
                 ),
               ),
               child: Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -108,15 +104,9 @@ class _PixMatchState extends State<PixMatch> {
                       fontSize: 16,
                       bottom: 8,
                     ),
-                    SizedBox(height: 20.h,),
+                    SizedBox(height: 20.h),
                     Row(
                       children: [
-                        // CustomNetworkImage(
-                        //   imageUrl: AppConstants.demoImage,
-                        //   height: 100,
-                        //   width: 100,
-                        // ),
-                        // SizedBox(width: 10.w,),
                         Center(
                           child: DottedBorder(
                             padding: const EdgeInsets.all(25),
@@ -125,8 +115,7 @@ class _PixMatchState extends State<PixMatch> {
                               child: Column(
                                 children: [
                                   _imageFile == null
-                                      ? const Icon(Icons.add,
-                                      color: Colors.white)
+                                      ? const Icon(Icons.add, color: Colors.white)
                                       : Image.file(
                                     File(_imageFile!.path),
                                     height: 100,
@@ -134,7 +123,7 @@ class _PixMatchState extends State<PixMatch> {
                                     fit: BoxFit.cover,
                                   ),
                                   const CustomText(
-                                    text: AppStrings.upload,
+                                    text: "Upload a current picture",
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.black,
                                     fontSize: 16,
@@ -152,6 +141,7 @@ class _PixMatchState extends State<PixMatch> {
               ),
             ),
           ),
+          // Uncomment below if you want a button for additional actions
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
           //   child: CustomButton(
@@ -166,8 +156,6 @@ class _PixMatchState extends State<PixMatch> {
     );
   }
 }
-
-
 
 class ProcessingDialog extends StatelessWidget {
   final String imagePath;

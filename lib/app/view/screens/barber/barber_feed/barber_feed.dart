@@ -31,14 +31,18 @@ class _BarberFeedState extends State<BarberFeed> {
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
 
+  // Modify the method to open the camera
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.camera, // This opens the camera instead of the gallery
+    );
     if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -50,6 +54,7 @@ class _BarberFeedState extends State<BarberFeed> {
         body: const Center(child: Text('No user role received')),
       );
     }
+
     return Scaffold(
       bottomNavigationBar: BottomNavbar(
         currentIndex: 2,
@@ -78,7 +83,7 @@ class _BarberFeedState extends State<BarberFeed> {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -92,44 +97,40 @@ class _BarberFeedState extends State<BarberFeed> {
                     ),
                     Row(
                       children: [
-                        CustomNetworkImage(
-                            imageUrl: AppConstants.demoImage,
-                            height: 100,
-                            width: 100),
+
                         SizedBox(
                           width: 10.w,
                         ),
-                Center(
-                  child: DottedBorder(
-                    padding: const EdgeInsets.all(25),
-                    // Border thickness
-                    child: GestureDetector(
-                      onTap: _pickImage, // Open gallery when clicked
-                      child: Column(
-                        children: [
-                          _imageFile == null
-                              ? const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          )
-                              : Image.file(
-                            File(_imageFile!.path),
-                            height: 100,
-                            width: 100,
-                            fit: BoxFit.cover,
+                        Center(
+                          child: DottedBorder(
+                            padding: const EdgeInsets.all(25),
+                            // Border thickness
+                            child: GestureDetector(
+                              onTap: _pickImage, // Open camera when clicked
+                              child: Column(
+                                children: [
+                                  _imageFile == null
+                                      ? const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  )
+                                      : Image.file(
+                                    File(_imageFile!.path),
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const CustomText(
+                                    text: AppStrings.upload,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.black,
+                                    fontSize: 16,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          const CustomText(
-                            text: AppStrings.upload,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.black,
-                            fontSize: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
+                        ),
                       ],
                     ),
                     SizedBox(

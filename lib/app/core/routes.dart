@@ -79,6 +79,7 @@ import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
 import '../view/screens/owner/owner_home/inner_widgets/total_barber.dart'
     show TotalBarber;
 import '../view/screens/owner/owner_profile/business_profile/barber_added/barber_added_screen.dart';
+import '../view/screens/owner/owner_profile/flowers/follower_screen.dart';
 import '../view/screens/owner/owner_profile/owner_payment/hiring_barber/hiring_barber.dart';
 import '../view/screens/owner/owner_profile/owner_payment/invoice_payment/invoice_payment_screen.dart';
 import '../view/screens/owner/owner_profile/owner_payment/owner_payment.dart';
@@ -398,6 +399,16 @@ class AppRouter {
           path: RoutePath.hiringBarber.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const HiringBarber(),
+            state: state,
+          ),
+        ),
+
+        ///=======================FollowerScreen  =======================
+        GoRoute(
+          name: RoutePath.followerScreen,
+          path: RoutePath.followerScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const FollowerScreen(),
             state: state,
           ),
         ),

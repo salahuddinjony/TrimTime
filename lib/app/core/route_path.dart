@@ -40,6 +40,7 @@ class RoutePath{
   static const String bookingDetailsScreen = 'BookingDetailsScreen';
   static const String userProfileScreen = 'UserProfileScreen';
   static const String pixMatch = 'PixMatch';
+  static const String blockingScreen = 'BlockingScreen';
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

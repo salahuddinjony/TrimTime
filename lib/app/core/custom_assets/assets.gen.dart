@@ -25,6 +25,9 @@ class $AssetsIconsGen {
   SvgGenImage get addService =>
       const SvgGenImage('assets/icons/add_service.svg');
 
+  /// File path: assets/icons/block.svg
+  SvgGenImage get block => const SvgGenImage('assets/icons/block.svg');
+
   /// File path: assets/icons/bookings.svg
   SvgGenImage get bookings => const SvgGenImage('assets/icons/bookings.svg');
 
@@ -131,6 +134,7 @@ class $AssetsIconsGen {
     path,
     add,
     addService,
+    block,
     bookings,
     business,
     camera,

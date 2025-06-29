@@ -73,22 +73,30 @@ class OwnerHiringScreen extends StatelessWidget {
                   )
                   : Column(
                       children: filteredJobs.map((job) {
-                        return CustomHiringCard(
-                          isCalling: true,
-                          imageUrl: AppConstants.demoImage,
-                          // Image URL (dynamic)
-                          name: job['title'] ?? "Unknown",
-                          // Dynamic title (Job name)
-                          role: "Barber",
-                          // Hardcoded or dynamic role
-                          rating: 4.5,
-                          // Hardcoded or dynamic rating
-                          location: "New York, USA",
-                          // Dynamic location or hardcoded
-                          onHireTap: () {
-                            AppRouter.route.pushNamed(RoutePath.chatScreen,
-                                extra: userRole);
-                          }, // Hire button action
+                        return GestureDetector(
+                          onTap: (){
+                            print("");
+                            AppRouter.route
+                                .pushNamed(RoutePath.visitShop, extra: userRole);
+                          },
+                          child: CustomHiringCard(
+
+                            isCalling: true,
+                            imageUrl: AppConstants.demoImage,
+                            // Image URL (dynamic)
+                            name: job['title'] ?? "Unknown",
+                            // Dynamic title (Job name)
+                            role: "Barber",
+                            // Hardcoded or dynamic role
+                            rating: 4.5,
+                            // Hardcoded or dynamic rating
+                            location: "New York, USA",
+                            // Dynamic location or hardcoded
+                            onHireTap: () {
+                              AppRouter.route.pushNamed(RoutePath.chatScreen,
+                                  extra: userRole);
+                            }, // Hire button action
+                          ),
                         );
                       }).toList(),
                     );

@@ -167,6 +167,13 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _buildFABOption(
+                      iconWidget: Assets.images.ais.image(width: 30.w, height: 30.h,), // Your custom image
+                      onTap: () {
+                        AppRouter.route.pushNamed(RoutePath.pixMatch, extra: UserRole.user);
+                      },
+                    ),
+                    SizedBox(width: 24.w),
+                    _buildFABOption(
                       iconWidget: Assets.images.chartSelected.image(width: 24.w, height: 24.h), // Your custom image
                       onTap: () {
                         AppRouter.route.pushNamed(RoutePath.chatScreen, extra: UserRole.user);

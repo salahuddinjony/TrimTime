@@ -173,6 +173,9 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ais.png
+  AssetGenImage get ais => const AssetGenImage('assets/images/ais.png');
+
   /// File path: assets/images/al-removebg-preview.png
   AssetGenImage get alRemovebgPreview =>
       const AssetGenImage('assets/images/al-removebg-preview.png');
@@ -354,6 +357,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
+    ais,
     alRemovebgPreview,
     al,
     apple,

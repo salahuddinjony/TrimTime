@@ -106,7 +106,29 @@ class Settings extends StatelessWidget {
                     colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
 
                   ),
-                ), //=====changePassword====
+                ), //
+
+
+                //blocking
+                userRole == UserRole.owner
+                    ?
+                CustomMenuCard(
+                  onTap: () {
+                    AppRouter.route.pushNamed(
+                      RoutePath.blockingScreen,extra: userRole
+                    );
+                  },
+                  isContainerCard: true,
+                  text: "Blocking",
+                  icon: Assets.icons.block.svg(
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
+                  ),
+                ):const SizedBox(),//
+
+
+
+                // =====changePassword====
                 CustomMenuCard(
                   onTap: () {
                     AppRouter.route.pushNamed(

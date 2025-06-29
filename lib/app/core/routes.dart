@@ -86,6 +86,7 @@ import '../view/screens/owner/owner_profile/owner_payment/owner_payment_option/o
 import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_edit_profile.dart';
 import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_personal_profile.dart';
 import '../view/screens/owner/owner_profile/pixmatch/pix_match.dart';
+import '../view/screens/owner/owner_profile/settings/blocking/blocking_screen.dart';
 import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
@@ -264,6 +265,16 @@ class AppRouter {
           path: RoutePath.pixMatch.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const PixMatch(),
+            state: state,
+          ),
+        ),
+
+        ///=======================Blocking =======================
+        GoRoute(
+          name: RoutePath.blockingScreen,
+          path: RoutePath.blockingScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BlockingScreen(),
             state: state,
           ),
         ),

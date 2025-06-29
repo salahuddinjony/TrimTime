@@ -8,13 +8,14 @@ class FollowingCard extends StatelessWidget {
   final String name;
   final String status; // Can be 'follow' or 'unfollow'
   final VoidCallback onUnfollowPressed;
+  final bool? isFollower;
 
   const FollowingCard({
     super.key,
     required this.imageUrl,
     required this.name,
     required this.status,
-    required this.onUnfollowPressed,
+    required this.onUnfollowPressed, this.isFollower = true,
   });
 
   @override
@@ -62,6 +63,7 @@ class FollowingCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       // Unfollow Button
+                      isFollower == true?
                       GestureDetector(
                         onTap: onUnfollowPressed, // Trigger unfollow action
                         child: Container(
@@ -77,7 +79,7 @@ class FollowingCard extends StatelessWidget {
                             color: AppColors.black,
                           ),
                         ),
-                      )
+                      ):const SizedBox()
                     ],
                   ),
                 ],

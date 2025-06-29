@@ -352,7 +352,22 @@ class ProfileScreen extends StatelessWidget {
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),
                           ),
-                        ),
+                        ),  //TOdo=====following====
+
+
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(RoutePath.followerScreen,
+                          extra: userRole);
+                    },
+                    text: "My Followers",
+                    icon: Assets.icons.flowing.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
+                  )  : const SizedBox(),
+
 
                   //TOdo=========
 

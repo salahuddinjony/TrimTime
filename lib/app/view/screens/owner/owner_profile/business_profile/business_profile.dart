@@ -80,19 +80,40 @@ class BusinessProfile extends StatelessWidget {
                                 height: 10,
                               ),
                               //==================✅✅Total Card✅✅===================
-                              const Row(
+                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  CommonProfileTotalCard(
-                                      title: AppStrings.ratings, value: "290+"),
+                                  GestureDetector(
+                                    onTap: (){
+                                      print("");
+                                      AppRouter.route
+                                          .pushNamed(RoutePath.rateScreen, extra: userRole);
+                                    },
+                                    child: const CommonProfileTotalCard(
+                                        title: AppStrings.ratings, value: "290+"),
+                                  ),
                                   SizedBox(width: 8),
-                                  CommonProfileTotalCard(
-                                      title: AppStrings.following,
-                                      value: "150+"),
+                                  GestureDetector(
+                                    onTap: (){
+                                      print("");
+                                      AppRouter.route
+                                          .pushNamed(RoutePath.followingScreen, extra: userRole);
+                                    },
+                                    child: CommonProfileTotalCard(
+                                        title: AppStrings.following,
+                                        value: "150+"),
+                                  ),
                                   SizedBox(width: 8),
-                                  CommonProfileTotalCard(
-                                      title: "Follower", value: "500+"),
+                                  GestureDetector(
+                                    onTap: (){
+                                      print("");
+                                      AppRouter.route
+                                          .pushNamed(RoutePath.followerScreen, extra: userRole);
+                                    },
+                                    child: CommonProfileTotalCard(
+                                        title: "Follower", value: "500+"),
+                                  ),
                                 ],
                               ),
                               SizedBox(

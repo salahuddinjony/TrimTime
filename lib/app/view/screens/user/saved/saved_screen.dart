@@ -18,7 +18,8 @@ class SavedScreen extends StatefulWidget {
   State<SavedScreen> createState() => _SavedScreenState();
 }
 
-class _SavedScreenState extends State<SavedScreen> with SingleTickerProviderStateMixin {
+class _SavedScreenState extends State<SavedScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -78,10 +79,12 @@ class _SavedScreenState extends State<SavedScreen> with SingleTickerProviderStat
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: GestureDetector(
                         onTap: () {
-                          AppRouter.route.pushNamed(RoutePath.shopProfileScreen, extra: userRole);
+                          AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
+                              extra: userRole);
                         },
                         child: CommonShopCard(
                           imageUrl: AppConstants.shop,
@@ -106,12 +109,15 @@ class _SavedScreenState extends State<SavedScreen> with SingleTickerProviderStat
                         child: CustomFeedCard(
                           userImageUrl: AppConstants.demoImage,
                           userName: "Roger Hunt",
-                          userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                          userAddress:
+                              "2972 Westheimer Rd. Santa Ana, Illinois 85486",
                           postImageUrl: AppConstants.demoImage,
-                          postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
+                          postText:
+                              "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
                           rating: "5.0 ★ (169)",
                           onFavoritePressed: () {},
-                          onVisitShopPressed: () => AppRouter.route.pushNamed(RoutePath.visitShop, extra: userRole),
+                          onVisitShopPressed: () => AppRouter.route
+                              .pushNamed(RoutePath.visitShop, extra: userRole),
                         ),
                       );
                     }),

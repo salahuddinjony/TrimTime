@@ -1,5 +1,5 @@
 cd ios
-pod install  # যদি আগেই না দাও
+pod install  
 open Runner.xcworkspace
 
 

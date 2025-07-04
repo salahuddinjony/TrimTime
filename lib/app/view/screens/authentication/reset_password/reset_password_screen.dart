@@ -36,78 +36,70 @@ class ResetPasswordScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ClipPath(
-              clipper: CurvedShortClipper(),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 2,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xCCEDC4AC), // First color (with opacity)
-                      Color(0xFFE9864E),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9864E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Form(
-                      key: formKey,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-
-                            SizedBox(
-                              height: 80.h,
-                            ),
-
-                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-                            CustomFromCard(
-                                isPassword: true,
-                                hinText: AppStrings.enterNewPassword,
-                                title: AppStrings.enterYourNewPassword,
-                                controller: TextEditingController(),
-                                validator: (v) {
-                                  return null;
-                                }),
-                            CustomFromCard(
-                                isPassword: true,
-                                hinText: AppStrings.confirmNewPassword,
-                                title: AppStrings.confirmNewPassword,
-                                controller: TextEditingController(),
-                                validator: (v) {
-                                  return null;
-                                }),                            SizedBox(
-                              height: 100.h,
-                            ),
-
-
-                          ],
-                        ),
-                      ),
-                    )),
               ),
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+
+                          SizedBox(
+                            height: 80.h,
+                          ),
+
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+                          CustomFromCard(
+                              isPassword: true,
+                              hinText: AppStrings.enterNewPassword,
+                              title: AppStrings.enterYourNewPassword,
+                              controller: TextEditingController(),
+                              validator: (v) {
+                                return null;
+                              }),
+                          CustomFromCard(
+                              isPassword: true,
+                              hinText: AppStrings.confirmNewPassword,
+                              title: AppStrings.confirmNewPassword,
+                              controller: TextEditingController(),
+                              validator: (v) {
+                                return null;
+                              }),
+                          SizedBox(
+                            height: 100.h,
+                          ),
+                          CustomButton(
+                            isRadius: false,
+                            width: MediaQuery.of(context).size.width,
+                            onTap: () {
+                              AppRouter.route
+                                  .goNamed(RoutePath.signInScreen, extra: userRole);
+                            },
+                            title: AppStrings.resetPassword,
+                            fillColor: AppColors.black,
+                            textColor: AppColors.white50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
             ),
 
             ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomButton(
-                isRadius: false,
-                width: MediaQuery.of(context).size.width,
-                onTap: () {
-                  AppRouter.route
-                      .goNamed(RoutePath.signInScreen, extra: userRole);
-                },
-                title: AppStrings.resetPassword,
-                fillColor: AppColors.black,
-                textColor: AppColors.white50,
-              ),
-            ),
           ],
         ),
       ),

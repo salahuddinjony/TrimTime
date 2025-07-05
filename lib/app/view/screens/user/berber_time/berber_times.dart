@@ -30,10 +30,10 @@ class BerberTimes extends StatelessWidget {
 
     return Scaffold(
         bottomNavigationBar: CustomNavBar(currentIndex: 1, role: userRole),
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.searchScreenBg,
         appBar: const CustomAppBar(
           appBarContent: AppStrings.barbersTime,
-          appBarBgColor: AppColors.linearFirst,
+          appBarBgColor: AppColors.searchScreenBg,
         ),
         body: ListView(
           children: [

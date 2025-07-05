@@ -36,10 +36,10 @@ class _VisitShopState extends State<VisitShop> {
       );
     }
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.searchScreenBg,
       //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.searchScreenBg,
         appBarContent: "Barber Profile",
         iconData: Icons.arrow_back,
       ),

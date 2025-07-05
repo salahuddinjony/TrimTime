@@ -48,14 +48,15 @@ class CommonHomeAppBar extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.first, // start color
-            AppColors.last, // end color
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: AppColors.searchUserFillColor
+        // gradient: LinearGradient(
+        //   colors: [
+        //    AppColors.first, // start color
+        //     AppColors.last, // end color
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
       ),
       child: Column(
         children: [
@@ -118,7 +119,7 @@ class CommonHomeAppBar extends StatelessWidget {
                   onTap: onSearch,
                   readOnly: true,
                   fieldBorderColor: AppColors.black,
-                  fillColor: AppColors.linearFirst,
+                  fillColor: AppColors.searchUserFillColor        ,
                   hintText: AppStrings.searchSaloons,
                   suffixIcon: const Icon(Icons.search),
                 )

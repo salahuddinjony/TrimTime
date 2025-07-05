@@ -39,10 +39,10 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
       );
     }
     return Scaffold(
-      // backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.white,
       //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(
-        // appBarBgColor: AppColors.last,
+        appBarBgColor: AppColors.searchScreenBg,
         appBarContent: "Shop Profile",
         iconData: Icons.arrow_back,
       ),
@@ -52,14 +52,15 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
         clipper: CurvedBannerClipper(),
         child: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.firstS, // start color
-                AppColors.lasts, // end color
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            color: AppColors.searchScreenBg
+            // gradient: LinearGradient(
+            //   colors: [
+            //     AppColors.firstS, // start color
+            //     AppColors.lasts, // end color
+            //   ],
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            // ),
           ),
           child: Center(
             child: Padding(

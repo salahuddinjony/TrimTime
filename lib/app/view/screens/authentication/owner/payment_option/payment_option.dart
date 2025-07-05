@@ -103,6 +103,10 @@ class PaymentOption extends StatelessWidget {
                           AppRouter.route.pushNamed(RoutePath.barberHomeScreen,
                               extra: userRole);
                         }
+                        else if (userRole == UserRole.user) {
+                          AppRouter.route.pushNamed(RoutePath.homeScreen,
+                              extra: userRole);
+                        }
                       },
                       textColor: AppColors.white50,
                       title: AppStrings.continues,

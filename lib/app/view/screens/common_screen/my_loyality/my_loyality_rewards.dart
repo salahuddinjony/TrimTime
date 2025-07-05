@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class MyLoyalityRewards extends StatelessWidget {
   const MyLoyalityRewards({super.key});
 
@@ -22,111 +24,115 @@ class MyLoyalityRewards extends StatelessWidget {
       );
     }
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.white,
 
-      ///============================ Header ===============================
-      appBar: AppBar(
-        title: const CustomText(
-          text: "My Loyalty Rewards",
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-          color: AppColors.black,
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.linearFirst,
-      ),
+        ///============================ Header ===============================
+        appBar: AppBar(
 
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.first, // start color
-              AppColors.last, // end color
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+          title: const CustomText(
+            text: "My Loyalty Rewards",
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: AppColors.black,
           ),
+          centerTitle: true,
+          backgroundColor: AppColors.searchScreenBg,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              CustomText(
-                text: "Track your visits Last 30 Days!",
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.whiteDarker,
-                bottom: 10.h,
-              ),
-              const CommonTextRow(
-                keyText: 'Shop Name:',
-                valueText: 'Barber time',
-              ),
-              const CommonTextRow(
-                keyText: 'Name:',
-                valueText: 'Jenny tom',
-              ),
-              const CommonTextRow(
-                keyText: 'Id No:',
-                valueText: '122455334',
-              ),
-              const CommonTextRow(
-                keyText: 'Range:',
-                valueText: '122455334',
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: ClipPath(
+          clipper: CurvedBannerClipper(),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 1.5,
+            decoration: const BoxDecoration(
+              color: AppColors.searchScreenBg
+              // gradient: LinearGradient(
+              //   colors: [
+              //     AppColors.first, // start color
+              //     AppColors.last, // end color
+              //   ],
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomCenter,
+              // ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10.r),
-                    color: AppColors.visit,
-                    child: CustomText(
-                      text: "Total Visits \n 4 ",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.sp,
-                      color: AppColors.black,
-                    ),
+                  CustomText(
+                    text: "Track your visits Last 30 Days!",
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.whiteDarker,
+                    bottom: 10.h,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.r),
-                    color: AppColors.visit,
-                    child: CustomText(
-                      text: "Total Visits Points \n 4",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.sp,
-                      color: AppColors.black,
-                    ),
+                  const CommonTextRow(
+                    keyText: 'Shop Name:',
+                    valueText: 'Barber time',
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.r),
-                    color: AppColors.visit,
-                    child: CustomText(
-                      text: "Last Visit \n 21/03/25",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.sp,
-                      color: AppColors.black,
-                    ),
+                  const CommonTextRow(
+                    keyText: 'Name:',
+                    valueText: 'Jenny tom',
+                  ),
+                  const CommonTextRow(
+                    keyText: 'Id No:',
+                    valueText: '122455334',
+                  ),
+                  const CommonTextRow(
+                    keyText: 'Range:',
+                    valueText: '122455334',
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10.r),
+                        color: AppColors.visit,
+                        child: CustomText(
+                          text: "Total Visits \n 4 ",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10.r),
+                        color: AppColors.visit,
+                        child: CustomText(
+                          text: "Total Visits Points \n 4",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10.r),
+                        color: AppColors.visit,
+                        child: CustomText(
+                          text: "Last Visit \n 21/03/25",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  VisitTracerCard(
+                    currentStatus: 1,
+                    totalStatus: 4,
+                    title: 'Visit Tracer',
+                    description:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                   ),
                 ],
               ),
-              SizedBox(
-                height: 12.h,
-              ),
-
-              VisitTracerCard(
-                currentStatus: 1,
-                totalStatus: 4,
-                title: 'Visit Tracer',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

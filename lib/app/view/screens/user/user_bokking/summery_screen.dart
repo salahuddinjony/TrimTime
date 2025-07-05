@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../utils/enums/user_role.dart';
 import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class SummeryScreen extends StatefulWidget {
@@ -26,6 +27,14 @@ class _SummaryScreenState extends State<SummeryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
     return Scaffold(
         backgroundColor: AppColors.white,
         appBar: const CustomAppBar(
@@ -245,7 +254,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 child: CustomButton(
                   onTap: () {
                     // Using GoRouter for pushing a route
-                    context.pushNamed(RoutePath.paymentOption);
+                    context.pushNamed(RoutePath.paymentOption,extra: userRole);
                   },
                   textColor: Colors.white,
                   fillColor: Colors.black,

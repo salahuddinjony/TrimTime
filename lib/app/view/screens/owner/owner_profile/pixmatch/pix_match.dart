@@ -70,9 +70,10 @@ class _PixMatchState extends State<PixMatch> {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.searchScreenBg,
         title: const Text("Add Image"),
       ),
       body: Column(
@@ -82,14 +83,15 @@ class _PixMatchState extends State<PixMatch> {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xCCEDC4AC),
-                    Color(0xFFE9874E),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                color: AppColors.searchScreenBg
+                // gradient: LinearGradient(
+                //   colors: [
+                //     Color(0xCCEDC4AC),
+                //     Color(0xFFE9874E),
+                //   ],
+                //   begin: Alignment.topLeft,
+                //   end: Alignment.bottomRight,
+                // ),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),

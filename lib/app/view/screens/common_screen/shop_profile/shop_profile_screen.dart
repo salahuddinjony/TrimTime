@@ -15,8 +15,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class ShopProfileScreen extends StatelessWidget {
+class ShopProfileScreen extends StatefulWidget {
   const ShopProfileScreen({super.key});
+
+  @override
+  State<ShopProfileScreen> createState() => _ShopProfileScreenState();
+}
+
+class _ShopProfileScreenState extends State<ShopProfileScreen> {
+  bool isFollowing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +40,7 @@ class ShopProfileScreen extends StatelessWidget {
       // backgroundColor: AppColors.linearFirst,
       //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.last,
+        // appBarBgColor: AppColors.last,
         appBarContent: "Shop Profile",
         iconData: Icons.arrow_back,
       ),
@@ -42,8 +49,8 @@ class ShopProfileScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              AppColors.first, // start color
-              AppColors.last, // end color
+              AppColors.firstS, // start color
+              AppColors.lasts, // end color
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -75,12 +82,23 @@ class ShopProfileScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 50),
-                          CustomText(
+                          SizedBox(height: 50.h),
+                          const CustomText(
                             text: "Barber time",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: AppColors.black,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _customButton(isFollowing ? "Unfollow" : "Follow", Icons.person_add),
+                              const SizedBox(width: 10),
+                              _iconButton(Assets.images.chartSelected.image(
+                                color: Colors.white,
+                                height: 15,
+                              )),
+                            ],
                           ),
                           SizedBox(height: 10),
                           SizedBox(height: 20),
@@ -398,7 +416,6 @@ class ShopProfileScreen extends StatelessWidget {
     );
   }
 
-
   // Function to show rating dialog
   void _showRatingDialog(BuildContext context) {
     showDialog(
@@ -498,6 +515,56 @@ class ShopProfileScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  // Function to toggle Follow/Unfollow state
+  void _toggleFollow() {
+    setState(() {
+      isFollowing = !isFollowing; // Toggle the follow state
+    });
+  }
+
+  // Custom Follow/Unfollow button
+  Widget _customButton(String text, IconData icon) {
+    return GestureDetector(
+      onTap: _toggleFollow, // Toggle follow state on tap
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 14, color: Colors.white),
+            const SizedBox(width: 6),
+            CustomText(
+              text: text,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _iconButton(Widget icon) {
+    return GestureDetector(
+      onTap: (){
+        AppRouter.route
+            .pushNamed(RoutePath.chatScreen, );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: icon,
+      ),
     );
   }
 }

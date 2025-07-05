@@ -46,7 +46,7 @@ class CommonHomeAppBar extends StatelessWidget {
       margin: EdgeInsets.only(
         top: 32.h,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+      padding:  EdgeInsets.symmetric(horizontal: 17.w, vertical: 20.h),
       decoration: const BoxDecoration(
         color: AppColors.searchUserFillColor
         // gradient: LinearGradient(

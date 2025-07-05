@@ -37,6 +37,8 @@ class AppColors {
   static const Color linearFirst = Color(0xffEDC4AC);
   static const Color navColor = Color(0xffF4EBDC);
   static const Color first = Color(0xffEEC2A8);
+  static const Color firstS = Color(0xffEDBFA5);
+  static const Color lasts = Color(0xffE9854C);
   static const Color last = Color(0xffEA8A53);
   static const Color visit = Color(0xffCFE4B0);
   static const Color orange300 = Color(0xffC79A88);

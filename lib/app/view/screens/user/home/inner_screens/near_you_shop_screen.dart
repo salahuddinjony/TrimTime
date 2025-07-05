@@ -31,7 +31,6 @@ class _NearYouShopScreenState extends State<NearYouShopScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize your shops here - replace with real data or API call
     _allShops = List.generate(20, (index) => Shop(
       title: "Barber Time $index",
       rating: "5.0 ★ (169)",
@@ -73,10 +72,10 @@ class _NearYouShopScreenState extends State<NearYouShopScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.white50,
+      backgroundColor: AppColors.searchScreenBg,
       appBar: const CustomAppBar(
         appBarContent: AppStrings.nearYou,
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.searchScreenBg,
         iconData: Icons.arrow_back,
       ),
       body: Padding(
@@ -138,62 +137,3 @@ class Shop {
     required this.imageUrl,
   });
 }
-
-//
-// class NearYouShopScreen extends StatelessWidget {
-//   const NearYouShopScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final userRole = GoRouter.of(context).state.extra as UserRole?;
-//
-//     if (userRole == null) {
-//       return Scaffold(
-//         appBar: AppBar(title: const Text('Error')),
-//         body: const Center(child: Text('No user role received')),
-//       );
-//     }
-//     return Scaffold(
-//       backgroundColor: AppColors.white50,
-//       appBar: const CustomAppBar(
-//         appBarContent: AppStrings.nearYou,
-//         appBarBgColor: AppColors.linearFirst,
-//         iconData: Icons.arrow_back,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-//         child: Column(
-//           children: [
-//             const CustomTextField(
-//               inputTextStyle: TextStyle(color: AppColors.black),
-//               prefixIcon: Icon(Icons.search),
-//               hintText: "Search",
-//             ),
-//             SizedBox(height: 20.h,),
-//             Expanded(
-//               child: ListView.builder(itemBuilder: (context, index) {
-//                 return GestureDetector(
-//                   onTap: () {
-//                     context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
-//
-//                   },
-//                   child: Padding(
-//                     padding: const EdgeInsets.symmetric(vertical: 10),
-//                     child: CommonShopCard(
-//                       imageUrl: AppConstants.shop,
-//                       title: "Barber Time ",
-//                       rating: "5.0 ★ (169)",
-//                       location: "Oldesloer Strasse 82",
-//                       discount: "15%",
-//                       onSaved: () => debugPrint("Saved Clicked!"),
-//                     ),
-//                   ),
-//                 );
-//               }),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

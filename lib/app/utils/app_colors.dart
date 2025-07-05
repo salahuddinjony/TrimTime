@@ -44,6 +44,7 @@ class AppColors {
   static const Color orange300 = Color(0xffC79A88);
   static const Color white600 = Color(0xffD1D1D1);
   static const Color searchUserFillColor = Color(0xffEB9767);
+  static const Color searchScreenBg = Color(0xffEBA378);
 
 
 

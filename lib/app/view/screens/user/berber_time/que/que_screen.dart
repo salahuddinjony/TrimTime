@@ -49,11 +49,11 @@ class QueScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.searchScreenBg,
         appBar: const CustomAppBar(
           iconData: Icons.arrow_back,
           appBarContent: AppStrings.que,
-          appBarBgColor: AppColors.linearFirst,
+          appBarBgColor: AppColors.searchScreenBg,
         ),
         body: ListView(
           children: [

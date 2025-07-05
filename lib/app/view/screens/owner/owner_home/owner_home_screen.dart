@@ -37,6 +37,7 @@ class OwnerHomeScreen extends StatelessWidget {
       );
     }
     return Scaffold(
+      backgroundColor: AppColors.white,
       bottomNavigationBar: BottomNavbar(
         currentIndex: 0,
         role: userRole,

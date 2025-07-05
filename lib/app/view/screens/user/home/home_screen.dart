@@ -219,7 +219,7 @@ class HomeScreen extends StatelessWidget {
                           rating: "5.0 ★ (169)",
                           onFavoritePressed: () {},
                           onVisitShopPressed: () => AppRouter.route
-                              .pushNamed(RoutePath.visitShop, extra: userRole),
+                              .pushNamed(RoutePath.shopProfileScreen, extra: userRole),
                         ),
                       );
                     }),

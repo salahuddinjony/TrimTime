@@ -12,6 +12,7 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/bottom_navbar.dart';
 import '../../../../common_widgets/common_profile_card/common_profile_card.dart';
 
 class ProfessionalProfile extends StatelessWidget {
@@ -29,6 +30,10 @@ class ProfessionalProfile extends StatelessWidget {
       );
     }
     return Scaffold(
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: 4,
+        role: userRole,
+      ),
       backgroundColor: AppColors.linearFirst,
       //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(

@@ -131,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                                 RoutePath.barberPersonalProfile,
                                 extra: userRole);
                           },
-                          text: AppStrings.profile,
+                          text: AppStrings.personalInformation,
                           icon: Assets.icons.personalInfo.svg(
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),
@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                                 RoutePath.barberPersonalProfile,
                                 extra: userRole);
                           },
-                          text: AppStrings.profile,
+                          text: AppStrings.personalInformation,
                           icon: Assets.icons.personalInfo.svg(
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),

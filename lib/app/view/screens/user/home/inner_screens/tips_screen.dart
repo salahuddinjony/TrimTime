@@ -43,20 +43,21 @@ class TipsScreen extends StatelessWidget {
                   clipper: CurvedBannerClipper(),
                   child: Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height/1.5,
+                    height: MediaQuery.of(context).size.height / 1.5,
                     decoration: const BoxDecoration(
-                      color: AppColors.searchScreenBg
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     Color(0xCCEDC4AC), // First color (with opacity)
-                      //     Color(0xFFE9874E),
-                      //   ],
-                      //   begin: Alignment.topLeft,
-                      //   end: Alignment.bottomRight,
-                      // ),
-                    ),
+                        color: AppColors.searchScreenBg
+                        // gradient: LinearGradient(
+                        //   colors: [
+                        //     Color(0xCCEDC4AC), // First color (with opacity)
+                        //     Color(0xFFE9874E),
+                        //   ],
+                        //   begin: Alignment.topLeft,
+                        //   end: Alignment.bottomRight,
+                        // ),
+                        ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.w, vertical: 20.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -75,7 +76,8 @@ class TipsScreen extends StatelessWidget {
                             height: 300.h, // Fixed height for the GridView
                             child: GridView.builder(
                               scrollDirection: Axis.horizontal,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, // Adjusted for better look
                                 crossAxisSpacing: 0.w,
                                 mainAxisSpacing: 15.h,
@@ -87,7 +89,13 @@ class TipsScreen extends StatelessWidget {
                                   imageUrl: AppConstants.demoImage,
                                   name: "Barber $index",
                                   onSendTip: () {
-                                    _showTipDialog(context, TextEditingController());
+                                    _showTipDialog(
+                                        context, TextEditingController(),(){
+                                      AppRouter.route.pushNamed(
+                                        RoutePath.paymentOption,
+                                        extra: userRole,
+                                      );
+                                    });
                                   },
                                 );
                               },
@@ -141,34 +149,33 @@ class TipsScreen extends StatelessWidget {
                           SizedBox(height: 20.h),
 
                           /// Submit Button
-
                         ],
                       ),
                     ),
                   )),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                child: CustomButton(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.paymentOption,
-                      extra: userRole,
-                    );
-                  },
-                  title: AppStrings.submit,
-                  fillColor: Colors.black,
-                  textColor: AppColors.whiteColor,
-                  height: 50.h,
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+              //   child: CustomButton(
+              //     onTap: () {
+              //       AppRouter.route.pushNamed(
+              //         RoutePath.paymentOption,
+              //         extra: userRole,
+              //       );
+              //     },
+              //     title: AppStrings.submit,
+              //     fillColor: Colors.black,
+              //     textColor: AppColors.whiteColor,
+              //     height: 50.h,
+              //   ),
+              // ),
             ],
           ),
         ));
   }
 
   // Function to show the Tip dialog
-  void _showTipDialog(
-      BuildContext context, TextEditingController tipController) {
+  void _showTipDialog(BuildContext context, TextEditingController tipController,
+      VoidCallback? onTap) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -220,19 +227,7 @@ class TipsScreen extends StatelessWidget {
             ),
             // Submit Button
             TextButton(
-              onPressed: () {
-                String tipAmount = tipController.text;
-                if (tipAmount.isNotEmpty) {
-                  print("Tip amount: $tipAmount");
-                  Navigator.of(context).pop();
-                  // Add your logic to handle the tip submission
-                } else {
-                  // Handle case where the user hasn't entered a tip
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Please enter a tip amount")),
-                  );
-                }
-              },
+              onPressed: onTap,
               child: const Text('Submit'),
             ),
           ],

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../core/bottom_navbar.dart';
 import '../../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class BarberPersonalProfile extends StatelessWidget {
@@ -31,6 +32,10 @@ class BarberPersonalProfile extends StatelessWidget {
       );
     }
     return Scaffold(
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: 4,
+        role: userRole,
+      ),
       ///============================ Header ===============================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.profile,

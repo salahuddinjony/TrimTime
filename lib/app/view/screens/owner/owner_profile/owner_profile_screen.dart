@@ -34,28 +34,28 @@ class ProfileScreen extends StatelessWidget {
     }
     return Scaffold(
       // Only show the floatingActionButton if the role is 'user'
-      floatingActionButton: userRole == UserRole.user
-          ? IconButton(
-              onPressed: () {
-                AppRouter.route
-                    .pushNamed(RoutePath.scannerScreen, extra: userRole);
-              },
-              icon: Container(
-                height: 85,
-                width: 85,
-                padding: EdgeInsets.all(12.r),
-                // You can adjust the padding as needed
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.navColor, // Custom color for the button
-                ),
-                child: Assets.images.bxScan
-                    .image(color: AppColors.black), // Scanner icon
-              ),
-            )
-          : null,
-      // Return null if the role is not 'user'
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: userRole == UserRole.user
+      //     ? IconButton(
+      //         onPressed: () {
+      //           AppRouter.route
+      //               .pushNamed(RoutePath.scannerScreen, extra: userRole);
+      //         },
+      //         icon: Container(
+      //           height: 85,
+      //           width: 85,
+      //           padding: EdgeInsets.all(12.r),
+      //           // You can adjust the padding as needed
+      //           decoration: const BoxDecoration(
+      //             shape: BoxShape.circle,
+      //             color: AppColors.navColor, // Custom color for the button
+      //           ),
+      //           child: Assets.images.bxScan
+      //               .image(color: AppColors.black), // Scanner icon
+      //         ),
+      //       )
+      //     : null,
+      // // Return null if the role is not 'user'
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavbar(
         currentIndex: 4,
         role: userRole,

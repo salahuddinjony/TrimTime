@@ -1,4 +1,3 @@
-
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart' show Assets;
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart' show AppColors;
@@ -14,22 +13,25 @@ class CustomNavBar extends StatefulWidget {
   final int currentIndex;
   final UserRole role;
 
-  const CustomNavBar({required this.currentIndex, required this.role, super.key});
+  const CustomNavBar(
+      {required this.currentIndex, required this.role, super.key});
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
-class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderStateMixin {
+class _CustomNavBarState extends State<CustomNavBar>
+    with SingleTickerProviderStateMixin {
   late int bottomNavIndex;
   bool showFABOptions = false;
 
-  late List<({
-  String route,
-  Widget selectedIcon,
-  Widget unselectedIcon,
-  String label
-  })> _navItems;
+  late List<
+      ({
+        String route,
+        Widget selectedIcon,
+        Widget unselectedIcon,
+        String label
+      })> _navItems;
 
   @override
   void initState() {
@@ -39,42 +41,43 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
   }
 
   void setNavigationItems(UserRole role) {
-
-
-        _navItems = [
-          (
-          route: RoutePath.homeScreen,
-          selectedIcon: Assets.images.home.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.home.image(color: Colors.black),
-          label: AppStrings.home,
-          ),
-          (
-          route: RoutePath.berberTimes,
-          selectedIcon: Assets.images.queSelected.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.queUnselected.image(color: Colors.black),
-          label: AppStrings.que,
-          ),
-          (
-          route: '', // FAB Placeholder
-          selectedIcon: const SizedBox.shrink(),
-          unselectedIcon: const SizedBox.shrink(),
-          label: '',
-          ),
-          (
-          route: RoutePath.savedScreen,
-          selectedIcon: Assets.images.savedSelected.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.savedUnselected.image(color: Colors.black),
-          label: AppStrings.saved,
-          ),
-          (
-          route: RoutePath.userProfileScreen,
-          selectedIcon: Assets.images.profileSelected.image(color: AppColors.secondary),
-          unselectedIcon: Assets.images.profileSelected.image(color: Colors.black),
-          label: AppStrings.profile,
-          ),
-        ];
-
-
+    _navItems = [
+      (
+        route: RoutePath.homeScreen,
+        selectedIcon: Assets.images.home.image(color: AppColors.secondary),
+        unselectedIcon: Assets.images.home.image(color: Colors.black),
+        label: AppStrings.home,
+      ),
+      (
+        route: RoutePath.berberTimes,
+        selectedIcon:
+            Assets.images.queSelected.image(color: AppColors.secondary),
+        unselectedIcon: Assets.images.queUnselected.image(color: Colors.black),
+        label: AppStrings.que,
+      ),
+      (
+        route: '', // FAB Placeholder
+        selectedIcon: const SizedBox.shrink(),
+        unselectedIcon: const SizedBox.shrink(),
+        label: '',
+      ),
+      (
+        route: RoutePath.savedScreen,
+        selectedIcon:
+            Assets.images.savedSelected.image(color: AppColors.secondary),
+        unselectedIcon:
+            Assets.images.savedUnselected.image(color: Colors.black),
+        label: AppStrings.saved,
+      ),
+      (
+        route: RoutePath.userProfileScreen,
+        selectedIcon:
+            Assets.images.profileSelected.image(color: AppColors.secondary),
+        unselectedIcon:
+            Assets.images.profileSelected.image(color: Colors.black),
+        label: AppStrings.profile,
+      ),
+    ];
   }
 
   void _onTap(int index) {
@@ -118,13 +121,17 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      bottomNavIndex == index ? item.selectedIcon : item.unselectedIcon,
+                      bottomNavIndex == index
+                          ? item.selectedIcon
+                          : item.unselectedIcon,
                       SizedBox(height: 4.h),
                       CustomText(
                         text: item.label,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: bottomNavIndex == index ? AppColors.secondary : AppColors.black,
+                        color: bottomNavIndex == index
+                            ? AppColors.secondary
+                            : AppColors.black,
                       ),
                     ],
                   ),
@@ -167,35 +174,44 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _buildFABOption(
-                      iconWidget: Assets.images.ais.image(width: 30.w, height: 30.h,), // Your custom image
+                      iconWidget: Assets.images.camera.image(
+                        width: 30.w,
+                        height: 30.h,color: AppColors.black
+                      ), // Your custom image
                       onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.pixMatch, extra: UserRole.user);
+                        AppRouter.route.pushNamed(RoutePath.pixMatch,
+                            extra: UserRole.user);
                       },
                     ),
                     SizedBox(width: 24.w),
                     _buildFABOption(
-                      iconWidget: Assets.images.chartSelected.image(width: 24.w, height: 24.h), // Your custom image
+                      iconWidget: Assets.images.chartSelected.image(
+                          width: 24.w, height: 24.h), // Your custom image
                       onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.chatScreen, extra: UserRole.user);
+                        AppRouter.route.pushNamed(RoutePath.chatScreen,
+                            extra: UserRole.user);
                       },
                     ),
                     SizedBox(width: 24.w),
                     _buildFABOption(
-                      iconWidget: Assets.images.bxScan.image(width: 24.w, height: 24.h), // Your custom image
+                      iconWidget: Assets.images.bxScan.image(
+                          width: 24.w, height: 24.h), // Your custom image
                       onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.scannerScreen, extra: UserRole.user);
+                        AppRouter.route.pushNamed(RoutePath.scannerScreen,
+                            extra: UserRole.user);
                       },
                     ),
                     SizedBox(width: 24.w),
                     _buildFABOption(
-                      iconWidget: Assets.images.booking.image(width: 24.w, height: 24.h), // Your custom image
+                      iconWidget: Assets.images.booking.image(
+                          width: 24.w, height: 24.h), // Your custom image
                       onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.bookingScreen, extra: UserRole.user);
+                        AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                            extra: UserRole.user);
                       },
                     ),
                   ],
                 ),
-
               ),
             ),
         ],
@@ -203,7 +219,8 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildFABOption({required Widget iconWidget, required VoidCallback onTap}) {
+  Widget _buildFABOption(
+      {required Widget iconWidget, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: () {
         onTap();
@@ -218,5 +235,4 @@ class _CustomNavBarState extends State<CustomNavBar> with SingleTickerProviderSt
       ),
     );
   }
-
 }

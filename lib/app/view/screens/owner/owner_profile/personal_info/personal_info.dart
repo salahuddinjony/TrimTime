@@ -31,6 +31,7 @@ class PersonalInfo extends StatelessWidget {
       );
     }
     return Scaffold(
+
       ///============================ Header ===============================
       appBar: CustomAppBar(
         appBarContent: AppStrings.profile,

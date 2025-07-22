@@ -30,11 +30,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.last,
       appBar: const CustomAppBar(
         iconData: Icons.arrow_back,
         appBarContent: AppStrings.scanQrCode,
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.last,
       ),
       body: SingleChildScrollView(
         child: Padding(

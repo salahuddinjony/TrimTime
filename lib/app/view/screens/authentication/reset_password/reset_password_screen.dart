@@ -25,11 +25,11 @@ class ResetPasswordScreen extends StatelessWidget {
     final userRole = GoRouterState.of(context).extra as UserRole?;
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
-      // backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.linearFirst,
 
       ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.first,
         appBarContent: AppStrings.resetPassword,
         iconData: Icons.arrow_back,
       ),
@@ -42,8 +42,8 @@ class ResetPasswordScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
+                    Color(0xCCEEC0A6), // First color (with opacity)
+                    Color(0xFFEA8D58),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

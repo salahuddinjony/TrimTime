@@ -1,3 +1,4 @@
+import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTabBar extends StatelessWidget {
@@ -11,7 +12,7 @@ class CustomTabBar extends StatelessWidget {
     return Container(
       height: 45,
       width: double.infinity,
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(25),
@@ -26,7 +27,7 @@ class CustomTabBar extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: isUpcomingSelected ? Colors.orange : Colors.transparent,
+                  color: isUpcomingSelected ? AppColors.secondary : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,
@@ -48,7 +49,7 @@ class CustomTabBar extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: !isUpcomingSelected ? Colors.orange : Colors.transparent,
+                  color: !isUpcomingSelected ?AppColors.secondary  : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,

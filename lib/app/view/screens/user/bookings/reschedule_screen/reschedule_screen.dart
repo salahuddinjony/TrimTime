@@ -3,7 +3,6 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../widget/showSuccessDialog.dart';
 
@@ -36,6 +35,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
       appBar: const CustomAppBar(
         appBarContent: "Reschedule",
         iconData: Icons.arrow_back,
+        appBarBgColor: AppColors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,7 +68,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: selectedDate == dates[index]
-                            ? Colors.orange
+                            ? AppColors.secondary
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.grey),
@@ -109,7 +109,7 @@ class _RescheduleScreenState extends State<RescheduleScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: selectedTime == times[index]
-                          ? Colors.orange
+                          ? AppColors.secondary
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.grey),

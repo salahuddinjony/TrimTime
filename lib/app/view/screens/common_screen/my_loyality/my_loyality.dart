@@ -34,7 +34,8 @@ class MyLoyality extends StatelessWidget {
         appBarBgColor: AppColors.searchScreenBg,
       ),
 
-      body: ClipPath(
+      body:
+      ClipPath(
         clipper: CurvedBannerClipper(),
         child: Container(
           width: MediaQuery.of(context).size.width,

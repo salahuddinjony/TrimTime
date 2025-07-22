@@ -37,10 +37,10 @@ class _OwnerQueState extends State<OwnerQue> {
         currentIndex: 1,
         role: userRole,
       ),
-      backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.searchUserFillColor,
       appBar: const CustomAppBar(
         appBarContent: AppStrings.activeNow,
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.searchUserFillColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

@@ -125,6 +125,22 @@ class Settings extends StatelessWidget {
 
                   ),
                 ):const SizedBox(),//
+                // blocking
+                userRole == UserRole.barber
+                    ?
+                CustomMenuCard(
+                  onTap: () {
+                    AppRouter.route.pushNamed(
+                      RoutePath.blockingScreen,extra: userRole
+                    );
+                  },
+                  isContainerCard: true,
+                  text: "Blocking",
+                  icon: Assets.icons.block.svg(
+                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+
+                  ),
+                ):const SizedBox(),//
 
 
 

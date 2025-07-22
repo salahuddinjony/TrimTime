@@ -22,7 +22,7 @@ class BarberHistoryScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.linearFirst,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: AppColors.linearFirst,

@@ -112,30 +112,53 @@ class BarberHomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 12.h,
                     ),
-
-                    // Feed Cards Section
                     Column(
                       children: List.generate(4, (index) {
-                        return CustomFeedCard(
-                          userImageUrl: AppConstants.demoImage,
-                          userName: "Roger Hunt",
-                          userAddress:
-                              "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                          postImageUrl: AppConstants.demoImage,
-                          postText:
-                              "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
-                          rating: "5.0 * (169)",
-                          onFavoritePressed: () {
-                            // Handle favorite button press
-                          },
-                          onVisitShopPressed: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.shopProfileScreen,
-                                extra: userRole);
-                          },
+                        final postUrl = index == 0
+                            ? AppConstants.demoImage // প্রথমটি image
+                            : "https://www.youtube.com/watch?v=vE4jYKyv_GM"; // YouTube ভিডিও URL
+
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: CustomFeedCard(
+                            userImageUrl: AppConstants.demoImage,
+                            userName: "Roger Hunt",
+                            userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                            postImageUrl: postUrl,
+                            postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
+                            rating: "5.0 ★ (169)",
+                            onFavoritePressed: () {},
+                            onVisitShopPressed: () => AppRouter.route.pushNamed(
+                              RoutePath.shopProfileScreen,
+                              extra: userRole,
+                            ),
+                          ),
                         );
                       }),
                     ),
+                    // // Feed Cards Section
+                    // Column(
+                    //   children: List.generate(4, (index) {
+                    //     return CustomFeedCard(
+                    //       userImageUrl: AppConstants.demoImage,
+                    //       userName: "Roger Hunt",
+                    //       userAddress:
+                    //           "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                    //       postImageUrl: AppConstants.demoImage,
+                    //       postText:
+                    //           "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+                    //       rating: "5.0 * (169)",
+                    //       onFavoritePressed: () {
+                    //         // Handle favorite button press
+                    //       },
+                    //       onVisitShopPressed: () {
+                    //         AppRouter.route.pushNamed(
+                    //             RoutePath.shopProfileScreen,
+                    //             extra: userRole);
+                    //       },
+                    //     );
+                    //   }),
+                    // ),
                   ],
                 ),
               ),

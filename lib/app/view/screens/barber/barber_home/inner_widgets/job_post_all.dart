@@ -30,8 +30,9 @@ class JobPostAll extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.app,
         appBarContent: AppStrings.jobPost,
         iconData: Icons.arrow_back,
       ),

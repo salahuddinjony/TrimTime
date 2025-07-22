@@ -86,7 +86,6 @@ class BarberHomeScreen extends StatelessWidget {
                           isButton: true,
                           isSeeDescription: true,
                           onButtonTap: () {
-
                             _showBottomSheet(context);
                           },
                           logoImage: Assets.images.logo.image(height: 50),
@@ -191,7 +190,7 @@ void _showBottomSheet(BuildContext context) {
                 backgroundColor: Colors.orange, // button color
                 minimumSize: const Size(double.infinity, 50), // full-width button
               ),
-              child: const Text('Go to Home'),
+              child: const Text('Go to Home',style: TextStyle(color: AppColors.white),),
             ),
           ],
         ),

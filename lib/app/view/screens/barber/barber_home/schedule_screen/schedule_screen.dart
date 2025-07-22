@@ -5,6 +5,8 @@ import 'package:barber_time/app/view/common_widgets/schedule_card/schedule_card.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/curved_short_clipper/curved_short_clipper.dart';
+
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
 
@@ -19,28 +21,49 @@ class ScheduleScreen extends StatelessWidget {
         body: const Center(child: Text('No user role received')),
       );
     }
-    return const Scaffold(
+    return  Scaffold(
       //==================✅✅Header✅✅===================
       appBar: CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: "Schedule",
         iconData: Icons.arrow_back,
       ),
-      backgroundColor: AppColors.linearFirst,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            ScheduleCard(
-              timeTitle: "Time",
-              shopTitle: "Shop Name",
-              timeValue: "7:00AM-8:00PM",
-              shopName: "Barber Time",
-            )
+      backgroundColor: AppColors.white,
+      body:
+      ClipPath(
+        clipper: CurvedShortClipper(),
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height / 1.8,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDBFA5), // First color (with opacity)
+                Color(0xFFE9854C),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child:
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Column(
+              children: [
+                ScheduleCard(
+                  timeTitle: "Time",
+                  shopTitle: "Shop Name",
+                  timeValue: "7:00AM-8:00PM",
+                  shopName: "Barber Time",
+                )
 
-          ],
+              ],
+            ),
+          ),
+
         ),
       ),
+
     );
   }
 }

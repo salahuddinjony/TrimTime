@@ -47,6 +47,7 @@ class AppColors {
   static const Color searchScreenBg = Color(0xffEBA378);
   static const Color bodyGrayMedium = Color(0xff969696);
   static const Color feed = Color(0xffEA905D);
+  static const Color app = Color(0xffE98851);
 
 
 

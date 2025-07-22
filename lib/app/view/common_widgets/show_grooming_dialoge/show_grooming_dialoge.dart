@@ -1,4 +1,5 @@
 
+import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void showGroomingDialog(BuildContext context) {
@@ -48,7 +49,7 @@ Widget _buildPoint(String title, String description) {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(Icons.check_box, color: Colors.deepOrange),
+        const Icon(Icons.check_box, color: AppColors.secondary),
         const SizedBox(width: 10),
         Expanded(
           child: RichText(

@@ -29,7 +29,7 @@ class BookingDetailsScreen extends StatelessWidget {
       appBar: const CustomAppBar(
         iconData: Icons.arrow_back,
         appBarContent: "Booking Details",
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 20),
@@ -163,8 +163,8 @@ class BookingDetailsScreen extends StatelessWidget {
                       child: CustomText(
                         text: "Cancel Booking",
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.red,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.red,
                       ),
                     ),
                   ),
@@ -205,6 +205,7 @@ class BookingDetailsScreen extends StatelessWidget {
       barrierDismissible: false, // Prevent dismissing by tapping outside
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -234,7 +235,7 @@ class BookingDetailsScreen extends StatelessWidget {
             // Confirm Button
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.orange,
+                backgroundColor: AppColors.secondary,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               ),

@@ -6,6 +6,8 @@ import 'package:barber_time/app/view/common_widgets/following_card/following_car
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class FollowingScreen extends StatefulWidget {
   const FollowingScreen({super.key});
 
@@ -54,23 +56,44 @@ class _FollowingScreenState extends State<FollowingScreen> {
         backgroundColor: AppColors.linearFirst,
         title: const Text(AppStrings.myFollowing),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: ListView.builder(
-          itemCount: followingUsers.length,
-          itemBuilder: (context, index) {
-            final user = followingUsers[index];
-            return FollowingCard(
-              imageUrl: user["imageUrl"]!,
-              name: user["name"]!,
-              status: user["status"]!,
-              onUnfollowPressed: () {
-                _unfollowUser(index); // Unfollow the user at the selected index
+      body:
+      ClipPath(
+        clipper: CurvedBannerClipper(),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 1.2,
+          decoration: const BoxDecoration(
+              // color: AppColors.searchScreenBg,
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC), // First color (with opacity)
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child:
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: ListView.builder(
+              itemCount: followingUsers.length,
+              itemBuilder: (context, index) {
+                final user = followingUsers[index];
+                return FollowingCard(
+                  imageUrl: user["imageUrl"]!,
+                  name: user["name"]!,
+                  status: user["status"]!,
+                  onUnfollowPressed: () {
+                    _unfollowUser(index); // Unfollow the user at the selected index
+                  },
+                );
               },
-            );
-          },
+            ),
+          ),
         ),
       ),
+
     );
   }
 }

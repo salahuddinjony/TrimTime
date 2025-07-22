@@ -26,9 +26,10 @@ class MyFeed extends StatelessWidget {
       );
     }
     return Scaffold(
+      backgroundColor: AppColors.feed,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.feed,
         title: const Text(AppStrings.myFeedBack),
       ),
       body: Padding(

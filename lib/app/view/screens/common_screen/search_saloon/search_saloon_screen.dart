@@ -9,16 +9,16 @@ class SearchSaloonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: AppColors.first,
+      backgroundColor: AppColors.white,
         appBar: AppBar(
           title: const Text("What are you looking for?"),
-          backgroundColor: AppColors.linearFirst,
+          backgroundColor: AppColors.searchUserFillColor,
         ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.first, // start color
+                AppColors.lasts, // start color
                 AppColors.last, // end color
               ],
               begin: Alignment.topCenter,

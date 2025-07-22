@@ -1,10 +1,13 @@
+import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void bookingCancel(BuildContext context) {
   showDialog(
+
     context: context,
     barrierDismissible: true,
     builder: (context) => Dialog(
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Stack(
         alignment: Alignment.topRight,

@@ -24,12 +24,12 @@ class GetStartedScreen extends StatelessWidget {
             clipper: CurvedShortClipper(),
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height / 1.8,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
+                    Color(0xCCEEC9B4), // First color (with opacity)
+                    Color(0xFFE97D3F),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

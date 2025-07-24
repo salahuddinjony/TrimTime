@@ -5,7 +5,7 @@ class OwnerHiringController extends GetxController{
 
   final List<Map<String, String>> allJobs = [
     {
-      'title': 'Barber Shop',
+      'title': 'James Tracy',
       'time': '10:00am-10:00pm',
       'price': '£20.00/Per hr',
       'date': '02/10/23',
@@ -13,14 +13,14 @@ class OwnerHiringController extends GetxController{
     },
 
     {
-      'title': 'Barber Shop',
+      'title': 'Esther Howard',
       'time': '10:00am-10:00pm',
       'price': '£20.00/Per hr',
       'date': '02/10/23',
       'status': 'Ongoing'
     },
     {
-      'title': 'Salon',
+      'title': 'James Tracy',
       'time': '11:00am-8:00pm',
       'price': '£25.00/Per hr',
       'date': '05/10/23',

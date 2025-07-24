@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -14,14 +16,23 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../core/bottom_navbar.dart';
 import '../../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
+import '../../../../../common_widgets/custom_video_thumbnail/custom_video_thumbnail.dart';
 
-class BarberPersonalProfile extends StatelessWidget {
+class BarberPersonalProfile extends StatefulWidget {
   const BarberPersonalProfile({
     super.key,
   });
 
   @override
+  State<BarberPersonalProfile> createState() => _BarberPersonalProfileState();
+}
+
+class _BarberPersonalProfileState extends State<BarberPersonalProfile> {
+  final String videoThumbnailPath = '/storage/emulated/0/Download/sample_thumbnail.png';
+
+  @override
   Widget build(BuildContext context) {
+
     final userRole = GoRouter.of(context).state.extra as UserRole?;
 
     debugPrint("===================${userRole?.name}");
@@ -170,12 +181,98 @@ class BarberPersonalProfile extends StatelessWidget {
                 ),
               ),
 
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    // Image thumbnail
+                    CustomNetworkImage(
+                      borderRadius: BorderRadius.circular(10),
+                      imageUrl: AppConstants.style1,
+                      height: 120,
+                      width: 160,
+                    ),
+                    const SizedBox(width: 10),
 
+                    CustomVideoThumbnails(
+                      thumbnailPath: videoThumbnailPath,
+                      height: 120,
+                      width: 160,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ],
+                ),
+              ),
 
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class CustomVideoThumbnails extends StatelessWidget {
+  final String thumbnailPath;
+  final double height;
+  final double width;
+  final BorderRadius borderRadius;
+
+  const CustomVideoThumbnails({
+    super.key,
+    required this.thumbnailPath,
+    required this.height,
+    required this.width,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: borderRadius,
+          child: File(thumbnailPath).existsSync()
+              ? Image.file(
+            File(thumbnailPath),
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+          )
+              : Container(
+            height: height,
+            width: width,
+            color: Colors.grey,
+            child: const Center(
+              child: Text(
+                'Thumbnail not found',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.black54,
+                shape: BoxShape.circle,
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

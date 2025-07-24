@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -14,11 +16,22 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
-class PersonalInfo extends StatelessWidget {
+class PersonalInfo extends StatefulWidget {
   const PersonalInfo({
     super.key,
   });
 
+  @override
+  State<PersonalInfo> createState() => _PersonalInfoState();
+}
+
+class _PersonalInfoState extends State<PersonalInfo> {
+  // Image asset or network URL
+  final String imagePath =
+      'https://via.placeholder.com/150x100.png?text=Sample+Image';
+
+  // Local video thumbnail path (আপনার ডিভাইস থেকে বা যেখান থেকে পাও, ঠিক করে দিতে হবে)
+  final String videoThumbnailPath = '/storage/emulated/0/Download/sample_thumbnail.png';
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -232,30 +245,36 @@ class PersonalInfo extends StatelessWidget {
                       ),
 
                       CustomText(
-                        text: "Photo Gallery",
+                        text: "Video / Photo Gallery",
                         fontWeight: FontWeight.w600,
                         fontSize: 20.sp,
                         color: AppColors.whiteDarker,
                         bottom: 10,
                       ),
 
-                      Row(
-                        children: [
-                          CustomNetworkImage(
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            // Image thumbnail
+                            CustomNetworkImage(
                               borderRadius: BorderRadius.circular(10),
                               imageUrl: AppConstants.style1,
-                              height: 78,
-                              width: 96),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          CustomNetworkImage(
-                              borderRadius: BorderRadius.circular(10),
-                              imageUrl: AppConstants.style1,
-                              height: 78,
-                              width: 96),
-                        ],
+                              height: 120,
+                              width: 160,
+                            ),
+                            const SizedBox(width: 10),
+
+                            CustomVideoThumbnails(
+                              thumbnailPath: videoThumbnailPath,
+                              height: 120,
+                              width: 160,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ],
+                        ),
                       ),
+
                       SizedBox(
                         height: 40.h,
                       )
@@ -267,6 +286,71 @@ class PersonalInfo extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class CustomVideoThumbnails extends StatelessWidget {
+  final String thumbnailPath;
+  final double height;
+  final double width;
+  final BorderRadius borderRadius;
+
+  const CustomVideoThumbnails({
+    super.key,
+    required this.thumbnailPath,
+    required this.height,
+    required this.width,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: borderRadius,
+          child: File(thumbnailPath).existsSync()
+              ? Image.file(
+            File(thumbnailPath),
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+          )
+              : Container(
+            height: height,
+            width: width,
+            color: Colors.grey,
+            child: const Center(
+              child: Text(
+                'Thumbnail not found',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.black54,
+                shape: BoxShape.circle,
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

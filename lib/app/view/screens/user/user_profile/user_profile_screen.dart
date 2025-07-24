@@ -58,7 +58,7 @@ class UserProfileScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xCCEDBDA1), // First color (with opacity)
+                  Color(0xCCEDBDA1),
                   Color(0xFFEA905D),
                 ],
                 begin: Alignment.topLeft,

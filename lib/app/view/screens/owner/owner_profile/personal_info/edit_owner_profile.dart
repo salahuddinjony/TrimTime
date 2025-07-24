@@ -10,11 +10,13 @@ import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_radio_button/custom_radio_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class EditOwnerProfile extends StatefulWidget {
   const EditOwnerProfile({
@@ -26,19 +28,123 @@ class EditOwnerProfile extends StatefulWidget {
 }
 
 class _EditOwnerProfileState extends State<EditOwnerProfile> {
+  File? _imageFile;
+  String? _videoThumbnailPath;
+
   final ImagePicker _picker = ImagePicker();
-  File? _image; // Variable to store selected image
 
-  // Method to pick an image from the gallery
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
+  Future<void> _showPickerOptions() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Pick Image from Gallery'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickImageFromGallery();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_library),
+              title: const Text('Pick Video File'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickVideoFile();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-    if (pickedFile != null) {
+  Future<void> _pickImageFromGallery() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
       setState(() {
-        _image = File(pickedFile.path); // Store the selected image
+        _imageFile = File(pickedImage.path);
+        _videoThumbnailPath = null; // clear video thumbnail if any
       });
+    }
+  }
+
+  Future<void> _pickVideoFile() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.video);
+    if (result != null && result.files.isNotEmpty) {
+      final videoPath = result.files.first.path;
+      if (videoPath != null) {
+        final thumb = await VideoThumbnail.thumbnailFile(
+          video: videoPath,
+          imageFormat: ImageFormat.PNG,
+          maxWidth: 200,
+          quality: 75,
+        );
+        setState(() {
+          _videoThumbnailPath = thumb;
+          _imageFile = null; // clear image file if any
+        });
+      }
+    }
+  }
+
+  Widget _buildThumbnail() {
+    if (_imageFile != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.file(
+          _imageFile!,
+          height: 78,
+          width: 96,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (_videoThumbnailPath != null) {
+      return Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              File(_videoThumbnailPath!),
+              height: 78,
+              width: 96,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  shape: BoxShape.circle,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
     } else {
-      print('No image selected.');
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          AppConstants.demoImage,
+          height: 78,
+          width: 96,
+          fit: BoxFit.cover,
+        ),
+      );
     }
   }
   @override
@@ -77,7 +183,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildProfileHeader(),
+              const ProfileHeaderWidget(),
            SizedBox(height: 30.h,),
 
               //name
@@ -175,24 +281,43 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                  ),
                  Row(
                    children: [
-                     CustomNetworkImage(
-                         borderRadius: BorderRadius.circular(10),
-                         imageUrl: AppConstants.style1,
+                     // CustomNetworkImage(
+                     //     borderRadius: BorderRadius.circular(10),
+                     //     imageUrl: AppConstants.style1,
+                     //     height: 78,
+                     //     width: 96),
+                     // SizedBox(
+                     //   width: 10.w,
+                     // ),
+                     // Container(
+                     //   height: 78,
+                     //   width: 96,
+                     //   decoration: BoxDecoration(
+                     //       color: AppColors.white,
+                     //       border: Border.all(color: AppColors.secondary),
+                     //       borderRadius: BorderRadius.circular(10)),
+                     //   child: const Icon(
+                     //     Icons.add_circle_outline_outlined,
+                     //     color: AppColors.secondary,
+                     //   ),
+                     // ),
+                     _buildThumbnail(),
+                     SizedBox(width: 10),
+                     GestureDetector(
+                       onTap: _showPickerOptions,
+                       child: Container(
                          height: 78,
-                         width: 96),
-                     SizedBox(
-                       width: 10.w,
-                     ),
-                     Container(
-                       height: 78,
-                       width: 96,
-                       decoration: BoxDecoration(
-                           color: AppColors.white,
-                           border: Border.all(color: AppColors.secondary),
-                           borderRadius: BorderRadius.circular(10)),
-                       child: const Icon(
-                         Icons.add_circle_outline_outlined,
-                         color: AppColors.secondary,
+                         width: 96,
+                         decoration: BoxDecoration(
+                           color: Colors.white,
+                           border: Border.all(color: Colors.blueAccent),
+                           borderRadius: BorderRadius.circular(10),
+                         ),
+                         child: const Icon(
+                           Icons.add_circle_outline_outlined,
+                           color: Colors.blueAccent,
+                           size: 30,
+                         ),
                        ),
                      ),
                    ],
@@ -226,55 +351,96 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
 
 
 
-Widget buildProfileHeader() {
-  return Center(
-    child: Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.topCenter,
-      children: [
-        CustomNetworkImage(
-          imageUrl: AppConstants.demoImage,
-          height: 196.h,
-          width: double.infinity,
-        ),
-        Positioned(
-          top: 130.h,
-          child: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              CustomNetworkImage(
-                boxShape: BoxShape.circle,
-                imageUrl: AppConstants.demoImage,
-                height: 102.h,
-                width: 102.w,
-              ),
-              GestureDetector(
-                onTap: (){},
-                // onTap: () => _pickImage(ImageSource.camera),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.white,
-                    size: 24,
+
+class ProfileHeaderWidget extends StatefulWidget {
+  const ProfileHeaderWidget({super.key});
+
+  @override
+  State<ProfileHeaderWidget> createState() => _ProfileHeaderWidgetState();
+}
+
+class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
+  File? _pickedImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile =
+    await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _pickedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: [
+          // Background image (optional)
+          Image.network(
+            AppConstants.demoImage, // Replace with AppConstants.demoImage if needed
+            height: 196,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: 130,
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                // Profile Image with GestureDetector
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: ClipOval(
+                    child: _pickedImage == null
+                        ? Image.network(
+                      AppConstants.demoImage, // Replace with AppConstants.demoImage if needed
+                      height: 102,
+                      width: 102,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.file(
+                      _pickedImage!,
+                      height: 102,
+                      width: 102,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                // Camera Icon button
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary, // Replace with AppColors.secondary
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
+

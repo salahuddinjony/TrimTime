@@ -26,11 +26,9 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  // Image asset or network URL
   final String imagePath =
       'https://via.placeholder.com/150x100.png?text=Sample+Image';
 
-  // Local video thumbnail path (আপনার ডিভাইস থেকে বা যেখান থেকে পাও, ঠিক করে দিতে হবে)
   final String videoThumbnailPath = '/storage/emulated/0/Download/sample_thumbnail.png';
   @override
   Widget build(BuildContext context) {

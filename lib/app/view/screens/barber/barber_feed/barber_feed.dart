@@ -11,10 +11,12 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class BarberFeed extends StatefulWidget {
   const BarberFeed({
@@ -27,18 +29,87 @@ class BarberFeed extends StatefulWidget {
 
 class _BarberFeedState extends State<BarberFeed> {
   final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
+  PlatformFile? _mediaFile;
+  String? _videoThumbnailPath;
 
-  // Modify the method to open the camera
-  Future<void> _pickImage() async {
+  // Pick image from camera
+  Future<void> _pickImageFromCamera() async {
     final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.camera, // This opens the camera instead of the gallery
+      source: ImageSource.camera,
     );
+
     if (pickedFile != null) {
       setState(() {
-        _imageFile = pickedFile;
+        _mediaFile = PlatformFile(
+          name: pickedFile.name,
+          path: pickedFile.path,
+          size: File(pickedFile.path).lengthSync(),
+        );
+        _videoThumbnailPath = null;
       });
     }
+  }
+
+  // Pick image or video from gallery
+  Future<void> _pickMediaFromGallery() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      final pickedFile = result.files.first;
+      setState(() {
+        _mediaFile = pickedFile;
+      });
+
+      if (pickedFile.extension == 'mp4') {
+        final thumb = await VideoThumbnail.thumbnailFile(
+          video: pickedFile.path!,
+          imageFormat: ImageFormat.PNG,
+          maxWidth: 200, // Adjust as needed
+          quality: 75,
+        );
+        setState(() {
+          _videoThumbnailPath = thumb;
+        });
+      } else {
+        setState(() {
+          _videoThumbnailPath = null;
+        });
+      }
+    }
+  }
+
+  // Show bottom sheet for options
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Camera'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImageFromCamera();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickMediaFromGallery();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -72,7 +143,7 @@ class _BarberFeedState extends State<BarberFeed> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xCCEDC4AC),
                     Color(0xFFE9874E),
                   ],
                   begin: Alignment.topLeft,
@@ -87,7 +158,7 @@ class _BarberFeedState extends State<BarberFeed> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const CustomText(
-                      text: AppStrings.choiceImage,
+                      text: "Choice image / video",
                       fontWeight: FontWeight.w500,
                       color: AppColors.black,
                       fontSize: 16,
@@ -95,28 +166,74 @@ class _BarberFeedState extends State<BarberFeed> {
                     ),
                     Row(
                       children: [
-
                         SizedBox(
                           width: 10.w,
                         ),
                         Center(
                           child: DottedBorder(
                             padding: const EdgeInsets.all(25),
-                            // Border thickness
                             child: GestureDetector(
-                              onTap: _pickImage, // Open camera when clicked
+                              onTap: () => _showBottomSheet(context),
                               child: Column(
                                 children: [
-                                  _imageFile == null
+                                  _mediaFile == null
                                       ? const Icon(
                                     Icons.add,
                                     color: Colors.white,
                                   )
-                                      : Image.file(
-                                    File(_imageFile!.path),
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
+                                      : _mediaFile!.extension == 'mp4'
+                                      ? Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                        BorderRadius.circular(12),
+                                        child: _videoThumbnailPath !=
+                                            null
+                                            ? Image.file(
+                                          File(
+                                              _videoThumbnailPath!),
+                                          height: 100,
+                                          width: 100,
+                                          fit: BoxFit.cover,
+                                        )
+                                            : Container(
+                                          height: 100,
+                                          width: 100,
+                                          color:
+                                          Colors.black26,
+                                        ),
+                                      ),
+                                      Positioned.fill(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.black54,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Padding(
+                                              padding:
+                                              EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.play_arrow,
+                                                color: Colors.white,
+                                                size: 32,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                      : ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(12),
+                                    child: Image.file(
+                                      File(_mediaFile!.path!),
+                                      height: 100,
+                                      width: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                   const CustomText(
                                     text: AppStrings.upload,

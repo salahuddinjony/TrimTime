@@ -10,11 +10,13 @@ import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_radio_button/custom_radio_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class BarberEditProfile extends StatefulWidget {
   const BarberEditProfile({
@@ -39,6 +41,125 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
       });
     } else {
       print('No image selected.');
+    }
+  }
+
+  File? _imageFile;
+  String? _videoThumbnailPath;
+
+
+  Future<void> _showPickerOptions() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Pick Image from Gallery'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickImageFromGallery();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_library),
+              title: const Text('Pick Video File'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickVideoFile();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _imageFile = File(pickedImage.path);
+        _videoThumbnailPath = null; // clear video thumbnail if any
+      });
+    }
+  }
+
+  Future<void> _pickVideoFile() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.video);
+    if (result != null && result.files.isNotEmpty) {
+      final videoPath = result.files.first.path;
+      if (videoPath != null) {
+        final thumb = await VideoThumbnail.thumbnailFile(
+          video: videoPath,
+          imageFormat: ImageFormat.PNG,
+          maxWidth: 200,
+          quality: 75,
+        );
+        setState(() {
+          _videoThumbnailPath = thumb;
+          _imageFile = null; // clear image file if any
+        });
+      }
+    }
+  }
+
+  Widget _buildThumbnail() {
+    if (_imageFile != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.file(
+          _imageFile!,
+          height: 78,
+          width: 96,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (_videoThumbnailPath != null) {
+      return Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              File(_videoThumbnailPath!),
+              height: 78,
+              width: 96,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  shape: BoxShape.circle,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          AppConstants.demoImage,
+          height: 78,
+          width: 96,
+          fit: BoxFit.cover,
+        ),
+      );
     }
   }
   @override
@@ -218,6 +339,29 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                       height: 20.h,
                     ),
 
+                    Row(
+                      children: [
+                        _buildThumbnail(),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: _showPickerOptions,
+                          child: Container(
+                            height: 78,
+                            width: 96,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.blueAccent),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.add_circle_outline_outlined,
+                              color: Colors.blueAccent,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
                     SizedBox(
                       height: 20.h,

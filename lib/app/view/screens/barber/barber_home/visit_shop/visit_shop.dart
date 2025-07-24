@@ -81,7 +81,8 @@ class _VisitShopState extends State<VisitShop> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _customButton(isFollowing ? "Unfollow" : "Follow", Icons.person_add),
+                            _customButton(isFollowing ? "Unfollow" : "Follow",
+                                Icons.person_add),
                             const SizedBox(width: 10),
                             _iconButton(Assets.images.chartSelected.image(
                               color: Colors.white,
@@ -103,6 +104,26 @@ class _VisitShopState extends State<VisitShop> {
                           ),
                         ),
                         const SizedBox(height: 15),
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: GestureDetector(
+                            onTap: (){
+                              _showInformationDialog(context);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(6.r),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(color: AppColors.black),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: CustomText(
+                                text: "more info",
+                                fontSize: 12.sp,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -172,32 +193,36 @@ class _VisitShopState extends State<VisitShop> {
                         text: "Skills & Experience(5 years )",
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.black,
+                        color: AppColors.gray600,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Column(
                         children: List.generate(4, (index) {
-                          return const Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.black,
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 5,
-                                  text:
-                                      "Fades & Tapers –Clean low, mid, high, and skin fades",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.arrow_forward,
+                                    color: AppColors.white),
+                                SizedBox(
+                                  width: 20,
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: CustomText(
+                                    textAlign: TextAlign.start,
+                                    maxLines: 5,
+                                    text:
+                                        "Fades & Tapers –Clean low, mid, high, and skin fades",
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.gray600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         }),
                       ),
@@ -206,7 +231,7 @@ class _VisitShopState extends State<VisitShop> {
                         text: 'Photo Gallery',
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.white50,
+                        color: AppColors.black,
                         bottom: 10,
                       ),
 
@@ -218,30 +243,30 @@ class _VisitShopState extends State<VisitShop> {
                         height: 20,
                       ),
 
-
-                      userRole == UserRole.owner?
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 5,
-                              child: CustomButton(
-                                title: AppStrings.rejected,
-                                onTap: () {},
-                                fillColor: Colors.white,
-                              )),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                              flex: 5,
-                              child: CustomButton(
-                                onTap: () {},
-                                fillColor: AppColors.bottomColor,
-                                title: AppStrings.approve,
-                                textColor: Colors.white,
-                              )),
-                        ],
-                      ):const SizedBox(),
+                      userRole == UserRole.owner
+                          ? Row(
+                              children: [
+                                Expanded(
+                                    flex: 5,
+                                    child: CustomButton(
+                                      title: AppStrings.rejected,
+                                      onTap: () {},
+                                      fillColor: Colors.white,
+                                    )),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                    flex: 5,
+                                    child: CustomButton(
+                                      onTap: () {},
+                                      fillColor: AppColors.bottomColor,
+                                      title: AppStrings.approve,
+                                      textColor: Colors.white,
+                                    )),
+                              ],
+                            )
+                          : const SizedBox(),
 
                       const SizedBox(
                         height: 50,
@@ -256,7 +281,6 @@ class _VisitShopState extends State<VisitShop> {
       ),
     );
   }
-
 
   // Function to toggle Follow/Unfollow state
   void _toggleFollow() {
@@ -290,12 +314,14 @@ class _VisitShopState extends State<VisitShop> {
       ),
     );
   }
+
   Widget _iconButton(Widget icon) {
     return GestureDetector(
-        onTap: (){
-          AppRouter.route
-              .pushNamed(RoutePath.chatScreen, );
-        },
+      onTap: () {
+        AppRouter.route.pushNamed(
+          RoutePath.chatScreen,
+        );
+      },
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -306,4 +332,123 @@ class _VisitShopState extends State<VisitShop> {
       ),
     );
   }
+}
+
+
+void _showInformationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: AppColors.white50,
+        title: CustomText(
+          text: "Information",
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w400,
+          color: AppColors.black,
+        ),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "James Tracy",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.cake,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "22-03-1998",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.email,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "James@gmail.com",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.phone,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "+44 26537 26347",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "Abu Dhabi",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
 }

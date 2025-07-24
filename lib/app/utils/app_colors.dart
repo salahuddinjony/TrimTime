@@ -6,6 +6,7 @@ class AppColors {
   ///============================ Red Series ===============================
 
   static const Color gray500 = Color(0xff333333);
+  static const Color gray600 = Color(0xff2F2E2E);
   static const Color gray300 = Color(0xff777676);
   static const Color brown50 = Color(0xffF9F5F0);
   static const Color black = Color(0xff03080D);

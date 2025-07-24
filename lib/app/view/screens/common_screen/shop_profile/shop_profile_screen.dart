@@ -231,28 +231,31 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
                             color: AppColors.black,
                           ),
 
-                          Row(
-                            children: List.generate(4, (index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    CustomNetworkImage(
-                                        imageUrl: AppConstants.demoImage,
-                                        height: 58.h,
-                                        boxShape: BoxShape.circle,
-                                        width: 58.h),
-                                    const CustomText(
-                                      text: "Jacob Jones",
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.black,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(4, (index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CustomNetworkImage(
+                                          imageUrl: AppConstants.demoImage,
+                                          height: 58.h,
+                                          boxShape: BoxShape.circle,
+                                          width: 58.h),
+                                      const CustomText(
+                                        text: "Jacob Jones",
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.black,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
                           ),
 
                           const SizedBox(

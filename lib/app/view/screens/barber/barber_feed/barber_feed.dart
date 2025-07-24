@@ -32,23 +32,69 @@ class _BarberFeedState extends State<BarberFeed> {
   PlatformFile? _mediaFile;
   String? _videoThumbnailPath;
 
-  // Pick image from camera
-  Future<void> _pickImageFromCamera() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.camera,
-    );
+  Future<void> _pickMediaFromCamera() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Capture Image'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  final XFile? pickedFile = await _picker.pickImage(
+                    source: ImageSource.camera,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      _mediaFile = PlatformFile(
+                        name: pickedFile.name,
+                        path: pickedFile.path,
+                        size: File(pickedFile.path).lengthSync(),
+                      );
+                      _videoThumbnailPath = null;
+                    });
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.videocam),
+                title: const Text('Capture Video'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  final XFile? pickedFile = await _picker.pickVideo(
+                    source: ImageSource.camera,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      _mediaFile = PlatformFile(
+                        name: pickedFile.name,
+                        path: pickedFile.path,
+                        size: File(pickedFile.path).lengthSync(),
+                      );
+                    });
 
-    if (pickedFile != null) {
-      setState(() {
-        _mediaFile = PlatformFile(
-          name: pickedFile.name,
-          path: pickedFile.path,
-          size: File(pickedFile.path).lengthSync(),
+                    final thumb = await VideoThumbnail.thumbnailFile(
+                      video: pickedFile.path,
+                      imageFormat: ImageFormat.PNG,
+                      maxWidth: 200,
+                      quality: 75,
+                    );
+                    setState(() {
+                      _videoThumbnailPath = thumb;
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
         );
-        _videoThumbnailPath = null;
-      });
-    }
+      },
+    );
   }
+
 
   // Pick image or video from gallery
   Future<void> _pickMediaFromGallery() async {
@@ -94,7 +140,8 @@ class _BarberFeedState extends State<BarberFeed> {
                 title: const Text('Camera'),
                 onTap: () {
                   Navigator.of(context).pop();
-                  _pickImageFromCamera();
+                  _pickMediaFromCamera(); // call updated method
+
                 },
               ),
               ListTile(
@@ -158,11 +205,11 @@ class _BarberFeedState extends State<BarberFeed> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const CustomText(
-                      text: "Choice image / video",
+                      text: "Upload Video or Image",
                       fontWeight: FontWeight.w500,
                       color: AppColors.black,
                       fontSize: 16,
-                      bottom: 8,
+                      bottom: 12,
                     ),
                     Row(
                       children: [
@@ -207,7 +254,7 @@ class _BarberFeedState extends State<BarberFeed> {
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.black54,
                                               shape: BoxShape.circle,
                                             ),

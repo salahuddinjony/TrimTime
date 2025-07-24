@@ -148,7 +148,7 @@ class CommonHomeAppBar extends StatelessWidget {
                       child: Container(
                           padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: CustomText(
@@ -166,7 +166,7 @@ class CommonHomeAppBar extends StatelessWidget {
                       child: Container(
                           padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: const Icon(Icons.calendar_month)),

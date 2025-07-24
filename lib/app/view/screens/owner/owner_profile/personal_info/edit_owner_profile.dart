@@ -33,6 +33,10 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
 
   final ImagePicker _picker = ImagePicker();
 
+
+  File? _videoFile;
+
+
   Future<void> _showPickerOptions() async {
     showModalBottomSheet(
       context: context,
@@ -40,19 +44,19 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
         child: Wrap(
           children: [
             ListTile(
-              leading: const Icon(Icons.photo),
-              title: const Text('Pick Image from Gallery'),
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
               onTap: () {
                 Navigator.of(context).pop();
-                _pickImageFromGallery();
+                _showCameraOptions();
               },
             ),
             ListTile(
-              leading: const Icon(Icons.video_library),
-              title: const Text('Pick Video File'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Gallery'),
               onTap: () {
                 Navigator.of(context).pop();
-                _pickVideoFile();
+                _showGalleryOptions();
               },
             ),
           ],
@@ -61,34 +65,108 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
     );
   }
 
-  Future<void> _pickImageFromGallery() async {
-    final XFile? pickedImage =
-    await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _imageFile = File(pickedImage.path);
-        _videoThumbnailPath = null; // clear video thumbnail if any
-      });
-    }
+  Future<void> _showCameraOptions() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera),
+              title: const Text('Capture Image'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage = await _picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                if (pickedImage != null) {
+                  setState(() {
+                    _imageFile = File(pickedImage.path);
+                    _videoThumbnailPath = null;
+                    _videoFile = null;
+                  });
+                }
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.videocam),
+              title: const Text('Capture Video'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedVideo = await _picker.pickVideo(
+                  source: ImageSource.camera,
+                );
+                if (pickedVideo != null) {
+                  final thumb = await VideoThumbnail.thumbnailFile(
+                    video: pickedVideo.path,
+                    imageFormat: ImageFormat.PNG,
+                    maxWidth: 200,
+                    quality: 75,
+                  );
+                  setState(() {
+                    _videoFile = File(pickedVideo.path);
+                    _videoThumbnailPath = thumb;
+                    _imageFile = null;
+                  });
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Future<void> _pickVideoFile() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.video);
-    if (result != null && result.files.isNotEmpty) {
-      final videoPath = result.files.first.path;
-      if (videoPath != null) {
-        final thumb = await VideoThumbnail.thumbnailFile(
-          video: videoPath,
-          imageFormat: ImageFormat.PNG,
-          maxWidth: 200,
-          quality: 75,
-        );
-        setState(() {
-          _videoThumbnailPath = thumb;
-          _imageFile = null; // clear image file if any
-        });
-      }
-    }
+  Future<void> _showGalleryOptions() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Pick Image from Gallery'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage =
+                await _picker.pickImage(source: ImageSource.gallery);
+                if (pickedImage != null) {
+                  setState(() {
+                    _imageFile = File(pickedImage.path);
+                    _videoThumbnailPath = null;
+                    _videoFile = null;
+                  });
+                }
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_library),
+              title: const Text('Pick Video File'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final result = await FilePicker.platform.pickFiles(type: FileType.video);
+                if (result != null && result.files.isNotEmpty) {
+                  final videoPath = result.files.first.path;
+                  if (videoPath != null) {
+                    final thumb = await VideoThumbnail.thumbnailFile(
+                      video: videoPath,
+                      imageFormat: ImageFormat.PNG,
+                      maxWidth: 200,
+                      quality: 75,
+                    );
+                    setState(() {
+                      _videoFile = File(videoPath);
+                      _videoThumbnailPath = thumb;
+                      _imageFile = null;
+                    });
+                  }
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildThumbnail() {
@@ -147,6 +225,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
@@ -281,28 +360,8 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                  ),
                  Row(
                    children: [
-                     // CustomNetworkImage(
-                     //     borderRadius: BorderRadius.circular(10),
-                     //     imageUrl: AppConstants.style1,
-                     //     height: 78,
-                     //     width: 96),
-                     // SizedBox(
-                     //   width: 10.w,
-                     // ),
-                     // Container(
-                     //   height: 78,
-                     //   width: 96,
-                     //   decoration: BoxDecoration(
-                     //       color: AppColors.white,
-                     //       border: Border.all(color: AppColors.secondary),
-                     //       borderRadius: BorderRadius.circular(10)),
-                     //   child: const Icon(
-                     //     Icons.add_circle_outline_outlined,
-                     //     color: AppColors.secondary,
-                     //   ),
-                     // ),
                      _buildThumbnail(),
-                     SizedBox(width: 10),
+                     SizedBox(width: 10.w),
                      GestureDetector(
                        onTap: _showPickerOptions,
                        child: Container(
@@ -322,6 +381,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                      ),
                    ],
                  ),
+
 
                  SizedBox(
                    height: 20.h,

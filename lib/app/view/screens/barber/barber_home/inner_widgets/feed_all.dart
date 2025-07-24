@@ -6,6 +6,7 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class FeedAll extends StatelessWidget {
@@ -33,27 +34,51 @@ class FeedAll extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: SingleChildScrollView(
-          child: Column(
+          child:    Column(
             children: List.generate(4, (index) {
-              return CustomFeedCard(
-                userImageUrl: AppConstants.demoImage,
-                userName: "Roger Hunt",
-                userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                postImageUrl: AppConstants.demoImage,
-                postText:
-                    "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
-                rating: "5.0 * (169)",
-                onFavoritePressed: () {
-                },
-                onVisitShopPressed: () {
-                  AppRouter.route.pushNamed(
-                      RoutePath.visitShop,
-                      extra: userRole);
-                  // Handle visit shop button press
-                },
+              final postUrl = index == 0
+                  ? AppConstants.demoImage
+                  : "https://www.youtube.com/watch?v=vE4jYKyv_GM"; // YouTube ভিডিও URL
+
+              return Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: CustomFeedCard(
+                  userImageUrl: AppConstants.demoImage,
+                  userName: "Roger Hunt",
+                  userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                  postImageUrl: postUrl,
+                  postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
+                  rating: "5.0 ★ (169)",
+                  onFavoritePressed: () {},
+                  onVisitShopPressed: () => AppRouter.route.pushNamed(
+                    RoutePath.shopProfileScreen,
+                    extra: userRole,
+                  ),
+                ),
               );
             }),
           ),
+          // Column(
+          //   children: List.generate(4, (index) {
+          //     return CustomFeedCard(
+          //       userImageUrl: AppConstants.demoImage,
+          //       userName: "Roger Hunt",
+          //       userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+          //       postImageUrl: AppConstants.demoImage,
+          //       postText:
+          //           "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+          //       rating: "5.0 * (169)",
+          //       onFavoritePressed: () {
+          //       },
+          //       onVisitShopPressed: () {
+          //         AppRouter.route.pushNamed(
+          //             RoutePath.visitShop,
+          //             extra: userRole);
+          //         // Handle visit shop button press
+          //       },
+          //     );
+          //   }),
+          // ),
         ),
       ),
     );

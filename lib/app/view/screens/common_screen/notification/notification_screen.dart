@@ -34,6 +34,7 @@ class NotificationScreen extends StatelessWidget {
         clipper: CurvedBannerClipper(),
         child: Container(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height/1.5,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [

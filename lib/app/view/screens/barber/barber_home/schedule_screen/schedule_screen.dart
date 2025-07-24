@@ -34,12 +34,15 @@ class ScheduleScreen extends StatelessWidget {
         clipper: CurvedShortClipper(),
         child: Container(
           width: double.infinity,
+
           height: MediaQuery.of(context).size.height / 1.8,
           decoration: const BoxDecoration(
+            // color: Colors.transparent,
             gradient: LinearGradient(
               colors: [
-                Color(0xCCEDBFA5), // First color (with opacity)
-                Color(0xFFE9854C),
+                Color(0xCCEDBEA3), // First color (with opacity)
+                Color(0xFFE98F5A),
+
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

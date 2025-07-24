@@ -8,8 +8,12 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class OwnerQue extends StatefulWidget {
   const OwnerQue({super.key});
@@ -33,36 +37,41 @@ class _OwnerQueState extends State<OwnerQue> {
       );
     }
     return Scaffold(
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: 1,
-        role: userRole,
-      ),
-      backgroundColor: AppColors.searchUserFillColor,
-      appBar: const CustomAppBar(
-        appBarContent: AppStrings.activeNow,
-        appBarBgColor: AppColors.searchUserFillColor,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            // List of barbers with queue details
-            Expanded(
-              child: ListView.builder(
-                itemCount: 4, // Number of barbers
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
+        bottomNavigationBar: BottomNavbar(
+          currentIndex: 1,
+          role: userRole,
+        ),
+        backgroundColor: AppColors.white,
+        appBar: const CustomAppBar(
+          appBarContent: AppStrings.activeNow,
+          appBarBgColor: AppColors.linearFirst,
+        ),
+        body: ClipPath(
+            clipper: CurvedBannerClipper(),
+            child: Container(
+              height: MediaQuery.of(context).size.height / 1.5,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDBC9F), // First color (with opacity)
+                    Color(0xFFE98952),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
                           children: [
                             CustomNetworkImage(
                               imageUrl: AppConstants.demoImage,
@@ -70,100 +79,221 @@ class _OwnerQueState extends State<OwnerQue> {
                               width: 62,
                               boxShape: BoxShape.circle,
                             ),
-                            const SizedBox(width: 15),
-                            // User Info and Time Slot
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Jane Cooper', // Example name
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    '9:00 - 11:00', // Example time slot
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // "See Queue" Button
-                            ElevatedButton(
-                              onPressed: () {
-                                AppRouter.route.pushNamed(RoutePath.queScreen,
-                                    extra: userRole);
-                                debugPrint(
-                                    'See Queue clicked for barber ${index + 1}');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black, // Button color
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                'See Queue',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            CustomText(
+                              text: "Jane Cooper",
+                              fontSize: 13.sp,
+                              top: 8,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray500,
                             ),
                           ],
                         ),
-                      ),
+                        const Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            CustomText(
+                              textAlign: TextAlign.end,
+                              text: "9:00-11:00",
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray500,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10.r),
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: AppColors.black),
+                                      shape: BoxShape.circle),
+                                  child: CustomText(
+                                    text: "1",
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20.h,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    AppRouter.route.pushNamed(
+                                        RoutePath.queScreen,
+                                        extra: userRole);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.r),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.black,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: CustomText(
+                                      text: "See Queue",
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
+                    SizedBox(
+                      height: 35.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            CustomNetworkImage(
+                              imageUrl: AppConstants.demoImage,
+                              height: 62,
+                              width: 62,
+                              boxShape: BoxShape.circle,
+                            ),
+                            CustomText(
+                              text: "Jane Cooper",
+                              fontSize: 13.sp,
+                              top: 8,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray500,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            CustomText(
+                              textAlign: TextAlign.end,
+                              text: "9:00-11:00",
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray500,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10.r),
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: AppColors.black),
+                                      shape: BoxShape.circle),
+                                  child: CustomText(
+                                    text: "2",
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20.h,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    AppRouter.route.pushNamed(
+                                        RoutePath.queScreen,
+                                        extra: userRole);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.r),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.black,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: CustomText(
+                                      text: "See Queue",
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5.r),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.black),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Text(
+                            'Enable',
+                            style:
+                                TextStyle(fontSize: 16, color: AppColors.white),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Switch(
+                          activeTrackColor: AppColors.black,
+                          activeColor: AppColors.secondary,
+                          value: isQueueEnabled,
+                          onChanged: (bool value) {
+                            setState(() {
+                              isQueueEnabled = value; // Update the state
+                            });
+                            debugPrint(
+                                'Queue is ${isQueueEnabled ? 'enabled' : 'disabled'}');
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    CustomButton(
+                      onTap: () {
+                        showChooseBarberDialog(context);
+                      },
+                      textColor: AppColors.white,
+                      fillColor: AppColors.black,
+                      title: AppStrings.addNewCustomer,
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            // Enable/Disable Queue switch
-            // Enable/Disable Queue switch
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Enable Queue',
-                  style: TextStyle(fontSize: 16),
-                ),
-                Switch(
-                  value: isQueueEnabled,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isQueueEnabled = value; // Update the state
-                    });
-                    debugPrint(
-                        'Queue is ${isQueueEnabled ? 'enabled' : 'disabled'}');
-                  },
-                ),
-              ],
-            ),
-
-            CustomButton(
-              onTap: () {
-                showChooseBarberDialog(context);
-              },
-              textColor: AppColors.white,
-              fillColor: AppColors.black,
-              title: AppStrings.addNewCustomer,
-            )
-          ],
-        ),
-      ),
-    );
+            )));
   }
 
   void showChooseBarberDialog(BuildContext context) {
     // Define a list of selected barbers and services
-    List<bool> selectedBarbers = List.filled(5, false);  // Assuming 5 barbers
+    List<bool> selectedBarbers = List.filled(5, false); // Assuming 5 barbers
     List<bool> selectedServices = List.filled(4, false); // 4 service options
 
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+      barrierDismissible: false,
+      // Prevent dismissing the dialog by tapping outside
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -254,8 +384,10 @@ class _OwnerQueState extends State<OwnerQue> {
               onPressed: () {
                 // Handle saving the queue
                 // Print selected barbers and services (you can replace this with saving functionality)
-                print("Selected Barbers: ${selectedBarbers.where((e) => e).toList()}");
-                print("Selected Services: ${selectedServices.where((e) => e).toList()}");
+                print(
+                    "Selected Barbers: ${selectedBarbers.where((e) => e).toList()}");
+                print(
+                    "Selected Services: ${selectedServices.where((e) => e).toList()}");
 
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -266,5 +398,4 @@ class _OwnerQueState extends State<OwnerQue> {
       },
     );
   }
-
 }

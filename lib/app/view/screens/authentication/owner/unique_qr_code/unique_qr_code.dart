@@ -47,8 +47,8 @@ class _UniqueQrCodeState extends State<UniqueQrCode> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
+                    Color(0xCCEDBB9D), // First color (with opacity)
+                    Color(0xFFEA8F5C),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

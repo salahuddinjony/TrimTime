@@ -36,63 +36,65 @@ class _BarberScheduleScreenState extends State<BarberAddedScreen> {
           iconData: Icons.arrow_back,
         ),
         backgroundColor: const Color(0xFFFFD0A3),
-        body: Column(
-          children: [
-            ClipPath(
-                clipper: CurvedBannerClipper(),
-                child: Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 1.3,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xCCEDC4AC), // First color (with opacity)
-                        Color(0xFFE9864E),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ClipPath(
+                  clipper: CurvedBannerClipper(),
+                  child: Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xCCEDC4AC), // First color (with opacity)
+                          Color(0xFFE9864E),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                     ),
-                  ),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        toggleButtons(),
-                        const SizedBox(height: 20),
-                        const Text("Select Barber",
-                            style: TextStyle(fontSize: 16)),
-                        const SizedBox(height: 8),
-                        DropdownButtonFormField<String>(
-                          decoration: dropdownDecoration(),
-                          value: selectedBarber,
-                          hint: const Text("Barber name"),
-                          items: barbers
-                              .map((e) =>
-                                  DropdownMenuItem(value: e, child: Text(e)))
-                              .toList(),
-                          onChanged: (value) =>
-                              setState(() => selectedBarber = value),
-                        ),
-                        const SizedBox(height: 20),
-                        scheduleHeader(),
-                        ...scheduleFields(),
-                      ],
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          toggleButtons(),
+                          const SizedBox(height: 20),
+                          const Text("Select Barber",
+                              style: TextStyle(fontSize: 16)),
+                          const SizedBox(height: 8),
+                          DropdownButtonFormField<String>(
+                            decoration: dropdownDecoration(),
+                            value: selectedBarber,
+                            hint: const Text("Barber name"),
+                            items: barbers
+                                .map((e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)))
+                                .toList(),
+                            onChanged: (value) =>
+                                setState(() => selectedBarber = value),
+                          ),
+                          const SizedBox(height: 20),
+                          scheduleHeader(),
+                          ...scheduleFields(),
+                        ],
+                      ),
                     ),
-                  ),
-                )),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-              child: CustomButton(
-                onTap: () {
-                  context.pop();
-                },
-                title: AppStrings.save,
-                fillColor: Colors.black,
-                textColor: Colors.white,
-              ),
-            )
-          ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                child: CustomButton(
+                  onTap: () {
+                    context.pop();
+                  },
+                  title: AppStrings.save,
+                  fillColor: Colors.black,
+                  textColor: Colors.white,
+                ),
+              )
+            ],
+          ),
         ));
   }
 

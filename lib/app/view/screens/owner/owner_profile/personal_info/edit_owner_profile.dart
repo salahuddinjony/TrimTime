@@ -289,7 +289,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                      isBgColor: true,
                      isBorderColor: true,
                      title: AppStrings.dateOfBirth,
-                     controller: TextEditingController(text: '22/10/2024l'),
+                     controller: TextEditingController(text: '22/10/2024'),
                      validator: (v) {
                        return null;
                      }),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -9,30 +10,50 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
-class EditProfessionalProfile extends StatelessWidget {
+class EditProfessionalProfile extends StatefulWidget {
   const EditProfessionalProfile({super.key});
+
+  @override
+  State<EditProfessionalProfile> createState() => _EditProfessionalProfileState();
+}
+
+class _EditProfessionalProfileState extends State<EditProfessionalProfile> {
+  File? _pickedImage;
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 75,
+    );
+
+    if (image != null) {
+      setState(() {
+        _pickedImage = File(image.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouter.of(context).state.extra as UserRole?;
 
-    debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
         body: const Center(child: Text('No user role received')),
       );
     }
+
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
-      //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: "Edit Barber Profile",
         iconData: Icons.arrow_back,
       ),
-
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -62,40 +83,35 @@ class EditProfessionalProfile extends StatelessWidget {
                         children: [
                           SizedBox(height: 50.h),
                           CustomFromCard(
-                              title: AppStrings.name,
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),
+                            title: AppStrings.name,
+                            controller: TextEditingController(),
+                            validator: (v) => null,
+                          ),
                           SizedBox(height: 20.h),
                           CustomFromCard(
-                              title: "Bio",
-                              maxLine: 5,
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),
+                            title: "Bio",
+                            maxLine: 5,
+                            controller: TextEditingController(),
+                            validator: (v) => null,
+                          ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
-                              title: "Experience",
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),
+                            title: "Experience",
+                            controller: TextEditingController(),
+                            validator: (v) => null,
+                          ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
-                              title: "Current Work",
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),
+                            title: "Current Work",
+                            controller: TextEditingController(),
+                            validator: (v) => null,
+                          ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
-                              title: "Add Skill",
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),
+                            title: "Add Skill",
+                            controller: TextEditingController(),
+                            validator: (v) => null,
+                          ),
                           CustomButton(
                             onTap: () {
                               context.pop();
@@ -108,23 +124,33 @@ class EditProfessionalProfile extends StatelessWidget {
                         ],
                       ),
                     ),
+
+                    // ================= IMAGE ====================
                     Positioned(
                       top: 0,
                       child: Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          //==================✅✅Image✅✅===================
-                          CustomNetworkImage(
-                            imageUrl: AppConstants.demoImage,
-                            height: 100,
-                            width: 100,
-                            boxShape: BoxShape.circle,
+                          ClipOval(
+                            child: _pickedImage != null
+                                ? Image.file(
+                              _pickedImage!,
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            )
+                                : CustomNetworkImage(
+                              imageUrl: AppConstants.demoImage,
+                              height: 100,
+                              width: 100,
+                              boxShape: BoxShape.circle,
+                            ),
                           ),
                           Positioned(
                             right: 0,
                             bottom: 0,
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: _pickImage,
                               child: const CircleAvatar(
                                 radius: 16,
                                 backgroundColor: AppColors.black,
@@ -148,38 +174,4 @@ class EditProfessionalProfile extends StatelessWidget {
       ),
     );
   }
-
-// //follow button and chart button
-// Widget _customButton(String text, IconData icon) {
-//   return Container(
-//     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-//     decoration: BoxDecoration(
-//       color: AppColors.black,
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: Row(
-//       children: [
-//         Icon(icon, size: 14, color: Colors.white),
-//         const SizedBox(width: 6),
-//         CustomText(
-//           text: text,
-//           fontSize: 12,
-//           fontWeight: FontWeight.w700,
-//           color: Colors.white,
-//         ),
-//       ],
-//     ),
-//   );
-// }
-//
-// Widget _iconButton(Widget icon) {
-//   return Container(
-//     padding: const EdgeInsets.all(8),
-//     decoration: BoxDecoration(
-//       color: AppColors.black,
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: icon,
-//   );
-// }
 }

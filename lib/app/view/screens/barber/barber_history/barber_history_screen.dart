@@ -7,6 +7,8 @@ import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_bo
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+
 class BarberHistoryScreen extends StatelessWidget {
   const BarberHistoryScreen({super.key});
 
@@ -22,7 +24,7 @@ class BarberHistoryScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.white,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: AppColors.linearFirst,
@@ -32,21 +34,36 @@ class BarberHistoryScreen extends StatelessWidget {
           currentIndex: 3,
           role: userRole,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          child: CustomBorderCard(
-            title: 'Barber Shop',
-            time: '10:00am-10:00pm',
-            price: '£20.00/Per hr',
-            date: '02/10/23',
-            buttonText: 'Completed',
-            isButton: false,
-            onButtonTap: () {
-              // Handle button tap logic
-            },
-            logoImage: Assets.images.logo.image(height: 50),
-            seeDescriptionTap: () {},
-          ),
-        ));
+        body: ClipPath(
+            clipper: CurvedBannerClipper(),
+            child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xCCEDC1A8), // First color (with opacity)
+                      Color(0xFFE9874F),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  child: CustomBorderCard(
+                    title: 'Barber',
+                    time: '10:00am-10:00pm',
+                    price: '£20.00/Per hr',
+                    date: '02/10/23',
+                    buttonText: 'Completed',
+                    isButton: false,
+                    onButtonTap: () {
+                      // Handle button tap logic
+                    },
+                    logoImage: Assets.images.time.image(height: 50),
+                    seeDescriptionTap: () {},
+                  ),
+                ))));
   }
 }

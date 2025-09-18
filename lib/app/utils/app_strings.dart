@@ -12,6 +12,7 @@ class AppStrings {
   static const inAWorldFullOFTrends =
       "In a world full of trends, a fresh fade never goes out of style.";
   static const signInWithApple = "Sign in with Apple";
+  static const someThing = "Something went wrong. Please try again.";
   static const signInWithFacebook = "Sign in with Facebook";
   static const signInWithGoogle = "Sign in with Google";
   static const signInWithEmail = "Sign in with Email";

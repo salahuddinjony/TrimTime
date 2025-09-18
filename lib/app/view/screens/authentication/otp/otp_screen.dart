@@ -1,5 +1,3 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -16,7 +14,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
+  final String isOwner;
+  OtpScreen({super.key, required this.isOwner});
 
   final AuthController authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
@@ -135,13 +134,18 @@ class OtpScreen extends StatelessWidget {
                 isRadius: false,
                 width: MediaQuery.of(context).size.width,
                 onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    isForget
-                        ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
-                        extra: userRole)
-                        :  AppRouter.route.goNamed(RoutePath.signInScreen,
-                        extra: userRole);
-                  }
+                  authController.pinCodeController.text = authController.pinCodeController.text.trim();
+                  debugPrint("OTP Entered: ${authController.pinCodeController.text}");
+
+                  authController.userAccountActiveOtp(isOwner: isOwner == 'true');
+
+                  // if (formKey.currentState!.validate()) {
+                  //   isForget
+                  //       ?  AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                  //       extra: userRole)
+                  //       :  AppRouter.route.goNamed(RoutePath.signInScreen,
+                  //       extra: userRole);
+                  // }
                 },
                 title: AppStrings.verifyCode,
                 fillColor: AppColors.black,

@@ -8,13 +8,16 @@ class ApiUrl {
 
   ///================================= User Authentication url==========================
   static const login = "/auth/login";
+  static const register = "/users/register";
+
+
   static const forgetPassword = "/auth/forget-password/send-otp";
-  static const register = "/auth/register";
-  static const emailVerify = "/auth/verify-email";
+  static const emailVerify = "/users/verify-otp";
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
   static const resetPassword = "/auth/reset-password";
   static const changePassword = "/auth/change-password";
+  static const registerShop = "/users/register/saloon-owner";
 
 
 

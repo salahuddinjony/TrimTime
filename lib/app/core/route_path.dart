@@ -9,6 +9,7 @@ class RoutePath{
   static const String choseRoleScreen = 'choseRoleScreen';
   static const String choseAuthScreen = 'choseAuthScreen';
   static const String getStartedScreen = 'getStartedScreen';
+
   //=================== Auth screens ===================
   static const String signInScreen = 'signInScreen';
   static const String signUpScreen = 'signUpScreen';
@@ -20,6 +21,7 @@ class RoutePath{
   static const String subscriptionPlan = 'SubscriptionPlan';
   static const String paymentOption = 'PaymentOption';
   static const String uniqueQrCode = 'UniqueQrCode';
+  
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   static const String queScreen = 'QueScreen';
@@ -34,6 +36,8 @@ class RoutePath{
   static const String mapViewScreen = 'MapViewScreen';
   static const String bookingScreen = 'BookingScreen';
   static const String bookingDetailsScreen = 'BookingDetailsScreen';
+
+
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

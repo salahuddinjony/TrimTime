@@ -2,6 +2,7 @@ import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -12,6 +13,7 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
@@ -178,9 +180,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: AppStrings.chat,
-                          icon: Assets.images.chartSelected.image(
-
-                          ),
+                          icon: Assets.images.chartSelected.image(),
                         )
                       : const SizedBox(),
                   //TOdo=====barber====
@@ -311,9 +311,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: userRole);
                           },
                           text: "My Booking",
-                          icon: Assets.images.myBooking.image(
-
-                          ),
+                          icon: Assets.images.myBooking.image(),
                         )
                       : const SizedBox(),
 
@@ -340,7 +338,14 @@ class ProfileScreen extends StatelessWidget {
                           ontapNo: () {
                             context.pop();
                           },
-                          ontapYes: () {
+                          ontapYes: () async {
+                            debugPrint("Log Out");
+
+                            await SharePrefsHelper.remove();
+                            Get.deleteAll(
+                                force:
+                                    true); //its indicates to clear all controllers before navigating
+                            context.goNamed(RoutePath.signInScreen);
                             AppRouter.route.goNamed(
                               RoutePath.choseRoleScreen,
                             );

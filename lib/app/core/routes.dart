@@ -193,15 +193,19 @@ class AppRouter {
             state: state,
           ),
         ),
-
         ///======================= OtpScreen Route =======================
         GoRoute(
           name: RoutePath.otpScreen,
           path: RoutePath.otpScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: OtpScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final isOwner = extra['isOwner'] as bool?;
+
+            return _buildPageWithAnimation(
+              child: OtpScreen(isOwner: isOwner != null && isOwner ? 'true' : 'false'),
+              state: state,
+            );
+          }
         ),
 
         ///======================= OtpScreen Route =======================

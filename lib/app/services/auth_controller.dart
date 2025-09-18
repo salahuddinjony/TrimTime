@@ -22,8 +22,6 @@ class AuthController extends GetxController with PasswordConstraintController {
 //for sign-in and sing-up
 
   final fullNameController = TextEditingController(text: "Salah Uddin");
-  final addressController = TextEditingController(text: "Dhaka, Bangladesh");
-  final regNumberController= TextEditingController(text: "123456");
 
   // //for CUSTOMER SIGN UP
   // final emailController = TextEditingController(text: "efazkh@gmail.com");
@@ -34,16 +32,13 @@ class AuthController extends GetxController with PasswordConstraintController {
   // final passwordController = TextEditingController(text: "12345678");
 
   // //for Barber SIGN UP
-  final emailController = TextEditingController(text: "magomaw443@obirah.com");
+  final emailController =
+      TextEditingController(text: "xotovip516@merumart.com");
   final passwordController = TextEditingController(text: "12345678");
+
   final confirmPasswordController = TextEditingController(text: "12345678");
 
   final pinCodeController = TextEditingController();
-
-// Owner Sign In
-//  final emailController =
-//       TextEditingController(text: "magomaw443@obirah.com");
-//   final passwordController = TextEditingController(text: "12345678");
 
   RxBool isRemember = false.obs;
 
@@ -156,53 +151,24 @@ class AuthController extends GetxController with PasswordConstraintController {
     }
   }
 
-//==============Initial route for the app lunching,Determines the initial route based on saved token and role.=============================
+//==============Initial route for the app lunching-============
 
- 
   static Future<String> getInitialRoute() async {
     await SharePrefsHelper.init();
 
     final token = await SharePrefsHelper.getString(AppConstants.bearerToken);
     final role = await SharePrefsHelper.getString(AppConstants.role);
-     debugPrint("Saved Token: $token");
-      debugPrint("Saved Role: $role");
 
     if (token.isNotEmpty) {
-     debugPrint("Token exists, user is logged in.");
-      if (role =='BARBER') {
-        debugPrint("User Role: BARBER, navigating to barber home.");
-        return RoutePath.barberHomeScreen;
-      } else if (role == 'SALOON_OWNER') {
-        debugPrint("User Role: SALOON_OWNER, navigating to owner home.");
-        return RoutePath.ownerHomeScreen;
-      } else if (role == 'CUSTOMER') {
-        debugPrint("User Role: CUSTOMER, navigating to customer home.");
+      if (role == 'vendor') {
         return RoutePath.homeScreen;
+      } else if (role == 'client') {
+        // return RoutePath.userHomeScreen;
       }
     }
-    debugPrint("No valid token found, navigating to role selection.");
-    return RoutePath.choseRoleScreen;
-    
+    return RoutePath.signInScreen;
+    // return RoutePath.chooseAuthScreen;
   }
-
-  /// Returns the saved role string from shared preferences, or empty string.
-  static Future<String?> getSavedRole() async {
-    try {
-      await SharePrefsHelper.init();
-      final role = await SharePrefsHelper.getString(AppConstants.role);
-      return role;
-    } catch (e) {
-      debugPrint('Failed to read saved role: $e');
-      return null;
-    }
-  }
-
-
-
-
-
-
-
 
   //>>>>>>>>>>>>>>>>>>✅✅Forget In Method✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -365,17 +331,7 @@ class AuthController extends GetxController with PasswordConstraintController {
         EasyLoading.dismiss();
         debugPrint("Response Data: $responseData");
 
-       apiRole=='SALOON_OWNER' ? AppRouter.route.pushNamed(
-          RoutePath.otpScreen,
-          extra: {
-            "isOwner": true,
-          },
-        ) : AppRouter.route.pushNamed(
-          RoutePath.otpScreen,
-          extra: {
-            "isOwner": false,
-          },
-        );
+        AppRouter.route.pushNamed(RoutePath.otpScreen);
 
         toastMessage(message: responseData["message"] ?? AppStrings.someThing);
       } else if (response.statusCode == 400) {
@@ -406,153 +362,103 @@ class AuthController extends GetxController with PasswordConstraintController {
 
 //>>>>>>>>>>>>>>>>>>✅✅SIgn up SALOON_OWNER, BARBER<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  final TextEditingController businessNameController = TextEditingController();
+  final TextEditingController businessEmailController = TextEditingController();
+  final TextEditingController businessPhoneController = TextEditingController();
+  final TextEditingController businessPasswordController =
+      TextEditingController();
+  final TextEditingController businessConfirmPasswordController =
+      TextEditingController();
+  // final TextEditingController businessAddressController =
+  //     TextEditingController();
+  final TextEditingController businessDescriptionController =
+      TextEditingController();
+  final TextEditingController businessDeliveryOptionController =
+      TextEditingController();
+  final TextEditingController businessGenderController =
+      TextEditingController();
+  TextEditingController docController = TextEditingController();
 
-//================= Owner/Barber Shop Registration (Multipart POST) =================
+  Rx<File?> selectedDocument = Rx<File?>(null);
+  final RxBool showAllExisting = false.obs;
+  final RxList<File> pickedDocuments = <File>[].obs;
 
-Rx<File?> selectedShopLogo = Rx<File?>(null);
-final RxList<File> shopImages = <File>[].obs;
-final RxBool isShopRegisterLoading = false.obs;
-
-// Pick shop logo (single image)
-Future<void> pickShopLogo() async {
-  final picker = ImagePicker();
-  final picked = await picker.pickImage(source: ImageSource.gallery);
-  if (picked != null) {
-    selectedShopLogo.value = File(picked.path);
-  }
-}
-
-// Pick multiple shop images
-Future<void> pickShopImages() async {
-  final picker = ImagePicker();
-  final pickedFiles = await picker.pickMultiImage();
-  if (pickedFiles.isNotEmpty) {
-    shopImages.assignAll(pickedFiles.map((e) => File(e.path)));
-  }
-}
-
-// Register shop (POST multipart)
-Future<void> registerShop() async {
-  if (selectedShopLogo.value == null) {
-    toastMessage(message: "Please select a shop logo.");
-    return;
-  }
-  if (shopImages.isEmpty) {
-    toastMessage(message: "Please select at least one shop image.");
-    return;
+  Future<void> pickDocuments() async {
+    final picker = ImagePicker();
+    final files = await picker.pickMultipleMedia();
+    if (files.isNotEmpty) {
+      pickedDocuments.assignAll(files.map((e) => File(e.path)));
+    }
   }
 
-  isShopRegisterLoading.value = true;
-  refresh();
+  RxBool isVendorLoading = false.obs;
 
-  // Prepare multipart fields
-  // Basic email validation
-  // final email = emailController.text.trim();
-  // final emailRegex = RegExp(r"^[^@\s]+@[^@\s]+\.[^@\s]+");
-  // // if (!emailRegex.hasMatch(email)) {
-  // //   toastMessage(message: "Please enter a valid email address.");
-  // //   isShopRegisterLoading.value = false;
-  // //   refresh();
-  // //   return;
-  // // }
+  final RxString latitude = ''.obs;
+  final RxString longitude = ''.obs;
+  final RxString address = 'Pick Your Locations'.obs;
 
-  // Parse latitude/longitude if you have controllers for them; for now use numeric defaults
-  final double latitude = double.tryParse("2323341.234") ?? 0.0;
-  final double longitude = double.tryParse("234234.234") ?? 0.0;
-
-  final Map<String, dynamic> bodyData = {
-    "email": emailController.text.trim(),
-    "shopName": fullNameController.text.trim(),
-    "registrationNumber": regNumberController.text.trim(),
-    "shopAddress": addressController.text.trim(),
-    "latitude": latitude,
-    "longitude": longitude,
-  };
-
-  try {
-    final File? logoFile = selectedShopLogo.value;
-    if (logoFile == null) {
-      toastMessage(message: "Please select a shop logo.");
-      isShopRegisterLoading.value = false;
-      refresh();
+  Future<void> vendorSIgnUp(BuildContext context) async {
+    if (!areTrue.value) {
+      toastMessage(
+          message: "Please make sure your password meets all requirements.");
       return;
     }
-
-    final multipartList = <MultipartBody>[
-      MultipartBody("shop_logo", logoFile),
-      ...shopImages.map((img) => MultipartBody("shop_images", img)),
-    ];
-
-    final response = await ApiClient.postMultipartData(
-      ApiUrl.registerShop, // <-- Use your actual endpoint
-      bodyData,
-      multipartBody: multipartList,
-    );
-
-    dynamic responseData;
-    try {
-      if (response.body == null) {
-        responseData = null;
-      } else if (response.body is String && (response.body as String).trim().isEmpty) {
-        responseData = null;
-      } else if (response.body is String) {
-        responseData = jsonDecode(response.body);
-      } else {
-        responseData = response.body;
-      }
-    } catch (e) {
-      responseData = null;
+    isVendorLoading.value = true;
+    refresh();
+    if (pickedDocuments.isEmpty) {
+      isVendorLoading.value = false;
+      refresh();
+      toastMessage(message: "Please upload a document before proceeding.");
+      return;
     }
+    Map<String, dynamic> body = {
+      "name": businessNameController.text.trim(),
+      "email": businessEmailController.text.trim(),
+      "password": businessPasswordController.text.trim(),
+      "phone": businessPhoneController.text.trim(),
+      "role": "vendor",
+      "isSocial": "false",
+      "address": address.value,
+      "lat": latitude.value,
+      "long": longitude.value,
+      "description": businessDescriptionController.text.trim(),
+      "deliveryOption":
+          businessDeliveryOptionController.text.toLowerCase().trim(),
+    };
 
-    if (response.statusCode == 201 && responseData != null) {
-      toastMessage(message: responseData["message"] ?? "Shop registered successfully.");
-      AppRouter.route.goNamed(RoutePath.ownerHomeScreen);
+    var response = await ApiClient.postMultipartData(
+      ApiUrl.register,
+      body,
+      multipartBody: pickedDocuments
+          .map((file) => MultipartBody("documents", file))
+          .toList(),
+    );
+    var responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      AppRouter.route.pushNamed(
+        RoutePath.otpScreen,
+        extra: {
+          "isVendor": true,
+          "email": businessEmailController.text,
+        },
+      );
+      toastMessage(message: responseData["message"]);
     } else if (response.statusCode == 400) {
-      debugPrint('Register shop failed, response body: $responseData');
-      final errMsg = responseData != null
-          ? (responseData["message"] ?? responseData["error"] ?? responseData.toString())
-          : (response.statusText ?? "Registration failed.");
-      // Build issues list if available
-      String issuesText = "";
-      try {
-        if (responseData != null && responseData["errorDetails"] != null && responseData["errorDetails"]["issues"] != null) {
-          final issues = responseData["errorDetails"]["issues"];
-          if (issues is List) {
-            issuesText = issues.map((i) => "${i["path"]}: ${i["message"]}").join('\n');
-          }
-        }
-      } catch (e) {
-        debugPrint('Failed to build issues text: $e');
-      }
-
-      // Show both toast and dialog for clarity
-      toastMessage(message: errMsg);
-      if (issuesText.isNotEmpty) {
-        Get.defaultDialog(
-          title: 'Registration Failed',
-          middleText: '$errMsg\n\nDetails:\n$issuesText',
-          textConfirm: 'OK',
-          onConfirm: () => Get.back(),
-        );
-      }
+      toastMessage(message: responseData["error"]);
     } else {
       ApiChecker.checkApi(response);
     }
-  } catch (e, st) {
-    toastMessage(message: "Something went wrong.");
-    debugPrint("Shop Register Error: $e");
-    debugPrint("Stacktrace: $st");
-  } finally {
-    isShopRegisterLoading.value = false;
+
+    isVendorLoading.value = false;
     refresh();
   }
-}
 
   //>>>>>>>>>>>>>>>>>> Account Active Otp  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   RxBool isActiveLoading = false.obs;
 
-  Future<void> userAccountActiveOtp({bool? isOwner}) async {
+  Future<void> userAccountActiveOtp() async {
     if (pinCodeController.text.trim().isEmpty) {
       toastMessage(message: "Please enter the activation code.");
       return;
@@ -561,23 +467,15 @@ Future<void> registerShop() async {
     isActiveLoading.value = true;
     refresh();
 
-    final otpValue = int.tryParse(pinCodeController.text.trim());
-    if (otpValue == null) {
-      toastMessage(message: "Invalid OTP format.");
-      isActiveLoading.value = false;
-      refresh();
-      return;
-    }
-    EasyLoading.show(status: 'Verifying OTP...');
-
-    Map<String, dynamic> body = {
+    Map<String, String> body = {
       "email": emailController.text.trim(),
-      "otp": otpValue
+      "otp": pinCodeController.text.trim()
     };
 
     var apiClient = ApiClient();
-    var response = await apiClient.putData(ApiUrl.emailVerify, body,
-        headers: {"Content-Type": "application/json"});
+    // Pass the Map directly so ApiClient.putData can send it as
+    // application/x-www-form-urlencoded (expected by server).
+    var response = await apiClient.putData(ApiUrl.emailVerify, body);
 
     // parse response safely
     dynamic respBody;
@@ -601,41 +499,19 @@ Future<void> registerShop() async {
     refresh();
 
     if (response.statusCode == 200) {
-      EasyLoading.dismiss();
-
-      pinCodeController.clear();
-
-      // If the user is being navigated to owner shop details (owner registration flow),
-      // keep the email in the controller so it can be used on the next screen.
-      if (isOwner != null && isOwner) {
-        AppRouter.route.goNamed(RoutePath.ownerShopDetails);
-      } else {
-        emailController.clear();
-        AppRouter.route.goNamed(RoutePath.signInScreen);
-      }
-
-
+      emailController.clear();
+      AppRouter.route.goNamed(RoutePath.signInScreen);
       final msg = respBody != null
           ? (respBody['message'] ?? respBody['msg'] ?? respBody['success'])
               ?.toString()
           : response.statusText;
       toastMessage(message: msg ?? AppStrings.someThing);
     } else if (response.statusCode == 400) {
-      EasyLoading.showError(
-        respBody != null
-            ? ((respBody['error'] ?? respBody['message'])?.toString() ?? AppStrings.someThing)
-            : AppStrings.someThing,
-      );
-      pinCodeController.clear();
       final err = respBody != null
           ? (respBody['error'] ?? respBody['message'])?.toString()
           : response.statusText;
       toastMessage(message: err ?? AppStrings.someThing);
-
-      EasyLoading.dismiss();
     } else {
-      EasyLoading.dismiss();
-      pinCodeController.clear();
       ApiChecker.checkApi(response);
       final debugMsg =
           respBody != null ? respBody['message'] ?? respBody : null;
@@ -658,27 +534,17 @@ Future<void> registerShop() async {
     vendorIsActiveLoading.value = true;
     refresh();
 
-    final otpValue = int.tryParse(vendorActivationCode.trim());
-    if (otpValue == null) {
-      toastMessage(message: "Invalid OTP format.");
-      vendorIsActiveLoading.value = false;
-      refresh();
-      return;
-    }
-
-    Map<String, dynamic> body = {
-      // "email": businessEmailController.text.trim(),
-      "otp": otpValue
+    Map<String, String> body = {
+      "email": businessEmailController.text.trim(),
+      "otp": vendorActivationCode
     };
-
-    // Use PUT and send JSON content so backend receives numeric OTP
-    var response = await ApiClient().putData(ApiUrl.emailVerify, body,
-        headers: {"Content-Type": "application/json"});
+    // Use PUT and pass Map so it is form-encoded like the user flow.
+    var response = await ApiClient().putData(ApiUrl.emailVerify, body);
     vendorIsActiveLoading.value = false;
     refresh();
 
     if (response.statusCode == 200) {
-      // businessEmailController.clear();
+      businessEmailController.clear();
 
       AppRouter.route.goNamed(RoutePath.signInScreen);
       toastMessage(message: response.body["message"]);

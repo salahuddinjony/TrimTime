@@ -4,7 +4,6 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -63,9 +62,9 @@ class ShopProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
+                        boxShadow: [ 
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withValues(alpha: .1),
                             blurRadius: 8,
                             spreadRadius: 2,
                             offset: const Offset(0, 8),
@@ -74,16 +73,16 @@ class ShopProfileScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 50),
-                          CustomText(
+                          const SizedBox(height: 50),
+                          const CustomText(
                             text: "Barber time",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: AppColors.black,
                           ),
-                          SizedBox(height: 10),
-                          SizedBox(height: 20),
-                          Padding(
+                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
+                          const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: CustomText(
                               maxLines: 20,
@@ -95,7 +94,7 @@ class ShopProfileScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           Row(
                             children: [
                               GestureDetector(

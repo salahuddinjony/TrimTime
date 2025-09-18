@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -69,15 +68,8 @@ class OwnerSignUp extends StatelessWidget {
                             title: AppStrings.email,
                             controller: authController.emailController,
                             validator: (v) {
-                              return null;
-                            }),                        //ToDo ==========✅✅ password ✅✅==========
-                        CustomFromCard(
-                            hinText: AppStrings.enterYourShopAddress,
-                            title: AppStrings.address,
-                            controller: authController.passwordController,
-                            validator: (v) {
-                              return null;
-                            }),
+                              return null; 
+                            }),                     
                         //ToDo ==========✅✅ Confirm ✅✅==========
                         CustomFromCard(
                             hinText: AppStrings.enterYourPassword,
@@ -106,10 +98,11 @@ class OwnerSignUp extends StatelessWidget {
                   children: [
                     CustomButton(
                       onTap: () {
+                        authController.signUp(role: userRole?.name ?? '');
 
-                        context.pushNamed(
-                          RoutePath.ownerShopDetails,extra: userRole
-                        );
+                        // context.pushNamed(
+                        //   RoutePath.ownerShopDetails,extra: userRole
+                        // );
                       },
                       title: "Next",
                       fillColor: Colors.black,

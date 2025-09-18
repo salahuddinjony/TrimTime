@@ -112,15 +112,16 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       CustomButton(
                         onTap: () {
-                          if (userRole == UserRole.user) {
-                            AppRouter.route
-                                .pushNamed(RoutePath.otpScreen,);
-                          } else if (userRole == UserRole.barber) {
-                            AppRouter.route
-                                .pushNamed(RoutePath.subscriptionPlan, extra: userRole);
-                          }else{
-                            debugPrint("No Role Selectedl");
-                          }
+                          authController.signUp(role: userRole!.name);
+                          // if (userRole == UserRole.user) {
+                          //   AppRouter.route
+                          //       .pushNamed(RoutePath.otpScreen,);
+                          // } else if (userRole == UserRole.barber) {
+                          //   AppRouter.route
+                          //       .pushNamed(RoutePath.subscriptionPlan, extra: userRole);
+                          // }else{
+                          //   debugPrint("No Role Selectedl");
+                          // }
 
                         },
                         title: AppStrings.signUp,

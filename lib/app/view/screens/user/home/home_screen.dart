@@ -26,13 +26,20 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is String) {
+      userRole = getRoleFromString(extra);
+    } else if (extra is Map && extra['role'] != null) {
+      userRole = getRoleFromString(extra['role'].toString());
+    }
 
     if (userRole == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: const Center(child: Text('No user role received')),
-      );
+      debugPrint('HomeScreen: no role received via route extra; defaulting to CUSTOMER');
+      userRole = UserRole.user;
     }
 
     return Scaffold(

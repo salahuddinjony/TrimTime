@@ -246,7 +246,6 @@ class ApiClient extends GetxService {
   Future<Response> putData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
     bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
-
     var mainHeaders = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer $bearerToken'
@@ -255,11 +254,43 @@ class ApiClient extends GetxService {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
       debugPrint('====> API Body: $body');
 
+      // Merge provided headers with defaults so Authorization stays present
+      // but callers can override Content-Type when needed.
+      final usedHeaders = Map<String, String>.from(mainHeaders);
+      if (headers != null) {
+        usedHeaders.addAll(headers);
+      }
+
+      // If content-type is application/x-www-form-urlencoded the http.put expects
+      // a Map<String, String> body (or encoded string). If body is already a
+      // Map, send it directly. If it's a String (JSON), send as-is.
+      Object? requestBody;
+  final contentType = (usedHeaders['Content-Type'] ?? '').toLowerCase();
+      if (contentType.contains('application/x-www-form-urlencoded')) {
+        if (body is Map) {
+          // ensure all values are strings
+          requestBody = body.map((k, v) => MapEntry(k.toString(), v.toString()));
+        } else if (body is String) {
+          // assume caller provided already-encoded string
+          requestBody = body;
+        } else {
+          // fallback to encoding map-like objects
+          try {
+            requestBody = (body as Map).map((k, v) => MapEntry(k.toString(), v.toString()));
+          } catch (_) {
+            requestBody = body.toString();
+          }
+        }
+      } else {
+        // default to JSON for other content types
+        requestBody = body is String ? body : jsonEncode(body);
+      }
+
       http.Response response = await http
           .put(
             Uri.parse(ApiUrl.baseUrl + uri),
-            body: jsonEncode(body),
-            headers: headers ?? mainHeaders,
+            body: requestBody,
+            headers: usedHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
       return handleResponse(response, uri);
@@ -276,7 +307,7 @@ class ApiClient extends GetxService {
 
     var mainHeaders = {
       'Content-Type': 'application/json',
-      'Authorization':'Bearer $bearerToken', // FIX: add Bearer
+      'Authorization':'Bearer $bearerToken', 
     };
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');

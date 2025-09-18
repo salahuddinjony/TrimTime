@@ -27,97 +27,92 @@ class ForgetPasswordScreen extends StatelessWidget {
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
 
-      ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-      appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
-        appBarContent: AppStrings.forgotPassword,
-        iconData: Icons.arrow_back,
-      ),
-      body:
-      Column(
-        children: [
-          ClipPath(
-            clipper: CurvedShortClipper(),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height/2,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+        ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+        appBar: const CustomAppBar(
+          appBarBgColor: AppColors.linearFirst,
+          appBarContent: AppStrings.forgotPassword,
+          iconData: Icons.arrow_back,
+        ),
+        body: Column(
+          children: [
+            ClipPath(
+              clipper: CurvedShortClipper(),
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height / 2,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xCCEDC4AC), // First color (with opacity)
+                      Color(0xFFE9864E),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-              ),
-              child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Form(
-                    key: formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Form(
+                      key: formKey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-                           CustomText(
-                            textAlign: TextAlign.center,
-                            top: 15.h,
-                            maxLines: 5,
-                            text: AppStrings.enterYourEmailANdWe,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                            color: AppColors.black,
-                          ),
-                          SizedBox(
-                            height: 60.h,
-                          ),
+                            CustomText(
+                              textAlign: TextAlign.center,
+                              top: 15.h,
+                              maxLines: 5,
+                              text: AppStrings.enterYourEmailANdWe,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              color: AppColors.black,
+                            ),
+                            SizedBox(
+                              height: 60.h,
+                            ),
 
-                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-                          CustomFromCard(
-                              hinText: AppStrings.enterYourEmail,
-                              title: AppStrings.email,
-                              controller: TextEditingController(),
-                              validator: (v) {
-                                return null;
-                              }),                          SizedBox(
-                            height: 100.h,
-                          ),
-
-
-                        ],
+                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+                            CustomFromCard(
+                                hinText: AppStrings.enterYourEmail,
+                                title: AppStrings.email,
+                                controller: TextEditingController(),
+                                validator: (v) {
+                                  return null;
+                                }),
+                            SizedBox(
+                              height: 100.h,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
+                    )),
+              ),
             ),
-          ),
 
-          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 16.w),
-            child: CustomButton(
-              isRadius: false,
-              textColor: AppColors.white50,
-              width: MediaQuery.of(context).size.width,
-              onTap: () {
-
-                AppRouter.route.pushNamed(
-                  RoutePath.otpScreen,
-                  extra: {
-                    'isForget': true,
-                    'userRole': userRole?.name, // ✅ Convert UserRole to string
-                  },
-                );
-
-              },
-              title: AppStrings.sendCode,
-              fillColor: AppColors.black,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: CustomButton(
+                isRadius: false,
+                textColor: AppColors.white50,
+                width: MediaQuery.of(context).size.width,
+                onTap: () {
+                  AppRouter.route.pushNamed(
+                    RoutePath.otpScreen,
+                    extra: {
+                      'isForget': true,
+                      'userRole':
+                          userRole?.name, // ✅ Convert UserRole to string
+                    },
+                  );
+                },
+                title: AppStrings.sendCode,
+                fillColor: AppColors.black,
+              ),
             ),
-          ),
-        ],
-      )
-
-    );
+          ],
+        ));
   }
 }

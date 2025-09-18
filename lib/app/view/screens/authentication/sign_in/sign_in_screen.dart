@@ -109,9 +109,8 @@ class SignInScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.forgetPasswordScreen,
-                                      extra: userRole);
+                                  debugPrint("Forgot Password Clicked");
+                                  authController.forgetMethod();
                                 },
                                 child: CustomText(
                                   top: 12.h,
@@ -136,15 +135,17 @@ class SignInScreen extends StatelessWidget {
                       //ToDo ==========✅✅ Sing In Button✅✅==========
                       CustomButton(
                         onTap: () {
-                          if (userRole == UserRole.user) {
-                            AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
-                          } else if (userRole == UserRole.barber) {
-                            AppRouter.route.goNamed(RoutePath.barberHomeScreen, extra: userRole);
-                          } else if (userRole == UserRole.owner) {
-                            AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: userRole);
-                          } else {
-                            debugPrint('No route selected');
-                          }
+                          authController.signIn();
+                          // if (userRole == UserRole.user) {
+                          //   AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
+                          // } else if (userRole == UserRole.barber) {
+                          //   AppRouter.route.goNamed(RoutePath.barberHomeScreen, extra: userRole);
+                          // } else if (userRole == UserRole.owner) {
+                          //   AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: userRole);
+                          // } else {
+                          //   debugPrint('No route selected');
+                          // }
+                      
                         },
                         title: AppStrings.signIn,
                         fillColor: Colors.black,

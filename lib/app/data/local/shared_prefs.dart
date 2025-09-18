@@ -82,7 +82,7 @@ class SharePrefsHelper {
   //   return preferences.remove(key);
   // }
 
-  static Future<void> remove([String? key=null]) async {   
+  static Future<void> remove([String? key]) async {   
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (key != null) {
       await prefs.remove(key);

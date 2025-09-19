@@ -29,13 +29,13 @@ class ApiClient extends GetxService {
 
     final mainHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $bearerToken'
+      'Authorization': '$bearerToken'
     };
 
     // Build final URI with query params (merging any already present in uri)
     Uri baseUri = Uri.parse(uri);
     if (query != null) {
-      baseUri = baseUri.replace(queryParameters: query); 
+      baseUri = baseUri.replace(queryParameters: query);
     }
     try {
       debugPrint('====> API Call: $baseUri\nHeader: ${headers ?? mainHeaders}');
@@ -94,7 +94,8 @@ class ApiClient extends GetxService {
 
     var mainHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $bearerToken'
+      'Authorization': '$bearerToken'
+      // 'Authorization': 'Bearer $bearerToken'
     };
     try {
       debugPrint(
@@ -248,35 +249,32 @@ class ApiClient extends GetxService {
     bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
     var mainHeaders = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer $bearerToken'
+      'Authorization': '$bearerToken'
     };
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
       debugPrint('====> API Body: $body');
 
-      // Merge provided headers with defaults so Authorization stays present
-      // but callers can override Content-Type when needed.
       final usedHeaders = Map<String, String>.from(mainHeaders);
       if (headers != null) {
         usedHeaders.addAll(headers);
       }
 
-      // If content-type is application/x-www-form-urlencoded the http.put expects
-      // a Map<String, String> body (or encoded string). If body is already a
-      // Map, send it directly. If it's a String (JSON), send as-is.
       Object? requestBody;
-  final contentType = (usedHeaders['Content-Type'] ?? '').toLowerCase();
+      final contentType = (usedHeaders['Content-Type'] ?? '').toLowerCase();
       if (contentType.contains('application/x-www-form-urlencoded')) {
         if (body is Map) {
           // ensure all values are strings
-          requestBody = body.map((k, v) => MapEntry(k.toString(), v.toString()));
+          requestBody =
+              body.map((k, v) => MapEntry(k.toString(), v.toString()));
         } else if (body is String) {
           // assume caller provided already-encoded string
           requestBody = body;
         } else {
           // fallback to encoding map-like objects
           try {
-            requestBody = (body as Map).map((k, v) => MapEntry(k.toString(), v.toString()));
+            requestBody = (body as Map)
+                .map((k, v) => MapEntry(k.toString(), v.toString()));
           } catch (_) {
             requestBody = body.toString();
           }
@@ -307,7 +305,7 @@ class ApiClient extends GetxService {
 
     var mainHeaders = {
       'Content-Type': 'application/json',
-      'Authorization':'Bearer $bearerToken', 
+      'Authorization': 'Bearer $bearerToken',
     };
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');

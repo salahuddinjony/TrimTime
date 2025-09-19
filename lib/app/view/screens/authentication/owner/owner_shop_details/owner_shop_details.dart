@@ -35,7 +35,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
       appBar: const CustomAppBar(
         appBarContent: AppStrings.businessDetails,
         appBarBgColor: AppColors.linearFirst,
-        iconData: Icons.arrow_back,
+        // iconData: Icons.arrow_back,
       ),
       body: SingleChildScrollView(
         child: Obx(() {
@@ -65,11 +65,11 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                             height: 30.h,
                           ),
 
-                          //ToDo ==========✅✅ fullName ✅✅==========
+                          //ToDo ==========✅✅ shopName ✅✅==========
                           CustomFromCard(
-                              hinText: AppStrings.enterYourSHopName,
+                              hinText: AppStrings.enterYourSHopName,   
                               title: AppStrings.shopNames,
-                              controller: authController.fullNameController,
+                              controller: authController.shopNameController,
                               validator: (v) {
                                 return null;
                               }), //ToDo ==========✅✅ registrationNumber✅✅==========
@@ -77,9 +77,31 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                               hinText: AppStrings.enterYourRegistrationNumber,
                               title: AppStrings.registrationNumber,
                               controller: authController.regNumberController,
+                              // Add a suffix icon button to generate a unique reg code
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  authController.generateRegistrationNumber();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(Icons.autorenew, color: AppColors.black),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        'Generate',
+                                        style: TextStyle(
+                                            color: AppColors.black, fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               validator: (v) {
                                 return null;
-                              }),
+                              }
+                          ),
 
                           CustomFromCard(
                               hinText: AppStrings.address,

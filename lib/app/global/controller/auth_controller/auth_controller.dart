@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -23,7 +24,8 @@ class AuthController extends GetxController with PasswordConstraintController {
 
   final fullNameController = TextEditingController(text: "Salah Uddin");
   final addressController = TextEditingController(text: "Dhaka, Bangladesh");
-  final regNumberController= TextEditingController(text: "123456");
+  final regNumberController = TextEditingController(text: "123456");
+  final shopNameController = TextEditingController(text: "Salah's Barbershop");
 
   // //for CUSTOMER SIGN UP
   // final emailController = TextEditingController(text: "efazkh@gmail.com");
@@ -130,15 +132,17 @@ class AuthController extends GetxController with PasswordConstraintController {
         }
         toastMessage(message: resBody["message"] ?? AppStrings.someThing);
       } else if (response.statusCode == 400) {
-        EasyLoading.showError('Sign in failed');
+        EasyLoading.showError(resBody["message"] ?? AppStrings.someThing,
+            duration: const Duration(seconds: 2));
         debugPrint("Response body on 400: $resBody");
-        final errorMsg = (resBody != null && resBody["error"] != null)
-            ? resBody["error"]
-            : AppStrings.someThing;
-        toastMessage(message: errorMsg);
       } else {
-        EasyLoading.showError(AppStrings.someThing);
-        // ApiChecker may expect a valid response body; guard it to avoid crashes
+        EasyLoading.showError(
+            resBody != null
+                ? (resBody["error"] ?? resBody["message"])?.toString() ??
+                    AppStrings.someThing
+                : AppStrings.someThing,
+            duration: const Duration(seconds: 2));
+     
         try {
           ApiChecker.checkApi(response);
         } catch (e) {
@@ -158,18 +162,17 @@ class AuthController extends GetxController with PasswordConstraintController {
 
 //==============Initial route for the app lunching,Determines the initial route based on saved token and role.=============================
 
- 
   static Future<String> getInitialRoute() async {
     await SharePrefsHelper.init();
 
     final token = await SharePrefsHelper.getString(AppConstants.bearerToken);
     final role = await SharePrefsHelper.getString(AppConstants.role);
-     debugPrint("Saved Token: $token");
-      debugPrint("Saved Role: $role");
+    debugPrint("Saved Token: $token");
+    debugPrint("Saved Role: $role");
 
     if (token.isNotEmpty) {
-     debugPrint("Token exists, user is logged in.");
-      if (role =='BARBER') {
+      debugPrint("Token exists, user is logged in.");
+      if (role == 'BARBER') {
         debugPrint("User Role: BARBER, navigating to barber home.");
         return RoutePath.barberHomeScreen;
       } else if (role == 'SALOON_OWNER') {
@@ -182,7 +185,6 @@ class AuthController extends GetxController with PasswordConstraintController {
     }
     debugPrint("No valid token found, navigating to role selection.");
     return RoutePath.choseRoleScreen;
-    
   }
 
   /// Returns the saved role string from shared preferences, or empty string.
@@ -197,19 +199,13 @@ class AuthController extends GetxController with PasswordConstraintController {
     }
   }
 
-
-
-
-
-
-
-
-  //>>>>>>>>>>>>>>>>>>✅✅Forget In Method✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //>>>>>>>>>>>>>>>>>>✅✅Forget password In Method✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   RxBool isForgetLoading = false.obs;
 
-  Future<void> forgetMethod() async {
+  Future<void> forgetPassword() async {
     isForgetLoading.value = true;
+    EasyLoading.show(status: 'Processing...');
 
     try {
       final body = {
@@ -217,29 +213,38 @@ class AuthController extends GetxController with PasswordConstraintController {
       };
 
       final response = await ApiClient.postData(
-        ApiUrl.forgetPassword,
+        ApiUrl.forgotPassword,
         jsonEncode(body),
       );
 
       if (response.statusCode == 200) {
+        toastMessage(message: response.body["message"]);
+        debugPrint("Forget Password Response: ${response.body}");
+        EasyLoading.dismiss();
+        debugPrint("Response body: ${response.body}");
+
         AppRouter.route.pushNamed(
           RoutePath.otpScreen,
           extra: {
             "isForget": false,
             "email": emailController.text,
+            "isForgotPassword": true,
           },
         );
 
         toastMessage(message: response.body["message"]);
       } else if (response.statusCode == 400) {
-        toastMessage(message: response.body["error"]);
+        
+        EasyLoading.showError(response.body["error"]);
       } else {
+        EasyLoading.showError(response.body["message"] ?? AppStrings.someThing);
         ApiChecker.checkApi(response);
       }
     } catch (e) {
       toastMessage(message: AppStrings.someThing);
       debugPrint("SignIn Error: $e");
     } finally {
+      EasyLoading.dismiss();
       isSignInLoading.value = false;
     }
   }
@@ -283,17 +288,26 @@ class AuthController extends GetxController with PasswordConstraintController {
   RxBool isResetLoading = false.obs;
 
   Future<void> resetPassword() async {
-    isResetLoading.value = true;
-    refresh();
-    Map<String, String> body = {
+    // isResetLoading.value = true;
+    // refresh();
+    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+      toastMessage(message: "Password and Confirm Password do not match.");
+      return;
+    }
+    EasyLoading.show(status: 'Resetting password...');
+    final Map<String, dynamic> body = {
       "email": emailController.text.trim(),
-      // "newPassword": passWordController.text.trim()
+      "password": passwordController.text.trim(),
     };
-    var response = await ApiClient.postData(
+
+    // Ensure we send a proper JSON payload and Content-Type header.
+    var response = await ApiClient().putData(
       ApiUrl.resetPassword,
-      jsonEncode(body),
+      body,
+      headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
+      EasyLoading.dismiss();
       AppRouter.route.goNamed(
         RoutePath.signInScreen,
       );
@@ -301,6 +315,8 @@ class AuthController extends GetxController with PasswordConstraintController {
         message: response.body["message"],
       );
     } else {
+      EasyLoading.showError(
+          response.body["message"] ?? AppStrings.someThing);
       ApiChecker.checkApi(response);
     }
     isResetLoading.value = false;
@@ -365,17 +381,21 @@ class AuthController extends GetxController with PasswordConstraintController {
         EasyLoading.dismiss();
         debugPrint("Response Data: $responseData");
 
-       apiRole=='SALOON_OWNER' ? AppRouter.route.pushNamed(
-          RoutePath.otpScreen,
-          extra: {
-            "isOwner": true,
-          },
-        ) : AppRouter.route.pushNamed(
-          RoutePath.otpScreen,
-          extra: {
-            "isOwner": false,
-          },
-        );
+        apiRole == 'SALOON_OWNER'
+            ? AppRouter.route.pushNamed(
+                RoutePath.otpScreen,
+                extra: {
+                  "isOwner": true,
+                  "email": emailController.text,
+                },
+              )
+            : AppRouter.route.pushNamed(
+                RoutePath.otpScreen,
+                extra: {
+                  "isOwner": false,
+                  "email": emailController.text,
+                },
+              );
 
         toastMessage(message: responseData["message"] ?? AppStrings.someThing);
       } else if (response.statusCode == 400) {
@@ -406,153 +426,217 @@ class AuthController extends GetxController with PasswordConstraintController {
 
 //>>>>>>>>>>>>>>>>>>✅✅SIgn up SALOON_OWNER, BARBER<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
 //================= Owner/Barber Shop Registration (Multipart POST) =================
 
-Rx<File?> selectedShopLogo = Rx<File?>(null);
-final RxList<File> shopImages = <File>[].obs;
-final RxBool isShopRegisterLoading = false.obs;
+  Rx<File?> selectedShopLogo = Rx<File?>(null);
+  final RxList<File> shopImages = <File>[].obs;
+  final RxBool isShopRegisterLoading = false.obs;
 
 // Pick shop logo (single image)
-Future<void> pickShopLogo() async {
-  final picker = ImagePicker();
-  final picked = await picker.pickImage(source: ImageSource.gallery);
-  if (picked != null) {
-    selectedShopLogo.value = File(picked.path);
+  Future<void> pickShopLogo() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      selectedShopLogo.value = File(picked.path);
+    }
   }
-}
 
 // Pick multiple shop images
-Future<void> pickShopImages() async {
-  final picker = ImagePicker();
-  final pickedFiles = await picker.pickMultiImage();
-  if (pickedFiles.isNotEmpty) {
-    shopImages.assignAll(pickedFiles.map((e) => File(e.path)));
+  Future<void> pickShopImages() async {
+    final picker = ImagePicker();
+    final pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
+      shopImages.assignAll(pickedFiles.map((e) => File(e.path)));
+    }
   }
-}
 
 // Register shop (POST multipart)
-Future<void> registerShop() async {
-  if (selectedShopLogo.value == null) {
-    toastMessage(message: "Please select a shop logo.");
-    return;
-  }
-  if (shopImages.isEmpty) {
-    toastMessage(message: "Please select at least one shop image.");
-    return;
-  }
-
-  isShopRegisterLoading.value = true;
-  refresh();
-
-  // Prepare multipart fields
-  // Basic email validation
-  // final email = emailController.text.trim();
-  // final emailRegex = RegExp(r"^[^@\s]+@[^@\s]+\.[^@\s]+");
-  // // if (!emailRegex.hasMatch(email)) {
-  // //   toastMessage(message: "Please enter a valid email address.");
-  // //   isShopRegisterLoading.value = false;
-  // //   refresh();
-  // //   return;
-  // // }
-
-  // Parse latitude/longitude if you have controllers for them; for now use numeric defaults
-  final double latitude = double.tryParse("2323341.234") ?? 0.0;
-  final double longitude = double.tryParse("234234.234") ?? 0.0;
-
-  final Map<String, dynamic> bodyData = {
-    "email": emailController.text.trim(),
-    "shopName": fullNameController.text.trim(),
-    "registrationNumber": regNumberController.text.trim(),
-    "shopAddress": addressController.text.trim(),
-    "latitude": latitude,
-    "longitude": longitude,
-  };
-
-  try {
-    final File? logoFile = selectedShopLogo.value;
-    if (logoFile == null) {
+  Future<void> registerShop() async {
+    if (selectedShopLogo.value == null) {
       toastMessage(message: "Please select a shop logo.");
-      isShopRegisterLoading.value = false;
-      refresh();
+      return;
+    }
+    if (shopImages.isEmpty) {
+      toastMessage(message: "Please select at least one shop image.");
+      return;
+    }
+    if (fullNameController.text.trim().isEmpty ||
+        regNumberController.text.trim().isEmpty ||
+        addressController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty) {
+      toastMessage(message: "Please fill all required fields.");
       return;
     }
 
-    final multipartList = <MultipartBody>[
-      MultipartBody("shop_logo", logoFile),
-      ...shopImages.map((img) => MultipartBody("shop_images", img)),
-    ];
+    // isShopRegisterLoading.value = true;
+    // refresh();
 
-    final response = await ApiClient.postMultipartData(
-      ApiUrl.registerShop, // <-- Use your actual endpoint
-      bodyData,
-      multipartBody: multipartList,
-    );
+    final double latitude =
+        double.tryParse("23.8103") ?? 23.8103; // Dhaka approx
+    final double longitude =
+        double.tryParse("90.4125") ?? 90.4125; // Dhaka approx
 
-    dynamic responseData;
+    final Map<String, dynamic> bodyData = {
+      "email": emailController.text.trim(),
+      "shopName": shopNameController.text.trim(),
+      "registrationNumber": regNumberController.text.trim(),
+      "shopAddress": addressController.text.trim(),
+      "latitude": latitude,
+      "longitude": longitude,
+    };
+    EasyLoading.show(status: 'Registering shop...');
+
     try {
-      if (response.body == null) {
-        responseData = null;
-      } else if (response.body is String && (response.body as String).trim().isEmpty) {
-        responseData = null;
-      } else if (response.body is String) {
-        responseData = jsonDecode(response.body);
-      } else {
-        responseData = response.body;
+      final File? logoFile = selectedShopLogo.value;
+      if (logoFile == null) {
+        toastMessage(message: "Please select a shop logo.");
+        isShopRegisterLoading.value = false;
+        refresh();
+        return;
       }
-    } catch (e) {
-      responseData = null;
-    }
 
-    if (response.statusCode == 201 && responseData != null) {
-      toastMessage(message: responseData["message"] ?? "Shop registered successfully.");
-      AppRouter.route.goNamed(RoutePath.ownerHomeScreen);
-    } else if (response.statusCode == 400) {
-      debugPrint('Register shop failed, response body: $responseData');
-      final errMsg = responseData != null
-          ? (responseData["message"] ?? responseData["error"] ?? responseData.toString())
-          : (response.statusText ?? "Registration failed.");
-      // Build issues list if available
-      String issuesText = "";
+      final multipartList = <MultipartBody>[
+        MultipartBody("shop_logo", logoFile),
+        ...shopImages.map((img) => MultipartBody("shop_images", img)),
+      ];
+
+      final response = await ApiClient.postMultipartData(
+        ApiUrl.registerShop,
+        {
+          "bodyData": jsonEncode(bodyData),
+        },
+        multipartBody: multipartList,
+      );
+
+      dynamic responseData;
       try {
-        if (responseData != null && responseData["errorDetails"] != null && responseData["errorDetails"]["issues"] != null) {
-          final issues = responseData["errorDetails"]["issues"];
-          if (issues is List) {
-            issuesText = issues.map((i) => "${i["path"]}: ${i["message"]}").join('\n');
-          }
+        if (response.body == null) {
+          responseData = null;
+        } else if (response.body is String &&
+            (response.body as String).trim().isEmpty) {
+          responseData = null;
+        } else if (response.body is String) {
+          responseData = jsonDecode(response.body);
+        } else {
+          responseData = response.body;
         }
       } catch (e) {
-        debugPrint('Failed to build issues text: $e');
+        debugPrint("Failed to parse shop register response: $e");
+        responseData = null;
       }
 
-      // Show both toast and dialog for clarity
-      toastMessage(message: errMsg);
-      if (issuesText.isNotEmpty) {
-        Get.defaultDialog(
-          title: 'Registration Failed',
-          middleText: '$errMsg\n\nDetails:\n$issuesText',
-          textConfirm: 'OK',
-          onConfirm: () => Get.back(),
-        );
+      // Extract server-provided message (if any) to show to the user
+      String? serverMessage;
+      try {
+        if (responseData != null) {
+          if (responseData is Map) {
+            serverMessage =
+                (responseData['message'] ?? responseData['error'])?.toString();
+          } else if (responseData is String) {
+            try {
+              final parsed = jsonDecode(responseData);
+              if (parsed is Map) {
+                serverMessage =
+                    (parsed['message'] ?? parsed['error'])?.toString();
+              }
+            } catch (_) {
+              // ignore
+            }
+          }
+        }
+      } catch (_) {
+        serverMessage = null;
       }
-    } else {
-      ApiChecker.checkApi(response);
+
+      // If response indicated success textually, show success
+      if (response.statusCode == 201) {
+        EasyLoading.showSuccess(
+            serverMessage ?? 'Shop registered successfully.');
+      }
+
+      if (response.statusCode == 201 && responseData != null) {
+        EasyLoading.dismiss();
+        debugPrint("Shop Register Response: $responseData");
+
+        toastMessage(
+            message:
+                responseData["message"] ?? "Shop registered successfully.");
+        // AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: UserRole.owner);
+        AppRouter.route.goNamed(RoutePath.signInScreen);
+      } else if (response.statusCode == 400) {
+        debugPrint('Register shop failed, response body: $responseData');
+        final errMsg = responseData != null
+            ? (responseData["message"] ??
+                responseData["error"] ??
+                responseData.toString())
+            : (response.statusText ?? "Registration failed.");
+        EasyLoading.showError(serverMessage ?? errMsg);
+        debugPrint("Shop Register Error: $errMsg");
+        // Build issues list if available
+        String issuesText = "";
+        try {
+          if (responseData != null &&
+              responseData["errorDetails"] != null &&
+              responseData["errorDetails"]["issues"] != null) {
+            final issues = responseData["errorDetails"]["issues"];
+            if (issues is List) {
+              issuesText =
+                  issues.map((i) => "${i["path"]}: ${i["message"]}").join('\n');
+            }
+          }
+          EasyLoading.showError(errMsg);
+        } catch (e) {
+          EasyLoading.showError(errMsg);
+          debugPrint('Failed to build issues text: $e');
+        }
+        EasyLoading.showError(errMsg);
+        // Show both toast and dialog for clarity
+        toastMessage(message: errMsg);
+        if (issuesText.isNotEmpty) {
+          // Guard against Get.context being null (prevents 'Null check operator used on a null value')
+          if (Get.context != null) {
+            try {
+              Get.defaultDialog(
+                title: 'Registration Failed',
+                middleText: '$errMsg\n\nDetails:\n$issuesText',
+                textConfirm: 'OK',
+                onConfirm: () => Get.back(),
+              );
+            } catch (e, st) {
+              debugPrint('Failed to show dialog: $e');
+              debugPrint('$st');
+            }
+          } else {
+            debugPrint(
+                'Get.context is null — cannot show dialog. Details: $issuesText');
+          }
+        }
+      } else {
+        EasyLoading.showError(serverMessage ?? 'Sorry, something went wrong.');
+        debugPrint("Shop Register Unexpected Response: ${response.body}");
+        try {
+          ApiChecker.checkApi(response);
+        } catch (e) {
+          debugPrint('ApiChecker failed: $e');
+        }
+      }
+    } catch (e, st) {
+      EasyLoading.showError('Sorry, something went wrong.');
+      toastMessage(message: "Something went wrong.");
+      debugPrint("Shop Register Error: $e");
+      debugPrint("Stacktrace: $st");
+    } finally {
+      EasyLoading.dismiss();
+      isShopRegisterLoading.value = false;
+      refresh();
     }
-  } catch (e, st) {
-    toastMessage(message: "Something went wrong.");
-    debugPrint("Shop Register Error: $e");
-    debugPrint("Stacktrace: $st");
-  } finally {
-    isShopRegisterLoading.value = false;
-    refresh();
   }
-}
 
   //>>>>>>>>>>>>>>>>>> Account Active Otp  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   RxBool isActiveLoading = false.obs;
 
-  Future<void> userAccountActiveOtp({bool? isOwner}) async {
+  Future<void> userAccountActiveOtp({bool? isOwner, bool? isForgotPassword}) async {
     if (pinCodeController.text.trim().isEmpty) {
       toastMessage(message: "Please enter the activation code.");
       return;
@@ -574,9 +658,11 @@ Future<void> registerShop() async {
       "email": emailController.text.trim(),
       "otp": otpValue
     };
+    final url = (isForgotPassword ?? false) ? ApiUrl.verifyOtpForForgotPassword : ApiUrl.emailVerify;
+    debugPrint("Verifying OTP at $url with body: $body");
 
     var apiClient = ApiClient();
-    var response = await apiClient.putData(ApiUrl.emailVerify, body,
+    var response = await apiClient.putData(url, body,
         headers: {"Content-Type": "application/json"});
 
     // parse response safely
@@ -605,15 +691,14 @@ Future<void> registerShop() async {
 
       pinCodeController.clear();
 
-      // If the user is being navigated to owner shop details (owner registration flow),
-      // keep the email in the controller so it can be used on the next screen.
       if (isOwner != null && isOwner) {
         AppRouter.route.goNamed(RoutePath.ownerShopDetails);
-      } else {
+      }else if (isForgotPassword != null && isForgotPassword) {
+        AppRouter.route.goNamed(RoutePath.resetPasswordScreen);
+      }else {
         emailController.clear();
         AppRouter.route.goNamed(RoutePath.signInScreen);
       }
-
 
       final msg = respBody != null
           ? (respBody['message'] ?? respBody['msg'] ?? respBody['success'])
@@ -623,7 +708,8 @@ Future<void> registerShop() async {
     } else if (response.statusCode == 400) {
       EasyLoading.showError(
         respBody != null
-            ? ((respBody['error'] ?? respBody['message'])?.toString() ?? AppStrings.someThing)
+            ? ((respBody['error'] ?? respBody['message'])?.toString() ??
+                AppStrings.someThing)
             : AppStrings.someThing,
       );
       pinCodeController.clear();
@@ -645,7 +731,7 @@ Future<void> registerShop() async {
     refresh();
   }
 
-  //>>>>>>>>>>>>>>>>>>✅✅Vendor Account Active ✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //>>>>>>>>>>>>>>>>>>✅✅ Account Active ✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   String vendorActivationCode = "";
   RxBool vendorIsActiveLoading = false.obs;
 
@@ -696,5 +782,19 @@ Future<void> registerShop() async {
   @override
   void onInit() {
     super.onInit();
+  }
+
+  /// into [regNumberController]. This uses timestamp + random
+  void generateRegistrationNumber() {
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    // keep it short: use last 4 digits of timestamp + 2 random chars
+    final tsPart = (timestamp % 10000).toString().padLeft(5, '0');
+    final randomPart =
+        (DateTime.now().microsecond % 90 + Random().nextInt(90)).toString();
+    final code = 'REG$tsPart$randomPart' +
+        shopNameController.text.trim().substring(0, 5).toUpperCase();
+    regNumberController.text = code;
+    debugPrint('Generated registration number: $code');
+    refresh();
   }
 }

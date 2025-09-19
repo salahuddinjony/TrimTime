@@ -200,9 +200,15 @@ class AppRouter {
           pageBuilder: (context, state) {
             final extra = state.extra as Map<String, dynamic>? ?? {};
             final isOwner = extra['isOwner'] as bool?;
+            final email = extra['email'] as String?;
+            final isForgotPassword = extra['isForgotPassword'] as bool?;
 
             return _buildPageWithAnimation(
-              child: OtpScreen(isOwner: isOwner != null && isOwner ? 'true' : 'false'),
+              child: OtpScreen(
+                isOwner: isOwner != null && isOwner ? 'true' : 'false',
+                email: email ?? '',
+                isForgotPassword: isForgotPassword != null && isForgotPassword ? true : false,
+              ),
               state: state,
             );
           }

@@ -69,7 +69,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 isPassword: true,
                                 hinText: AppStrings.enterNewPassword,
                                 title: AppStrings.enterYourNewPassword,
-                                controller: TextEditingController(),
+                                controller: authController.passwordController,
                                 validator: (v) {
                                   return null;
                                 }),
@@ -77,7 +77,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 isPassword: true,
                                 hinText: AppStrings.confirmNewPassword,
                                 title: AppStrings.confirmNewPassword,
-                                controller: TextEditingController(),
+                                controller: authController.confirmPasswordController,
                                 validator: (v) {
                                   return null;
                                 }),                            SizedBox(
@@ -100,8 +100,9 @@ class ResetPasswordScreen extends StatelessWidget {
                 isRadius: false,
                 width: MediaQuery.of(context).size.width,
                 onTap: () {
-                  AppRouter.route
-                      .goNamed(RoutePath.signInScreen, extra: userRole);
+                  authController.resetPassword();
+                  // AppRouter.route
+                  //     .goNamed(RoutePath.signInScreen, extra: userRole);
                 },
                 title: AppStrings.resetPassword,
                 fillColor: AppColors.black,

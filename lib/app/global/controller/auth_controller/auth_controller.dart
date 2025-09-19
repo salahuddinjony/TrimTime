@@ -38,7 +38,10 @@ class AuthController extends GetxController with PasswordConstraintController {
   // //for Barber SIGN UP
   final emailController = TextEditingController(text: "magomaw443@obirah.com");
   final passwordController = TextEditingController(text: "12345678");
+
+  
   final confirmPasswordController = TextEditingController(text: "12345678");
+  final newPasswordController = TextEditingController(text: "12345678");
 
   final pinCodeController = TextEditingController();
 
@@ -284,6 +287,55 @@ class AuthController extends GetxController with PasswordConstraintController {
     refresh();
   }
 
+  //>>>>>>>>>>>>>>>>>>✅✅Delete Account✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  RxBool isDeletingLoading = false.obs;
+
+  Future<void> deleteAccount(String name, String email, String password) async {
+    if (email.isEmpty || password.isEmpty) {
+      EasyLoading.showInfo("Please fill all fields.");
+      return;
+    }
+
+    isDeletingLoading.value = true;
+    refresh();
+
+    final Map<String, String> body = {
+      // "fullName": name.trim(),
+      "email": email.trim(),
+      "password": password,
+    };
+    EasyLoading.show(status: 'Deleting account...');
+
+    var response = await ApiClient.postData(ApiUrl.deleteAccount, jsonEncode(body));
+    dynamic resBody = response.body;
+    try {
+      if (resBody is String && resBody.trim().isNotEmpty) {
+        resBody = jsonDecode(resBody);
+      }
+    } catch (e) {
+      debugPrint('Failed to parse deleteAccount response: $e');
+    }
+
+    if (response.statusCode == 200) {
+      EasyLoading.dismiss();
+      AppRouter.route.goNamed(RoutePath.choseRoleScreen);
+      toastMessage(message: resBody?["message"] ?? AppStrings.someThing);
+    } else if (response.statusCode == 400) {
+      EasyLoading.showError(
+          resBody?['error'] ?? resBody?['message'] ?? AppStrings.someThing);
+      toastMessage(message: resBody?['error'] ?? resBody?['message'] ?? AppStrings.someThing);
+    } else {
+      EasyLoading.showError(
+          resBody?['message'] ?? AppStrings.someThing);
+      ApiChecker.checkApi(response);
+      debugPrint("Error: ${resBody?["message"]}");
+    }
+
+    isDeletingLoading.value = false;
+    refresh();
+  }
+
   //>>>>>>>>>>>>>>>>>>✅✅Reset Password✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   RxBool isResetLoading = false.obs;
 
@@ -322,6 +374,49 @@ class AuthController extends GetxController with PasswordConstraintController {
     isResetLoading.value = false;
     refresh();
   }
+
+  
+  //>>>>>>>>>>>>>>>>>>Change Password✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  RxBool isChangepassLoading = false.obs;
+
+  Future<void> changePassword() async {
+    // isChangepassLoading.value = true;
+    // refresh();
+
+    if (newPasswordController.text.trim() != confirmPasswordController.text.trim()) {
+      toastMessage(message: "Password and Confirm Password do not match.");
+      return;
+    }
+    EasyLoading.show(status: 'Changing password...');
+    // Backend expects the new password under the key `password` (same as resetPassword).
+    // Include oldPassword for verification and email for identification.
+    final Map<String, dynamic> body = {
+      "oldPassword": passwordController.text.trim(),
+      "password": newPasswordController.text.trim(),
+      "email": emailController.text.trim(),
+    };
+
+    // Ensure we send a proper JSON payload and Content-Type header.
+    var response = await ApiClient().putData(
+      ApiUrl.resetPassword,
+      body,
+      headers: {"Content-Type": "application/json"},
+    );
+    if (response.statusCode == 200) {
+      EasyLoading.dismiss();
+      AppRouter.route.pop();
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else {
+      EasyLoading.showError(
+          response.body["message"] ?? AppStrings.someThing);
+      ApiChecker.checkApi(response);
+    }
+    isChangepassLoading.value = false;
+    refresh();
+  }
+
 
   //>>>>>>>>>>>>>>>>>>✅✅Sign up CUSTOMER/ BARBER<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

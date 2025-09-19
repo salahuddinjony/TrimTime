@@ -16,9 +16,20 @@ class ApiUrl {
 
 
 
+
+//User settings 
+
+static const getFaqs = "$baseUrl/faqs";
+static const termsAndCondition= "$baseUrl/terms-&-conditions";
+static const privacyPolicy= "$baseUrl/privacy-policy";
+
+
 //not used
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
 
   static const changePassword = "/auth/change-password";
+  // Account deletion (not originally present) - backend may expose a DELETE on /users/delete or /users
+  // Add a constant here so callers can use a single source. Adjust value if backend expects a different path.
+  static const deleteAccount = "/users/delete-account";
 }

@@ -548,7 +548,7 @@ class AppRouter {
           name: RoutePath.changePasswordScreen,
           path: RoutePath.changePasswordScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ChangePasswordScreen(),
+            child:  ChangePasswordScreen(),
             state: state,
           ),
         ),
@@ -568,7 +568,7 @@ class AppRouter {
           name: RoutePath.privacyPolicyScreen,
           path: RoutePath.privacyPolicyScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const PrivacyPolicyScreen(),
+            child:  PrivacyPolicyScreen(),
             state: state,
           ),
         ),
@@ -578,7 +578,7 @@ class AppRouter {
           name: RoutePath.termsScreen,
           path: RoutePath.termsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const TermsScreen(),
+            child:  TermsScreen(),
             state: state,
           ),
         ),

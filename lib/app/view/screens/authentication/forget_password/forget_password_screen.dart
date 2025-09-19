@@ -1,5 +1,3 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -28,10 +26,13 @@ class ForgetPasswordScreen extends StatelessWidget {
     return Scaffold(
 
         ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-        appBar: const CustomAppBar(
+        appBar: CustomAppBar(
           appBarBgColor: AppColors.linearFirst,
           appBarContent: AppStrings.forgotPassword,
           iconData: Icons.arrow_back,
+          onTap: () {
+            context.pop(); // Navigate back
+          },
         ),
         body: Column(
           children: [
@@ -76,7 +77,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                             CustomFromCard(
                                 hinText: AppStrings.enterYourEmail,
                                 title: AppStrings.email,
-                                controller: TextEditingController(),
+                                controller: authController.emailController,
                                 validator: (v) {
                                   return null;
                                 }),
@@ -99,14 +100,15 @@ class ForgetPasswordScreen extends StatelessWidget {
                 textColor: AppColors.white50,
                 width: MediaQuery.of(context).size.width,
                 onTap: () {
-                  AppRouter.route.pushNamed(
-                    RoutePath.otpScreen,
-                    extra: {
-                      'isForget': true,
-                      'userRole':
-                          userRole?.name, // ✅ Convert UserRole to string
-                    },
-                  );
+                  authController.forgetPassword();
+                  // AppRouter.route.pushNamed(
+                  //   RoutePath.otpScreen,
+                  //   extra: {
+                  //     'isForget': true,
+                  //     'userRole':
+                  //         userRole?.name, // ✅ Convert UserRole to string
+                  //   },
+                  // );
                 },
                 title: AppStrings.sendCode,
                 fillColor: AppColors.black,

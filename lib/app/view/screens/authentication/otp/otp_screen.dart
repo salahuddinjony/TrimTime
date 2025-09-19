@@ -15,14 +15,22 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatelessWidget {
   final String isOwner;
-  OtpScreen({super.key, required this.isOwner});
+  final String email;
+  final bool? isForgotPassword;
+  OtpScreen({super.key, required this.isOwner, required this.email, this.isForgotPassword});
 
   final AuthController authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
 
+
+
   @override
   Widget build(BuildContext context) {
     // Ensure the correct type is received
+    debugPrint("Email received in OTP Screen: $email");
+    debugPrint("isForgotPassword received in OTP Screen: $isForgotPassword");
+    debugPrint("isOwner received in OTP Screen: $isOwner");
+    
     final Map<String, dynamic> extraData = GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
     final bool isForget = extraData['isForget'] ?? false;
     final UserRole userRole = getRoleFromString(extraData['userRole'] ?? 'user');
@@ -74,6 +82,15 @@ class OtpScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontSize: 22.sp,
                             color: AppColors.black,
+                          ),
+                          SizedBox(height: 8.h),
+                          Text("A verification code has been sent to $email", 
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
 
                            CustomText(
@@ -134,10 +151,15 @@ class OtpScreen extends StatelessWidget {
                 isRadius: false,
                 width: MediaQuery.of(context).size.width,
                 onTap: () {
+                  
                   authController.pinCodeController.text = authController.pinCodeController.text.trim();
                   debugPrint("OTP Entered: ${authController.pinCodeController.text}");
 
-                  authController.userAccountActiveOtp(isOwner: isOwner == 'true');
+                  authController.userAccountActiveOtp(
+                    isOwner: isOwner == 'true',
+                    isForgotPassword: isForgotPassword ?? false, 
+                    
+                  );
 
                   // if (formKey.currentState!.validate()) {
                   //   isForget

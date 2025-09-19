@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:barber_time/app/utils/app_colors.dart';

@@ -123,8 +123,7 @@ class Settings extends StatelessWidget {
                 //=====deleteAccount====
                 CustomMenuCard(
                   onTap: () {
-                    GlobalAlert.showDeleteDialog(
-                        context, () {}, AppStrings.areYouSureYouWantToDelete);
+                    GlobalAlert().showDeleteDialog(context, AppStrings.areYouSureYouWantToDelete);
                   },
                   isArrow: true,
                   isContainerCard: true,

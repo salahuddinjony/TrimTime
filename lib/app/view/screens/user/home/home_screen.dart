@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
             onSearch: () => AppRouter.route
                 .pushNamed(RoutePath.searchSaloonScreen, extra: userRole),
             scaffoldKey: scaffoldKey,
-            name: "Anwer",
+            name: "Customer",
             image: AppConstants.demoImage,
             onTap: () => AppRouter.route
                 .pushNamed(RoutePath.notificationScreen, extra: userRole),

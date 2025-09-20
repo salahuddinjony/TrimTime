@@ -38,6 +38,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/business_profil
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
@@ -139,7 +140,7 @@ class AppRouter {
           name: RoutePath.myFeed,
           path: RoutePath.myFeed.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const MyFeed(),
+            child: MyFeed(),
             state: state,
           ),
         ),
@@ -169,7 +170,7 @@ class AppRouter {
           name: RoutePath.myFavoriteScreen,
           path: RoutePath.myFavoriteScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const MyFavoriteScreen(),
+            child: MyFavoriteScreen(),
             state: state,
           ),
         ),
@@ -193,26 +194,28 @@ class AppRouter {
             state: state,
           ),
         ),
+
         ///======================= OtpScreen Route =======================
         GoRoute(
-          name: RoutePath.otpScreen,
-          path: RoutePath.otpScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final isOwner = extra['isOwner'] as bool?;
-            final email = extra['email'] as String?;
-            final isForgotPassword = extra['isForgotPassword'] as bool?;
+            name: RoutePath.otpScreen,
+            path: RoutePath.otpScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final isOwner = extra['isOwner'] as bool?;
+              final email = extra['email'] as String?;
+              final isForgotPassword = extra['isForgotPassword'] as bool?;
 
-            return _buildPageWithAnimation(
-              child: OtpScreen(
-                isOwner: isOwner != null && isOwner ? 'true' : 'false',
-                email: email ?? '',
-                isForgotPassword: isForgotPassword != null && isForgotPassword ? true : false,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: OtpScreen(
+                  isOwner: isOwner != null && isOwner ? 'true' : 'false',
+                  email: email ?? '',
+                  isForgotPassword: isForgotPassword != null && isForgotPassword
+                      ? true
+                      : false,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= OtpScreen Route =======================
         GoRoute(
@@ -324,7 +327,7 @@ class AppRouter {
           name: RoutePath.barberQueScreen,
           path: RoutePath.barberQueScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BarberQueScreen(),
+            child: BarberQueScreen(),
             state: state,
           ),
         ),
@@ -484,14 +487,33 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.barberFeed,
-          path: RoutePath.barberFeed.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BarberFeed(),
-            state: state,
-            disableAnimation: true,
-          ),
-        ),
+            name: RoutePath.barberFeed,
+            path: RoutePath.barberFeed.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra;
+              bool isEdit = false;
+              dynamic item;
+              String? image;
+
+              if (extra is Map<String, dynamic>) {
+                isEdit = extra['isEdit'] as bool? ?? false;
+                // accept either 'feedItem' or legacy 'item' key
+                item = extra['feedItem'] ?? extra['item'];
+                image = extra['image'] as String?;
+              } else if (extra is UserRole) {
+                isEdit = false;
+              }
+
+              return _buildPageWithAnimation(
+                child: BarberFeed(
+                  isEdit: isEdit,
+                  item: item,
+                  image: image,
+                ),
+                state: state,
+                disableAnimation: true,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -548,7 +570,7 @@ class AppRouter {
           name: RoutePath.changePasswordScreen,
           path: RoutePath.changePasswordScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  ChangePasswordScreen(),
+            child: ChangePasswordScreen(),
             state: state,
           ),
         ),
@@ -568,7 +590,7 @@ class AppRouter {
           name: RoutePath.privacyPolicyScreen,
           path: RoutePath.privacyPolicyScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  PrivacyPolicyScreen(),
+            child: PrivacyPolicyScreen(),
             state: state,
           ),
         ),
@@ -578,7 +600,7 @@ class AppRouter {
           name: RoutePath.termsScreen,
           path: RoutePath.termsScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  TermsScreen(),
+            child: TermsScreen(),
             state: state,
           ),
         ),
@@ -709,7 +731,7 @@ class AppRouter {
           name: RoutePath.rateScreen,
           path: RoutePath.rateScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const RateScreen(),
+            child: RateScreen(),
             state: state,
           ),
         ),

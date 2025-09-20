@@ -10,7 +10,7 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_rich_text/custom_rich_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

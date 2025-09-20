@@ -45,7 +45,7 @@ class BarberHomeScreen extends StatelessWidget {
             },
             isCalender: true,
             scaffoldKey: scaffoldKey,
-            name: "Masum",
+            name: "Barber",
             image: AppConstants.demoImage,
             onTap: () {
               AppRouter.route

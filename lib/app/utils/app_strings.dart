@@ -116,6 +116,10 @@ class AppStrings {
   static const shopNames  = "Shop Name";
   static const addReview  = "Add Review";
   static const post  = "Post";
+  static const update  = "Update";
+  static const reviews  = " Reviews";
+  static const writeYourReview  = "Write your review";
+  static const ratingBarHint  = "Tap a star to set your rating";
   static const giveRatingOutOf  = "Give rating out of 5!";
   static const faq  = "FAQs";
   static const privacyPolicy  = "Privacy Policy";

@@ -14,22 +14,25 @@ class ApiUrl {
   static const verifyOtpForForgotPassword = "/users/verify-otp-forgot-password";
   static const resetPassword = "/users/update-password";
 
+//User settings & profile info
+  static const getProfile = "/users/profile";
+  static const updateProfile = "/users/update-profile";
+  static const getFaqs = "$baseUrl/faqs";
+  static const termsAndCondition = "$baseUrl/terms-&-conditions";
+  static const privacyPolicy = "$baseUrl/privacy-policy";
+  static const changePassword = "/auth/change-password";
+  static const deleteAccount = "/users/delete-account";
+  static const getBarberReviews = "$baseUrl/reviews/barber";
+  static const getMyAllFavourites = "$baseUrl/favorites";
+  static const BarberQueueCapacity = "$baseUrl/queue-capacities";
 
-
-
-//User settings 
-
-static const getFaqs = "$baseUrl/faqs";
-static const termsAndCondition= "$baseUrl/terms-&-conditions";
-static const privacyPolicy= "$baseUrl/privacy-policy";
-
+  // Feed management
+  static const getAllFeed = "$baseUrl/feeds";
+  static const createFeed = "/feeds";
+  static String updateFeed({required String id}) => "/feeds/$id";
+  static String deleteFeed({required String id}) => "$baseUrl/feeds/$id";
 
 //not used
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
-
-  static const changePassword = "/auth/change-password";
-  // Account deletion (not originally present) - backend may expose a DELETE on /users/delete or /users
-  // Add a constant here so callers can use a single source. Adjust value if backend expects a different path.
-  static const deleteAccount = "/users/delete-account";
 }

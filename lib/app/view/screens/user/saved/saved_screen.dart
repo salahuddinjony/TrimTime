@@ -13,7 +13,17 @@ class SavedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     if (userRole == null) {
       return Scaffold(

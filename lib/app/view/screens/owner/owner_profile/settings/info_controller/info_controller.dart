@@ -39,7 +39,7 @@ class InfoController extends GetxController with BarberFeedCRUDMixin {
     getBarberReviews();
     fetchAllFavourite();
     fetchBarberQueueCapacity();
-    getAllFeeds();
+    // getAllFeeds();
   }
 
   Future<void> fetchFaqs() async {

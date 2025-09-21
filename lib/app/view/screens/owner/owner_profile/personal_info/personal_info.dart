@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -9,19 +10,34 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class PersonalInfo extends StatelessWidget {
+  final UserRole? userRole;
+  final ProfileData data;
   const PersonalInfo({
     super.key,
+    this.userRole,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -35,10 +51,11 @@ class PersonalInfo extends StatelessWidget {
       appBar: CustomAppBar(
         appBarContent: AppStrings.profile,
         iconData: Icons.arrow_back,
-        isIcon: true,
+        isIcon: false,
         onTap: () {
-          AppRouter.route
-              .pushNamed(RoutePath.editOwnerProfile, extra: userRole);
+          context.pop();
+          // AppRouter.route
+          //     .pushNamed(RoutePath.editOwnerProfile, extra: userRole);
         },
         appBarBgColor: AppColors.linearFirst,
       ),
@@ -72,16 +89,16 @@ class PersonalInfo extends StatelessWidget {
                         imageUrl: AppConstants.demoImage,
                         height: 102,
                         width: 102),
-                    const CustomText(
+                    CustomText(
                       top: 8,
-                      text: "Jane Cooper",
+                      text: data.fullName.safeCap(),
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
                       color: AppColors.black,
                     ),
-                    const CustomText(
+                    CustomText(
                       top: 8,
-                      text: "Jane@example.com",
+                      text: data.email,
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
                       color: AppColors.black,
@@ -92,27 +109,34 @@ class PersonalInfo extends StatelessWidget {
                 CustomMenuCard(
                   onTap: () {},
                   isArrow: true,
-                  text: "james",
+                  text: data.fullName.safeCap(),
                   icon: Assets.icons.personalInfo.svg(  colorFilter: const ColorFilter.mode(
                       AppColors.black, BlendMode.srcIn),),
                 ),
                 //=====date====
                 CustomMenuCard(
                   isArrow: true,
-                  text: "22-03-1998",
+                  text: data.dateOfBirth?.toString() ?? 'N/A',
                   icon: Assets.icons.date.svg(  colorFilter: const ColorFilter.mode(
                       AppColors.black, BlendMode.srcIn),),
                 ),
                 //=====gender====
                 CustomMenuCard(
                   isArrow: true,
-                  text: "male",
+                  text: data.role.safeCap(),
+                  icon: Assets.icons.gender.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
+                ),
+                //=====gender====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: data.role.safeCap(),
                   icon: Assets.icons.gender.svg(  colorFilter: const ColorFilter.mode(
                       AppColors.black, BlendMode.srcIn),),
                 ),
                 //=========phone===
                 CustomMenuCard(
-                  text: '+4412451211',
+                  text: data.phoneNumber ?? 'N/A',
                   icon: Assets.icons.phone.svg(  colorFilter: const ColorFilter.mode(
                       AppColors.black, BlendMode.srcIn),),
                   isArrow: true,
@@ -120,7 +144,7 @@ class PersonalInfo extends StatelessWidget {
                 //=====location====
                 CustomMenuCard(
                   isArrow: true,
-                  text: 'Abu dhabi',
+                  text: data.address ?? 'N/A',
                   icon: Assets.icons.location.svg(
                     colorFilter: const ColorFilter.mode(
                         AppColors.black, BlendMode.srcIn),

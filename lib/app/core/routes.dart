@@ -42,7 +42,9 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/owner_profile_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/edit_owner_profile.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/personal_info.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/edit_professional_profile/edit_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/professional_profile/professional_profile.dart';
@@ -159,10 +161,21 @@ class AppRouter {
         GoRoute(
           name: RoutePath.professionalProfile,
           path: RoutePath.professionalProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ProfessionalProfile(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map <String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final profileData = extra['profileData'] as ProfileData?? null;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: ProfessionalProfile(
+                userRole: userRole,
+                data: profileData!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================  =======================
@@ -298,7 +311,7 @@ class AppRouter {
           name: RoutePath.profileScreen,
           path: RoutePath.profileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ProfileScreen(),
+            child:  ProfileScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -529,10 +542,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.personalInfo,
           path: RoutePath.personalInfo.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const PersonalInfo(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final profileData = extra['profileData'] as ProfileData?? null;
+
+            return _buildPageWithAnimation(
+              child: PersonalInfo(
+                userRole: userRole,
+                data: profileData!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================PersonalInfo  =======================

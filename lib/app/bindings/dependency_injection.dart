@@ -27,6 +27,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => UserHomeController(), fenix: true);
     // Get.lazyPut(() => MessagingController(), fenix: true);
     Get.lazyPut(() => BarberFeedController(), fenix: true);
+    Get.lazyPut(() => OwnerProfileController(), fenix: true);
 
 
   }

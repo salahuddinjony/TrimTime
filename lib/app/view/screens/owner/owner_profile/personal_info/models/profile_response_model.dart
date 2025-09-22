@@ -46,14 +46,16 @@ class ProfileData {
   final int followerCount;
   final int followingCount;
   final String? image;
+  final String gender;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  ProfileData({
+  ProfileData( {
     required this.id,
     required this.fullName,
     required this.email,
     required this.role,
+    required this.gender,
     this.dateOfBirth,
     this.phoneNumber,
     this.address,
@@ -67,15 +69,49 @@ class ProfileData {
   factory ProfileData.fromJson(Map<String, dynamic>? json) {
     DateTime? parseDate(dynamic v) {
       if (v == null) return null;
+      // If it's already a DateTime, return as-is
+      if (v is DateTime) return v;
+
+      final s = v.toString();
+
+      // Try ISO parse first
       try {
-        return DateTime.parse(v.toString());
-      } catch (_) {
-        return null;
+        return DateTime.parse(s);
+      } catch (_) {}
+
+      // Try common dd/MM/yyyy format (e.g. 23/09/2002)
+      final dmY = RegExp(r"^(\d{1,2})\/(\d{1,2})\/(\d{4})$");
+      final m = dmY.firstMatch(s);
+      if (m != null) {
+        try {
+          final day = int.parse(m.group(1)!);
+          final month = int.parse(m.group(2)!);
+          final year = int.parse(m.group(3)!);
+          return DateTime(year, month, day);
+        } catch (_) {
+          return null;
+        }
       }
+
+      // Try parsing as milliseconds / seconds number
+      try {
+        final numVal = int.tryParse(s);
+        if (numVal != null) {
+          // Heuristic: if value is >= 1e12 treat as millis, else as seconds
+          if (numVal >= 1000000000000) {
+            return DateTime.fromMillisecondsSinceEpoch(numVal);
+          } else if (numVal >= 1000000000) {
+            return DateTime.fromMillisecondsSinceEpoch(numVal * 1000);
+          }
+        }
+      } catch (_) {}
+
+      return null;
     }
 
     if (json == null) return ProfileData(
       id: '',
+      gender: '',
       fullName: '',
       email: '',
       role: '',
@@ -93,6 +129,7 @@ class ProfileData {
       id: json['_id'] ?? json['id'] ?? '',
       fullName: json['fullName'] ?? json['name'] ?? '',
       email: json['email'] ?? '',
+      gender: json['gender'] ?? '',
       role: json['role'] ?? '',
       dateOfBirth: parseDate(json['dateOfBirth']),
       phoneNumber: json['phoneNumber'] != null ? json['phoneNumber'].toString() : null,
@@ -110,6 +147,7 @@ class ProfileData {
         'fullName': fullName,
         'email': email,
         'role': role,
+        'gender': gender,
         'dateOfBirth': dateOfBirth?.toIso8601String(),
         'phoneNumber': phoneNumber,
         'address': address,

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomRadioButtonRow extends StatelessWidget {
-  final OwnerProfileController controller = Get.put(OwnerProfileController());  // GetX controller
+  final OwnerProfileController controller;  // GetX controller passed in
   final TextEditingController genderController;
 
-  CustomRadioButtonRow({super.key, required this.genderController});
+  CustomRadioButtonRow({super.key, required this.controller, required this.genderController});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,9 @@ class CustomRadioButtonRow extends StatelessWidget {
         Obx(() {
           return Radio<String>(
             value: value,
+            // ignore: deprecated_member_use
             groupValue: controller.selectedValue.value,
+            // ignore: deprecated_member_use
             onChanged: (String? newValue) {
               controller.updateSelection(newValue!, genderController);  // Update the value in GetX controller and TextEditingController
               debugPrint('Selected value: $newValue');  // Print the selected value to console

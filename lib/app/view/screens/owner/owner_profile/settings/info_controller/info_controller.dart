@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
-import 'package:barber_time/app/view/screens/barber/barber_feed/mixin_barber_crud.dart';
+import 'package:barber_time/app/view/screens/barber/barber_feed/controller/mixin_barber_crud.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/models/favorite_feed_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/models/review_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/models/faq_model.dart';

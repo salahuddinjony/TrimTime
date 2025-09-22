@@ -7,7 +7,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed_controller.dart';
+import 'package:barber_time/app/view/screens/barber/barber_feed/controller/barber_feed_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/model/feed_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -239,21 +239,21 @@ class _MyFeedCard extends StatelessWidget {
             color: AppColors.black,
           ),
           const SizedBox(height: 8),
-          GestureDetector(
-            onTap: onVisitShopPressed,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.black,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const CustomText(
-                text: 'Visit Shop',
-                fontSize: 12,
-                color: AppColors.white50,
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: onVisitShopPressed,
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          //     decoration: BoxDecoration(
+          //       color: AppColors.black,
+          //       borderRadius: BorderRadius.circular(8),
+          //     ),
+          //     child: const CustomText(
+          //       text: 'Visit Shop',
+          //       fontSize: 12,
+          //       color: AppColors.white50,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

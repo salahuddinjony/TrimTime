@@ -37,6 +37,9 @@ class ApiUrl {
   //Profile
   static const fetchProfileInfo = "$baseUrl/users/me";
   static const barberProfileFetchInfo= "$baseUrl/users/barber-profile";
+  static const barberProfileUpdateInfo= "/users/update/barber";  
+  static const ownerProfileUpdateInfo= "$baseUrl/users/update-profile";
+  static const profileImageUpload = "/users/update-profile-image";
   
 
 

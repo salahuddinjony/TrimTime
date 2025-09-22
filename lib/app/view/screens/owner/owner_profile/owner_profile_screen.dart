@@ -160,7 +160,8 @@ class ProfileScreen extends StatelessWidget {
                           .pushNamed(RoutePath.personalInfo,
                            extra:{
                               'userRole': userRole,
-                              'profileData': ownerProfileController.profileDataList.first
+                              'profileData': ownerProfileController.profileDataList.first,
+                              'controller': ownerProfileController
                            }
                            );
                     },

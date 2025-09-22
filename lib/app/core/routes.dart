@@ -38,6 +38,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/business_profil
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/barber_professional_profile.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/my_favorite_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/my_feed.dart';
@@ -164,13 +165,13 @@ class AppRouter {
           pageBuilder: (context, state) {
             final extra = state.extra as Map <String, dynamic>? ?? {};
             final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData?? null;
+            final profileData = extra['profileData'] as ProfileData;
             final controller = extra['controller'] as OwnerProfileController?;
 
             return _buildPageWithAnimation(
               child: ProfessionalProfile(
                 userRole: userRole,
-                data: profileData!,
+                data: profileData,
                 controller: controller!,
               ),
               state: state,
@@ -449,12 +450,71 @@ class AppRouter {
         GoRoute(
           name: RoutePath.editProfessionalProfile,
           path: RoutePath.editProfessionalProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const EditProfessionalProfile(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+
+            // Try to resolve professional data from several possible shapes:
+            // - a BarberProfile under 'professionalData'
+            // - a List<BarberProfile> under 'professionalData' (take first)
+            // - legacy 'data' which is a ProfileData (create a minimal BarberProfile)
+            dynamic profExtra = extra['professionalData'] ?? extra['data'];
+            BarberProfile? professionalData;
+
+            if (profExtra is BarberProfile) {
+              professionalData = profExtra;
+            } else if (profExtra is List && profExtra.isNotEmpty && profExtra.first is BarberProfile) {
+              professionalData = profExtra.first as BarberProfile;
+            } else if (profExtra is ProfileData) {
+              // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
+              professionalData = BarberProfile(
+                id: profExtra.id,
+                userId: profExtra.id,
+                saloonOwnerId: profExtra.id,
+                currentWorkDes: null,
+                bio: null,
+                portfolio: <String>[],
+                isAvailable: false,
+                experienceYears: null,
+                skills: <String>[],
+                followerCount: profExtra.followerCount,
+                followingCount: profExtra.followingCount,
+                ratingCount: 0,
+                avgRating: 0.0,
+                createdAt: null,
+                updatedAt: null,
+              );
+            }
+
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: EditProfessionalProfile(
+                userRole: userRole!,
+                professionalData: professionalData ?? BarberProfile(
+                  id: '',
+                  userId: '',
+                  saloonOwnerId: '',
+                  currentWorkDes: '',
+                  bio: null,
+                  portfolio: <String>[],
+                  isAvailable: false,
+                  experienceYears: '',
+                  skills: <String>[],
+                  followerCount: 0,
+                  followingCount: 0,
+                  ratingCount: 0,
+                  avgRating: 0.0,
+                  createdAt: null,
+                  updatedAt: null,
+                ),
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
-        //TODO:Barber
+
         ///=======================  =======================
         GoRoute(
           name: RoutePath.barberHomeScreen,
@@ -545,12 +605,14 @@ class AppRouter {
           pageBuilder: (context, state) {
             final extra = state.extra as Map<String, dynamic>? ?? {};
             final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData?? null;
+            final profileData = extra['profileData'] as ProfileData;
+            final controller = extra['controller'] as OwnerProfileController?;
 
             return _buildPageWithAnimation(
               child: PersonalInfo(
                 userRole: userRole,
-                data: profileData!,
+                data: profileData,
+                controller: controller!,
               ),
               state: state,
             );
@@ -571,10 +633,21 @@ class AppRouter {
         GoRoute(
           name: RoutePath.editOwnerProfile,
           path: RoutePath.editOwnerProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const EditOwnerProfile(),
-            state: state,
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final profileData = extra['profileData'] as ProfileData;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: EditOwnerProfile(
+                userRole: userRole!,
+                data: profileData,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================Settings  =======================

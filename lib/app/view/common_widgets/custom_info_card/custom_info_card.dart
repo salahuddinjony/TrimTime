@@ -21,11 +21,11 @@ class CustomInfoCard extends StatelessWidget {
       width: 100,
       padding: const EdgeInsets.all(6), // Adjusted for better space
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8), // Opacity for smooth effect
+        color: Colors.white.withValues(alpha: .8), // Opacity for smooth effect
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Subtle shadow for depth
+            color: Colors.black.withValues(alpha: .1), // Subtle shadow for depth
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3), // Shadow offset

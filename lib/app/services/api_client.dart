@@ -242,6 +242,68 @@ class ApiClient extends GetxService {
     }
   }
 
+  //>>>>>>>>>>>>>>>>>>✅✅Put Multipart✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  static Future<Response> putMultipart(String uri, Map<String, dynamic> body,
+      {List<MultipartBody>? multipartBody,
+      String requestType = "PUT",
+      Map<String, String>? headers}) async {
+    try {
+      bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+      var mainHeaders = {
+        'Accept': 'application/json',
+        'Authorization': '$bearerToken'
+      };
+
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> API Body: $body with ${multipartBody?.length} picture');
+
+      var request =
+          http.MultipartRequest(requestType, Uri.parse(ApiUrl.baseUrl + uri));
+
+      // ✅ Convert `body` to `Map<String, String>`
+      Map<String, String> stringBody = body.map((key, value) => MapEntry(
+          key,
+          value is List || value is Map
+              ? jsonEncode(value)
+              : value.toString()));
+
+      request.fields.addAll(stringBody); // ✅ Now it will work
+
+      if (multipartBody != null && multipartBody.isNotEmpty) {
+        for (var element in multipartBody) {
+          debugPrint("path : ${element.file.path}");
+
+          var mimeType =
+              lookupMimeType(element.file.path) ?? 'application/octet-stream';
+          debugPrint("MimeType================$mimeType");
+
+          var multipartImg = await http.MultipartFile.fromPath(
+            element.key,
+            element.file.path,
+            contentType: MediaType.parse(mimeType),
+          );
+          request.files.add(multipartImg);
+        }
+      }
+
+      request.headers.addAll(mainHeaders);
+      http.StreamedResponse response = await request.send();
+      final content = await response.stream.bytesToString();
+      debugPrint('====> API Response: [${response.statusCode}] $uri\n$content');
+
+      return Response(
+          statusCode: response.statusCode,
+          statusText: noInternetMessage,
+          body: content);
+    } catch (e) {
+      debugPrint('------------${e.toString()}');
+
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
+
   ///=============================Put data===================
 
   Future<Response> putData(String uri, dynamic body,

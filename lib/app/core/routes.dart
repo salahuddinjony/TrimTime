@@ -541,7 +541,7 @@ class AppRouter {
           name: RoutePath.barberHistoryScreen,
           path: RoutePath.barberHistoryScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BarberHistoryScreen(),
+            child: BarberHistoryScreen(),
             state: state,
             disableAnimation: true,
           ),

@@ -163,8 +163,12 @@ mixin BarberFeedCRUDMixin on GetxController {
           
         },
          multipartBody: [
-            if (imagepath.value.isNotEmpty)
-              MultipartBody( 
+            // Only attach the image file when the path is a local file.
+            // `isNetworkImage` is true when editing an existing feed and
+            // the image shown is from the network. Avoid creating a
+            // `File` with a network URL which causes a PathNotFoundException.
+            if (imagepath.value.isNotEmpty && !isNetworkImage.value)
+              MultipartBody(
                 'images',
                 File(imagepath.value),
               ),

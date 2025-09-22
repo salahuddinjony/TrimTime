@@ -64,6 +64,7 @@ dependencies:
   geocoding: ^3.0.0
   http: ^1.4.0
   http_parser: ^4.1.2
+  intl: ^0.18.1
   image_cropper: ^9.1.0
   mime: ^2.0.0
   jwt_decoder: ^2.0.1

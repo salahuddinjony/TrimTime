@@ -101,14 +101,17 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                     child: Stack(
                       children: [
                         Obx(() {
-                          final ProfileData currentData = widget.controller.profileDataList.isNotEmpty
-                              ? widget.controller.profileDataList.first
-                              : widget.data;
-                          final imageUrl = widget.controller.imagepath.value.isNotEmpty
-                              ? widget.controller.imagepath.value
-                              : (currentData.image != null && currentData.image!.isNotEmpty
-                                  ? currentData.image!
-                                  : AppConstants.demoImage);
+                          final ProfileData currentData =
+                              widget.controller.profileDataList.isNotEmpty
+                                  ? widget.controller.profileDataList.first
+                                  : widget.data;
+                          final imageUrl =
+                              widget.controller.imagepath.value.isNotEmpty
+                                  ? widget.controller.imagepath.value
+                                  : (currentData.image != null &&
+                                          currentData.image!.isNotEmpty
+                                      ? currentData.image!
+                                      : AppConstants.demoImage);
                           return CustomNetworkImage(
                             boxShape: BoxShape.circle,
                             imageUrl: imageUrl,
@@ -121,7 +124,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                           bottom: 0,
                           right: 0,
                           child: GestureDetector(
-                              onTap: () {
+                            onTap: () {
                               widget.controller.pickImage();
                             },
                             child: Container(
@@ -243,11 +246,12 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                   CustomButton(
                     textColor: AppColors.white50,
                     fillColor: AppColors.black,
-                      onTap: () async{
-                     final isSuccess = await widget.controller.ownerProfileUpdate();
-                      if(isSuccess){
-                        AppRouter.route
-                            .pushNamed(RoutePath.profileScreen, extra: userRole);
+                    onTap: () async {
+                      final isSuccess =
+                          await widget.controller.ownerProfileUpdate();
+                      if (isSuccess) {
+                        AppRouter.route.pushNamed(RoutePath.profileScreen,
+                            extra: userRole);
                       }
                     },
                     title: AppStrings.save,

@@ -51,7 +51,9 @@ class OwnerProfileController extends GetxController
 
     // address may be null
     locationController.text = data.address ?? '';
-    imagepath.value = data.image ?? '';
+  imagepath.value = data.image ?? '';
+  // If the image from the server is a URL, mark it as network image so UI uses network loader.
+  isNetworkImage.value = (data.image != null && data.image!.toLowerCase().startsWith('http'));
     // Initialize gender value for radio buttons and the text controller
     if (data.gender.isNotEmpty) {
       genderController.text = data.gender;
@@ -136,7 +138,15 @@ class OwnerProfileController extends GetxController
 
   Future<bool> ownerProfileUpdate() async {
     EasyLoading.show(status: 'Updating...');
-    updateProfileImage(imagePath: imagepath.value);
+    // If a local image was selected, upload it first and wait for the server to process it.
+    if (imagepath.value.isNotEmpty && !isNetworkImage.value) {
+      final uploaded = await updateProfileImage(imagePath: imagepath.value);
+      if (uploaded) {
+        // After successful upload, treat the profile image as coming from the network
+        // The next fetchProfileInfo() will replace `imagepath` with server URL.
+        isNetworkImage.value = true;
+      }
+    }
 
     try {
       isLoading.value = true;

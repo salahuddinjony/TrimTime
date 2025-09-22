@@ -127,12 +127,26 @@ class ProfileScreen extends StatelessWidget {
                     }
                     return Column(
                       children: [
-                        CustomNetworkImage(
-                            boxShape: BoxShape.circle,
-                            imageUrl:
-                                data.first.image ?? AppConstants.demoImage,
-                            height: 102,
-                            width: 102),
+                        Obx(() {
+                          // Prefer controller's picked image (local path) when available.
+                          final currentData =
+                              ownerProfileController.profileDataList.first;
+                          final imageUrl =
+                              ownerProfileController.imagepath.value.isNotEmpty
+                                  ? ownerProfileController.imagepath.value
+                                  : (currentData.image != null &&
+                                          currentData.image!.isNotEmpty
+                                      ? currentData.image!
+                                      : AppConstants.demoImage);
+                          final isNetwork =
+                              ownerProfileController.isNetworkImage.value;
+                          return CustomNetworkImage(
+                              boxShape: BoxShape.circle,
+                              imageUrl: imageUrl,
+                              height: 102,
+                              width: 102,
+                              isFile: !isNetwork);
+                        }),
                         CustomText(
                           top: 8,
                           text: data.first.fullName.safeCap(),
@@ -156,14 +170,12 @@ class ProfileScreen extends StatelessWidget {
                   //TOdo=====personalInformation====
                   CustomMenuCard(
                     onTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.personalInfo,
-                           extra:{
-                              'userRole': userRole,
-                              'profileData': ownerProfileController.profileDataList.first,
-                              'controller': ownerProfileController
-                           }
-                           );
+                      AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
+                        'userRole': userRole,
+                        'profileData':
+                            ownerProfileController.profileDataList.first,
+                        'controller': ownerProfileController
+                      });
                     },
                     text: AppStrings.personalInformation,
                     icon: Assets.icons.personalInfo.svg(
@@ -180,11 +192,10 @@ class ProfileScreen extends StatelessWidget {
                                 RoutePath.professionalProfile,
                                 extra: {
                                   'userRole': userRole,
-                                  'profileData': ownerProfileController.profileDataList.first,
+                                  'profileData': ownerProfileController
+                                      .profileDataList.first,
                                   'controller': ownerProfileController
-                                }
-                                
-                            );
+                                });
                           },
                           text: AppStrings.professionalProfile,
                           icon: Assets.icons.personalInfo.svg(

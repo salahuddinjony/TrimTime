@@ -136,7 +136,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: AppColors.white50.withOpacity(0.02),
+                                color: AppColors.white50.withValues(alpha: .02),
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(color: AppColors.white50, width: 1),
                               ),
@@ -148,7 +148,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                     child: Container(
                                       width: 70,
                                       height: 70,
-                                      color: AppColors.white50.withOpacity(0.05),
+                                      color: AppColors.white50.withValues(alpha: .05),
                                       child: Builder(builder: (_) {
                                         final File? logo = authController.selectedShopLogo.value;
                                         return logo == null
@@ -232,7 +232,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: AppColors.white50.withOpacity(0.2),
+                                      color: AppColors.white50.withValues(alpha: .2),
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
                                           color: AppColors.white50, width: 1),

@@ -36,12 +36,16 @@ class BusinessProfileEdit extends StatelessWidget {
             CustomFromCard(
                 title: AppStrings.shopName,
                 controller: TextEditingController(),
-                validator: (v) {}),
+                validator: (v) {
+                  return null;
+                }),
             CustomFromCard(
                 title: "Barber Shop business Bio",
                 maxLine: 5,
                 controller: TextEditingController(),
-                validator: (v) {}),
+                validator: (v) {
+                  return null;
+                }),
             CustomButton(
               onTap: () {
                 context.pop();

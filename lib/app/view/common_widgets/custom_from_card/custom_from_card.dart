@@ -8,6 +8,7 @@ class CustomFromCard extends StatelessWidget {
   final String title;
   final String? hinText;
   final TextEditingController controller;
+  final VoidCallback? onTap;
   final String? Function(String?) validator;
   final bool isPassword;
   final bool isRead;
@@ -21,6 +22,7 @@ class CustomFromCard extends StatelessWidget {
     required this.title,
     required this.controller,
     required this.validator,
+    this.onTap,
     this.isPassword = false,
     this.isRead = false,
     this.hinText,
@@ -46,6 +48,7 @@ class CustomFromCard extends StatelessWidget {
           // Ensure single line for password
           hintStyle: const TextStyle(color: AppColors.gray300),
           readOnly: isRead,
+          onTap: onTap,
           validator: validator,
           isPassword: isPassword,
           textEditingController: controller,

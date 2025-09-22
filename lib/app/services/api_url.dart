@@ -27,12 +27,14 @@ class ApiUrl {
   static const BarberQueueCapacity = "$baseUrl/queue-capacities";
 
   // Feed management
-  static const getAllFeed = "$baseUrl/feeds";
+  static const getAllFeed = "$baseUrl/feeds/my-feeds";
   static const createFeed = "/feeds";
   static String updateFeed({required String id}) => "/feeds/$id";
   static String deleteFeed({required String id}) => "$baseUrl/feeds/$id";
 
-
+//job post management
+  static const getAllJobPost = "$baseUrl/job-posts";
+  static const historyOfMyApplications = "$baseUrl/job-applications/my-applications";
 
   //Profile
   static const fetchProfileInfo = "$baseUrl/users/me";

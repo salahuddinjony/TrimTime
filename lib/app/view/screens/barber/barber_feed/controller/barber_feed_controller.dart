@@ -1,5 +1,5 @@
 
-import 'package:barber_time/app/view/screens/barber/barber_feed/mixin_barber_crud.dart';
+import 'package:barber_time/app/view/screens/barber/barber_feed/controller/mixin_barber_crud.dart';
 import 'package:get/get.dart';
 
 class BarberFeedController extends GetxController  with BarberFeedCRUDMixin {

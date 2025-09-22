@@ -31,11 +31,11 @@ class AuthController extends GetxController with PasswordConstraintController {
   // final passwordController = TextEditingController(text: "12345678");
 
   // //for Owner SIGN UP
-  // final emailController = TextEditingController(text: "lijov22505@obirah.com");
+  // final emailController = TextEditingController(text: "pekeyoy772@cerisun.com");
   // final passwordController = TextEditingController(text: "12345678");
 
   // //for Barber SIGN UP
-  final emailController = TextEditingController(text: "rogad68597@cerisun.com");
+  final emailController = TextEditingController(text: "gisiba8648@nicext.com");
   final passwordController = TextEditingController(text: "12345678");
 
   

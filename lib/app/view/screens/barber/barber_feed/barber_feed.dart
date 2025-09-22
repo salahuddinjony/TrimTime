@@ -8,7 +8,7 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
-import 'package:barber_time/app/view/screens/barber/barber_feed/barber_feed_controller.dart';
+import 'package:barber_time/app/view/screens/barber/barber_feed/controller/barber_feed_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';

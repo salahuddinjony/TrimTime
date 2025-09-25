@@ -16,7 +16,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../core/bottom_navbar.dart';
 import '../../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
-import '../../../../../common_widgets/custom_video_thumbnail/custom_video_thumbnail.dart';
 
 class BarberPersonalProfile extends StatefulWidget {
   const BarberPersonalProfile({

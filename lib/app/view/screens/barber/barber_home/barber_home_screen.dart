@@ -16,8 +16,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../common_widgets/show_grooming_dialoge/show_grooming_dialoge.dart';
-
 class BarberHomeScreen extends StatelessWidget {
   BarberHomeScreen({super.key});
 
@@ -307,7 +305,7 @@ class BarberHomeScreen extends StatelessWidget {
   }
 }
 
-void _showBottomSheet(BuildContext context) {
+void showBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {

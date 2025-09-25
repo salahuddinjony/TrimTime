@@ -1,10 +1,8 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
-import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -73,8 +71,8 @@ class BusinessProfileEdit extends StatelessWidget {
                     Container(
                       width: 50,
                       height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                      decoration: BoxDecoration( 
+                        color: Colors.white.withValues(alpha: .3), 
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.add, color: Colors.grey),
@@ -183,7 +181,7 @@ class BusinessProfileEdit extends StatelessWidget {
       width: 80,
       height: 80, // Changed from 50 to 80 to match image tiles
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.3),
+        color: Colors.white.withValues(alpha: .3),
         borderRadius: BorderRadius.circular(8),
       ),
       child: const Icon(Icons.add, color: Colors.grey),

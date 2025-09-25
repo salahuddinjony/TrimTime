@@ -263,7 +263,7 @@ class _OwnerQueState extends State<OwnerQue> {
                         const SizedBox(width: 10),
                         Switch(
                           activeTrackColor: AppColors.black,
-                          activeColor: AppColors.secondary,
+                          activeThumbColor: AppColors.secondary,
                           value: isQueueEnabled,
                           onChanged: (bool value) {
                             setState(() {

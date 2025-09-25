@@ -1,10 +1,7 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -27,17 +24,13 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("Email received in Reset Password Screen: $email");
     final extra = GoRouter.of(context).state.extra;
-    UserRole? userRoleFromExtra;
     if (extra is UserRole) {
-      userRoleFromExtra = extra;
     } else if (extra is Map) {
       try {
-        userRoleFromExtra = extra['userRole'] as UserRole?;
       } catch (_) {
-        userRoleFromExtra = null;
       }
     }
-    debugPrint("Selected Role============================${userRole?.name}");
+    debugPrint("Selected Role============================${userRole.name}");
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
 

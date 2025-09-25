@@ -11,8 +11,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'constants/order_constants.dart';
 
-import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
-
 class BarberHistoryScreen extends StatelessWidget {
    BarberHistoryScreen({super.key});
 

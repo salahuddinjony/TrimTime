@@ -9,6 +9,7 @@ class RoutePath{
   static const String choseRoleScreen = 'choseRoleScreen';
   static const String choseAuthScreen = 'choseAuthScreen';
   static const String getStartedScreen = 'getStartedScreen';
+
   //=================== Auth screens ===================
   static const String signInScreen = 'signInScreen';
   static const String signUpScreen = 'signUpScreen';
@@ -24,6 +25,7 @@ class RoutePath{
   static const String totalBarber = 'TotalBarber';
   static const String hiringPost = 'HiringPost';
   static const String barberRequest = 'BarberRequest';
+  
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   static const String queScreen = 'QueScreen';
@@ -42,6 +44,8 @@ class RoutePath{
   static const String pixMatch = 'PixMatch';
   static const String blockingScreen = 'BlockingScreen';
   static const String followerScreen = 'FollowerScreen';
+
+
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
   static const String inboxScreen = 'InboxScreen';

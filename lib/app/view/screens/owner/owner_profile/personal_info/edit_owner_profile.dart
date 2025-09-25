@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -11,16 +12,25 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_radio_button/custom_radio_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class EditOwnerProfile extends StatefulWidget {
+  final UserRole userRole;
+  final ProfileData data;
+  final OwnerProfileController controller;
   const EditOwnerProfile({
     super.key,
+    required this.userRole,
+    required this.data,
+    required this.controller,
   });
 
   @override
@@ -30,12 +40,18 @@ class EditOwnerProfile extends StatefulWidget {
 class _EditOwnerProfileState extends State<EditOwnerProfile> {
   File? _imageFile;
   String? _videoThumbnailPath;
+  File? _videoFile;
 
   final ImagePicker _picker = ImagePicker();
 
-
-  File? _videoFile;
-
+  @override
+  void initState() {
+    super.initState();
+    final ProfileData initialData = widget.controller.profileDataList.isNotEmpty
+        ? widget.controller.profileDataList.first
+        : widget.data;
+    widget.controller.setInitialValue(initialData);
+  }
 
   Future<void> _showPickerOptions() async {
     showModalBottomSheet(
@@ -129,7 +145,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
-                await _picker.pickImage(source: ImageSource.gallery);
+                    await _picker.pickImage(source: ImageSource.gallery);
                 if (pickedImage != null) {
                   setState(() {
                     _imageFile = File(pickedImage.path);
@@ -228,7 +244,17 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -237,15 +263,13 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
         body: const Center(child: Text('No user role received')),
       );
     }
+
     return Scaffold(
-      ///============================ Header ===============================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.editProfile,
         iconData: Icons.arrow_back,
         appBarBgColor: AppColors.linearFirst,
       ),
-
-      ///============================ body ===============================
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -262,145 +286,185 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ProfileHeaderWidget(),
-           SizedBox(height: 30.h,),
-
-              //name
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 20),
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 CustomFromCard(
-                     isBgColor: true,
-                     isBorderColor: true,
-                     title: AppStrings.name,
-                     controller: TextEditingController(text: " james"),
-                     validator: (v) {
-                       return null;
-                     }),
-                 //dateOfBirth
-                 CustomFromCard(
-                     suffixIcon: const Icon(
-                       Icons.calendar_month,
-                       color: AppColors.white50,
-                     ),
-                     isRead: true,
-                     isBgColor: true,
-                     isBorderColor: true,
-                     title: AppStrings.dateOfBirth,
-                     controller: TextEditingController(text: '22/10/2024'),
-                     validator: (v) {
-                       return null;
-                     }),
-                 const CustomText(
-                   color: AppColors.black,
-                   text: AppStrings.gender,
-                   fontWeight: FontWeight.w400,
-                   fontSize: 16,
-                   bottom: 8,
-                 ),
-                 //Gender
-                 CustomRadioButtonRow(
-                   genderController: TextEditingController(),
-                 ),
-                 //======================Phone Number=================
-                 const CustomText(
-                   color: AppColors.black,
-                   text: AppStrings.phoneNumber,
-                   fontWeight: FontWeight.w400,
-                   fontSize: 16,
-                   bottom: 8,
-                 ),
-
-                 // CountryCodePickerField(
-                 //   readOnly: true, // Set to false if you want the user to be able to edit the phone number directly
-                 //   onTap: () {
-                 //     // Handle tap action (e.g., show dialog or perform other actions)
-                 //     print("Country code picker tapped!");
-                 //   },
-                 // ),
-                 InternationalPhoneNumberInput(
-                   onInputChanged: (PhoneNumber number) {
-                     debugPrint('Phone number: ${number.phoneNumber}');
-                   },
-                   onInputValidated: (bool value) {
-                     debugPrint('Is phone number valid: $value');
-                   },
-                   selectorConfig: const SelectorConfig(
-                     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                     useBottomSheetSafeArea: true,
-                   ),
-                   ignoreBlank: false,
-                   autoValidateMode: AutovalidateMode.disabled,
-                   selectorTextStyle: const TextStyle(color: Colors.black),
-                   // initialValue: ,
-                   textFieldController: TextEditingController(),
-                   formatInput: true,
-                   keyboardType: const TextInputType.numberWithOptions(
-                       signed: true, decimal: true),
-                   inputBorder: const OutlineInputBorder(),
-                   onSaved: (PhoneNumber number) {
-                     debugPrint('Saved phone number: ${number.phoneNumber}');
-                   },
-                 ),
-
-                 //location
-                 CustomFromCard(
-                     isBgColor: true,
-                     isBorderColor: true,
-                     title: AppStrings.location,
-                     controller: TextEditingController(text: 'Abu Dhabi'),
-                     validator: (v) {
-                       return null;
-                     }),
-
-                 SizedBox(
-                   height: 20.h,
-                 ),
-                 Row(
-                   children: [
-                     _buildThumbnail(),
-                     SizedBox(width: 10.w),
-                     GestureDetector(
-                       onTap: _showPickerOptions,
-                       child: Container(
-                         height: 78,
-                         width: 96,
-                         decoration: BoxDecoration(
-                           color: Colors.white,
-                           border: Border.all(color: Colors.blueAccent),
-                           borderRadius: BorderRadius.circular(10),
-                         ),
-                         child: const Icon(
-                           Icons.add_circle_outline_outlined,
-                           color: Colors.blueAccent,
-                           size: 30,
-                         ),
-                       ),
-                     ),
-                   ],
-                 ),
-
-
-                 SizedBox(
-                   height: 20.h,
-                 ),
-                 //========================Save Button===============
-                 CustomButton(
-                   textColor: AppColors.white50,
-                   fillColor: AppColors.black,
-                   onTap: () {
-                     context.pop();
-                   },
-                   title: AppStrings.save,
-                 ),
-                 SizedBox(
-                   height: 100.h,
-                 ),
-               ],
-             ),
-           )
+              Center(
+                child: Stack(
+                  children: [
+                    Obx(() {
+                      final ProfileData currentData =
+                          widget.controller.profileDataList.isNotEmpty
+                              ? widget.controller.profileDataList.first
+                              : widget.data;
+                      final imageUrl =
+                          widget.controller.imagepath.value.isNotEmpty
+                              ? widget.controller.imagepath.value
+                              : (currentData.image != null &&
+                                      currentData.image!.isNotEmpty
+                                  ? currentData.image!
+                                  : AppConstants.demoImage);
+                      return CustomNetworkImage(
+                        boxShape: BoxShape.circle,
+                        imageUrl: imageUrl,
+                        height: 102,
+                        width: 102,
+                        isFile: !widget.controller.isNetworkImage.value,
+                      );
+                    }),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          widget.controller.pickImage();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(6),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: AppColors.black,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30.h),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomFromCard(
+                        isBgColor: true,
+                        isBorderColor: true,
+                        title: AppStrings.name,
+                        controller: widget.controller.nameController,
+                        validator: (v) {
+                          return null;
+                        }),
+                    CustomFromCard(
+                        onTap: () => widget.controller.selectDate(context),
+                        suffixIcon: const Icon(
+                          Icons.calendar_month,
+                          color: AppColors.white50,
+                        ),
+                        isRead: true,
+                        isBgColor: true,
+                        isBorderColor: true,
+                        title: AppStrings.dateOfBirth,
+                        controller: widget.controller.dateController,
+                        validator: (v) {
+                          return null;
+                        }),
+                    const CustomText(
+                      color: AppColors.black,
+                      text: AppStrings.gender,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      bottom: 8,
+                    ),
+                    CustomRadioButtonRow(
+                      controller: widget.controller,
+                      genderController: widget.controller.genderController,
+                    ),
+                    const CustomText(
+                      color: AppColors.black,
+                      text: AppStrings.phoneNumber,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      bottom: 8,
+                    ),
+                    InternationalPhoneNumberInput(
+                      onInputChanged: (PhoneNumber number) {
+                        debugPrint('Phone number: ${number.phoneNumber}');
+                      },
+                      onInputValidated: (bool value) {
+                        debugPrint('Is phone number valid: $value');
+                      },
+                      selectorConfig: const SelectorConfig(
+                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                        useBottomSheetSafeArea: true,
+                      ),
+                      ignoreBlank: false,
+                      autoValidateMode: AutovalidateMode.disabled,
+                      selectorTextStyle: const TextStyle(color: Colors.black),
+                      textFieldController: widget.controller.phoneController,
+                      formatInput: true,
+                      keyboardType: const TextInputType.numberWithOptions(
+                          signed: true, decimal: true),
+                      inputBorder: const OutlineInputBorder(),
+                      onSaved: (PhoneNumber number) {
+                        debugPrint('Saved phone number: ${number.phoneNumber}');
+                      },
+                    ),
+                    CustomFromCard(
+                        isBgColor: true,
+                        isBorderColor: true,
+                        title: AppStrings.location,
+                        controller: widget.controller.locationController,
+                        validator: (v) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    // Row(
+                    //   children: [
+                    //     _buildThumbnail(),
+                    //     SizedBox(width: 10.w),
+                    //     GestureDetector(
+                    //       onTap: _showPickerOptions,
+                    //       child: Container(
+                    //         height: 78,
+                    //         width: 96,
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //           border: Border.all(color: Colors.blueAccent),
+                    //           borderRadius: BorderRadius.circular(10),
+                    //         ),
+                    //         child: const Icon(
+                    //           Icons.add_circle_outline_outlined,
+                    //           color: Colors.blueAccent,
+                    //           size: 30,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    CustomButton(
+                      textColor: AppColors.white50,
+                      fillColor: AppColors.black,
+                      onTap: () async {
+                        final isSuccess =
+                            await widget.controller.ownerProfileUpdate();
+                        if (isSuccess) {
+                          AppRouter.route.pushNamed(RoutePath.profileScreen,
+                              extra: userRole);
+                        }
+                      },
+                      title: AppStrings.save,
+                    ),
+                    SizedBox(
+                      height: 100.h,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -408,9 +472,6 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
     );
   }
 }
-
-
-
 
 class ProfileHeaderWidget extends StatefulWidget {
   const ProfileHeaderWidget({super.key});
@@ -425,7 +486,7 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
 
   Future<void> _pickImage() async {
     final XFile? pickedFile =
-    await _picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -441,9 +502,8 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
         children: [
-          // Background image (optional)
           Image.network(
-            AppConstants.demoImage, // Replace with AppConstants.demoImage if needed
+            AppConstants.demoImage,
             height: 196,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -453,32 +513,30 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
             child: Stack(
               alignment: Alignment.bottomRight,
               children: [
-                // Profile Image with GestureDetector
                 GestureDetector(
                   onTap: _pickImage,
                   child: ClipOval(
                     child: _pickedImage == null
                         ? Image.network(
-                      AppConstants.demoImage, // Replace with AppConstants.demoImage if needed
-                      height: 102,
-                      width: 102,
-                      fit: BoxFit.cover,
-                    )
+                            AppConstants.demoImage,
+                            height: 102,
+                            width: 102,
+                            fit: BoxFit.cover,
+                          )
                         : Image.file(
-                      _pickedImage!,
-                      height: 102,
-                      width: 102,
-                      fit: BoxFit.cover,
-                    ),
+                            _pickedImage!,
+                            height: 102,
+                            width: 102,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
-                // Camera Icon button
                 GestureDetector(
                   onTap: _pickImage,
                   child: Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: AppColors.secondary, // Replace with AppColors.secondary
+                      color: AppColors.secondary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(

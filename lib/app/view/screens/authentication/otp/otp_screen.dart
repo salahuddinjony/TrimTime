@@ -17,8 +17,23 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../common_widgets/custom_rich_text/custom_rich_text.dart';
 
+UserRole getRoleFromString(String role) {
+  switch (role.toLowerCase()) {
+    case 'owner':
+      return UserRole.owner;
+    case 'barber':
+      return UserRole.barber;
+    case 'user':
+    default:
+      return UserRole.user;
+  }
+}
+
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
+  final String isOwner;
+  final String email;
+  final bool? isForgotPassword;
+  OtpScreen({super.key, required this.isOwner, required this.email, this.isForgotPassword});
 
   final AuthController authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
@@ -27,7 +42,12 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Ensure the correct type is received
     final Map<String, dynamic> extraData =
-        GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
+        GoRouter.of(context).state.extra as Map<String, dynamic>? ?? {};
+
+    debugPrint("Email received in OTP Screen: $email");
+    debugPrint("isForgotPassword received in OTP Screen: $isForgotPassword");
+    debugPrint("isOwner received in OTP Screen: $isOwner");
+    
     final bool isForget = extraData['isForget'] ?? false;
     final UserRole userRole =
         getRoleFromString(extraData['userRole'] ?? 'user');
@@ -80,6 +100,15 @@ class OtpScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontSize: 22.sp,
                             color: AppColors.gray500,
+                          ),
+                          SizedBox(height: 8.h),
+                          Text("A verification code has been sent to $email", 
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
 
                           CustomText(
@@ -141,15 +170,21 @@ class OtpScreen extends StatelessWidget {
                             isRadius: false,
                             width: MediaQuery.of(context).size.width,
                             onTap: () {
-                              if (formKey.currentState!.validate()) {
-                                isForget
-                                    ? AppRouter.route.goNamed(
-                                        RoutePath.resetPasswordScreen,
-                                        extra: userRole)
-                                    : AppRouter.route.goNamed(
-                                        RoutePath.signInScreen,
-                                        extra: userRole);
-                              }
+                              authController.pinCodeController.text = authController.pinCodeController.text.trim();
+                              debugPrint("OTP Entered: ${authController.pinCodeController.text}");
+
+                              authController.userAccountActiveOtp(
+                                isOwner: isOwner == 'true',
+                                isForgotPassword: isForgotPassword ?? false, 
+                              );
+
+                              // if (formKey.currentState!.validate()) {
+                              //   isForget
+                              //       ? AppRouter.route.goNamed(RoutePath.resetPasswordScreen,
+                              //       extra: userRole)
+                              //       : AppRouter.route.goNamed(RoutePath.signInScreen,
+                              //       extra: userRole);
+                              // }
                             },
                             title: AppStrings.verifyCode,
                             fillColor: AppColors.black,

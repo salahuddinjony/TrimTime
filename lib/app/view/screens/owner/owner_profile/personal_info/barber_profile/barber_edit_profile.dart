@@ -10,9 +10,11 @@ import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_radio_button/custom_radio_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -29,7 +31,9 @@ class BarberEditProfile extends StatefulWidget {
 
 class _EditOwnerProfileState extends State<BarberEditProfile> {
   final ImagePicker _picker = ImagePicker();
-  File? _image;
+  File? image;
+  final OwnerProfileController controller = Get.find<OwnerProfileController>();  // GetX controller passed in
+
 
   // Method to pick an image from the gallery
   Future<void> _pickImage(ImageSource source) async {
@@ -37,7 +41,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
 
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path); // Store the selected image
+        image = File(pickedFile.path); // Store the selected image
       });
     } else {
       print('No image selected.');
@@ -48,7 +52,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
 
 
 
-  File? _videoFile;
+  File? videoFile;
 
 
   Future<void> _showPickerOptions() async {
@@ -97,7 +101,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                   setState(() {
                     _imageFile = File(pickedImage.path);
                     _videoThumbnailPath = null;
-                    _videoFile = null;
+                    videoFile = null;
                   });
                 }
               },
@@ -118,7 +122,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                     quality: 75,
                   );
                   setState(() {
-                    _videoFile = File(pickedVideo.path);
+                    videoFile = File(pickedVideo.path);
                     _videoThumbnailPath = thumb;
                     _imageFile = null;
                   });
@@ -148,7 +152,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                   setState(() {
                     _imageFile = File(pickedImage.path);
                     _videoThumbnailPath = null;
-                    _videoFile = null;
+                    videoFile = null;
                   });
                 }
               },
@@ -169,7 +173,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                       quality: 75,
                     );
                     setState(() {
-                      _videoFile = File(videoPath);
+                      videoFile = File(videoPath);
                       _videoThumbnailPath = thumb;
                       _imageFile = null;
                     });
@@ -308,7 +312,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                             // Make the button round
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Colors.black.withValues(alpha: .3),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -363,7 +367,7 @@ class _EditOwnerProfileState extends State<BarberEditProfile> {
                     ),
                     //Gender
                     CustomRadioButtonRow(
-                      genderController: TextEditingController(),
+                      genderController: TextEditingController(), controller: controller,
                     ),
                     //======================Phone Number=================
                     const CustomText(

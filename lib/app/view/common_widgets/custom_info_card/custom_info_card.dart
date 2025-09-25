@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -14,7 +13,9 @@ class CustomInfoCard extends StatelessWidget {
   const CustomInfoCard({
     super.key,
     required this.title,
-    required this.value, required this.image, required this.onTap,
+    required this.value, 
+    required this.image, 
+    required this.onTap,
   });
 
   @override
@@ -25,11 +26,11 @@ class CustomInfoCard extends StatelessWidget {
         width: 100,
         padding: const EdgeInsets.all(6), // Adjusted for better space
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8), // Opacity for smooth effect
+          color: Colors.white.withValues(alpha: 0.8), // Opacity for smooth effect
           borderRadius: const BorderRadius.all(Radius.circular(6)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Subtle shadow for depth
+              color: Colors.black.withValues(alpha: 0.1), // Subtle shadow for depth
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3), // Shadow offset
@@ -41,7 +42,7 @@ class CustomInfoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Dynamic image (you can pass different image URLs here)
-           image,
+            image,
             const SizedBox(height: 12), // Space between image and title
             CustomText(
               text: title, // Title passed dynamically

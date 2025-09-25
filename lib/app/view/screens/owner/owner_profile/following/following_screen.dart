@@ -40,7 +40,17 @@ class _FollowingScreenState extends State<FollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {

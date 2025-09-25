@@ -1,38 +1,46 @@
-import 'dart:io';
-
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
-class PersonalInfo extends StatefulWidget {
+class PersonalInfo extends StatelessWidget {
+  final UserRole? userRole;
+  final ProfileData data;
+  final OwnerProfileController controller;
   const PersonalInfo({
     super.key,
+    this.userRole,
+    required this.data,
+    required this.controller,
   });
 
   @override
-  State<PersonalInfo> createState() => _PersonalInfoState();
-}
-
-class _PersonalInfoState extends State<PersonalInfo> {
-  final String imagePath =
-      'https://via.placeholder.com/150x100.png?text=Sample+Image';
-
-  final String videoThumbnailPath = '/storage/emulated/0/Download/sample_thumbnail.png';
-  @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -42,313 +50,158 @@ class _PersonalInfoState extends State<PersonalInfo> {
       );
     }
     return Scaffold(
-
       ///============================ Header ===============================
       appBar: CustomAppBar(
         appBarContent: AppStrings.profile,
         iconData: Icons.arrow_back,
-        appBarBgColor: AppColors.linearFirst,
-        isIcon: true,
+        isIcon: false,
         onTap: () {
-          AppRouter.route
-              .pushNamed(RoutePath.editOwnerProfile, extra: userRole);
+          context.pop();
+          // AppRouter.route
+          //     .pushNamed(RoutePath.editOwnerProfile, extra: userRole);
         },
+        appBarBgColor: AppColors.linearFirst,
       ),
 
       ///============================ body ===============================
-      body: Container(
-        width: double.infinity,
-        // height: MediaQuery.of(context).size.height/1.1,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xCCEDC4AC), // First color (with opacity)
-              Color(0xFFE9874E),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      body: ClipPath(
+        clipper: CurvedBannerClipper(),
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC), // First color (with opacity)
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(),
-          child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //TOdo=====Header====
                 Center(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.topCenter,
+                  child: Column(
+                  children: [
+                    Stack(
+                    alignment: Alignment.bottomLeft,
                     children: [
                       CustomNetworkImage(
-                        imageUrl: AppConstants.demoImage,
-                        height: 196.h,
-                        width: double.infinity,
+                      boxShape: BoxShape.circle,
+                      imageUrl: data.image ?? AppConstants.demoImage,
+                      height: 102,
+                      width: 102,
                       ),
                       Positioned(
-                        top: 130.h,
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            CustomNetworkImage(
-                              boxShape: BoxShape.circle,
-                              imageUrl: AppConstants.demoImage,
-                              height: 102.h,
-                              width: 102.w,
-                            ),
-                            Center(
-                                child: Container(
-                              width: 214.w,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 32.w, vertical: 10.h),
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  CustomNetworkImage(
-                                      boxShape: BoxShape.circle,
-                                      imageUrl: AppConstants.demoImage,
-                                      height: 102,
-                                      width: 102),
-                                  const CustomText(
-                                    top: 8,
-                                    text: "Jane Cooper",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: AppColors.black,
-                                  ),
-                                  const CustomText(
-                                    top: 8,
-                                    text: "Jane@example.com",
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    bottom: 10,
-                                    color: AppColors.black,
-                                  ),
-                                  // Align(
-                                  //   alignment: Alignment.center,
-                                  //   child: Container(
-                                  //     width: 130.w,
-                                  //     padding: EdgeInsets.all(10.r),
-                                  //     decoration: BoxDecoration(
-                                  //         border: Border.all(color: AppColors.secondary),
-                                  //         color: AppColors.white,
-                                  //         borderRadius: BorderRadius.circular(8)),
-                                  //     child: Row(
-                                  //       children: [
-                                  //         CustomText(
-                                  //           textAlign: TextAlign.center,
-                                  //           text: AppStrings.editProfile,
-                                  //           fontWeight: FontWeight.w600,
-                                  //           fontSize: 14.sp,
-                                  //           color: AppColors.secondary,
-                                  //           left: 8,
-                                  //           right: 8,
-                                  //         ),
-                                  //         Assets.icons.edit.svg()
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(
-                  height: 200.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 100.w,
-                        padding: EdgeInsets.all(10.r),
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
                         decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                          BoxShadow(
+                          color: Colors.black.withValues(alpha: .1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                          ),
+                        ],
                         ),
-                        child: Column(
-                          children: [
-                            CustomText(
-                              text: 'Following',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.gray500,
-                            ),
-                            const Divider(),
-                            CustomText(
-                              text: '10k',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.gray500,
-                            ),
-                          ],
-                        ),
-                      ),
-                      //TOdo=====name====
-                      CustomMenuCard(
-                        onTap: () {},
-                        isArrow: true,
-                        text: "james",
-                        icon: Assets.icons.personalInfo.svg(
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),
+                        child: IconButton(
+                        icon: const Icon(Icons.edit, size: 20, color: AppColors.linearFirst),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(
+                            RoutePath.editOwnerProfile,
+                            extra:{
+                              'userRole': userRole,
+                              'profileData': data,
+                              "controller": controller,
+                            }
+                          );
+                        },
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                         ),
                       ),
-                      //=====date====
-                      CustomMenuCard(
-                        isArrow: true,
-                        text: "22-03-1998",
-                        icon: Assets.icons.date.svg(
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),
-                        ),
                       ),
-                      //=====gender====
-                      CustomMenuCard(
-                        isArrow: true,
-                        text: "male",
-                        icon: Assets.icons.gender.svg(
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),
-                        ),
-                      ),
-                      //=========phone===
-                      CustomMenuCard(
-                        text: '+4412451211',
-                        icon: Assets.icons.phone.svg(
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),
-                        ),
-                        isArrow: true,
-                      ),
-                      //=====location====
-                      CustomMenuCard(
-                        isArrow: true,
-                        text: 'Abu dhabi',
-                        icon: Assets.icons.location.svg(
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.black, BlendMode.srcIn),
-                        ),
-                      ),
-
-                      CustomText(
-                        text: "Video / Photo Gallery",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.sp,
-                        color: AppColors.whiteDarker,
-                        bottom: 10,
-                      ),
-
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            // Image thumbnail
-                            CustomNetworkImage(
-                              borderRadius: BorderRadius.circular(10),
-                              imageUrl: AppConstants.style1,
-                              height: 120,
-                              width: 160,
-                            ),
-                            const SizedBox(width: 10),
-
-                            CustomVideoThumbnails(
-                              thumbnailPath: videoThumbnailPath,
-                              height: 120,
-                              width: 160,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 40.h,
-                      )
                     ],
+                    ),
+                    CustomText(
+                    top: 8,
+                    text: data.fullName.safeCap(),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: AppColors.black,
+                    ),
+                    CustomText(
+                    top: 8,
+                    text: data.email,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: AppColors.black,
+                    ),
+                  ],
                   ),
-                )
+                ),
+                //TOdo=====name====
+                CustomMenuCard(
+                  onTap: () {},
+                  isArrow: true,
+                  text: data.fullName.safeCap(),
+                  icon: Assets.icons.personalInfo.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
+                ),
+                //=====date====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: data.dateOfBirth != null
+                      ? '${data.dateOfBirth!.day.toString().padLeft(2, '0')}/${data.dateOfBirth!.month.toString().padLeft(2, '0')}/${data.dateOfBirth!.year}'
+                      : 'N/A',
+                  icon: Assets.icons.date.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
+                ),
+                //=====gender====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: data.gender.safeCap(),
+                  icon: Assets.icons.gender.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
+                ),
+                //=====gender====
+                // CustomMenuCard(
+                //   isArrow: true,
+                //   text: data.role.safeCap(),
+                //   icon: Assets.icons.gender.svg(  colorFilter: const ColorFilter.mode(
+                //       AppColors.black, BlendMode.srcIn),),
+                // ),
+
+                //=========phone===
+                CustomMenuCard(
+                  text: data.phoneNumber ?? 'N/A',
+                  icon: Assets.icons.phone.svg(  colorFilter: const ColorFilter.mode(
+                      AppColors.black, BlendMode.srcIn),),
+                  isArrow: true,
+                ),
+                //=====location====
+                CustomMenuCard(
+                  isArrow: true,
+                  text: data.address ?? 'N/A',
+                  icon: Assets.icons.location.svg(
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),
+                  ),
+                ), //=====addService====
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-
-class CustomVideoThumbnails extends StatelessWidget {
-  final String thumbnailPath;
-  final double height;
-  final double width;
-  final BorderRadius borderRadius;
-
-  const CustomVideoThumbnails({
-    super.key,
-    required this.thumbnailPath,
-    required this.height,
-    required this.width,
-    required this.borderRadius,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: borderRadius,
-          child: File(thumbnailPath).existsSync()
-              ? Image.file(
-            File(thumbnailPath),
-            height: height,
-            width: width,
-            fit: BoxFit.cover,
-          )
-              : Container(
-            height: height,
-            width: width,
-            color: Colors.grey,
-            child: const Center(
-              child: Text(
-                'Thumbnail not found',
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.center,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.black54,
-                shape: BoxShape.circle,
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                  size: 40,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

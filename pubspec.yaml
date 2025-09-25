@@ -21,17 +21,9 @@ version: 1.0.0+1
 environment:
   sdk: ^3.5.4
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -62,20 +54,18 @@ dependencies:
   google_maps_flutter: ^2.6.1
   permission_handler: ^11.3.1
   geocoding: ^3.0.0
-  flutter_rating_bar: ^4.0.1
-  floating_bottom_bar: ^0.0.3
-  url_launcher: ^6.3.1
-  intl: ^0.20.2
-  video_player: ^2.10.0
-  youtube_player_flutter: ^9.1.1
-  video_thumbnail: ^0.5.6
+  flutter_easyloading: ^3.0.5
+  video_thumbnail: ^0.5.3
+  flutter_rating_bar: ^4.0.1 # Add this line
+  youtube_player_flutter: ^9.0.1
+  jwt_decoder: ^2.0.1
+
+  
 
 
 
 
 dev_dependencies:
-  build_runner: ^2.4.10
-  flutter_gen_runner: null
   flutter_test:
     sdk: flutter
 
@@ -85,6 +75,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  build_runner: ^2.4.10
+  flutter_gen_runner: null
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/barber-logo.png"
+
 
 flutter_gen:
   output: lib/app/core/custom_assets/ # Optional (default: lib/gen/)

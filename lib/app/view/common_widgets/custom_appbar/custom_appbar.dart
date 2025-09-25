@@ -49,7 +49,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 icon: Icon(widget.iconData),
                 color: AppColors.black,
                 onPressed: () {
-                  context.pop();
+                  if (widget.onTap != null) {
+                    widget.onTap!();
+                  } else {
+                    context.pop();
+                  }
                 },
               ),
             if (widget.appBarContent != null)

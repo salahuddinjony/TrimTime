@@ -1,11 +1,26 @@
 
 
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharePrefsHelper {
+
+    static late SharedPreferences _preferences;
+
+  /// Initialize once in main() before using
+  static Future<void> init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
   //===========================Get Data From Shared Preference===================
 
   static Future<String> getString(String key) async {
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    return _preferences.getString(key) ?? "";
+  }
+  
+  static Future<String> getRole(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.getString(key) ?? "";
@@ -37,6 +52,11 @@ class SharePrefsHelper {
     await preferences.setString(key, value);
   }
 
+   static Future setRole(String key, value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(key, value);
+  }
+
   static Future<bool> setListOfString(String key, List<String> value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -57,8 +77,20 @@ class SharePrefsHelper {
 
 //===========================Remove Value===================
 
-  static Future remove(String key) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.remove(key);
+  // static Future remove(String key) async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   return preferences.remove(key);
+  // }
+
+  static Future<void> remove([String? key]) async {   
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (key != null) {
+      await prefs.remove(key);
+    } else {
+      await prefs.remove(AppConstants.userId);  //Delete the saved user id
+      await prefs.remove(AppConstants.bearerToken);  //Delete the saved token
+      await prefs.remove(AppConstants.role);  //Delete the saved token
+    }
   }
+
 }

@@ -40,7 +40,7 @@ class CustomBorderCard extends StatelessWidget {
         DottedBorder(
           strokeWidth: 2,
           borderType: BorderType.RRect,
-          color: Colors.black.withOpacity(0.5),
+          color: Colors.black.withValues(alpha: .5),
           radius: const Radius.circular(12),
           padding: const EdgeInsets.all(6),
           child: Container(

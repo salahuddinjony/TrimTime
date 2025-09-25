@@ -2,6 +2,8 @@ import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -10,20 +12,36 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:shimmer/shimmer.dart';
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({
+  ProfileScreen({
     super.key,
   });
-
+  // final InfoController infoController = Get.find<InfoController>();
+  final OwnerProfileController ownerProfileController =
+      Get.find<OwnerProfileController>();
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    // state.extra may be passed as a UserRole or as a Map (from other navigations).
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      // Some navigations pass a Map with a 'userRole' field.
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -94,66 +112,102 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //TOdo=====Header====
-                  Center(
-                      child: Column(
-                    children: [
-                      CustomNetworkImage(
-                          boxShape: BoxShape.circle,
-                          imageUrl: AppConstants.demoImage,
-                          height: 102,
-                          width: 102),
-                      const CustomText(
-                        top: 8,
-                        text: "Jane Cooper",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: AppColors.black,
-                      ),
-                      const CustomText(
-                        top: 8,
-                        text: "Jane@example.com",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        color: AppColors.black,
-                      ),
-                    ],
-                  )),
-
-
-
-
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Center(child: Obx(() {
+                    final data = ownerProfileController.profileDataList;
+                    if (ownerProfileController.isLoading.value) {
+                      return Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 102,
+                              height: 102,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Container(
+                              width: 140,
+                              height: 16,
+                              color: Colors.white,
+                            ),
+                            SizedBox(height: 8.h),
+                            Container(
+                              width: 180,
+                              height: 12,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    if (data.isEmpty) {
+                      return const Text('No profile data');
+                    }
+                    return Column(
+                      children: [
+                        Obx(() {
+                          // Prefer controller's picked image (local path) when available.
+                          final currentData =
+                              ownerProfileController.profileDataList.first;
+                          final imageUrl =
+                              ownerProfileController.imagepath.value.isNotEmpty
+                                  ? ownerProfileController.imagepath.value
+                                  : (currentData.image != null &&
+                                          currentData.image!.isNotEmpty
+                                      ? currentData.image!
+                                      : AppConstants.demoImage);
+                          final isNetwork =
+                              ownerProfileController.isNetworkImage.value;
+                          return CustomNetworkImage(
+                              boxShape: BoxShape.circle,
+                              imageUrl: imageUrl,
+                              height: 102,
+                              width: 102,
+                              isFile: !isNetwork);
+                        }),
+                        CustomText(
+                          top: 8,
+                          text: data.first.fullName.safeCap(),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          color: AppColors.black,
+                        ),
+                        CustomText(
+                          top: 8,
+                          text: data.first.email,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: AppColors.black,
+                        ),
+                      ],
+                    );
+                  })),
+                  SizedBox(
+                    height: 30.h,
+                  ),
                   //TOdo=====personalInformation====
-                  userRole == UserRole.barber
-                      ? CustomMenuCard(
-                          onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.barberPersonalProfile,
-                                extra: userRole);
-                          },
-                          text: AppStrings.personalInformation,
-                          icon: Assets.icons.personalInfo.svg(
-                            colorFilter: const ColorFilter.mode(
-                                AppColors.black, BlendMode.srcIn),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-
-                  //TOdo=====personalInformation====
-                  userRole == UserRole.owner
-                      ? CustomMenuCard(
-                          onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.barberPersonalProfile,
-                                extra: userRole);
-                          },
-                          text: AppStrings.personalInformation,
-                          icon: Assets.icons.personalInfo.svg(
-                            colorFilter: const ColorFilter.mode(
-                                AppColors.black, BlendMode.srcIn),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
+                        'userRole': userRole,
+                        'profileData':
+                            ownerProfileController.profileDataList.first,
+                        'controller': ownerProfileController
+                      });
+                    },
+                    text: AppStrings.personalInformation,
+                    icon: Assets.icons.personalInfo.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
+                  ),
 
                   //TOdo=====Professional Profile====
                   userRole == UserRole.barber
@@ -161,7 +215,12 @@ class ProfileScreen extends StatelessWidget {
                           onTap: () {
                             AppRouter.route.pushNamed(
                                 RoutePath.professionalProfile,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'profileData': ownerProfileController
+                                      .profileDataList.first,
+                                  'controller': ownerProfileController
+                                });
                           },
                           text: AppStrings.professionalProfile,
                           icon: Assets.icons.personalInfo.svg(
@@ -224,6 +283,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.chat,
                           icon: Assets.images.chartSelected.image(),
+
                         )
                       : const SizedBox(),
 
@@ -421,7 +481,14 @@ class ProfileScreen extends StatelessWidget {
                           ontapNo: () {
                             context.pop();
                           },
-                          ontapYes: () {
+                          ontapYes: () async {
+                            debugPrint("Log Out");
+
+                            await SharePrefsHelper.remove();
+                            Get.deleteAll(
+                                force:
+                                    true); //its indicates to clear all controllers before navigating
+                            context.goNamed(RoutePath.signInScreen);
                             AppRouter.route.goNamed(
                               RoutePath.choseRoleScreen,
                             );

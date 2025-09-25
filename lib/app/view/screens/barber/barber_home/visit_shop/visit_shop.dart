@@ -61,7 +61,7 @@ class _VisitShopState extends State<VisitShop> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           blurRadius: 8,
                           spreadRadius: 2,
                           offset: const Offset(0, 8),

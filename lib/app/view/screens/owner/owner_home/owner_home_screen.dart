@@ -73,7 +73,7 @@ class OwnerHomeScreen extends StatelessWidget {
                   .pushNamed(RoutePath.scheduleScreen, extra: userRole);
             },
             scaffoldKey: scaffoldKey,
-            name: "Masum",
+            name: "Owener",
             image: AppConstants.demoImage,
             onTap: () {
               AppRouter.route

@@ -96,7 +96,6 @@ class _NavBarState extends State<BottomNavbar> {
         ];
         break;
       case UserRole.user:
-      default:
         unselectedIcon = [
           Assets.images.homeUnselected.image(color: Colors.black),
           Assets.images.queUnselected.image(color: Colors.black),

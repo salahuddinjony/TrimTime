@@ -1,0 +1,117 @@
+import 'dart:convert';
+
+import 'package:barber_time/app/services/api_client.dart';
+import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/barber_professional_profile.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+mixin BarberProfessionalProfile {
+
+  RxBool isBarberProfessionalProfileLoading = false.obs;
+  RxList<BarberProfile> barberProfessionalProfileList = <BarberProfile>[].obs;
+
+  var imagepath = ''.obs;
+  var isNetworkImage = false.obs;
+  var clearedInitialImage = false.obs;
+  
+
+  final bioController = TextEditingController();
+  final experienceController = TextEditingController();
+  final currentWorkController = TextEditingController();
+  final addSkillsController = TextEditingController();
+
+  Future<void> barberProfileFetch() async {
+    try {
+      isBarberProfessionalProfileLoading.value = true;
+      final response = await ApiClient.getData(
+        ApiUrl.barberProfileFetchInfo,
+      );
+
+      if (response.statusCode == 200) {
+        final body =
+            response.body is String ? jsonDecode(response.body) : response.body;
+        final resp = BarberProfileResponse.fromJson(body as Map<String, dynamic>);
+        barberProfessionalProfileList.value = [resp.data];
+        debugPrint("Professional profile data fetched successfully");
+        debugPrint('Professional Profile Data: ${barberProfessionalProfileList}');
+        isBarberProfessionalProfileLoading.value = false;
+      } else {
+        debugPrint(
+            'Failed to load profile: ${response.statusCode} - ${response.body}');
+        ApiClient.handleResponse;
+        toastMessage(message: response.statusText ?? 'Failed to load profile');
+        isBarberProfessionalProfileLoading.value = false;
+      }
+    } catch (e) {
+      toastMessage(message: 'Failed to load profile');
+      debugPrint('Error fetching profile: $e');
+      isBarberProfessionalProfileLoading.value = false;
+    } finally {
+      isBarberProfessionalProfileLoading.value = false;
+    }
+  }
+    Future<void> pickImage() async {
+    try {
+      final picker = ImagePicker();
+      final XFile? result = await picker.pickImage(source: ImageSource.gallery);
+      if (result != null) {
+        imagepath.value = result.path;
+        isNetworkImage.value = false;
+        debugPrint("Picked image path: ${imagepath.value.toString()}");
+      }
+    } catch (e) {
+      debugPrint("Error picking image: ${e.toString()}");
+      toastMessage(message: 'Failed to pick image');
+    }
+  }
+  Future<bool> updateBarberProfile()async{
+EasyLoading.show(status: 'Updating...');
+    try {
+      isBarberProfessionalProfileLoading.value = true;
+      final body = {
+        "bio": bioController.text,
+        "experienceYears": experienceController.text,
+        "skills": addSkillsController.text.split(',').map((e) => e.trim()).toList(),
+        "isAvailable": true,
+        // Add other fields as necessary
+      };
+       final multipart = <MultipartBody>[];
+       if (imagepath.value.isNotEmpty) {
+        multipart.add(MultipartBody("portfolioImages", File(imagepath.value)));
+       }
+
+      final response = await ApiClient.patchMultipart(
+        ApiUrl.barberProfileUpdateInfo,
+        {
+          "bodyData": jsonEncode(body), 
+        },
+        multipartBody: multipart
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        barberProfileFetch();
+       EasyLoading.showSuccess('Updated successfully');
+        debugPrint("Professional profile updated successfully");
+        return true;
+      } else {
+        debugPrint(
+            'Failed to update profile: ${response.statusCode} - ${response.body}');
+        ApiClient.handleResponse;
+        toastMessage(message: response.statusText ?? 'Failed to update profile');
+        return false;
+      }
+    } catch (e) {
+      toastMessage(message: 'Failed to update profile');
+      debugPrint('Error updating profile: $e');
+      return false;
+    } finally {
+      EasyLoading.dismiss();
+      isBarberProfessionalProfileLoading.value = false;
+    }
+  }
+}

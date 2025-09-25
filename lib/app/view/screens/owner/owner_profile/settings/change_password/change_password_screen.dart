@@ -1,3 +1,4 @@
+import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -7,14 +8,26 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
-  const ChangePasswordScreen({super.key});
+  ChangePasswordScreen({super.key});
+  final AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
@@ -55,7 +68,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       isPassword: true,
                       title: AppStrings.currentPassword,
                       hinText: AppStrings.enterCurrentPassword,
-                      controller: TextEditingController(),
+                      controller: authController.passwordController,
                       validator: (v) {
                         return null;
                       }),
@@ -65,7 +78,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       isPassword: true,
                       title: AppStrings.newPassword,
                       hinText: AppStrings.enterNewPassword,
-                      controller: TextEditingController(),
+                      controller: authController.newPasswordController,
                       validator: (v) {
                         return null;
                       }),
@@ -76,7 +89,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       isPassword: true,
                       title: AppStrings.retypePassword,
                       hinText: AppStrings.retypeNewPassword,
-                      controller: TextEditingController(),
+                      controller: authController.confirmPasswordController,
                       validator: (v) {
                         return null;
                       }),
@@ -85,8 +98,9 @@ class ChangePasswordScreen extends StatelessWidget {
                   ),
                   //=====================Change password Button===============
                   CustomButton(
-                    onTap: () {
-                      context.pop();
+                    onTap: () async {
+                      authController.changePassword();
+                      // context.pop();
                     },
                     fillColor: AppColors.white50,
                     title: AppStrings.changePassword,

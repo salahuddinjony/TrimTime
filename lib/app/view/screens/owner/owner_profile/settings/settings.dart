@@ -19,7 +19,17 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
@@ -161,8 +171,7 @@ class Settings extends StatelessWidget {
                 //=====deleteAccount====
                 CustomMenuCard(
                   onTap: () {
-                    GlobalAlert.showDeleteDialog(
-                        context, () {}, AppStrings.areYouSureYouWantToDelete);
+                    GlobalAlert().showDeleteDialog(context, AppStrings.areYouSureYouWantToDelete);
                   },
                   isArrow: true,
                   isContainerCard: true,

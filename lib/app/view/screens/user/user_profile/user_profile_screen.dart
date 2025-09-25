@@ -13,6 +13,9 @@ import 'package:barber_time/app/view/common_widgets/user_nav_bar/user_nav_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
@@ -99,8 +102,40 @@ class UserProfileScreen extends StatelessWidget {
                   //TOdo=====personalInformation====
                   CustomMenuCard(
                     onTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.personalInfo, extra: userRole);
+                      try {
+                        // Create a proper ProfileData instance
+                        final profileData = ProfileData(
+                          id: 'user_123', // Replace with actual user ID
+                          fullName: 'Jane Cooper',
+                          email: 'Jane@example.com',
+                          phoneNumber: '+1234567890',
+                          address: 'User Address',
+                          dateOfBirth: DateTime.now().subtract(const Duration(days: 365 * 25)), // 25 years old
+                          gender: 'female',
+                          followerCount: 0,
+                          followingCount: 0, 
+                          role: userRole.name,
+                         
+                        );
+
+                        // Ensure controller exists or create it
+                        if (!Get.isRegistered<OwnerProfileController>()) {
+                          Get.put(OwnerProfileController());
+                        }
+
+                        AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
+                          'userRole': userRole,
+                          'profileData': profileData,
+                          'controller': Get.find<OwnerProfileController>(),
+                        });
+                      } catch (e) {
+                        // Fallback: navigate to a simpler profile screen
+                        debugPrint('Error navigating to PersonalInfo: $e');
+                        // You might want to create a user-specific profile route instead
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Profile feature coming soon')),
+                        );
+                      }
                     },
                     text: AppStrings.profile,
                     icon: Assets.icons.personalInfo.svg(

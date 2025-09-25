@@ -12,6 +12,7 @@ class AppStrings {
   static const inAWorldFullOFTrends =
       "In a world full of trends, a fresh fade never goes out of style.";
   static const signInWithApple = "Sign in with Apple";
+  static const someThing = "Something went wrong. Please try again.";
   static const signInWithFacebook = "Sign in with Facebook";
   static const signInWithGoogle = "Sign in with Google";
   static const signInWithEmail = "Sign in with Email";
@@ -115,6 +116,10 @@ class AppStrings {
   static const shopNames  = "Shop Name";
   static const addReview  = "Add Review";
   static const post  = "Post";
+  static const update  = "Update";
+  static const reviews  = " Reviews";
+  static const writeYourReview  = "Write your review";
+  static const ratingBarHint  = "Tap a star to set your rating";
   static const giveRatingOutOf  = "Give rating out of 5!";
   static const faq  = "FAQs";
   static const privacyPolicy  = "Privacy Policy";

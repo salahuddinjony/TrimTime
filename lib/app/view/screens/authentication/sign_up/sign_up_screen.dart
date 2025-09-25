@@ -1,5 +1,3 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -112,15 +110,16 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       CustomButton(
                         onTap: () {
-                          if (userRole == UserRole.user) {
-                            AppRouter.route
-                                .pushNamed(RoutePath.otpScreen,);
-                          } else if (userRole == UserRole.barber) {
-                            AppRouter.route
-                                .pushNamed(RoutePath.subscriptionPlan, extra: userRole);
-                          }else{
-                            debugPrint("No Role Selectedl");
-                          }
+                          authController.signUp(role: userRole!.name);
+                          // if (userRole == UserRole.user) {
+                          //   AppRouter.route
+                          //       .pushNamed(RoutePath.otpScreen,);
+                          // } else if (userRole == UserRole.barber) {
+                          //   AppRouter.route
+                          //       .pushNamed(RoutePath.subscriptionPlan, extra: userRole);
+                          // }else{
+                          //   debugPrint("No Role Selectedl");
+                          // }
 
                         },
                         title: AppStrings.signUp,

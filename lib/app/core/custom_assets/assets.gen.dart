@@ -276,7 +276,7 @@ class $AssetsImagesGen {
   AssetGenImage get hugeiconsTips =>
       const AssetGenImage('assets/images/hugeicons_tips.png');
 
-  /// File path: assets/images/logo.png
+  /// File path: assets/images/logo.svg
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
   /// File path: assets/images/my_booking.png

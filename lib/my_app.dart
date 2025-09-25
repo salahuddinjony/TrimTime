@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'app/bindings/dependency_injection.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp.router(
         initialBinding: DependencyInjection(),
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
         //Route Section
         routeInformationParser: AppRouter.route.routeInformationParser,
         routerDelegate: AppRouter.route.routerDelegate,

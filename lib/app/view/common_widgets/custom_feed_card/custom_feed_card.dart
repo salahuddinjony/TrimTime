@@ -250,8 +250,6 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
         flags: const YoutubePlayerFlags(
           autoPlay: false,
           mute: false,
-
-
         ),
       );
     }
@@ -309,19 +307,19 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
           // Show YouTube Video Player or Image
           isYouTubeVideo
               ? YoutubePlayer(
-            controller: _youtubeController,
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: AppColors.secondary,
-            onReady: () {
-              // YouTube player ready
-            },
-          )
+                  controller: _youtubeController,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: AppColors.secondary,
+                  onReady: () {
+                    // YouTube player ready
+                  },
+                )
               : CustomNetworkImage(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            imageUrl: widget.postImageUrl,
-            height: 364,
-            width: double.infinity,
-          ),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  imageUrl: widget.postImageUrl,
+                  height: 364,
+                  width: double.infinity,
+                ),
 
           // Post Text
           CustomText(
@@ -337,49 +335,50 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
           widget.isVisitSHopButton == true
               ? const SizedBox()
               : Row(
-            children: [
-              // Favorite Button
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
-                child: IconButton(
-                  onPressed: _toggleFavorite,
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.white,
-                  ),
+                  children: [
+                    // Favorite Button
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                          color: AppColors.secondary, shape: BoxShape.circle),
+                      child: IconButton(
+                        onPressed: _toggleFavorite,
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.white,
+                        ),
+                      ),
+                    ),
+                    CustomText(
+                      textAlign: TextAlign.start,
+                      left: 8,
+                      text: widget.rating,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: AppColors.black,
+                    ),
+                    const Spacer(),
+                    // Visit Shop Button
+                    GestureDetector(
+                      onTap: widget.onVisitShopPressed,
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
+                          color: AppColors.black,
+                        ),
+                        child: const CustomText(
+                          textAlign: TextAlign.start,
+                          left: 8,
+                          text: AppStrings.visitShop,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: AppColors.white50,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              CustomText(
-                textAlign: TextAlign.start,
-                left: 8,
-                text: widget.rating,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: AppColors.black,
-              ),
-              const Spacer(),
-              // Visit Shop Button
-              GestureDetector(
-                onTap: widget.onVisitShopPressed,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  padding: const EdgeInsets.all(5),
-                  decoration: const BoxDecoration(
-                    color: AppColors.black,
-                  ),
-                  child: const CustomText(
-                    textAlign: TextAlign.start,
-                    left: 8,
-                    text: AppStrings.visitShop,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppColors.white50,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

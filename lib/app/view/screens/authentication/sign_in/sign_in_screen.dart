@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_rich_text/custom_rich_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -110,9 +111,9 @@ class SignInScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.forgetPasswordScreen,
-                                      extra: userRole);
+                                  AppRouter.route.pushNamed(RoutePath.forgetPasswordScreen);
+                                  debugPrint("Forgot Password Clicked");
+                                  // authController.forgetMethod();
                                 },
                                 child: CustomText(
                                   top: 12.h,
@@ -137,15 +138,17 @@ class SignInScreen extends StatelessWidget {
                       //ToDo ==========✅✅ Sing In Button✅✅==========
                       CustomButton(
                         onTap: () {
-                          if (userRole == UserRole.user) {
-                            AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
-                          } else if (userRole == UserRole.barber) {
-                            AppRouter.route.goNamed(RoutePath.barberHomeScreen, extra: userRole);
-                          } else if (userRole == UserRole.owner) {
-                            AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: userRole);
-                          } else {
-                            debugPrint('No route selected');
-                          }
+                          authController.signIn();
+                          // if (userRole == UserRole.user) {
+                          //   AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
+                          // } else if (userRole == UserRole.barber) {
+                          //   AppRouter.route.goNamed(RoutePath.barberHomeScreen, extra: userRole);
+                          // } else if (userRole == UserRole.owner) {
+                          //   AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: userRole);
+                          // } else {
+                          //   debugPrint('No route selected');
+                          // }
+                      
                         },
                         title: AppStrings.signIn,
                         fillColor: Colors.black,

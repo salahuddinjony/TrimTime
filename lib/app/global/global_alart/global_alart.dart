@@ -12,7 +12,7 @@ class GlobalAlert {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final TextEditingController name = TextEditingController();
+        // final TextEditingController name = TextEditingController();
         final TextEditingController emailController = TextEditingController();
         final TextEditingController passwordController =
             TextEditingController();
@@ -47,7 +47,7 @@ class GlobalAlert {
                   isPassword: true,
                   hinText: AppStrings.enterYourPassword,
                   title: AppStrings.password,
-                  controller: authController.passwordController,
+                  controller: passwordController,
                   validator: (v) {
                     return null;
                   }),
@@ -66,11 +66,10 @@ class GlobalAlert {
             ),
             ElevatedButton(
                 onPressed: () {
-                  final enteredName = name.text.trim();
+                  // final enteredName = name.text.trim();
                   final email = emailController.text.trim();
                   final password = passwordController.text;
                   authController.deleteAccount(
-                    enteredName,
                     email,
                     password,
                   );

@@ -10,6 +10,7 @@ final SplashController splashController = Get.find<SplashController>();
   @override
   Widget build(BuildContext context) {
   return  Scaffold(
+    backgroundColor: Colors.white,
     body: Center(child: Assets.images.logo.image()),
   );
   }

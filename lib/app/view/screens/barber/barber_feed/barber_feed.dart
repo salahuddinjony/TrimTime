@@ -265,174 +265,117 @@ class _BarberFeedState extends State<BarberFeed> {
                             padding: const EdgeInsets.all(25),
                             child: GestureDetector(
                               onTap: () => _showBottomSheet(context),
-                              child: Column(
+                              child: Stack(
                                 children: [
-                                  _mediaFile == null
-                                      ? const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
+                                  Column(
+                                    children: [
+                                      // Show existing network image when editing
+                                      if (widget.isEdit && (feedItem?.images.isNotEmpty ?? false) && _mediaFile == null && !feedController.clearedInitialImage.value)
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: CustomNetworkImage(
+                                            imageUrl: widget.image ?? feedItem!.images.first,
+                                            height: 100,
+                                            width: 100,
+                                          ),
                                         )
-                                      : _mediaFile!.extension == 'mp4'
-                                          ? Stack(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  child: _videoThumbnailPath != null
-                                                      ? Image.file(
-                                                          File(_videoThumbnailPath!),
-                                                          height: 100,
-                                                          width: 100,
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                      : Container(
-                                                          height: 100,
-                                                          width: 100,
-                                                          color: Colors.black26,
+                                      // Show selected media file
+                                      else if (_mediaFile != null)
+                                        _mediaFile!.extension == 'mp4'
+                                            ? Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    child: _videoThumbnailPath != null
+                                                        ? Image.file(
+                                                            File(_videoThumbnailPath!),
+                                                            height: 100,
+                                                            width: 100,
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Container(
+                                                            height: 100,
+                                                            width: 100,
+                                                            color: Colors.black26,
+                                                          ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Align(
+                                                      alignment: Alignment.center,
+                                                      child: Container(
+                                                        decoration: const BoxDecoration(
+                                                          color: Colors.black54,
+                                                          shape: BoxShape.circle,
                                                         ),
-                                                ),
-                                                Positioned.fill(
-                                                  child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: Container(
-                                                      decoration: const BoxDecoration(
-                                                        color: Colors.black54,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Icon(
-                                                          Icons.play_arrow,
-                                                          color: Colors.white,
-                                                          size: 32,
+                                                        child: const Padding(
+                                                          padding: EdgeInsets.all(8.0),
+                                                          child: Icon(
+                                                            Icons.play_arrow,
+                                                            color: Colors.white,
+                                                            size: 32,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
+                                                ],
+                                              )
+                                            : ClipRRect(
+                                                borderRadius: BorderRadius.circular(12),
+                                                child: Image.file(
+                                                  File(_mediaFile!.path!),
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
                                                 ),
-                                              ],
-                                            )
-                                          : ClipRRect(
-                                              borderRadius: BorderRadius.circular(12),
-                                              child: Image.file(
-                                                File(_mediaFile!.path!),
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                  const CustomText(
-                                    text: AppStrings.upload,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.black,
-                                    fontSize: 16,
+                                              )
+                                      // Show default upload icon
+                                      else
+                                        const Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                      const CustomText(
+                                        text: AppStrings.upload,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ],
                                   ),
+                                  // Show clear button when there's media or existing image
+                                  if (_mediaFile != null || (widget.isEdit && (feedItem?.images.isNotEmpty ?? false) && !feedController.clearedInitialImage.value))
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _mediaFile = null;
+                                            _videoThumbnailPath = null;
+                                            if (widget.isEdit) {
+                                              feedController.clearedInitialImage.value = true;
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withValues(alpha: 0.6),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          padding: const EdgeInsets.all(4),
+                                          child: const Icon(
+                                            Icons.clear,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () => feedController.pickImage(),
-                          child: Obx(() {
-                            final picked = feedController.imagepath.value;
-                            final isNetwork = feedController.isNetworkImage.value ||
-                                (picked.startsWith('http') || picked.startsWith('https'));
-                            return Stack(
-                              children: [
-                                // Show network image when the path is a URL.
-                                if (picked.isNotEmpty && isNetwork)
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: CustomNetworkImage(
-                                      imageUrl: picked,
-                                      height: 150,
-                                      width: 150,
-                                    ),
-                                  )
-                                // If user selected a local image show it.
-                                else if (picked.isNotEmpty && !isNetwork)
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Image.file(
-                                      File(picked.toString()),
-                                      height: 150,
-                                      width: 150,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                // If editing and there is an existing network image,
-                                // show that when no new image is picked and the
-                                // user hasn't explicitly cleared the initial image.
-                                else if (widget.isEdit && (feedItem?.images.isNotEmpty ?? false) && !feedController.clearedInitialImage.value)
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: CustomNetworkImage(
-                                      imageUrl: widget.image ?? feedItem!.images.first,
-                                      height: 150,
-                                      width: 150,
-                                    ),
-                                  )
-                                else
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white.withValues(alpha: 0.5),
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: Colors.grey.shade400),
-                                    ),
-                                    child: const Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.grey,
-                                          size: 40,
-                                        ),
-                                        SizedBox(height: 8),
-                                        CustomText(
-                                          text: "Upload Image",
-                                          fontSize: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                if (picked.isNotEmpty)
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: GestureDetector(
-                                      onTap: () => feedController.clearImage(),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withValues(alpha: 0.6),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        padding: const EdgeInsets.all(4),
-                                        child: const Icon(
-                                          Icons.clear,
-                                          color: Colors.white,
-                                          size: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            );
-                          }),
                         ),
                       ],
                     ),
@@ -468,6 +411,7 @@ class _BarberFeedState extends State<BarberFeed> {
                   final bool isUpdateSuccess = await feedController.updateFeed(
                     feedId: feedItem?.id ?? '',
                     caption: captionController.text,
+                    mediaFile: _mediaFile, // Add this parameter
                   );
                   if (isUpdateSuccess) {
                     AppRouter.route.pushNamed(RoutePath.myFeed, extra: userRole);
@@ -476,7 +420,9 @@ class _BarberFeedState extends State<BarberFeed> {
                   return;
                 }
                 final bool isCreateSuccess = await feedController.createFeed(
-                    caption: captionController.text);
+                  caption: captionController.text,
+                  mediaFile: _mediaFile, // Add this parameter
+                );
 
                 if (isCreateSuccess) {
                   AppRouter.route.pushNamed(RoutePath.myFeed, extra: userRole);

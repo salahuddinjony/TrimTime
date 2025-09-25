@@ -15,14 +15,28 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  ResetPasswordScreen({super.key});
+  final String email;
+  final UserRole userRole;
+
+  ResetPasswordScreen({super.key, required this.email, required this.userRole});
 
   final AuthController authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    debugPrint("Email received in Reset Password Screen: $email");
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRoleFromExtra;
+    if (extra is UserRole) {
+      userRoleFromExtra = extra;
+    } else if (extra is Map) {
+      try {
+        userRoleFromExtra = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRoleFromExtra = null;
+      }
+    }
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
@@ -102,7 +116,7 @@ class ResetPasswordScreen extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           onTap: () {
                             if (formKey.currentState!.validate()) {
-                              authController.resetPassword();
+                              authController.resetPassword(email: email);
                             }
                           },
                           title: AppStrings.resetPassword,

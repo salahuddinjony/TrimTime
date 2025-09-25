@@ -249,10 +249,15 @@ class AppRouter {
         GoRoute(
           name: RoutePath.resetPasswordScreen,
           path: RoutePath.resetPasswordScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: ResetPasswordScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final email = extra['email'] as String?;
+            final userRole = extra['userRole'] as UserRole?;
+            return _buildPageWithAnimation(
+              child: ResetPasswordScreen(email: email ?? '', userRole: userRole!),
+              state: state,
+            );
+          }
         ),
 
         ///======================= OtpScreen Route =======================

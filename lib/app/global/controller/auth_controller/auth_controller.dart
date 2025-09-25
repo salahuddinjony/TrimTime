@@ -21,10 +21,10 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 class AuthController extends GetxController with PasswordConstraintController {
 //for sign-in and sing-up
 
-  final fullNameController = TextEditingController(text: "Salah Uddin");
-  final addressController = TextEditingController(text: "Dhaka, Bangladesh");
-  final regNumberController = TextEditingController(text: "123456");
-  final shopNameController = TextEditingController(text: "Salah's Barbershop");
+  final fullNameController = TextEditingController(text: "");
+  final addressController = TextEditingController(text: "");
+  final regNumberController = TextEditingController(text: "");
+  final shopNameController = TextEditingController(text: "");
 
   // //for CUSTOMER SIGN UP
   // final emailController = TextEditingController(text: "efazkh@gmail.com");
@@ -35,12 +35,14 @@ class AuthController extends GetxController with PasswordConstraintController {
   // final passwordController = TextEditingController(text: "12345678");
 
   // //for Barber SIGN UP  
-  final emailController = TextEditingController(text: "gisiba8648@nicext.com");
-  final passwordController = TextEditingController(text: "12345678");
+  // final emailController = TextEditingController(text: "gisiba8648@nicext.com");
+  // final passwordController = TextEditingController(text: "12345678");
+   final emailController = TextEditingController(text: "");
+  final passwordController = TextEditingController(text: "");
 
-  
-  final confirmPasswordController = TextEditingController(text: "12345678");
-  final newPasswordController = TextEditingController(text: "12345678");
+
+  final confirmPasswordController = TextEditingController(text: "");
+  final newPasswordController = TextEditingController(text: "");
 
   final pinCodeController = TextEditingController();
 
@@ -57,7 +59,11 @@ class AuthController extends GetxController with PasswordConstraintController {
     refresh();
     SharePrefsHelper.setBool(AppConstants.isRememberMe, isRemember.value);
   }
-
+void clearControllers() { 
+    emailController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
+  }
   //>>>>>>>>>>>>>>>>>>✅✅SIgn In Method✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   RxBool isSignInLoading = false.obs;
@@ -340,7 +346,7 @@ class AuthController extends GetxController with PasswordConstraintController {
   //>>>>>>>>>>>>>>>>>>✅✅Reset Password✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   RxBool isResetLoading = false.obs;
 
-  Future<void> resetPassword() async {
+  Future<void> resetPassword({required String email}) async {
     // isResetLoading.value = true;
     // refresh();
     if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
@@ -349,10 +355,10 @@ class AuthController extends GetxController with PasswordConstraintController {
     }
     EasyLoading.show(status: 'Resetting password...');
     final Map<String, dynamic> body = {
-      "email": emailController.text.trim(),
-      "password": passwordController.text.trim(),
+      "email":email,
+      "password": passwordController.text.trim(), 
     };
-
+ 
     // Ensure we send a proper JSON payload and Content-Type header.
     var response = await ApiClient().putData(
       ApiUrl.resetPassword,
@@ -367,6 +373,7 @@ class AuthController extends GetxController with PasswordConstraintController {
       toastMessage(
         message: response.body["message"],
       );
+      clearControllers();
     } else {
       EasyLoading.showError(
           response.body["message"] ?? AppStrings.someThing);
@@ -394,7 +401,7 @@ class AuthController extends GetxController with PasswordConstraintController {
     final Map<String, dynamic> body = {
       "oldPassword": passwordController.text.trim(),
       "password": newPasswordController.text.trim(),
-      "email": emailController.text.trim(),
+      "email": saveEmail,
     };
 
     // Ensure we send a proper JSON payload and Content-Type header.
@@ -729,7 +736,7 @@ class AuthController extends GetxController with PasswordConstraintController {
   }
 
   //>>>>>>>>>>>>>>>>>> Account Active Otp  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+var saveEmail = '';
   RxBool isActiveLoading = false.obs;
 
   Future<void> userAccountActiveOtp({bool? isOwner, bool? isForgotPassword}) async {
@@ -790,7 +797,12 @@ class AuthController extends GetxController with PasswordConstraintController {
       if (isOwner != null && isOwner) {
         AppRouter.route.goNamed(RoutePath.ownerShopDetails);
       }else if (isForgotPassword != null && isForgotPassword) {
-        AppRouter.route.goNamed(RoutePath.resetPasswordScreen);
+        AppRouter.route.goNamed(
+          RoutePath.resetPasswordScreen, 
+          extra: {
+            "email": emailController.text.trim(),
+            "userRole": isOwner == true ? UserRole.owner : UserRole.user
+          });
       }else {
         emailController.clear();
         AppRouter.route.goNamed(RoutePath.signInScreen);
@@ -801,6 +813,8 @@ class AuthController extends GetxController with PasswordConstraintController {
               ?.toString()
           : response.statusText;
       toastMessage(message: msg ?? AppStrings.someThing);
+      saveEmail = emailController.text;
+      clearControllers();
     } else if (response.statusCode == 400) {
       EasyLoading.showError(
         respBody != null

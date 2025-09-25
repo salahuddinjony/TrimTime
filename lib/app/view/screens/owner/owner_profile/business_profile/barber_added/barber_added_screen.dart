@@ -66,7 +66,7 @@ class _BarberScheduleScreenState extends State<BarberAddedScreen> {
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
                             decoration: dropdownDecoration(),
-                            value: selectedBarber,
+                            initialValue : selectedBarber,
                             hint: const Text("Barber name"),
                             items: barbers
                                 .map((e) =>
@@ -131,7 +131,7 @@ class _BarberScheduleScreenState extends State<BarberAddedScreen> {
 
   InputDecoration dropdownDecoration() {
     return InputDecoration(
-      fillColor: Colors.white.withOpacity(0.7),
+      fillColor: Colors.white.withValues(alpha: .7),
       filled: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       border: OutlineInputBorder(

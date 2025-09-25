@@ -1,6 +1,5 @@
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
-import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/following_card/following_card.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ class _FollowingScreenState extends State<FollowerScreen> {
   ];
 
   // Method to handle unfollow action
-  void _unfollowUser(int index) {
+  void unfollowUser(int index) {
     setState(() {
       followingUsers.removeAt(index); // Remove the user from the list
     });

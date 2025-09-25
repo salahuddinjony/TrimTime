@@ -1,4 +1,4 @@
-import 'dart:io';
+
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -13,7 +13,6 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditProfessionalProfile extends StatelessWidget {
   final UserRole userRole;

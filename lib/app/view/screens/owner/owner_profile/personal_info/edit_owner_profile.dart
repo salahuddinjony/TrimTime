@@ -40,7 +40,7 @@ class EditOwnerProfile extends StatefulWidget {
 class _EditOwnerProfileState extends State<EditOwnerProfile> {
   File? _imageFile;
   String? _videoThumbnailPath;
-  File? _videoFile;
+  File? videoFile;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -53,7 +53,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
     widget.controller.setInitialValue(initialData);
   }
 
-  Future<void> _showPickerOptions() async {
+  Future<void> showPickerOptions() async {
     showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -99,7 +99,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                   setState(() {
                     _imageFile = File(pickedImage.path);
                     _videoThumbnailPath = null;
-                    _videoFile = null;
+                    videoFile = null;
                   });
                 }
               },
@@ -120,7 +120,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                     quality: 75,
                   );
                   setState(() {
-                    _videoFile = File(pickedVideo.path);
+                    videoFile = File(pickedVideo.path);
                     _videoThumbnailPath = thumb;
                     _imageFile = null;
                   });
@@ -150,7 +150,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                   setState(() {
                     _imageFile = File(pickedImage.path);
                     _videoThumbnailPath = null;
-                    _videoFile = null;
+                    videoFile = null;
                   });
                 }
               },
@@ -171,7 +171,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                       quality: 75,
                     );
                     setState(() {
-                      _videoFile = File(videoPath);
+                      videoFile = File(videoPath);
                       _videoThumbnailPath = thumb;
                       _imageFile = null;
                     });
@@ -185,7 +185,7 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
     );
   }
 
-  Widget _buildThumbnail() {
+  Widget buildThumbnail() {
     if (_imageFile != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -540,7 +540,7 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withValues(alpha: .3),
                           blurRadius: 6,
                           offset: const Offset(0, 2),
                         ),

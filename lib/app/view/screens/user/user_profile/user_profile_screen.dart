@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -163,6 +164,9 @@ class UserProfileScreen extends StatelessWidget {
 
                   //=========
                   //TOdo=====myFeed====
+                  userRole == UserRole.user
+                      ? const SizedBox.shrink()
+                      :
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route
@@ -253,7 +257,11 @@ class UserProfileScreen extends StatelessWidget {
                           ontapNo: () {
                             context.pop();
                           },
-                          ontapYes: () {
+                          ontapYes: () async{
+                             await SharePrefsHelper.remove();
+                            Get.deleteAll(
+                                force:
+                                    true);
                             AppRouter.route.goNamed(
                               RoutePath.choseRoleScreen,
                             );

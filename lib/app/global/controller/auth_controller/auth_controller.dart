@@ -27,16 +27,16 @@ class AuthController extends GetxController with PasswordConstraintController {
   final shopNameController = TextEditingController(text: "Salah's Barbershop");
 
   // //for CUSTOMER SIGN UP
-  // final emailController = TextEditingController(text: "efazkh@gmail.com");
-  // final passwordController = TextEditingController(text: "12345678");
+  final emailController = TextEditingController(text: "efazkh@gmail.com");
+  final passwordController = TextEditingController(text: "12345678");
 
   // //for Owner SIGN UP
   // final emailController = TextEditingController(text: "pekeyoy772@cerisun.com");
   // final passwordController = TextEditingController(text: "12345678");
 
-  // //for Barber SIGN UP
-  final emailController = TextEditingController(text: "gisiba8648@nicext.com");
-  final passwordController = TextEditingController(text: "12345678");
+  // //for Barber SIGN UP  
+  // final emailController = TextEditingController(text: "gisiba8648@nicext.com");
+  // final passwordController = TextEditingController(text: "12345678");
 
   
   final confirmPasswordController = TextEditingController(text: "12345678");
@@ -290,7 +290,9 @@ class AuthController extends GetxController with PasswordConstraintController {
 
   RxBool isDeletingLoading = false.obs;
 
-  Future<void> deleteAccount(String name, String email, String password) async {
+  Future<void> deleteAccount(String email, String password) async {
+    debugPrint("Delete account called with email: $email");
+    debugPrint("Password length: ${password}");
     if (email.isEmpty || password.isEmpty) {
       EasyLoading.showInfo("Please fill all fields.");
       return;

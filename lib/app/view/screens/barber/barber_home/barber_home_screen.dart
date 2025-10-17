@@ -11,10 +11,12 @@ import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed
 import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_border_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BarberHomeScreen extends StatelessWidget {
   BarberHomeScreen({super.key});
@@ -22,6 +24,8 @@ class BarberHomeScreen extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final BarberHomeController controller = Get.find<BarberHomeController>();
+  final OwnerProfileController profileController =
+      Get.find<OwnerProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,267 +43,344 @@ class BarberHomeScreen extends StatelessWidget {
         currentIndex: 0,
         role: userRole,
       ),
-      body: Column(
-        children: [
-          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-          CommonHomeAppBar(
-            onCalender: () {
-              AppRouter.route
-                  .pushNamed(RoutePath.scheduleScreen, extra: userRole);
-            },
-            isCalender: true,
-            scaffoldKey: scaffoldKey,
-            name: "Barber",
-            image: AppConstants.demoImage,
-            onTap: () {
-              AppRouter.route
-                  .pushNamed(RoutePath.notificationScreen, extra: userRole);
-            },
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              // Wrap everything in a SingleChildScrollView
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
+      body: SafeArea(
+        child: Column(
+          children: [
+            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+              Obx(() {
+              final hasProfile = profileController.profileDataList.isNotEmpty;
+              if (!hasProfile) {
+                return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                child: Row(
                   children: [
-                    ///: <<<<<<======✅✅ job post✅✅>>>>>>>>===========
-                    CustomTitle(
-                      title: AppStrings.jobPost,
-                      actionText: AppStrings.seeAll,
-                      onActionTap: () {
-                        AppRouter.route
-                            .pushNamed(RoutePath.jobPostAll, extra: userRole);
-                      },
-                      actionColor: AppColors.secondary,
+                  // Shimmer for circular profile image
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                    width: 48.w,
+                    height: 48.w,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
                     ),
-                    SizedBox(
-                      height: 12.h,
                     ),
-                    // Barber shop cards
-                    Obx(() {
-                      if (controller.jobPostList.isEmpty) {
-                        // Show a demo job post when there are no real posts
-                        final demoJobShopName = 'Elite Saloon';
-                        final demoSalary = '£1200';
-                        final demoDate = '01/09/2025 - 31/12/2025';
-                        final demoLogo =
-                            'https://lerirides.nyc3.digitaloceanspaces.com/saloon-logos/1754542797566_icon-6951393_1280.jpg';
-                        return CustomBorderCard(
-                          title: demoJobShopName,
-                          time: '10:00am-10:00pm',
-                          price: demoSalary,
-                          date: demoDate,
-                          buttonText: 'Apply',
-                          isButton: true,
-                          isSeeDescription: true,
-                          onButtonTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: const Text('Apply for Job'),
-                                content: Text('Apply to $demoJobShopName?'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child: const Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Application sent to $demoJobShopName')),
-                                      );
-                                    },
-                                    child: const Text('Apply'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          logoImage: (demoLogo.isNotEmpty)
-                              ? Image.network(demoLogo,
-                                  height: 50, width: 50, fit: BoxFit.cover)
-                              : Assets.images.logo.image(height: 50),
-                          seeDescriptionTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text(demoJobShopName),
-                                content: const SingleChildScrollView(
-                                  child: Text(
-                                      'Looking for an experienced barber to join our team.'),
+                  ),
+                  SizedBox(width: 12.w),
+                  // Shimmer for name and subtitle
+                  Expanded(
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        width: 160.w,
+                        height: 14.h,
+                        color: Colors.white,
+                      ),
+                      ),
+                      SizedBox(height: 6.h),
+                      Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        width: 100.w,
+                        height: 10.h,
+                        color: Colors.white,
+                      ),
+                      ),
+                    ],
+                    ),
+                  ),
+                  // Calendar and notification icons keep their actions
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () {
+                    AppRouter.route
+                      .pushNamed(RoutePath.scheduleScreen, extra: userRole);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.notifications),
+                    onPressed: () {
+                    AppRouter.route
+                      .pushNamed(RoutePath.notificationScreen, extra: userRole);
+                    },
+                  ),
+                  ],
+                ),
+                );
+              }
+        
+              // When profile data is available show the regular app bar
+              final profile = profileController.profileDataList[0];
+              return CommonHomeAppBar(
+                onCalender: () {
+                AppRouter.route
+                  .pushNamed(RoutePath.scheduleScreen, extra: userRole);
+                },
+                isCalender: true,
+                scaffoldKey: scaffoldKey,
+                name: profile.fullName,
+                image: profile.image ?? '',
+                onTap: () {
+                AppRouter.route
+                  .pushNamed(RoutePath.notificationScreen, extra: userRole);
+                },
+              );
+              }),
+            Expanded(
+              child: SingleChildScrollView(
+                // Wrap everything in a SingleChildScrollView
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Column(
+                    children: [
+                      ///: <<<<<<======✅✅ job post✅✅>>>>>>>>===========
+                      CustomTitle(
+                        title: AppStrings.jobPost,
+                        actionText: AppStrings.seeAll,
+                        onActionTap: () {
+                          AppRouter.route
+                              .pushNamed(RoutePath.jobPostAll, extra: userRole);
+                        },
+                        actionColor: AppColors.secondary,
+                      ),
+                      SizedBox(
+                        height: 12.h,
+                      ),
+                      // Barber shop cards
+                      Obx(() {
+                        if (controller.jobPostList.isEmpty) {
+                          // Show a demo job post when there are no real posts
+                          final id = "demo_job_1";
+                          final demoJobShopName = 'Elite Saloon';
+                          final demoSalary = '£1200';
+                          final demoDate = '01/09/2025 - 31/12/2025';
+                          final demoLogo =
+                              'https://lerirides.nyc3.digitaloceanspaces.com/saloon-logos/1754542797566_icon-6951393_1280.jpg';
+                          return CustomBorderCard(
+                            title: demoJobShopName,
+                            time: '10:00am-10:00pm',
+                            price: demoSalary,
+                            date: demoDate,
+                            buttonText: 'Apply',
+                            isButton: true,
+                            isSeeDescription: true,
+                            onButtonTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: const Text('Apply for Job'),
+                                  content: Text('Apply to $demoJobShopName?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.applyJob(jobId: id);
+                                        Navigator.of(context).pop();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'Application sent to $demoJobShopName')),
+                                        );
+                                      },
+                                      child: const Text('Apply'),
+                                    ),
+                                  ],
                                 ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child: const Text('Close'),
+                              );
+                            },
+                            logoImage: (demoLogo.isNotEmpty)
+                                ? Image.network(demoLogo,
+                                    height: 50, width: 50, fit: BoxFit.cover)
+                                : Assets.images.logo.image(height: 50),
+                            seeDescriptionTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text(demoJobShopName),
+                                  content: const SingleChildScrollView(
+                                    child: Text(
+                                        'Looking for an experienced barber to join our team.'),
                                   ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      }
-
-                      return Column(
-                        children: List.generate(
-                          controller.jobPostList.length > 2
-                              ? 2
-                              : controller.jobPostList.length,
-                          (index) {
-                            final job = controller.jobPostList[index];
-                            // Format salary / price
-                            final salary = job.salary != null
-                                ? '£${job.salary.toString()}'
-                                : '£20.00/Per hr';
-
-                            // Format dates (show start - end if available)
-                            String dateText = '';
-                            if (job.startDate?.isNotEmpty == true &&
-                                job.endDate?.isNotEmpty == true) {
-                              final start = DateTime.tryParse(job.startDate!);
-                              final end = DateTime.tryParse(job.endDate!);
-                              if (start != null && end != null) {
-                                dateText =
-                                    '${start.day}/${start.month}/${start.year} - ${end.day}/${end.month}/${end.year}';
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text('Close'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
+        
+                        return Column(
+                          children: List.generate(
+                            controller.jobPostList.length > 2
+                                ? 2
+                                : controller.jobPostList.length,
+                            (index) {
+                              final job = controller.jobPostList[index];
+                              // Format salary / price
+                              final salary = job.salary != null
+                                  ? '£${job.salary.toString()}'
+                                  : '£20.00/Per hr';
+        
+                              // Format dates (show start - end if available)
+                              String dateText = '';
+                              if (job.startDate?.isNotEmpty == true &&
+                                  job.endDate?.isNotEmpty == true) {
+                                final start = DateTime.tryParse(job.startDate!);
+                                final end = DateTime.tryParse(job.endDate!);
+                                if (start != null && end != null) {
+                                  dateText =
+                                      '${start.day}/${start.month}/${start.year} - ${end.day}/${end.month}/${end.year}';
+                                } else {
+                                  dateText = job.datePosted ?? '—';
+                                }
+                              } else if (job.datePosted?.isNotEmpty == true) {
+                                final posted = DateTime.tryParse(job.datePosted!);
+                                if (posted != null) {
+                                  dateText =
+                                      '${posted.day}/${posted.month}/${posted.year}';
+                                } else {
+                                  dateText = job.datePosted!;
+                                }
                               } else {
-                                dateText = job.datePosted ?? '—';
+                                dateText = '—';
                               }
-                            } else if (job.datePosted?.isNotEmpty == true) {
-                              final posted = DateTime.tryParse(job.datePosted!);
-                              if (posted != null) {
-                                dateText =
-                                    '${posted.day}/${posted.month}/${posted.year}';
-                              } else {
-                                dateText = job.datePosted!;
-                              }
-                            } else {
-                              dateText = '—';
-                            }
-
-                            // Logo image: prefer remote shopLogo, fallback to asset logo
-                            final logoWidget =
-                                (job.shopLogo?.isNotEmpty == true)
-                                    ? Image.network(job.shopLogo!,
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.cover)
-                                    : Assets.images.logo.image(height: 50);
-
-                            return CustomBorderCard(
-                              title: job.shopName ?? 'Barber Shop',
-                              time: '10:00am-10:00pm',
-                              price: salary,
-                              date: dateText,
-                              buttonText: 'Apply',
-                              isButton: true,
-                              isSeeDescription: true,
-                              onButtonTap: () {
-                                // Simple apply confirmation
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                    title: const Text('Apply for Job'),
-                                    content: Text(
-                                        'Apply to ${job.shopName ?? 'this shop'}?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                                content: Text(
-                                                    'Application sent to ${job.shopName ?? 'shop'}')),
-                                          );
-                                        },
-                                        child: const Text('Apply'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              logoImage: logoWidget,
-                              seeDescriptionTap: () {
-                                // Show job description in a dialog
-                                final desc = job.description ??
-                                    'No description available';
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                    title:
-                                        Text(job.shopName ?? 'Job Description'),
-                                    content: SingleChildScrollView(
-                                        child: Text(desc)),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                        child: const Text('Close'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    }),
-
-                    ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
-
-                    CustomTitle(
-                      title: "Feed",
-                      actionText: AppStrings.seeAll,
-                      onActionTap: () {
-                        AppRouter.route
-                            .pushNamed(RoutePath.feedAll, extra: userRole);
-                      },
-                      actionColor: AppColors.secondary,
-                    ),
-
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    Column(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 12.h),
-                          child: CustomFeedCard(
-                            userImageUrl: AppConstants.demoImage,
-                            userName: "Roger Hunt",
-                            userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                            postImageUrl: AppConstants.demoImage,
-                            postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
-                            rating: "5.0 ★ (169)",
-                            onFavoritePressed: () {},
-                            onVisitShopPressed: () => AppRouter.route.pushNamed(
-                              RoutePath.shopProfileScreen,
-                              extra: userRole,
-                            ),
+        
+                              // Logo image: prefer remote shopLogo, fallback to asset logo
+                              final logoWidget =
+                                  (job.shopLogo?.isNotEmpty == true)
+                                      ? Image.network(job.shopLogo!,
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.cover)
+                                      : Assets.images.logo.image(height: 50);
+        
+                              return CustomBorderCard(
+                                title: job.shopName ?? 'Barber Shop',
+                                time: '10:00am-10:00pm',
+                                price: salary,
+                                date: dateText,
+                                buttonText: 'Apply',
+                                isButton: true,
+                                isSeeDescription: true,
+                                onButtonTap: () {
+                                  // Simple apply confirmation
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: const Text('Apply for Job'),
+                                      content: Text(
+                                          'Apply to ${job.shopName ?? 'this shop'}?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      'Application sent to ${job.shopName ?? 'shop'}')),
+                                            );
+                                          },
+                                          child: const Text('Apply'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                logoImage: logoWidget,
+                                seeDescriptionTap: () {
+                                  // Show job description in a dialog
+                                  final desc = job.description ??
+                                      'No description available';
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title:
+                                          Text(job.shopName ?? 'Job Description'),
+                                      content: SingleChildScrollView(
+                                          child: Text(desc)),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('Close'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         );
                       }),
-                    ),
-                  ],
+        
+                      ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
+        
+                      CustomTitle(
+                        title: "Feed",
+                        actionText: AppStrings.seeAll,
+                        onActionTap: () {
+                          AppRouter.route
+                              .pushNamed(RoutePath.feedAll, extra: userRole);
+                        },
+                        actionColor: AppColors.secondary,
+                      ),
+        
+                      SizedBox(
+                        height: 12.h,
+                      ),
+                      Column(
+                        children: List.generate(4, (index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 12.h),
+                            child: CustomFeedCard(
+                              userImageUrl: AppConstants.demoImage,
+                              userName: "Roger Hunt",
+                              userAddress:
+                                  "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                              postImageUrl: AppConstants.demoImage,
+                              postText:
+                                  "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
+                              rating: "5.0 ★ (169)",
+                              onFavoritePressed: () {},
+                              onVisitShopPressed: () => AppRouter.route.pushNamed(
+                                RoutePath.shopProfileScreen,
+                                extra: userRole,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -345,9 +426,13 @@ void showBottomSheet(BuildContext context) {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange, // button color
-                minimumSize: const Size(double.infinity, 50), // full-width button
+                minimumSize:
+                    const Size(double.infinity, 50), // full-width button
               ),
-              child: const Text('Go to Home',style: TextStyle(color: AppColors.white),),
+              child: const Text(
+                'Go to Home',
+                style: TextStyle(color: AppColors.white),
+              ),
             ),
           ],
         ),

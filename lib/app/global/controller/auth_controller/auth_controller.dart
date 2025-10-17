@@ -34,12 +34,11 @@ class AuthController extends GetxController with PasswordConstraintController {
   // final emailController = TextEditingController(text: "pekeyoy772@cerisun.com");
   // final passwordController = TextEditingController(text: "12345678");
 
-  // //for Barber SIGN UP  
+  // //for Barber SIGN UP
   // final emailController = TextEditingController(text: "gisiba8648@nicext.com");
   // final passwordController = TextEditingController(text: "12345678");
-   final emailController = TextEditingController(text: "");
+  final emailController = TextEditingController(text: "");
   final passwordController = TextEditingController(text: "");
-
 
   final confirmPasswordController = TextEditingController(text: "");
   final newPasswordController = TextEditingController(text: "");
@@ -59,7 +58,8 @@ class AuthController extends GetxController with PasswordConstraintController {
     refresh();
     SharePrefsHelper.setBool(AppConstants.isRememberMe, isRemember.value);
   }
-void clearControllers() { 
+
+  void clearControllers() {
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
@@ -150,7 +150,7 @@ void clearControllers() {
                     AppStrings.someThing
                 : AppStrings.someThing,
             duration: const Duration(seconds: 2));
-     
+
         try {
           ApiChecker.checkApi(response);
         } catch (e) {
@@ -242,7 +242,6 @@ void clearControllers() {
 
         toastMessage(message: response.body["message"]);
       } else if (response.statusCode == 400) {
-        
         EasyLoading.showError(response.body["error"]);
       } else {
         EasyLoading.showError(response.body["message"] ?? AppStrings.someThing);
@@ -314,7 +313,8 @@ void clearControllers() {
     };
     EasyLoading.show(status: 'Deleting account...');
 
-    var response = await ApiClient.postData(ApiUrl.deleteAccount, jsonEncode(body));
+    var response =
+        await ApiClient.postData(ApiUrl.deleteAccount, jsonEncode(body));
     dynamic resBody = response.body;
     try {
       if (resBody is String && resBody.trim().isNotEmpty) {
@@ -331,10 +331,11 @@ void clearControllers() {
     } else if (response.statusCode == 400) {
       EasyLoading.showError(
           resBody?['error'] ?? resBody?['message'] ?? AppStrings.someThing);
-      toastMessage(message: resBody?['error'] ?? resBody?['message'] ?? AppStrings.someThing);
+      toastMessage(
+          message:
+              resBody?['error'] ?? resBody?['message'] ?? AppStrings.someThing);
     } else {
-      EasyLoading.showError(
-          resBody?['message'] ?? AppStrings.someThing);
+      EasyLoading.showError(resBody?['message'] ?? AppStrings.someThing);
       ApiChecker.checkApi(response);
       debugPrint("Error: ${resBody?["message"]}");
     }
@@ -349,16 +350,17 @@ void clearControllers() {
   Future<void> resetPassword({required String email}) async {
     // isResetLoading.value = true;
     // refresh();
-    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+    if (passwordController.text.trim() !=
+        confirmPasswordController.text.trim()) {
       toastMessage(message: "Password and Confirm Password do not match.");
       return;
     }
     EasyLoading.show(status: 'Resetting password...');
     final Map<String, dynamic> body = {
-      "email":email,
-      "password": passwordController.text.trim(), 
+      "email": email,
+      "password": passwordController.text.trim(),
     };
- 
+
     // Ensure we send a proper JSON payload and Content-Type header.
     var response = await ApiClient().putData(
       ApiUrl.resetPassword,
@@ -375,15 +377,13 @@ void clearControllers() {
       );
       clearControllers();
     } else {
-      EasyLoading.showError(
-          response.body["message"] ?? AppStrings.someThing);
+      EasyLoading.showError(response.body["message"] ?? AppStrings.someThing);
       ApiChecker.checkApi(response);
     }
     isResetLoading.value = false;
     refresh();
   }
 
-  
   //>>>>>>>>>>>>>>>>>>Change Password✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   RxBool isChangepassLoading = false.obs;
 
@@ -391,7 +391,8 @@ void clearControllers() {
     // isChangepassLoading.value = true;
     // refresh();
 
-    if (newPasswordController.text.trim() != confirmPasswordController.text.trim()) {
+    if (newPasswordController.text.trim() !=
+        confirmPasswordController.text.trim()) {
       toastMessage(message: "Password and Confirm Password do not match.");
       return;
     }
@@ -417,14 +418,12 @@ void clearControllers() {
         message: response.body["message"],
       );
     } else {
-      EasyLoading.showError(
-          response.body["message"] ?? AppStrings.someThing);
+      EasyLoading.showError(response.body["message"] ?? AppStrings.someThing);
       ApiChecker.checkApi(response);
     }
     isChangepassLoading.value = false;
     refresh();
   }
-
 
   //>>>>>>>>>>>>>>>>>>✅✅Sign up CUSTOMER/ BARBER<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -736,10 +735,11 @@ void clearControllers() {
   }
 
   //>>>>>>>>>>>>>>>>>> Account Active Otp  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-var saveEmail = '';
+  var saveEmail = '';
   RxBool isActiveLoading = false.obs;
 
-  Future<void> userAccountActiveOtp({bool? isOwner, bool? isForgotPassword}) async {
+  Future<void> userAccountActiveOtp(
+      {bool? isOwner, bool? isForgotPassword}) async {
     if (pinCodeController.text.trim().isEmpty) {
       toastMessage(message: "Please enter the activation code.");
       return;
@@ -761,12 +761,14 @@ var saveEmail = '';
       "email": emailController.text.trim(),
       "otp": otpValue
     };
-    final url = (isForgotPassword ?? false) ? ApiUrl.verifyOtpForForgotPassword : ApiUrl.emailVerify;
+    final url = (isForgotPassword ?? false)
+        ? ApiUrl.verifyOtpForForgotPassword
+        : ApiUrl.emailVerify;
     debugPrint("Verifying OTP at $url with body: $body");
 
     var apiClient = ApiClient();
-    var response = await apiClient.putData(url, body,
-        headers: {"Content-Type": "application/json"});
+    var response = await apiClient
+        .putData(url, body, headers: {"Content-Type": "application/json"});
 
     // parse response safely
     dynamic respBody;
@@ -796,14 +798,12 @@ var saveEmail = '';
 
       if (isOwner != null && isOwner) {
         AppRouter.route.goNamed(RoutePath.ownerShopDetails);
-      }else if (isForgotPassword != null && isForgotPassword) {
-        AppRouter.route.goNamed(
-          RoutePath.resetPasswordScreen, 
-          extra: {
-            "email": emailController.text.trim(),
-            "userRole": isOwner == true ? UserRole.owner : UserRole.user
-          });
-      }else {
+      } else if (isForgotPassword != null && isForgotPassword) {
+        AppRouter.route.goNamed(RoutePath.resetPasswordScreen, extra: {
+          "email": emailController.text.trim(),
+          "userRole": isOwner == true ? UserRole.owner : UserRole.user
+        });
+      } else {
         emailController.clear();
         AppRouter.route.goNamed(RoutePath.signInScreen);
       }

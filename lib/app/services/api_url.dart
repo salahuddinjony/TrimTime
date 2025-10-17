@@ -42,10 +42,15 @@ class ApiUrl {
   static const barberProfileUpdateInfo= "/users/update/barber";  
   static const ownerProfileUpdateInfo= "$baseUrl/users/update-profile";
   static const profileImageUpload = "/users/update-profile-image";
+
+  // Job application
+  static const applyJobUri = "/job-applications";
   
 
 
 //not used
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
+
+
 }

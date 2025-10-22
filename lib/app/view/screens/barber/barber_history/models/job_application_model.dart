@@ -18,8 +18,7 @@ class JobApplicationResponse {
   factory JobApplicationResponse.fromMap(Map<String, dynamic> map) {
     return JobApplicationResponse(
       success: map['success'] as bool? ?? false,
-      statusCode:
-          map['statusCode'] as int? ?? (map['status_code'] as int? ?? 0),
+      statusCode: map['statusCode'] as int? ?? (map['status_code'] as int? ?? 0),
       message: map['message'] as String? ?? '',
       data: map['data'] != null
           ? List<JobApplication>.from((map['data'] as List)
@@ -78,8 +77,8 @@ class JobApplication {
     return JobApplication(
       id: map['id'] as String? ?? '',
       status: map['status'] as String? ?? '',
-      createdAt: parseDate(map['createdAt'] ?? map['created_at']),
-      updatedAt: parseDate(map['updatedAt'] ?? map['updated_at']),
+      createdAt: parseDate(map['createdAt']),
+      updatedAt: parseDate(map['updatedAt']),
       barber: map['barber'] != null
           ? Barber.fromMap(map['barber'] as Map<String, dynamic>)
           : Barber.empty(),
@@ -119,11 +118,9 @@ class Barber {
   factory Barber.fromMap(Map<String, dynamic> map) {
     return Barber(
       id: map['id'] as String? ?? '',
-      fullName:
-          map['fullName'] as String? ?? (map['full_name'] as String? ?? ''),
+      fullName: map['fullName'] as String? ?? (map['full_name'] as String? ?? ''),
       email: map['email'] as String? ?? '',
-      phoneNumber: map['phoneNumber'] as String? ??
-          (map['phone_number'] as String? ?? ''),
+      phoneNumber: map['phoneNumber'] as String? ?? (map['phone_number'] as String? ?? ''),
       image: map['image'] as String?,
     );
   }
@@ -150,6 +147,7 @@ class JobPost {
   final DateTime? endDate;
   final DateTime? datePosted;
   final String shopName;
+  final String? shopAddress;
 
   JobPost({
     required this.id,
@@ -159,6 +157,7 @@ class JobPost {
     required this.endDate,
     required this.datePosted,
     required this.shopName,
+    required this.shopAddress,
   });
 
   factory JobPost.fromMap(Map<String, dynamic> map) {
@@ -182,12 +181,12 @@ class JobPost {
     return JobPost(
       id: map['id'] as String? ?? '',
       description: map['description'] as String? ?? '',
-      hourlyRate: toDouble(map['hourlyRate'] ?? map['hourly_rate']),
-      startDate: parseDate(map['startDate'] ?? map['start_date']),
-      endDate: parseDate(map['endDate'] ?? map['end_date']),
-      datePosted: parseDate(map['datePosted'] ?? map['date_posted']),
-      shopName:
-          map['shopName'] as String? ?? (map['shop_name'] as String? ?? ''),
+      hourlyRate: toDouble(map['hourlyRate']),
+      startDate: parseDate(map['startDate']),
+      endDate: parseDate(map['endDate']),
+      datePosted: parseDate(map['datePosted']),
+      shopName: map['shopName'] as String? ?? '',
+      shopAddress: map['shopAddress'] as String?,
     );
   }
 
@@ -200,6 +199,7 @@ class JobPost {
       'endDate': endDate?.toIso8601String(),
       'datePosted': datePosted?.toIso8601String(),
       'shopName': shopName,
+      'shopAddress': shopAddress,
     };
   }
 
@@ -210,7 +210,8 @@ class JobPost {
       startDate: null,
       endDate: null,
       datePosted: null,
-      shopName: '');
+      shopName: '',
+      shopAddress: null);
 }
 
 class Meta {
@@ -235,12 +236,9 @@ class Meta {
       page: map['page'] as int? ?? 0,
       limit: map['limit'] as int? ?? 0,
       total: map['total'] as int? ?? 0,
-      totalPages:
-          map['totalPages'] as int? ?? (map['total_pages'] as int? ?? 0),
-      hasNextPage: map['hasNextPage'] as bool? ??
-          (map['has_next_page'] as bool? ?? false),
-      hasPrevPage: map['hasPrevPage'] as bool? ??
-          (map['has_prev_page'] as bool? ?? false),
+      totalPages: map['totalPages'] as int? ?? (map['total_pages'] as int? ?? 0),
+      hasNextPage: map['hasNextPage'] as bool? ?? (map['has_next_page'] as bool? ?? false),
+      hasPrevPage: map['hasPrevPage'] as bool? ?? (map['has_prev_page'] as bool? ?? false),
     );
   }
 

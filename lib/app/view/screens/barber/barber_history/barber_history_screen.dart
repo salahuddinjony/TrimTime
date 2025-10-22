@@ -3,8 +3,8 @@ import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/screens/barber/barber_history/controller/history_controller.dart';
 // removed unused custom border card import after redesign
-import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
@@ -12,9 +12,14 @@ import 'package:go_router/go_router.dart';
 import 'constants/order_constants.dart';
 
 class BarberHistoryScreen extends StatelessWidget {
-   BarberHistoryScreen({super.key});
+  BarberHistoryScreen({super.key});
 
-    final BarberHomeController controller = Get.find<BarberHomeController>();
+  // BarberHistoryScreen({super.key}) {
+  //   // Refresh job history every time this page is constructed
+  //   Future.microtask(() => controller.getAllJobHistory());
+  // }
+
+  final HistoryController controller = Get.find<HistoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +50,13 @@ class BarberHistoryScreen extends StatelessWidget {
               return ListView.separated(
                 itemCount: 4,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) => const Card(elevation: 1, child: _HistoryShimmerCard()),
+                itemBuilder: (context, index) =>
+                    const Card(elevation: 1, child: _HistoryShimmerCard()),
               );
             }
 
-            final jobs = controller.jobHistoryList;
+            final jobs = controller.jobHistoryList.where((job) =>
+                job.status != "PENDING").toList();
             if (jobs.isEmpty) {
               return Center(
                 child: Column(
@@ -83,7 +90,8 @@ class BarberHistoryScreen extends StatelessWidget {
                     if (start == null && end == null) return '';
                     String fmt(DateTime d) =>
                         '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
-                    if (start != null && end != null) return '${fmt(start)} - ${fmt(end)}';
+                    if (start != null && end != null)
+                      return '${fmt(start)} - ${fmt(end)}';
                     if (start != null) return fmt(start);
                     return fmt(end!);
                   }
@@ -95,51 +103,78 @@ class BarberHistoryScreen extends StatelessWidget {
                   final date = job.createdAt != null
                       ? job.createdAt!.toLocal().toString().split(' ').first
                       : (job.jobPost.datePosted != null
-                          ? job.jobPost.datePosted!.toLocal().toString().split(' ').first
+                          ? job.jobPost.datePosted!
+                              .toLocal()
+                              .toString()
+                              .split(' ')
+                              .first
                           : '');
-                  final Color statusColor = Color(OrderConstants.getStatusColor(job.status));
-                  final Color statusTextColor = statusColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                  final Color statusColor =
+                      Color(OrderConstants.getStatusColor(job.status));
+                  final Color statusTextColor =
+                      statusColor.computeLuminance() > 0.5
+                          ? Colors.black
+                          : Colors.white;
 
                   void showDetails() {
                     showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         titlePadding: EdgeInsets.zero,
                         title: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [AppColors.linearFirst, AppColors.last]),
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                            gradient: LinearGradient(colors: [
+                              AppColors.linearFirst,
+                              AppColors.last
+                            ]),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12)),
                           ),
                           child: Row(
                             children: [
                               CircleAvatar(
                                 radius: 26,
-                                backgroundImage: job.barber.image != null && job.barber.image!.isNotEmpty
-                                    ? NetworkImage(job.barber.image!) as ImageProvider
-                                    : const AssetImage('assets/images/logo.png'),
+                                backgroundImage: job.barber.image != null &&
+                                        job.barber.image!.isNotEmpty
+                                    ? NetworkImage(job.barber.image!)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        'assets/images/logo.png'),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                    Text(title,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 4),
-                                    Text(date, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                                    Text(date,
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 12)),
                                   ],
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 6),
                                 decoration: BoxDecoration(
                                   color: statusColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  OrderConstants.getStatusDisplayText(job.status),
-                                  style: TextStyle(color: statusTextColor, fontWeight: FontWeight.w600, fontSize: 12),
+                                  OrderConstants.getStatusDisplayText(
+                                      job.status),
+                                  style: TextStyle(
+                                      color: statusTextColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12),
                                 ),
                               ),
                             ],
@@ -152,21 +187,46 @@ class BarberHistoryScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                const Icon(Icons.access_time, size: 16, color: Colors.grey),
+                                const Icon(Icons.access_time,
+                                    size: 16, color: Colors.grey),
                                 const SizedBox(width: 8),
-                                Text(time, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                Text(time,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                                 const Spacer(),
-                                Text(price, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                Text(price,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                             const SizedBox(height: 12),
-                            const Text('Description', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Text('Description',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 6),
-                            Text(job.jobPost.description.isNotEmpty ? job.jobPost.description : 'No description provided'),
+                            Text(job.jobPost.description.isNotEmpty
+                                ? job.jobPost.description
+                                : 'No description provided'),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: const [
+                                Icon(Icons.location_on,
+                                    size: 16, color: Colors.red),
+                                SizedBox(width: 8),
+                                Text('Address',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Text(job.jobPost.shopAddress?.isNotEmpty == true
+                                ? job.jobPost.shopAddress!
+                                : 'No address provided'),
                           ],
                         ),
                         actions: [
-                          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close')),
                         ],
                       ),
                     );
@@ -175,7 +235,8 @@ class BarberHistoryScreen extends StatelessWidget {
                   return GestureDetector(
                     onTap: showDetails,
                     child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       elevation: 2,
                       child: Padding(
                         padding: const EdgeInsets.all(12),
@@ -183,8 +244,10 @@ class BarberHistoryScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 28,
-                              backgroundImage: job.barber.image != null && job.barber.image!.isNotEmpty
-                                  ? NetworkImage(job.barber.image!) as ImageProvider
+                              backgroundImage: job.barber.image != null &&
+                                      job.barber.image!.isNotEmpty
+                                  ? NetworkImage(job.barber.image!)
+                                      as ImageProvider
                                   : const AssetImage('assets/images/logo.png'),
                             ),
                             const SizedBox(width: 12),
@@ -192,21 +255,31 @@ class BarberHistoryScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                  Text(title,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 6),
                                   Row(
                                     children: [
-                                      const Icon(Icons.access_time, size: 14, color: Colors.grey),
+                                      const Icon(Icons.access_time,
+                                          size: 14, color: Colors.grey),
                                       const SizedBox(width: 6),
-                                      Text(time.isNotEmpty ? time : '—', style: const TextStyle(color: Colors.grey)),
+                                      Text(time.isNotEmpty ? time : '—',
+                                          style: const TextStyle(
+                                              color: Colors.grey)),
                                     ],
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
                                     children: [
-                                      Text(price, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                      Text(price,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600)),
                                       const SizedBox(width: 12),
-                                      Text(date, style: const TextStyle(color: Colors.grey)),
+                                      Text(date,
+                                          style: const TextStyle(
+                                              color: Colors.grey)),
                                     ],
                                   )
                                 ],
@@ -217,14 +290,19 @@ class BarberHistoryScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 6),
                                   decoration: BoxDecoration(
                                     color: statusColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    OrderConstants.getStatusDisplayText(job.status),
-                                    style: TextStyle(color: statusTextColor, fontWeight: FontWeight.w700, fontSize: 12),
+                                    OrderConstants.getStatusDisplayText(
+                                        job.status),
+                                    style: TextStyle(
+                                        color: statusTextColor,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12),
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -263,13 +341,18 @@ class _HistoryShimmerCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(width: 56, height: 56, decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white)),
+            Container(
+                width: 56,
+                height: 56,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.white)),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(height: 14, width: double.infinity, color: Colors.white),
+                  Container(
+                      height: 14, width: double.infinity, color: Colors.white),
                   const SizedBox(height: 8),
                   Container(height: 12, width: 120, color: Colors.white),
                   const SizedBox(height: 10),

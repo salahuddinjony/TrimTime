@@ -11,10 +11,14 @@ mixin BarberJobHistoryMixin  {
 var isJobHistoryLoading = false.obs;
 RxList<JobApplication> jobHistoryList = <JobApplication>[].obs;
 
- Future<void> getAllJobHistory() async {
+ Future<void> getAllJobHistory({String? status}) async {
     try {
+      final Map<String, String> queryParams = {};
+      if (status != null && status.isNotEmpty) {
+        queryParams['status'] = status;
+      }
       isJobHistoryLoading.value = true;
-      final response = await ApiClient.getData(ApiUrl.historyOfMyApplications);
+      final response = await ApiClient.getData(ApiUrl.historyOfMyApplications, query: queryParams);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
     final body =

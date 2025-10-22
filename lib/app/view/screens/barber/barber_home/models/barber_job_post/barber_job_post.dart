@@ -41,14 +41,14 @@ class JobPost {
   final String? description;
   final int? salary;
   final bool? isActive;
-  final String? datePosted;
-  final String? startDate;
-  final String? endDate;
+  final DateTime? datePosted;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final String? shopName;
   final String? shopLogo;
   final String? saloonOwnerId;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   JobPost({
     this.id,
@@ -69,16 +69,30 @@ class JobPost {
     return JobPost(
       id: json['id'] as String?,
       description: json['description'] as String?,
-      salary: json['salary'] is int ? json['salary'] : int.tryParse(json['salary']?.toString() ?? ''),
+      salary: json['salary'] is int
+          ? json['salary']
+          : json['salary'] == null
+              ? null
+              : int.tryParse(json['salary'].toString()),
       isActive: json['isActive'] as bool?,
-      datePosted: json['datePosted'] as String?,
-      startDate: json['startDate'] as String?,
-      endDate: json['endDate'] as String?,
+      datePosted: json['datePosted'] != null
+          ? DateTime.tryParse(json['datePosted'])
+          : null,
+      startDate: json['startDate'] != null
+          ? DateTime.tryParse(json['startDate'])
+          : null,
+      endDate: json['endDate'] != null
+          ? DateTime.tryParse(json['endDate'])
+          : null,
       shopName: json['shopName'] as String?,
       shopLogo: json['shopLogo'] as String?,
       saloonOwnerId: json['saloonOwnerId'] as String?,
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'])
+          : null,
     );
   }
 
@@ -88,14 +102,14 @@ class JobPost {
       'description': description,
       'salary': salary,
       'isActive': isActive,
-      'datePosted': datePosted,
-      'startDate': startDate,
-      'endDate': endDate,
+      'datePosted': datePosted?.toIso8601String(),
+      'startDate': startDate?.toIso8601String(),
+      'endDate': endDate?.toIso8601String(),
       'shopName': shopName,
       'shopLogo': shopLogo,
       'saloonOwnerId': saloonOwnerId,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 }

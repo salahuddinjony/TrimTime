@@ -12,6 +12,7 @@ import 'package:barber_time/app/view/common_widgets/custom_border_card/custom_bo
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -156,73 +157,34 @@ class BarberHomeScreen extends StatelessWidget {
                       // Barber shop cards
                       Obx(() {
                         if (controller.jobPostList.isEmpty) {
-                          // Show a demo job post when there are no real posts
-                          final id = "demo_job_1";
-                          final demoJobShopName = 'Elite Saloon';
-                          final demoSalary = '£1200';
-                          final demoDate = '01/09/2025 - 31/12/2025';
-                          final demoLogo =
-                              'https://lerirides.nyc3.digitaloceanspaces.com/saloon-logos/1754542797566_icon-6951393_1280.jpg';
-                          return CustomBorderCard(
-                            title: demoJobShopName,
-                            time: '10:00am-10:00pm',
-                            price: demoSalary,
-                            date: demoDate,
-                            buttonText: 'Apply',
-                            isButton: true,
-                            isSeeDescription: true,
-                            onButtonTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text('Apply for Job'),
-                                  content: Text('Apply to $demoJobShopName?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        controller.applyJob(jobId: id);
-                                        Navigator.of(context).pop();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                              content: Text(
-                                                  'Application sent to $demoJobShopName')),
-                                        );
-                                      },
-                                      child: const Text('Apply'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            logoImage: (demoLogo.isNotEmpty)
-                                ? Image.network(demoLogo,
-                                    height: 50, width: 50, fit: BoxFit.cover)
-                                : Assets.images.logo.image(height: 50),
-                            seeDescriptionTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: Text(demoJobShopName),
-                                  content: const SingleChildScrollView(
-                                    child: Text(
-                                        'Looking for an experienced barber to join our team.'),
+                          // Show a nice "No Job Post" UI when there are no job posts from API
+                          return Container(
+                            padding: EdgeInsets.symmetric(vertical: 32.h),
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Assets.images.logo.image(height: 60),
+                                SizedBox(height: 16.h),
+                                Text(
+                                  "No Job Post",
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.secondary,
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Close'),
-                                    ),
-                                  ],
                                 ),
-                              );
-                            },
+                                SizedBox(height: 8.h),
+                                Text(
+                                  "Currently, there are no job posts available.\nPlease check back later.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.grey[600],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           );
                         }
         
@@ -233,44 +195,40 @@ class BarberHomeScreen extends StatelessWidget {
                                 : controller.jobPostList.length,
                             (index) {
                               final job = controller.jobPostList[index];
+
                               // Format salary / price
                               final salary = job.salary != null
                                   ? '£${job.salary.toString()}'
                                   : '£20.00/Per hr';
-        
+
                               // Format dates (show start - end if available)
                               String dateText = '';
-                              if (job.startDate?.isNotEmpty == true &&
-                                  job.endDate?.isNotEmpty == true) {
-                                final start = DateTime.tryParse(job.startDate!);
-                                final end = DateTime.tryParse(job.endDate!);
-                                if (start != null && end != null) {
-                                  dateText =
-                                      '${start.day}/${start.month}/${start.year} - ${end.day}/${end.month}/${end.year}';
-                                } else {
-                                  dateText = job.datePosted ?? '—';
-                                }
-                              } else if (job.datePosted?.isNotEmpty == true) {
-                                final posted = DateTime.tryParse(job.datePosted!);
-                                if (posted != null) {
-                                  dateText =
-                                      '${posted.day}/${posted.month}/${posted.year}';
-                                } else {
-                                  dateText = job.datePosted!;
-                                }
+                              if (job.startDate != null && job.endDate != null) {
+                                final start = job.startDate;
+                                final end = job.endDate;
+                                dateText =
+                                    '${start!.day.toString().padLeft(2, '0')}/${start.month.toString().padLeft(2, '0')}/${start.year} - '
+                                    '${end!.day.toString().padLeft(2, '0')}/${end.month.toString().padLeft(2, '0')}/${end.year}';
+                              } else if (job.datePosted != null) {
+                                final posted = job.datePosted;
+                                dateText =
+                                    '${posted!.day.toString().padLeft(2, '0')}/${posted.month.toString().padLeft(2, '0')}/${posted.year}';
                               } else {
                                 dateText = '—';
                               }
-        
+
                               // Logo image: prefer remote shopLogo, fallback to asset logo
-                              final logoWidget =
-                                  (job.shopLogo?.isNotEmpty == true)
-                                      ? Image.network(job.shopLogo!,
-                                          height: 50,
-                                          width: 50,
-                                          fit: BoxFit.cover)
-                                      : Assets.images.logo.image(height: 50);
-        
+                              final logoWidget = (job.shopLogo?.isNotEmpty == true)
+                                  ? CachedNetworkImage(
+                                      imageUrl: job.shopLogo!,
+                                      height: 50,
+                                      width: 50,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) =>
+                                          Assets.images.logo.image(height: 50),
+                                    )
+                                  : Assets.images.logo.image(height: 50);
+
                               return CustomBorderCard(
                                 title: job.shopName ?? 'Barber Shop',
                                 time: '10:00am-10:00pm',
@@ -280,7 +238,6 @@ class BarberHomeScreen extends StatelessWidget {
                                 isButton: true,
                                 isSeeDescription: true,
                                 onButtonTap: () {
-                                  // Simple apply confirmation
                                   showDialog(
                                     context: context,
                                     builder: (_) => AlertDialog(
@@ -295,6 +252,7 @@ class BarberHomeScreen extends StatelessWidget {
                                         ),
                                         TextButton(
                                           onPressed: () {
+                                            controller.applyJob(jobId: job.id ?? '');
                                             Navigator.of(context).pop();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -311,16 +269,12 @@ class BarberHomeScreen extends StatelessWidget {
                                 },
                                 logoImage: logoWidget,
                                 seeDescriptionTap: () {
-                                  // Show job description in a dialog
-                                  final desc = job.description ??
-                                      'No description available';
+                                  final desc = job.description ?? 'No description available';
                                   showDialog(
                                     context: context,
                                     builder: (_) => AlertDialog(
-                                      title:
-                                          Text(job.shopName ?? 'Job Description'),
-                                      content: SingleChildScrollView(
-                                          child: Text(desc)),
+                                      title: Text(job.shopName ?? 'Job Description'),
+                                      content: SingleChildScrollView(child: Text(desc)),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>

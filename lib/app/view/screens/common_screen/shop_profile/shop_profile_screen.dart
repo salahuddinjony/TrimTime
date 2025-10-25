@@ -69,7 +69,7 @@ class ShopProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
+                                color: Colors.grey.withValues(alpha: .1),
                                 blurRadius: 8,
                                 spreadRadius: 2,
                                 offset: const Offset(0, 8),
@@ -108,6 +108,24 @@ class ShopProfileScreen extends StatelessWidget {
                                   color: AppColors.black,
                                   textAlign: TextAlign.center,
                                 ),
+                              ),
+                              SizedBox(height: 15.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: AppColors.orange500,
+                                    size: 14,
+                                  ),
+                                  CustomText(
+                                    left: 5,
+                                    text: selonData?.shopAddress ?? "No Location",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.gray500,
+                                  ),
+                                ],
                               ),
                               SizedBox(height: 15.h),
                               Row(

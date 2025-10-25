@@ -1034,7 +1034,7 @@ class AppRouter {
           name: RoutePath.shopProfileScreen,
           path: RoutePath.shopProfileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ShopProfileScreen(),
+            child:  ShopProfileScreen(),
             state: state,
             transitionType: TransitionType
                 .detailsScreen, // Custom transition type for detail screens

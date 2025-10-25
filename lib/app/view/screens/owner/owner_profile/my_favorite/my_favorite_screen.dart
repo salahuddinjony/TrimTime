@@ -30,7 +30,7 @@ class MyFavoriteScreen extends StatelessWidget {
         body: const Center(child: Text('No user role received')),
       );
     }
-    
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,10 +69,12 @@ class MyFavoriteScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildFeedCards(UserRole? userRole, List<FavoriteFeedItem> items) {
+  List<Widget> _buildFeedCards(
+      UserRole? userRole, List<FavoriteFeedItem> items) {
     return items.map((item) {
       final owner = item.saloonOwner;
-      final image = item.images.isNotEmpty ? item.images.first : AppConstants.demoImage;
+      final image =
+          item.images.isNotEmpty ? item.images.first : AppConstants.demoImage;
       final shopName = owner?.shopName ?? 'Unknown Shop';
       final ratingStr = owner?.avgRating != null
           ? '${owner!.avgRating!.toStringAsFixed(1)} * (${owner.ratingCount ?? 0})'
@@ -85,7 +87,7 @@ class MyFavoriteScreen extends StatelessWidget {
         postImageUrl: image,
         postText: item.caption.isNotEmpty ? item.caption : '',
         rating: ratingStr,
-        onFavoritePressed: () {
+        onFavoritePressed: (isFavorite) {
           // Demo favorite pressed
         },
         onVisitShopPressed: () {
@@ -141,7 +143,8 @@ class _FavoriteShimmerCard extends StatelessWidget {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
                 ),
                 Expanded(
                   child: Column(
@@ -149,11 +152,17 @@ class _FavoriteShimmerCard extends StatelessWidget {
                     children: const [
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
-                        child: SizedBox(width: double.infinity, height: 12, child: ColoredBox(color: Colors.white)),
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: 12,
+                            child: ColoredBox(color: Colors.white)),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8.0, top: 6.0),
-                        child: SizedBox(width: 160, height: 12, child: ColoredBox(color: Colors.white)),
+                        child: SizedBox(
+                            width: 160,
+                            height: 12,
+                            child: ColoredBox(color: Colors.white)),
                       ),
                     ],
                   ),
@@ -165,11 +174,15 @@ class _FavoriteShimmerCard extends StatelessWidget {
             Container(
               height: 364,
               width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
             ),
             const SizedBox(height: 8),
             // Post text placeholder
-            const SizedBox(width: double.infinity, height: 14, child: ColoredBox(color: Colors.white)),
+            const SizedBox(
+                width: double.infinity,
+                height: 14,
+                child: ColoredBox(color: Colors.white)),
             const SizedBox(height: 10),
             // Bottom action row: favorite circle, rating, visit shop button
             Row(
@@ -178,17 +191,24 @@ class _FavoriteShimmerCard extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 10),
                   width: 40,
                   height: 40,
-                  decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                      color: AppColors.secondary, shape: BoxShape.circle),
                   child: const Icon(Icons.favorite_border, color: Colors.white),
                 ),
                 const SizedBox(width: 8),
-                const SizedBox(width: 80, height: 14, child: ColoredBox(color: Colors.white)),
+                const SizedBox(
+                    width: 80,
+                    height: 14,
+                    child: ColoredBox(color: Colors.white)),
                 const Spacer(),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   padding: const EdgeInsets.all(5),
                   decoration: const BoxDecoration(color: AppColors.black),
-                  child: const SizedBox(width: 80, height: 20, child: ColoredBox(color: Colors.white)),
+                  child: const SizedBox(
+                      width: 80,
+                      height: 20,
+                      child: ColoredBox(color: Colors.white)),
                 ),
               ],
             ),

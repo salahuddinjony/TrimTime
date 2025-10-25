@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_home_screen_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
-mixin MixinBarberApplyJob {
+mixin MixinBarberApplyJob on BarberHomeScreenDataMixin {
   Rx<RxStatus> applyJobStatus = Rx<RxStatus>(RxStatus.loading());
 
   Future<bool> applyJob({required String jobId}) async {
@@ -21,6 +22,7 @@ mixin MixinBarberApplyJob {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        await getAllJobPost(); // Refresh job posts after applying
         applyJobStatus.value = RxStatus.success();
         debugPrint("Job applied successfully");
         return true;

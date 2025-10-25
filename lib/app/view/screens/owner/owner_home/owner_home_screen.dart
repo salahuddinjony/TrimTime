@@ -360,7 +360,9 @@ class OwnerHomeScreen extends StatelessWidget {
                             postImageUrl: postUrl,
                             postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
                             rating: "5.0 ★ (169)",
-                            onFavoritePressed: () {},
+                            onFavoritePressed: (isFavorite) {
+                              // Handle favorite button press
+                            },
                             onVisitShopPressed: () => AppRouter.route.pushNamed(
                               RoutePath.shopProfileScreen,
                               extra: userRole,

@@ -48,91 +48,93 @@ class BarberHomeScreen extends StatelessWidget {
         child: Column(
           children: [
             ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-              Obx(() {
+            Obx(() {
               final hasProfile = profileController.profileDataList.isNotEmpty;
               if (!hasProfile) {
                 return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                child: Row(
-                  children: [
-                  // Shimmer for circular profile image
-                  Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Container(
-                    width: 48.w,
-                    height: 48.w,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    ),
-                  ),
-                  SizedBox(width: 12.w),
-                  // Shimmer for name and subtitle
-                  Expanded(
-                    child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  child: Row(
                     children: [
+                      // Shimmer for circular profile image
                       Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        width: 160.w,
-                        height: 14.h,
-                        color: Colors.white,
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          width: 48.w,
+                          height: 48.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
+                      SizedBox(width: 12.w),
+                      // Shimmer for name and subtitle
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 160.w,
+                                height: 14.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 100.w,
+                                height: 10.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 6.h),
-                      Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        width: 100.w,
-                        height: 10.h,
-                        color: Colors.white,
+                      // Calendar and notification icons keep their actions
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(RoutePath.scheduleScreen,
+                              extra: userRole);
+                        },
                       ),
+                      IconButton(
+                        icon: const Icon(Icons.notifications),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(
+                              RoutePath.notificationScreen,
+                              extra: userRole);
+                        },
                       ),
                     ],
-                    ),
                   ),
-                  // Calendar and notification icons keep their actions
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () {
-                    AppRouter.route
-                      .pushNamed(RoutePath.scheduleScreen, extra: userRole);
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.notifications),
-                    onPressed: () {
-                    AppRouter.route
-                      .pushNamed(RoutePath.notificationScreen, extra: userRole);
-                    },
-                  ),
-                  ],
-                ),
                 );
               }
-        
+
               // When profile data is available show the regular app bar
               final profile = profileController.profileDataList[0];
               return CommonHomeAppBar(
                 onCalender: () {
-                AppRouter.route
-                  .pushNamed(RoutePath.scheduleScreen, extra: userRole);
+                  AppRouter.route
+                      .pushNamed(RoutePath.scheduleScreen, extra: userRole);
                 },
                 isCalender: true,
                 scaffoldKey: scaffoldKey,
                 name: profile.fullName,
                 image: profile.image ?? '',
                 onTap: () {
-                AppRouter.route
-                  .pushNamed(RoutePath.notificationScreen, extra: userRole);
+                  AppRouter.route
+                      .pushNamed(RoutePath.notificationScreen, extra: userRole);
                 },
               );
-              }),
+            }),
             Expanded(
               child: SingleChildScrollView(
                 // Wrap everything in a SingleChildScrollView
@@ -187,7 +189,7 @@ class BarberHomeScreen extends StatelessWidget {
                             ),
                           );
                         }
-        
+
                         return Column(
                           children: List.generate(
                             controller.jobPostList.length > 2
@@ -203,7 +205,8 @@ class BarberHomeScreen extends StatelessWidget {
 
                               // Format dates (show start - end if available)
                               String dateText = '';
-                              if (job.startDate != null && job.endDate != null) {
+                              if (job.startDate != null &&
+                                  job.endDate != null) {
                                 final start = job.startDate;
                                 final end = job.endDate;
                                 dateText =
@@ -218,7 +221,8 @@ class BarberHomeScreen extends StatelessWidget {
                               }
 
                               // Logo image: prefer remote shopLogo, fallback to asset logo
-                              final logoWidget = (job.shopLogo?.isNotEmpty == true)
+                              final logoWidget = (job.shopLogo?.isNotEmpty ==
+                                      true)
                                   ? CachedNetworkImage(
                                       imageUrl: job.shopLogo!,
                                       height: 50,
@@ -252,7 +256,8 @@ class BarberHomeScreen extends StatelessWidget {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            controller.applyJob(jobId: job.id ?? '');
+                                            controller.applyJob(
+                                                jobId: job.id ?? '');
                                             Navigator.of(context).pop();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -269,12 +274,15 @@ class BarberHomeScreen extends StatelessWidget {
                                 },
                                 logoImage: logoWidget,
                                 seeDescriptionTap: () {
-                                  final desc = job.description ?? 'No description available';
+                                  final desc = job.description ??
+                                      'No description available';
                                   showDialog(
                                     context: context,
                                     builder: (_) => AlertDialog(
-                                      title: Text(job.shopName ?? 'Job Description'),
-                                      content: SingleChildScrollView(child: Text(desc)),
+                                      title: Text(
+                                          job.shopName ?? 'Job Description'),
+                                      content: SingleChildScrollView(
+                                          child: Text(desc)),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
@@ -290,9 +298,9 @@ class BarberHomeScreen extends StatelessWidget {
                           ),
                         );
                       }),
-        
+
                       ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
-        
+
                       CustomTitle(
                         title: "Feed",
                         actionText: AppStrings.seeAll,
@@ -302,32 +310,74 @@ class BarberHomeScreen extends StatelessWidget {
                         },
                         actionColor: AppColors.secondary,
                       ),
-        
+
                       SizedBox(
                         height: 12.h,
                       ),
-                      Column(
-                        children: List.generate(4, (index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 12.h),
-                            child: CustomFeedCard(
-                              userImageUrl: AppConstants.demoImage,
-                              userName: "Roger Hunt",
-                              userAddress:
-                                  "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                              postImageUrl: AppConstants.demoImage,
-                              postText:
-                                  "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
-                              rating: "5.0 ★ (169)",
-                              onFavoritePressed: () {},
-                              onVisitShopPressed: () => AppRouter.route.pushNamed(
-                                RoutePath.shopProfileScreen,
-                                extra: userRole,
+                      Obx(() {
+                        final feeds = controller.homeFeedsList;
+                        if (controller.getFeedsStatus.value.isLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (feeds.isEmpty) {
+                          return Center(child: Text('No feeds available'));
+                        }
+                        return Column(
+                          children: List.generate(feeds.length, (index) {
+                            final feed = feeds[index];
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 12.h),
+                              child: Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CustomFeedCard(
+                                        isFavouriteFromApi:
+                                            feed.isFavorite ?? false,
+                                        isVisitShopButton:
+                                            feed.saloonOwner != null,
+                                        favoriteCount:
+                                            feed.favoriteCount.toString(),
+                                        userImageUrl: feed.userImage ??
+                                            AppConstants.demoImage,
+                                        userName: feed.userName,
+                                        userAddress:
+                                            feed.saloonOwner?.shopAddress ?? '',
+                                        postImageUrl: feed.images.isNotEmpty
+                                            ? feed.images.first
+                                            : AppConstants.demoImage,
+                                        postText: feed.caption,
+                                        rating: feed.saloonOwner != null
+                                            ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                            : "",
+                                        onFavoritePressed: ( isFavorite) {
+                                          controller.toggleLikeFeed(
+                                              feedId: feed.id,
+                                              isUnlike: isFavorite == true,
+
+                                              );
+                                        },
+                                        onVisitShopPressed: () {
+                                          if (feed.saloonOwner != null) {
+                                            controller.getSelonData(
+                                                userId:
+                                                    feed.saloonOwner!.userId);
+                                            AppRouter.route.pushNamed(
+                                              RoutePath.shopProfileScreen,
+                                              extra: userRole,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ),
-                          );
-                        }),
-                      ),
+                            );
+                          }),
+                        );
+                      }),
+                      SizedBox(height: 30.h),
                     ],
                   ),
                 ),

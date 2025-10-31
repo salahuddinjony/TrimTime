@@ -60,6 +60,8 @@ class ApiUrl {
 
   //selon management
   static  getSelonData({String? userId}) => "$baseUrl/saloons/all-saloons/$userId";
+  static String toggleFollowSalon="/follows"; 
+  static String makeUnfollow ({required String id}) => "$baseUrl/follows/$id";
 
 
 }

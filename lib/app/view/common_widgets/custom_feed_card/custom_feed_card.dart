@@ -210,6 +210,7 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
     );
   }
 
+// Toggle favorite state
   void _toggleFavorite() {
     setState(() {
       if (isFavorite) {

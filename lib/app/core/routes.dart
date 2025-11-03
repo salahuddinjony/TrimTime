@@ -1033,12 +1033,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.shopProfileScreen,
           path: RoutePath.shopProfileScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ShopProfileScreen(),
-            state: state,
-            transitionType: TransitionType
-                .detailsScreen, // Custom transition type for detail screens
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userId = extra['userId'] as String?;
+            final userRole = extra['userRole'] as UserRole?;
+
+            return _buildPageWithAnimation(
+              child: ShopProfileScreen(
+                userId: userId ?? '',
+                userRole: userRole!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///======================= =======================

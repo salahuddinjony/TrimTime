@@ -43,13 +43,17 @@ class FeedAll extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.only(bottom: 12.h),
                 child: CustomFeedCard(
+                  favoriteCount:"",
+                  
                   userImageUrl: AppConstants.demoImage,
                   userName: "Roger Hunt",
                   userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
                   postImageUrl: postUrl,
                   postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
                   rating: "5.0 ★ (169)",
-                  onFavoritePressed: () {},
+                  onFavoritePressed: (isFavorite) {
+                    // Handle favorite button press
+                  },
                   onVisitShopPressed: () => AppRouter.route.pushNamed(
                     RoutePath.shopProfileScreen,
                     extra: userRole,

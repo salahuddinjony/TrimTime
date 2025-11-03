@@ -29,6 +29,10 @@ class ApiUrl {
   // Feed management
   static const getAllFeed = "$baseUrl/feeds/my-feeds";
   static const createFeed = "/feeds";
+  static String getFeedById({required String id}) => "$baseUrl/feeds/$id";
+  static String likeFeed= "/favorites";
+  static String unlikeFeed({required String id}) => "/feeds/unlike/$id";
+  static String getHomeFeed= "$baseUrl/feeds";
   static String updateFeed({required String id}) => "/feeds/$id";
   static String deleteFeed({required String id}) => "$baseUrl/feeds/$id";
 
@@ -51,6 +55,13 @@ class ApiUrl {
 //not used
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
+
+
+
+  //selon management
+  static  getSelonData({String? userId}) => "$baseUrl/saloons/all-saloons/$userId";
+  static String toggleFollowSalon="/follows"; 
+  static String makeUnfollow ({required String id}) => "$baseUrl/follows/$id";
 
 
 }

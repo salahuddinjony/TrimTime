@@ -59,6 +59,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1 # Add this line
   youtube_player_flutter: ^9.0.1
   jwt_decoder: ^2.0.1
+  
 
   
 

@@ -54,58 +54,51 @@ class JobPostAll extends StatelessWidget {
             SizedBox(height: 20.h),
 
             // Barber shop cards
-            Obx(() {
-              // Show loading indicator
-              if (controller.isJobHistoryLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+            Expanded(
+              child: Obx(() {
+                if (controller.isJobHistoryLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              // Decide which list to show
-              final selected = controller.selectedFilter.value;
-        // Only show jobHistoryList for status filters, not when jobHistoryList is loaded globally
-        final isNearbyJob = selected == "Nearby job";
-        final jobs = isNearbyJob
-          ? controller.jobPostList
-          : controller.jobHistoryList;
+                final selected = controller.selectedFilter.value;
+                final isNearbyJob = selected == "Nearby job";
+                final jobs = isNearbyJob
+                    ? controller.jobPostList
+                    : controller.jobHistoryList;
 
-              if (jobs.isEmpty) {
-                // Show a nice "No Job Post" UI when there are no job posts from API
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 32.h),
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Assets.images.logo.image(height: 60),
-                      SizedBox(height: 16.h),
-                      Text(
-                        "No Job Post",
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.secondary,
+                if (jobs.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Assets.images.logo.image(height: 60),
+                        SizedBox(height: 16.h),
+                        Text(
+                          "No Job Post",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.secondary,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        "Currently, there are no job posts available.\nPlease check back later.",
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.grey[600],
+                        SizedBox(height: 8.h),
+                        Text(
+                          "Currently, there are no job posts available.\nPlease check back later.",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                );
-              }
+                      ],
+                    ),
+                  );
+                }
 
-              return Column(
-                children: List.generate(
-                  jobs.length,
-                  (index) {
-                    if (!isNearbyJob) { // was: if (isHistory)
-                      // JobApplication model for job history
+                return ListView.builder(
+                  itemCount: jobs.length,
+                  itemBuilder: (context, index) {
+                    if (!isNearbyJob) {
                       final jobApp = controller.jobHistoryList[index];
                       final job = jobApp.jobPost;
                       final salary = job.hourlyRate != null
@@ -151,10 +144,10 @@ class JobPostAll extends StatelessWidget {
                               ],
                             ),
                           );
-                        }, onButtonTap: () {  },
+                        },
+                        onButtonTap: () {},
                       );
                     } else {
-                      // JobPost model for job post list
                       final job = controller.jobPostList[index];
                       final salary = job.salary != null
                           ? '£${job.salary.toString()}'
@@ -241,9 +234,9 @@ class JobPostAll extends StatelessWidget {
                       );
                     }
                   },
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           ],
         ),
       ),

@@ -43,7 +43,7 @@ class ShopProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-  final selonData = controller.selonList.value;
+      final selonData = controller.selonList.value;
 
       // // Only update isFollowing after a successful fetch, not on every rebuild or button click
       // if (controller.getSelonStatus.value.isSuccess &&
@@ -52,7 +52,6 @@ class ShopProfileScreen extends StatelessWidget {
       //     ModalRoute.of(context)?.isCurrent == true) {
       //   controller.isFollowing.value = controller.selonList.value!.isFollowing;
       // }
-
 
       final isLoading = controller.getSelonStatus.value.isLoading;
       return Scaffold(
@@ -368,21 +367,47 @@ class ShopProfileScreen extends StatelessWidget {
                         : SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
-                              children: List.generate(4, (index) {
+                              children: List.generate(
+                                  selonData?.barbers.length ?? 0, (index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
-                                      CustomNetworkImage(
-                                          imageUrl: AppConstants.demoImage,
-                                          height: 58.h,
-                                          boxShape: BoxShape.circle,
-                                          width: 58.h),
-                                      const CustomText(
-                                        text: "Jacob Jones",
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.black,
+                                      GestureDetector(
+                                        onTap: () {
+                                          debugPrint(
+                                              "Barber ${selonData?.barbers[index].fullName} clicked");
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: Colors.white,
+                                                  width: 2,
+                                                ),
+                                              ),
+                                              child: CustomNetworkImage(
+                                                  imageUrl: selonData
+                                                          ?.barbers[index]
+                                                          .image ??
+                                                      AppConstants.demoImage,
+                                                  height: 58.h,
+                                                  boxShape: BoxShape.circle,
+                                                  width: 58.h),
+                                            ),
+                                            SizedBox(height: 6.h),
+                                            CustomText(
+                                              text: selonData?.barbers[index]
+                                                      .fullName ??
+                                                  "No Name",
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.black,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -391,6 +416,7 @@ class ShopProfileScreen extends StatelessWidget {
                             ),
                           ),
                     const SizedBox(height: 10),
+                    // Services Section
                     isLoading
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
@@ -404,50 +430,201 @@ class ShopProfileScreen extends StatelessWidget {
                           )
                         : const CustomText(
                             top: 10,
-                            text: 'Gallery',
+                            bottom: 8,
+                            text: "Services",
                             fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.gray500,
-                            bottom: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
                           ),
                     isLoading
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              width: 96,
-                              height: 78,
-                              color: Colors.white,
+                            child: Row(
+                              children: List.generate(
+                                  2,
+                                  (index) => Container(
+                                        width: 200,
+                                        height: 120,
+                                        margin: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                      )),
                             ),
                           )
-                        : CustomNetworkImage(
-                            imageUrl: AppConstants.demoImage,
-                            height: 78,
-                            width: 96),
-                    const SizedBox(height: 20),
-                    isLoading
-                        ? Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: 40,
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              color: Colors.white,
-                            ),
-                          )
-                        : Center(
-                            child: CustomButton(
-                              width: MediaQuery.of(context).size.width / 2,
-                              fillColor: AppColors.last,
-                              borderColor: Colors.white,
-                              textColor: Colors.white,
-                              onTap: () {
-                                _showRatingDialog(context);
-                              },
-                              title: AppStrings.addReview,
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(
+                                  selonData?.services.length ?? 0, (index) {
+                                final service = selonData!.services[index];
+                                return Container(
+                                  width: 220,
+                                  margin: EdgeInsets.only(
+                                      right: 12.w, bottom: 8.h, top: 4.h),
+                                  padding: EdgeInsets.all(16.r),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        AppColors.orange500.withOpacity(0.1),
+                                        AppColors.last.withOpacity(0.05),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: AppColors.orange500.withOpacity(0.3),
+                                      width: 1,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.orange500.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: service.serviceName,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.black,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                          if (service.isActive)
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.w,
+                                                  vertical: 4.h),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: CustomText(
+                                                text: "Active",
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 12.h),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.access_time,
+                                            size: 16,
+                                            color: AppColors.orange500,
+                                          ),
+                                          SizedBox(width: 6.w),
+                                          CustomText(
+                                            text: "${service.duration} min",
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.gray500,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8.h),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.attach_money,
+                                            size: 18,
+                                            color: AppColors.orange500,
+                                          ),
+                                          Flexible(
+                                            child: CustomText(
+                                              text: "${service.price}",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: AppColors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
                             ),
                           ),
+                    const SizedBox(height: 10),
+                    // isLoading
+                    //     ? Shimmer.fromColors(
+                    //         baseColor: Colors.grey[300]!,
+                    //         highlightColor: Colors.grey[100]!,
+                    //         child: Container(
+                    //           width: 120,
+                    //           height: 24,
+                    //           margin: const EdgeInsets.symmetric(vertical: 10),
+                    //           color: Colors.white,
+                    //         ),
+                    //       )
+                    //     : const CustomText(
+                    //         top: 10,
+                    //         text: 'Gallery',
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: AppColors.gray500,
+                    //         bottom: 10,
+                    //       ),
+                    // isLoading
+                    //     ? Shimmer.fromColors(
+                    //         baseColor: Colors.grey[300]!,
+                    //         highlightColor: Colors.grey[100]!,
+                    //         child: Container(
+                    //           width: 96,
+                    //           height: 78,
+                    //           color: Colors.white,
+                    //         ),
+                    //       )
+                    //     : CustomNetworkImage(
+                    //         imageUrl: AppConstants.demoImage,
+                    //         height: 78,
+                    //         width: 96),
+                    // const SizedBox(height: 20),
+                    // isLoading
+                    //     ? Shimmer.fromColors(
+                    //         baseColor: Colors.grey[300]!,
+                    //         highlightColor: Colors.grey[100]!,
+                    //         child: Container(
+                    //           width: MediaQuery.of(context).size.width / 2,
+                    //           height: 40,
+                    //           margin: const EdgeInsets.symmetric(vertical: 10),
+                    //           color: Colors.white,
+                    //         ),
+                    //       )
+                    //     : Center(
+                    //         child: CustomButton(
+                    //           width: MediaQuery.of(context).size.width / 2,
+                    //           fillColor: AppColors.last,
+                    //           borderColor: Colors.white,
+                    //           textColor: Colors.white,
+                    //           onTap: () {
+                    //             _showRatingDialog(context);
+                    //           },
+                    //           title: AppStrings.addReview,
+                    //         ),
+                    //       ),
                     const SizedBox(height: 50),
                   ],
                 ),

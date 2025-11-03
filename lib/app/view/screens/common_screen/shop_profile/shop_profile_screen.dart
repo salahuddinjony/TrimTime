@@ -16,36 +16,42 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class ShopProfileScreen extends StatelessWidget {
-  ShopProfileScreen({super.key});
+  final String userId;
+  final UserRole userRole;
 
-  final controller = Get.find<BarberHomeController>();
+  ShopProfileScreen({super.key, required this.userId, required this.userRole});
+
+  BarberHomeController get controller {
+    // Initialize or get the controller with the userId tag
+    if (Get.isRegistered<BarberHomeController>(tag: userId)) {
+      return Get.find<BarberHomeController>(tag: userId);
+    } else {
+      final ctrl = Get.put(BarberHomeController(), tag: userId);
+      // Fetch salon data once when controller is created
+      ctrl.getSelonData(userId: userId);
+      // Don't set isFollowing here - wait for data to load
+      // ctrl.isFollowing.value will be updated after data fetch completes
+
+      return ctrl;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
-
-    debugPrint("===================${userRole?.name}");
-    if (userRole == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: const Center(child: Text('No user role received')),
-      );
-    }
     return Obx(() {
   final selonData = controller.selonList.value;
 
-      // Only update isFollowing after a successful fetch, not on every rebuild or button click
-      if (controller.getSelonStatus.value.isSuccess &&
-          controller.selonList.value != null &&
-          controller.getSelonStatus.value == RxStatus.success() &&
-          ModalRoute.of(context)?.isCurrent == true) {
-        controller.isFollowing.value = controller.selonList.value!.isFollowing;
-      }
+      // // Only update isFollowing after a successful fetch, not on every rebuild or button click
+      // if (controller.getSelonStatus.value.isSuccess &&
+      //     controller.selonList.value != null &&
+      //     controller.getSelonStatus.value == RxStatus.success() &&
+      //     ModalRoute.of(context)?.isCurrent == true) {
+      //   controller.isFollowing.value = controller.selonList.value!.isFollowing;
+      // }
 
 
       final isLoading = controller.getSelonStatus.value.isLoading;

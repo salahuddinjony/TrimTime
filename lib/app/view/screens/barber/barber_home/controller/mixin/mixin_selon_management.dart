@@ -23,13 +23,14 @@ mixin MixinSelonManagement {
         final selonData = SingleSaloonModel.fromJson(responseData);
 
         selonList.value = selonData;
+        // Set isFollowing after data is successfully fetched
+        isFollowing.value = selonData.isFollowing;
         getSelonStatus.value = RxStatus.success();
       } else {
         getSelonStatus.value = RxStatus.error(
             "Failed to fetch selon data: ${response.statusCode} - ${response.statusText}");
       }
 
-      getSelonStatus.value = RxStatus.success();
       debugPrint("Selon data fetched successfully");
     } catch (e) {
       debugPrint("Error fetching selon data: ${e.toString()}");
@@ -54,7 +55,7 @@ mixin MixinSelonManagement {
     setIsFollowing();
 
     try {
-      final response = isFollowing
+      final response = this.isFollowing.value
           ? await ApiClient.postData(
               ApiUrl.toggleFollowSalon,
               jsonEncode({"followingId": userId}),

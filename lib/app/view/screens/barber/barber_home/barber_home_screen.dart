@@ -30,7 +30,15 @@ class BarberHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    // Handle both direct UserRole and Map containing userRole
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -350,21 +358,24 @@ class BarberHomeScreen extends StatelessWidget {
                                         rating: feed.saloonOwner != null
                                             ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
                                             : "",
-                                        onFavoritePressed: ( isFavorite) {
+                                        onFavoritePressed: (isFavorite) {
                                           controller.toggleLikeFeed(
-                                              feedId: feed.id,
-                                              isUnlike: isFavorite == true,
-
-                                              );
+                                            feedId: feed.id,
+                                            isUnlike: isFavorite == true,
+                                          );
                                         },
                                         onVisitShopPressed: () {
                                           if (feed.saloonOwner != null) {
-                                            controller.getSelonData(
-                                                userId:
-                                                    feed.saloonOwner!.userId);
+                                            // controller.getSelonData(
+                                            //     userId:
+                                            //         feed.saloonOwner!.userId);
                                             AppRouter.route.pushNamed(
                                               RoutePath.shopProfileScreen,
-                                              extra: userRole,
+                                              extra:{
+                                                'userRole': userRole,
+                                                'userId':
+                                                    feed.saloonOwner!.userId,
+                                              },
                                             );
                                           }
                                         },

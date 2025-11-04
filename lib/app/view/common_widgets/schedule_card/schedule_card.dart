@@ -2,6 +2,7 @@ import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class ScheduleCard extends StatelessWidget {
   final String timeTitle;
   final String shopTitle;
@@ -55,11 +56,19 @@ class ScheduleCard extends StatelessWidget {
                 color: AppColors.secondary,
               ),
               const Spacer(),
-              CustomText(
-                text: shopName,
-                fontWeight: FontWeight.w400,
-                fontSize: 16.sp,
-                color: AppColors.secondary,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7.r),
+                  color: shopName == "No" ? AppColors.red : Colors.green,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                child: CustomText(
+                  text: shopName,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.sp,
+                  color: AppColors.white,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),

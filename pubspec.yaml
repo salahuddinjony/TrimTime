@@ -46,6 +46,7 @@ dependencies:
   file_picker: ^9.0.2
   open_filex: ^4.7.0
   intl_phone_number_input: ^0.7.4
+  intl: ^0.19.0
   dotted_border: ^2.1.0
   stylish_bottom_bar: ^1.1.1
   curved_navigation_bar: ^1.0.6
@@ -59,6 +60,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1 # Add this line
   youtube_player_flutter: ^9.0.1
   jwt_decoder: ^2.0.1
+  flutter_widget_from_html: 0.17.1
+
   
 
   

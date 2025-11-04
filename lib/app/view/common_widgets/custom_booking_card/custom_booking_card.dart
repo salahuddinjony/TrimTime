@@ -12,6 +12,7 @@ class CustomBookingCard extends StatelessWidget {
   final String location;
   final String price;
   final VoidCallback onTap;
+  final Widget? badge;
 
   const CustomBookingCard({
     super.key,
@@ -19,7 +20,9 @@ class CustomBookingCard extends StatelessWidget {
     required this.title,
     required this.dateTime,
     required this.location,
-    required this.price, required this.onTap,
+    required this.price,
+    required this.onTap,
+    this.badge,
   });
 
   @override
@@ -92,12 +95,26 @@ class CustomBookingCard extends StatelessWidget {
               ),
             ),
 
-            // Price
-            CustomText(
-              text: price,
-              fontSize: 14.sp,
-              color: AppColors.black,
-              fontWeight: FontWeight.w700,
+            SizedBox(width: 8.w),
+
+            // Badge and Price column
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Badge at top
+                if (badge != null) badge!,
+
+                if (badge != null) SizedBox(height: 24.h),
+
+                // Price at bottom
+                CustomText(
+                  text: price,
+                  fontSize: 14.sp,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
             ),
           ],
         ),

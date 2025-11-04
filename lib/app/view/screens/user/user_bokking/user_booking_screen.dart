@@ -71,8 +71,8 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
                         shape: BoxShape.circle, color: Colors.black),
                     child: IconButton(
                       onPressed: () {
-                        AppRouter.route.pushNamed(RoutePath.chatScreen,
-                            extra: userRole);
+                        AppRouter.route
+                            .pushNamed(RoutePath.chatScreen, extra: userRole);
                       },
                       icon: const Icon(Icons.chat, color: Colors.white),
                     ),
@@ -208,7 +208,6 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
                     fillColor: AppColors.gray500,
                     textColor: AppColors.white,
                   ),
-
                 ],
               ),
             )

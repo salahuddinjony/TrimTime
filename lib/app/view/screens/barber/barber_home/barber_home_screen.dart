@@ -331,15 +331,12 @@ class BarberHomeScreen extends StatelessWidget {
                           return Center(child: Text('No feeds available'));
                         }
                         return Column(
-                          children: List.generate(feeds.length, (index) {
-                            final feed = feeds[index];
+                          children:feeds.take(feeds.length > 4 ? 4 : feeds.length).map((feed) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 12.h),
                               child: Column(
                                 children: [
-                                  Stack(
-                                    children: [
-                                      CustomFeedCard(
+                                 CustomFeedCard(
                                         isFavouriteFromApi:
                                             feed.isFavorite ?? false,
                                         isVisitShopButton:
@@ -380,12 +377,10 @@ class BarberHomeScreen extends StatelessWidget {
                                           }
                                         },
                                       ),
-                                    ],
-                                  ),
                                 ],
                               ),
                             );
-                          }),
+                          }).toList(),
                         );
                       }),
                       SizedBox(height: 30.h),

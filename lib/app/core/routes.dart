@@ -179,14 +179,16 @@ class AppRouter {
           pageBuilder: (context, state) {
             final extra = state.extra as Map <String, dynamic>? ?? {};
             final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
+            final profileData = extra['profileData'] as ProfileData?;
             final controller = extra['controller'] as OwnerProfileController?;
+            final barberId = extra['barberId'] as String?;
 
             return _buildPageWithAnimation(
               child: ProfessionalProfile(
                 userRole: userRole,
                 data: profileData,
-                controller: controller!,
+                controller: controller,
+                barberId: barberId,
               ),
               state: state,
             );
@@ -745,7 +747,7 @@ class AppRouter {
           name: RoutePath.feedAll,
           path: RoutePath.feedAll.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const FeedAll(),
+            child:  FeedAll(),
             state: state,
           ),
         ),

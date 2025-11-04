@@ -283,7 +283,6 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: AppStrings.chat,
                           icon: Assets.images.chartSelected.image(),
-
                         )
                       : const SizedBox(),
 
@@ -328,6 +327,21 @@ class ProfileScreen extends StatelessWidget {
                   // userRole == UserRole.user
                   //     ? const SizedBox.shrink()
                   //     :
+                  // booking
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'isBarber': true
+                                });
+                          },
+                          text: "Booking",
+                          icon: Assets.images.booking
+                              .image(height: 15, color: Colors.black),
+                        )
+                      : const SizedBox.shrink(),
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route
@@ -335,6 +349,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                     text: AppStrings.myFeedBack,
                     icon: Assets.icons.myFeedBack.svg(
+                      height: 22,
                       colorFilter: const ColorFilter.mode(
                           AppColors.black, BlendMode.srcIn),
                     ),
@@ -415,22 +430,21 @@ class ProfileScreen extends StatelessWidget {
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),
                           ),
-                        ),  //TOdo=====following====
-
+                        ), //TOdo=====following====
 
                   userRole == UserRole.owner
                       ? CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.followerScreen,
-                          extra: userRole);
-                    },
-                    text: "My Followers",
-                    icon: Assets.icons.flowing.svg(
-                      colorFilter: const ColorFilter.mode(
-                          AppColors.black, BlendMode.srcIn),
-                    ),
-                  )  : const SizedBox(),
-
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.followerScreen,
+                                extra: userRole);
+                          },
+                          text: "My Followers",
+                          icon: Assets.icons.flowing.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(),
 
                   //TOdo=========
 

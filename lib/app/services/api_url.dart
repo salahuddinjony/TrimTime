@@ -67,4 +67,10 @@ class ApiUrl {
   static String makeUnfollow ({required String id}) => "$baseUrl/follows/$id";
 
 
+  //scheduling management
+  static const fetchBarberSchedule = "$baseUrl/barbers/my-schedule";
+
+
+  // booking management
+  static const getBarberBookings = "$baseUrl/barbers/my-bookings";
 }

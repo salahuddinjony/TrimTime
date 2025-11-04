@@ -391,10 +391,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.bookingScreen,
           path: RoutePath.bookingScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const BookingScreen(),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final isBarber = extra['isBarber'] as bool? ?? false;
+
+            return _buildPageWithAnimation(
+              child: BookingScreen(
+                userRole: userRole!,
+                isBarber: isBarber,
+              ),
               state: state,
-              disableAnimation: true),
+            );
+          }
         ),
 
         ///=======================  =======================

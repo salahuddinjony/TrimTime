@@ -20,6 +20,7 @@ class CustomFeedCard extends StatefulWidget {
   final String? favoriteCount;
   final bool? isYouTubeVideo;
   final bool? isFavouriteFromApi;
+  final bool? isFromFav;
 
   const CustomFeedCard({
     super.key,
@@ -35,6 +36,7 @@ class CustomFeedCard extends StatefulWidget {
     this.favoriteCount,
     this.isYouTubeVideo = false,
     this.isFavouriteFromApi,
+    this.isFromFav = false,
   });
 
   @override
@@ -164,22 +166,24 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
                 ),
               ),
               const SizedBox(width: 8),
-              Row(
-                children: [
-                  Icon(Icons.favorite, color: Colors.red, size: 18),
-                  SizedBox(width: 2.w),
-                  Text(favoriteCount.toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              CustomText(
-                textAlign: TextAlign.start,
-                left: 8,
-                text: widget.rating,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: AppColors.black,
-              ),
+              if (widget.isFromFav == false) ...[
+                Row(
+                  children: [
+                    Icon(Icons.favorite, color: Colors.red, size: 18),
+                    SizedBox(width: 2.w),
+                    Text(favoriteCount.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                CustomText(
+                  textAlign: TextAlign.start,
+                  left: 8,
+                  text: widget.rating,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: AppColors.black,
+                ),
+              ],
               const Spacer(),
               // Visit Shop Button
               if (widget.isVisitShopButton != null &&

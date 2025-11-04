@@ -33,7 +33,7 @@ class BarberHomeScreen extends StatelessWidget {
     // Handle both direct UserRole and Map containing userRole
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
-    
+
     if (extra is UserRole) {
       userRole = extra;
     } else if (extra is Map<String, dynamic>) {
@@ -331,52 +331,52 @@ class BarberHomeScreen extends StatelessWidget {
                           return Center(child: Text('No feeds available'));
                         }
                         return Column(
-                          children:feeds.take(feeds.length > 4 ? 4 : feeds.length).map((feed) {
+                          children: feeds
+                              .take(feeds.length > 4 ? 4 : feeds.length)
+                              .map((feed) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 12.h),
                               child: Column(
                                 children: [
-                                 CustomFeedCard(
-                                        isFavouriteFromApi:
-                                            feed.isFavorite ?? false,
-                                        isVisitShopButton:
-                                            feed.saloonOwner != null,
-                                        favoriteCount:
-                                            feed.favoriteCount.toString(),
-                                        userImageUrl: feed.userImage ??
-                                            AppConstants.demoImage,
-                                        userName: feed.userName,
-                                        userAddress:
-                                            feed.saloonOwner?.shopAddress ?? '',
-                                        postImageUrl: feed.images.isNotEmpty
-                                            ? feed.images.first
-                                            : AppConstants.demoImage,
-                                        postText: feed.caption,
-                                        rating: feed.saloonOwner != null
-                                            ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
-                                            : "",
-                                        onFavoritePressed: (isFavorite) {
-                                          controller.toggleLikeFeed(
-                                            feedId: feed.id,
-                                            isUnlike: isFavorite == true,
-                                          );
-                                        },
-                                        onVisitShopPressed: () {
-                                          if (feed.saloonOwner != null) {
-                                            // controller.getSelonData(
-                                            //     userId:
-                                            //         feed.saloonOwner!.userId);
-                                            AppRouter.route.pushNamed(
-                                              RoutePath.shopProfileScreen,
-                                              extra:{
-                                                'userRole': userRole,
-                                                'userId':
-                                                    feed.saloonOwner!.userId,
-                                              },
-                                            );
-                                          }
-                                        },
-                                      ),
+                                  CustomFeedCard(
+                                    isFavouriteFromApi:
+                                        feed.isFavorite ?? false,
+                                    isVisitShopButton: feed.saloonOwner != null,
+                                    favoriteCount:
+                                        feed.favoriteCount.toString(),
+                                    userImageUrl: feed.userImage ??
+                                        AppConstants.demoImage,
+                                    userName: feed.userName,
+                                    userAddress:
+                                        feed.saloonOwner?.shopAddress ?? '',
+                                    postImageUrl: feed.images.isNotEmpty
+                                        ? feed.images.first
+                                        : AppConstants.demoImage,
+                                    postText: feed.caption,
+                                    rating: feed.saloonOwner != null
+                                        ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                        : "",
+                                    onFavoritePressed: (isFavorite) {
+                                      controller.toggleLikeFeed(
+                                        feedId: feed.id,
+                                        isUnlike: isFavorite == true,
+                                      );
+                                    },
+                                    onVisitShopPressed: () {
+                                      if (feed.saloonOwner != null) {
+                                        // controller.getSelonData(
+                                        //     userId:
+                                        //         feed.saloonOwner!.userId);
+                                        AppRouter.route.pushNamed(
+                                          RoutePath.shopProfileScreen,
+                                          extra: {
+                                            'userRole': userRole,
+                                            'userId': feed.saloonOwner!.userId,
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ],
                               ),
                             );

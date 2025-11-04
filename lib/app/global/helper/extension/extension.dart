@@ -55,6 +55,14 @@ extension DateFormat on DateTime {
   }
 }
 
+extension DateTimeParsing on DateTime {
+  String dayName() {
+    const days = [
+      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+    ];
+    return days[this.weekday - 1];
+  }
+}
 
 // Safe capitalize
 extension SafeCap on String? {

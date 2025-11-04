@@ -5,6 +5,7 @@ import 'package:barber_time/app/view/common_widgets/common_profile_total_card/co
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -267,7 +268,7 @@ class ShopProfileScreen extends StatelessWidget {
                                         SizedBox(width: 10.w),
                                         GestureDetector(
                                           onTap: () {
-                                            _showInformationDialog(context);
+                                            _showInformationDialog(context, selonData!);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(5.r),
@@ -810,7 +811,7 @@ class ShopProfileScreen extends StatelessWidget {
     });
   }
 
-  void _showInformationDialog(BuildContext context) {
+  void _showInformationDialog(BuildContext context, SingleSaloonModel selonData) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -834,7 +835,7 @@ class ShopProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   CustomText(
-                    text: "James Tracy",
+                    text: selonData.shopOwnerName,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                     color: AppColors.black,
@@ -842,22 +843,22 @@ class ShopProfileScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 8.h),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.cake,
-                    color: AppColors.orange500,
-                  ),
-                  const SizedBox(width: 8),
-                  CustomText(
-                    text: "22-03-1998",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w300,
-                    color: AppColors.black,
-                  ),
-                ],
-              ),
-              SizedBox(height: 8.h),
+              // Row(
+              //   children: [
+              //     const Icon(
+              //       Icons.cake,
+              //       color: AppColors.orange500,
+              //     ),
+              //     const SizedBox(width: 8),
+              //     CustomText(
+              //       text: selonData.shopOwnerPhone,
+              //       fontSize: 16.sp,
+              //       fontWeight: FontWeight.w300,
+              //       color: AppColors.black,
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: 8.h),
               Row(
                 children: [
                   const Icon(
@@ -866,7 +867,7 @@ class ShopProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   CustomText(
-                    text: "James@gmail.com",
+                    text: selonData.shopOwnerEmail,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                     color: AppColors.black,
@@ -882,7 +883,7 @@ class ShopProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   CustomText(
-                    text: "+44 26537 26347",
+                    text: selonData.shopOwnerPhone,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                     color: AppColors.black,
@@ -898,7 +899,7 @@ class ShopProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   CustomText(
-                    text: "Abu Dhabi",
+                    text: selonData.shopAddress,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                     color: AppColors.black,

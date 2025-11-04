@@ -2,9 +2,15 @@ class SingleSaloonModel {
   final String id;
   final String userId;
   final String shopName;
+  final String? shopBio;
   final String shopAddress;
   final List<String> shopImages;
   final bool isVerified;
+  final int ratingCount;
+  final double avgRating;
+  final int followerCount;
+  final int followingCount;
+  final String? registrationNumber;
   final String shopLogo;
   final List<String> shopVideo;
   final double latitude;
@@ -19,9 +25,15 @@ class SingleSaloonModel {
     required this.id,
     required this.userId,
     required this.shopName,
+    this.shopBio,
     required this.shopAddress,
     required this.shopImages,
     required this.isVerified,
+    required this.ratingCount,
+    required this.avgRating,
+    required this.followerCount,
+    required this.followingCount,
+    this.registrationNumber,
     required this.shopLogo,
     required this.shopVideo,
     required this.latitude,
@@ -41,12 +53,18 @@ class SingleSaloonModel {
       id: data['id']?.toString() ?? '',
       userId: data['userId']?.toString() ?? '',
       shopName: data['shopName']?.toString() ?? '',
+      shopBio: data['shopBio']?.toString(),
       shopAddress: data['shopAddress']?.toString() ?? '',
       shopImages: (data['shopImages'] as List?)
               ?.map((e) => e?.toString() ?? '')
               .toList() ??
           [],
       isVerified: data['isVerified'] ?? false,
+      ratingCount: data['ratingCount'] ?? 0,
+      avgRating: (data['avgRating'] ?? 0).toDouble(),
+      followerCount: data['followerCount'] ?? 0,
+      followingCount: data['followingCount'] ?? 0,
+      registrationNumber: data['registrationNumber']?.toString(),
       shopLogo: data['shopLogo']?.toString() ?? '',
       shopVideo: (data['shopVideo'] as List?)
               ?.map((e) => e?.toString() ?? '')
@@ -108,6 +126,7 @@ class BarberModel {
   final String experienceYears;
   final String bio;
   final List<String> portfolio;
+  final String? userId; // Added userId field
 
   BarberModel({
     required this.id,
@@ -118,6 +137,7 @@ class BarberModel {
     required this.experienceYears,
     required this.bio,
     required this.portfolio,
+    this.userId,
   });
 
   factory BarberModel.fromJson(Map<String, dynamic> json) {
@@ -133,6 +153,7 @@ class BarberModel {
               ?.map((e) => e?.toString() ?? '')
               .toList() ??
           [],
+      userId: json['userId']?.toString(),
     );
   }
 }

@@ -7,16 +7,16 @@ class CommonProfileCard extends StatelessWidget {
   final String name;
   final String bio;
   final String imageUrl;
-  final VoidCallback onEditTap;
-
-
+  final VoidCallback? onEditTap;
+  final bool showEditIcon;
 
   const CommonProfileCard({
     super.key,
     required this.name,
     required this.bio,
     required this.imageUrl,
-    required this.onEditTap,
+    this.onEditTap,
+    this.showEditIcon = true,
   });
 
   @override
@@ -48,7 +48,6 @@ class CommonProfileCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,
               ),
-
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -76,22 +75,23 @@ class CommonProfileCard extends StatelessWidget {
                 width: 100,
                 boxShape: BoxShape.circle,
               ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: GestureDetector(
-                  onTap: onEditTap,
-                  child: const CircleAvatar(
-                    radius: 16,
-                    backgroundColor: AppColors.black,
-                    child: Icon(
-                      Icons.edit,
-                      size: 16,
-                      color: Colors.white,
+              if (showEditIcon && onEditTap != null)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: GestureDetector(
+                    onTap: onEditTap,
+                    child: const CircleAvatar(
+                      radius: 16,
+                      backgroundColor: AppColors.black,
+                      child: Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

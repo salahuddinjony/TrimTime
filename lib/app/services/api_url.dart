@@ -46,6 +46,9 @@ class ApiUrl {
   static const barberProfileUpdateInfo= "/users/update/barber";  
   static const ownerProfileUpdateInfo= "$baseUrl/users/update-profile";
   static const profileImageUpload = "/users/update-profile-image";
+  
+  // Barber profile by ID
+  static String barberProfileById(String barberId) => "$baseUrl/barbers/$barberId";
 
   // Job application
   static const applyJobUri = "/job-applications";

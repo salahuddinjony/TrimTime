@@ -1,4 +1,3 @@
-
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -14,22 +13,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class EditProfessionalProfile extends StatelessWidget {
+class EditProfessionalProfile extends StatefulWidget {
   final UserRole userRole;
   final BarberProfile professionalData;
   final OwnerProfileController controller;
-  
-  const EditProfessionalProfile({
-    super.key,
-    required this.userRole,
-    required this.professionalData,
-    required this.controller
-  });
+
+  const EditProfessionalProfile(
+      {super.key,
+      required this.userRole,
+      required this.professionalData,
+      required this.controller});
+
+  @override
+  State<EditProfessionalProfile> createState() =>
+      _EditProfessionalProfileState();
+}
+
+class _EditProfessionalProfileState extends State<EditProfessionalProfile> {
+  @override
+  void initState() {
+    super.initState();
+    // Call setInitialData in initState instead of build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.controller.setInitialData(widget.professionalData);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller.setInitialData(professionalData);
-    
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
       appBar: const CustomAppBar(
@@ -68,7 +79,7 @@ class EditProfessionalProfile extends StatelessWidget {
                           CustomFromCard(
                             hinText: "Enter your name",
                             title: AppStrings.name,
-                            controller: controller.nameController,
+                            controller: widget.controller.nameController,
                             validator: (v) => null,
                           ),
                           SizedBox(height: 20.h),
@@ -76,28 +87,28 @@ class EditProfessionalProfile extends StatelessWidget {
                             hinText: "Enter your bio",
                             title: "Bio",
                             maxLine: 5,
-                            controller: controller.bioController,
+                            controller: widget.controller.bioController,
                             validator: (v) => null,
                           ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
                             hinText: "Enter your experience in years",
                             title: "Experience",
-                            controller: controller.experienceController,
+                            controller: widget.controller.experienceController,
                             validator: (v) => null,
                           ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
                             hinText: "Enter your current work place",
                             title: "Current Work",
-                            controller: controller.currentWorkController,
+                            controller: widget.controller.currentWorkController,
                             validator: (v) => null,
                           ),
                           SizedBox(height: 15.h),
                           CustomFromCard(
                             hinText: "Enter your skills",
                             title: "Add Skill",
-                            controller: controller.addSkillsController,
+                            controller: widget.controller.addSkillsController,
                             validator: (v) => null,
                           ),
                           SizedBox(height: 15.h),
@@ -112,16 +123,22 @@ class EditProfessionalProfile extends StatelessWidget {
                         children: [
                           //==================✅✅Image✅✅===================
                           Obx(() {
-                            final imagePath = controller.imagepath.value;
+                            final imagePath = widget.controller.imagepath.value;
+                            final isNetwork =
+                                widget.controller.isNetworkImage.value;
+
+                            // Determine the image source
+                            String imageToDisplay = imagePath.isNotEmpty
+                                ? imagePath
+                                : (widget.professionalData.portfolio.isNotEmpty
+                                    ? widget.professionalData.portfolio.first
+                                    : AppConstants.demoImage);
+
                             return CustomNetworkImage(
-                              imageUrl: imagePath.isNotEmpty
-                                  ? imagePath
-                                  : professionalData.portfolio.isNotEmpty
-                                      ? professionalData.portfolio.first
-                                      : AppConstants.demoImage,
+                              imageUrl: imageToDisplay,
                               height: 100,
                               width: 100,
-                              isFile: imagePath.isNotEmpty,
+                              isFile: !isNetwork && imagePath.isNotEmpty,
                               boxShape: BoxShape.circle,
                             );
                           }),
@@ -130,7 +147,7 @@ class EditProfessionalProfile extends StatelessWidget {
                             bottom: 0,
                             child: GestureDetector(
                               onTap: () {
-                                controller.pickImage();
+                                widget.controller.pickImage();
                               },
                               child: const CircleAvatar(
                                 radius: 16,
@@ -153,7 +170,8 @@ class EditProfessionalProfile extends StatelessWidget {
                 CustomButton(
                   title: AppStrings.update,
                   onTap: () async {
-                    final bool isSuccess = await controller.updateBarberProfile();
+                    final bool isSuccess =
+                        await widget.controller.updateBarberProfile();
                     if (isSuccess) {
                       context.pop();
                     }

@@ -105,12 +105,34 @@ class ShopProfileScreen extends StatelessWidget {
                                         color: Colors.white,
                                       ),
                                     )
-                                  : CustomText(
-                                      text:
-                                          selonData?.shopName ?? "No Shop Data",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.black,
+                                  : Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CustomText(
+                                              text: selonData?.shopName ??
+                                                  "No Shop Data",
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.black,
+                                            ),
+                                            SizedBox(width: 6.w),
+                                            Icon(
+                                              selonData?.isVerified ?? false
+                                                  ? Icons.verified
+                                                  : Icons.cancel,
+                                              color:
+                                                  selonData?.isVerified ?? false
+                                                      ? Colors.blue
+                                                      : Colors.grey,
+                                              size: 20,
+                                            ),
+                                          ],
+                                        ),
+                                    
+                                      ],
                                     ),
                               const SizedBox(height: 10),
                               isLoading
@@ -156,13 +178,13 @@ class ShopProfileScreen extends StatelessWidget {
                                         color: Colors.white,
                                       ),
                                     )
-                                  : const Padding(
+                                  : Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: CustomText(
                                         maxLines: 20,
-                                        text:
-                                            "Great haircuts aren't just a service; they're an experience! With 10 years in the game, I specialize in fades, tapers, and beard perfection.",
+                                        text: selonData?.shopBio ??
+                                            "No shop bio available.",
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.black,
@@ -296,6 +318,52 @@ class ShopProfileScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
+                    // Rating Badge Section
+                    if (selonData != null && selonData.ratingCount > 0 && !isLoading)
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 16.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.orange500.withValues(alpha: .15),
+                                AppColors.last.withValues(alpha: .1),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppColors.orange500.withValues(alpha: .3),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 18,
+                              ),
+                              SizedBox(width: 6.w),
+                              CustomText(
+                                text: selonData.avgRating.toStringAsFixed(1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.black,
+                              ),
+                              SizedBox(width: 6.w),
+                              CustomText(
+                                text:
+                                    "(${selonData.ratingCount} ${selonData.ratingCount == 1 ? 'review' : 'reviews'})",
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gray500,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     isLoading
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
@@ -313,18 +381,31 @@ class ShopProfileScreen extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : const Row(
+                        : Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                            
                               CommonProfileTotalCard(
-                                  title: AppStrings.ratings, value: "290+"),
-                              SizedBox(width: 8),
+                                title: AppStrings.ratings,
+                                value: selonData != null
+                                    ? "${selonData.ratingCount}"
+                                    : "0",
+                              ),
+                              const SizedBox(width: 8),
                               CommonProfileTotalCard(
-                                  title: AppStrings.following, value: "150+"),
-                              SizedBox(width: 8),
+                                title: AppStrings.following,
+                                value: selonData != null
+                                    ? "${selonData.followingCount}"
+                                    : "0",
+                              ),
+                              const SizedBox(width: 8),
                               CommonProfileTotalCard(
-                                  title: "Follower", value: "500+"),
+                                title: "Follower",
+                                value: selonData != null
+                                    ? "${selonData.followerCount}"
+                                    : "0",
+                              ),
                             ],
                           ),
                     isLoading
@@ -375,8 +456,22 @@ class ShopProfileScreen extends StatelessWidget {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          debugPrint(
-                                              "Barber ${selonData?.barbers[index].fullName} clicked");
+                                          final barber = selonData?.barbers[index];
+                                          if (barber != null) {
+                                            // Use userId if available, otherwise use id
+                                            final barberId = barber.userId ?? barber.id;
+                                            debugPrint("Barber ${barber.fullName} clicked");
+                                            debugPrint("Barber ID: $barberId");
+                                            
+                                            // Navigate to professional profile with barber ID
+                                            AppRouter.route.pushNamed(
+                                              RoutePath.professionalProfile,
+                                              extra: {
+                                                'userRole': userRole,
+                                                'barberId': barberId,
+                                              },
+                                            );
+                                          }
                                         },
                                         child: Column(
                                           children: [
@@ -469,20 +564,22 @@ class ShopProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        AppColors.orange500.withOpacity(0.1),
-                                        AppColors.last.withOpacity(0.05),
+                                        AppColors.orange500.withValues(alpha: .1),
+                                        AppColors.last.withValues(alpha: .05),
                                       ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: AppColors.orange500.withOpacity(0.3),
+                                      color:
+                                          AppColors.orange500.withValues(alpha: .3),
                                       width: 1,
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: AppColors.orange500.withOpacity(0.1),
+                                        color: AppColors.orange500
+                                            .withValues(alpha: .1),
                                         blurRadius: 8,
                                         spreadRadius: 0,
                                         offset: const Offset(0, 2),
@@ -558,10 +655,87 @@ class ShopProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w700,
                                               color: AppColors.black,
                                             ),
-                                          ),
+                                          ), 
                                         ],
                                       ),
+                                      // SizedBox(height: 12.h),
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     // Handle book service
+                                      //     showDialog(
+                                      //       context: context,
+                                      //       builder: (_) => AlertDialog(
+                                      //         title: const Text('Book Service'),
+                                      //         content: Text(
+                                      //           'Would you like to book "${service.serviceName}"?\n\nPrice: £${service.price}\nDuration: ${service.duration} min',
+                                      //         ),
+                                      //         actions: [
+                                      //           TextButton(
+                                      //             onPressed: () => Navigator.of(context).pop(),
+                                      //             child: const Text('Cancel'),
+                                      //           ),
+                                      //           TextButton(
+                                      //             onPressed: () {
+                                      //               Navigator.of(context).pop();
+                                      //               // Add booking logic here
+                                      //               ScaffoldMessenger.of(context).showSnackBar(
+                                      //                 SnackBar(
+                                      //                   content: Text('Booking "${service.serviceName}" confirmed!'),
+                                      //                   backgroundColor: Colors.green,
+                                      //                 ),
+                                      //               );
+                                      //             },
+                                      //             child: const Text('Book Now'),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     );
+                                      //   },
+                                      //   child: Container(
+                                      //     width: double.infinity,
+                                      //     padding: EdgeInsets.symmetric(
+                                      //       vertical: 10.h,
+                                      //     ),
+                                      //     decoration: BoxDecoration(
+                                      //       gradient: LinearGradient(
+                                      //         colors: [
+                                      //           AppColors.orange500,
+                                      //           AppColors.last,
+                                      //         ],
+                                      //         begin: Alignment.centerLeft,
+                                      //         end: Alignment.centerRight,
+                                      //       ),
+                                      //       borderRadius: BorderRadius.circular(8),
+                                      //       boxShadow: [
+                                      //         BoxShadow(
+                                      //           color: AppColors.orange500.withValues(alpha: .3),
+                                      //           blurRadius: 4,
+                                      //           offset: const Offset(0, 2),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //     child: Row(
+                                      //       mainAxisAlignment: MainAxisAlignment.center,
+                                      //       children: [
+                                      //         Icon(
+                                      //           Icons.calendar_today,
+                                      //           size: 16,
+                                      //           color: Colors.white,
+                                      //         ),
+                                      //         SizedBox(width: 6.w),
+                                      //         CustomText(
+                                      //           text: "Book Now",
+                                      //           fontSize: 14,
+                                      //           fontWeight: FontWeight.w600,
+                                      //           color: Colors.white,
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      
                                     ],
+
                                   ),
                                 );
                               }),

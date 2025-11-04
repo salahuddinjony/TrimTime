@@ -98,6 +98,15 @@ class OwnerProfileController extends GetxController
     experienceController.text = data.experienceYears.toString();
     currentWorkController.text = data.currentWorkDes ?? '';
     addSkillsController.text = data.skills.join(', ');
+    
+    // Set image path from portfolio if available
+    if (data.portfolio.isNotEmpty) {
+      imagepath.value = data.portfolio.first;
+      isNetworkImage.value = true; // Portfolio images are network URLs
+    } else {
+      imagepath.value = '';
+      isNetworkImage.value = false;
+    }
   }
 
   Future<void> fetchProfileInfo() async {

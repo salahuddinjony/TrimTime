@@ -14,6 +14,10 @@ mixin BarberProfessionalProfile {
 
   RxBool isBarberProfessionalProfileLoading = false.obs;
   RxList<BarberProfile> barberProfessionalProfileList = <BarberProfile>[].obs;
+  
+  // For viewing other barber's profile
+  RxBool isOtherBarberProfileLoading = false.obs;
+  Rx<BarberProfile?> otherBarberProfile = Rx<BarberProfile?>(null);
 
   var imagepath = ''.obs;
   var isNetworkImage = false.obs;
@@ -55,13 +59,42 @@ mixin BarberProfessionalProfile {
       isBarberProfessionalProfileLoading.value = false;
     }
   }
+  
+  // Fetch barber profile by userId
+  Future<void> fetchBarberProfileById(String barberId) async {
+    try {
+      isOtherBarberProfileLoading.value = true;
+      final response = await ApiClient.getData(
+        ApiUrl.barberProfileById(barberId),
+      );
+
+      if (response.statusCode == 200) {
+        final body =
+            response.body is String ? jsonDecode(response.body) : response.body;
+        final resp = BarberProfileResponse.fromJson(body as Map<String, dynamic>);
+        otherBarberProfile.value = resp.data;
+        debugPrint("Other barber profile data fetched successfully");
+        debugPrint('Other Barber Profile Data: ${otherBarberProfile.value}');
+      } else {
+        debugPrint(
+            'Failed to load barber profile: ${response.statusCode} - ${response.body}');
+        ApiClient.handleResponse;
+        toastMessage(message: response.statusText ?? 'Failed to load barber profile');
+      }
+    } catch (e) {
+      toastMessage(message: 'Failed to load barber profile');
+      debugPrint('Error fetching barber profile: $e');
+    } finally {
+      isOtherBarberProfileLoading.value = false;
+    }
+  }
     Future<void> pickImage() async {
     try {
       final picker = ImagePicker();
       final XFile? result = await picker.pickImage(source: ImageSource.gallery);
       if (result != null) {
         imagepath.value = result.path;
-        isNetworkImage.value = false;
+        isNetworkImage.value = false; // Mark as local file
         debugPrint("Picked image path: ${imagepath.value.toString()}");
       }
     } catch (e) {
@@ -81,7 +114,8 @@ EasyLoading.show(status: 'Updating...');
         // Add other fields as necessary
       };
        final multipart = <MultipartBody>[];
-       if (imagepath.value.isNotEmpty) {
+       // Only add image if it's a local file, not a network URL
+       if (imagepath.value.isNotEmpty && !isNetworkImage.value) {
         multipart.add(MultipartBody("portfolioImages", File(imagepath.value)));
        }
 

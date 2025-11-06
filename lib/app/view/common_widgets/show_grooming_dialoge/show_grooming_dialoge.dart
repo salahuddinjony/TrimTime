@@ -1,8 +1,11 @@
-
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-void showGroomingDialog(BuildContext context) {
+void showGroomingDialog(
+    {required context,
+    Widget? logoImage,
+    String? barberShopName,
+    String? barberShopDescription}) {
   showDialog(
     context: context,
     builder: (context) {
@@ -14,19 +17,25 @@ void showGroomingDialog(BuildContext context) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Experience Expert Grooming Like Never Before",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (logoImage != null) Center(child: logoImage),
+
+                  const SizedBox(width: 24), // Placeholder for alignment
+                  Text(
+                    barberShopName ?? "Barber Shop",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
-              _buildPoint("Personalized Grooming", "Tailored haircuts, shaves, and grooming services for every client."),
-              _buildPoint("Precision & Style", "Expertly crafted cuts to match your unique style and preferences."),
-              _buildPoint("Classic & Modern Expertise", "Skilled in both timeless styles and the latest trends."),
-              _buildPoint("Quality Tools, Perfect Results", "Using top-tier tools for a refined, polished look."),
-              _buildPoint("Relax and Refresh", "A welcoming atmosphere to help you unwind and feel your best."),
+              Text(
+                barberShopDescription ??
+                    "Discover the ultimate grooming experience at our barber shop, where skilled barbers provide top-notch services tailored to your style and preferences.",
+                style: TextStyle(fontSize: 14),
+              ),
               const SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
@@ -56,7 +65,9 @@ Widget _buildPoint(String title, String description) {
             text: TextSpan(
               style: const TextStyle(color: Colors.black, fontSize: 14),
               children: [
-                TextSpan(text: "$title ", style: const TextStyle(fontWeight: FontWeight.w600)),
+                TextSpan(
+                    text: "$title ",
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
                 TextSpan(text: description),
               ],
             ),

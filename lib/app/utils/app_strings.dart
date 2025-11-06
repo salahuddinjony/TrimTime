@@ -160,7 +160,9 @@ class AppStrings {
   static const yourSHopUniqueQr  = "Your Shop’s Unique QR Code";
   static const print  = "Print";
   static const download  = "Download";
-
+  static const share  = "Share";
+  static const copyLink  = "Copy Link";
+  static const create = "Create";
   //Owner Home
   static const totalCustomer  = "Total Customer";
   static const totalBarber  = "Total Barber";
@@ -193,4 +195,6 @@ class AppStrings {
   static const businessProfile    = "Business Profile ";
   static const jobPost    = "Job post";
   static const addService    = "Add Service";
+  static const somethingWentWrong    = "Something went wrong."; 
+  static const noJobPostFound    = "No Job Post Found.";
 }

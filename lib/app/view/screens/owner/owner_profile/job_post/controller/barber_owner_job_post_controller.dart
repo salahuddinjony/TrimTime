@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/model/barber_owner_job_post.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';

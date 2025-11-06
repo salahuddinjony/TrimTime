@@ -837,7 +837,7 @@ class AppRouter {
           name: RoutePath.jobPost,
           path: RoutePath.jobPost.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const JobPost(),
+            child:  JobPost(),
             state: state,
           ),
         ),

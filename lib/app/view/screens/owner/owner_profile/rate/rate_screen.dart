@@ -13,40 +13,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-// Demo reviews shown when API returns none
-final List<ReviewData> _demoReviews = [
-  ReviewData(
-    customerId: 'demo1',
-    rating: 5,
-    comment: 'Excellent cut and friendly staff!',
-    createdAt: DateTime.now().subtract(const Duration(days: 2)),
-    barberId: 'b_demo1',
-    saloonName: 'Demo Salon',
-    saloonAddress: '123 Demo Street',
-    saloonLogo: AppConstants.demoImage,
-  ),
-  ReviewData(
-    customerId: 'demo2',
-    rating: 4,
-    comment: 'Great experience, will come again.',
-    createdAt: DateTime.now().subtract(const Duration(days: 7)),
-    barberId: 'b_demo2',
-    saloonName: 'Barber & Co',
-    saloonAddress: '45 Example Ave',
-    saloonLogo: AppConstants.demoImage,
-  ),
-  ReviewData(
-    customerId: 'demo3',
-    rating: 3,
-    comment: 'Good but room for improvement.',
-    createdAt: DateTime.now().subtract(const Duration(days: 10)),
-    barberId: 'b_demo3',
-    saloonName: 'Corner Cuts',
-    saloonAddress: '9 Test Blvd',
-    saloonLogo: AppConstants.demoImage,
-  )
-];
-
 class RateScreen extends StatelessWidget {
   RateScreen({
     super.key,
@@ -117,7 +83,37 @@ class RateScreen extends StatelessWidget {
               }
 
               final reviews = infoController.barberReviews;
-              final displayReviews = reviews.isEmpty ? _demoReviews : reviews;
+              final displayReviews = reviews;
+
+              // Show empty state when no reviews
+              if (displayReviews.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.rate_review_outlined,
+                        size: 80,
+                        color: Colors.white.withValues(alpha: .8), 
+                      ),
+                      const SizedBox(height: 16),
+                      CustomText(
+                        text: 'No Reviews Yet',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[700]!,
+                      ),
+                      const SizedBox(height: 8),
+                      CustomText(
+                        text: 'Reviews will appear here once customers\nstart rating your service',
+                        fontSize: 14,
+                        textAlign: TextAlign.center,
+                        color: Colors.grey[600]!,
+                      ),
+                    ],
+                  ),
+                );
+              }
 
               return RefreshIndicator(
                 onRefresh: () async => await infoController.getBarberReviews(),

@@ -30,46 +30,49 @@ class ApiUrl {
   static const getAllFeed = "$baseUrl/feeds/my-feeds";
   static const createFeed = "/feeds";
   static String getFeedById({required String id}) => "$baseUrl/feeds/$id";
-  static String likeFeed= "/favorites";
+  static String likeFeed = "/favorites";
   static String unlikeFeed({required String id}) => "/feeds/unlike/$id";
-  static String getHomeFeed= "$baseUrl/feeds";
+  static String getHomeFeed = "$baseUrl/feeds";
   static String updateFeed({required String id}) => "/feeds/$id";
   static String deleteFeed({required String id}) => "$baseUrl/feeds/$id";
 
 //job post management
   static const getAllJobPost = "$baseUrl/job-posts";
-  static const historyOfMyApplications = "$baseUrl/job-applications/my-applications";
+  static const getBarberOwnerJobPost = "$baseUrl/job-posts/salon-owners";
+  static const createBarberOwnerJobPost = "/job-posts";
+  static String getJobPostById({required String id}) =>
+      "$baseUrl/job-posts/$id";
+  static String updateJobPost({required String id}) => "/job-posts/$id";
+  static String deleteJobPost({required String id}) => "$baseUrl/job-posts/$id";
+  static const historyOfMyApplications =
+      "$baseUrl/job-applications/my-applications";
 
   //Profile
   static const fetchProfileInfo = "$baseUrl/users/me";
-  static const barberProfileFetchInfo= "$baseUrl/users/barber-profile";
-  static const barberProfileUpdateInfo= "/users/update/barber";  
-  static const ownerProfileUpdateInfo= "$baseUrl/users/update-profile";
+  static const barberProfileFetchInfo = "$baseUrl/users/barber-profile";
+  static const barberProfileUpdateInfo = "/users/update/barber";
+  static const ownerProfileUpdateInfo = "$baseUrl/users/update-profile";
   static const profileImageUpload = "/users/update-profile-image";
-  
+
   // Barber profile by ID
-  static String barberProfileById(String barberId) => "$baseUrl/barbers/$barberId";
+  static String barberProfileById(String barberId) =>
+      "$baseUrl/barbers/$barberId";
 
   // Job application
   static const applyJobUri = "/job-applications";
-  
-
 
 //not used
   static const forgetOtp = "/auth/verify-otp";
   static const resendCode = "/auth/email-verification/resend-code";
 
-
-
   //selon management
-  static  getSelonData({String? userId}) => "$baseUrl/saloons/all-saloons/$userId";
-  static String toggleFollowSalon="/follows"; 
-  static String makeUnfollow ({required String id}) => "$baseUrl/follows/$id";
-
+  static getSelonData({String? userId}) =>
+      "$baseUrl/saloons/all-saloons/$userId";
+  static String toggleFollowSalon = "/follows";
+  static String makeUnfollow({required String id}) => "$baseUrl/follows/$id";
 
   //scheduling management
   static const fetchBarberSchedule = "$baseUrl/barbers/my-schedule";
-
 
   // booking management
   static const getBarberBookings = "$baseUrl/barbers/my-bookings";

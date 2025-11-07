@@ -13,8 +13,10 @@ import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,10 +26,13 @@ class OwnerHomeScreen extends StatelessWidget {
   OwnerHomeScreen({super.key});
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final BarberOwnerHomeController controller =
+      Get.find<BarberOwnerHomeController>();
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    final UserRole? userRole = extra is UserRole ? extra : null;
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -197,42 +202,63 @@ class OwnerHomeScreen extends StatelessWidget {
                       title: AppStrings.recentRequest,
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
-                        AppRouter.route.pushNamed(RoutePath.recentRequestScreen,
-                            extra: userRole);
+
+                        AppRouter.route.pushNamed(
+                          RoutePath.recentRequestScreen,
+                            extra:{
+                              'userRole': userRole,
+                              'controller': controller,
+                            }
+                            );
                       },
                       actionColor: AppColors.secondary,
                     ),
                     SizedBox(
                       height: 12.h,
                     ),
-                    // Barber shop cards
-                    Column(
-                      children: List.generate(2, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              AppRouter.route.pushNamed(RoutePath.visitShop,
-                                  extra: userRole);
-                            },
-                            child: CustomHiringCard(
-                              isMessage: true,
-                              imageUrl: AppConstants.demoImage,
-                              // Image URL (dynamic)
-                              name: "Unknown",
-                              // Dynamic title (Job name)
-                              role: "Barber",
-                              // Hardcoded or dynamic role
-                              rating: 4.5,
-                              // Hardcoded or dynamic rating
-                              location: "New York, USA",
-                              // Dynamic location or hardcoded
-                              onHireTap: () {}, // Hire button action
+                    Obx(() {
+                      final jobApplicationsList = controller.jobHistoryList;
+                      if (controller.isJobHistoryLoading.value) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (jobApplicationsList.isEmpty) {
+                        return Center(child: Text('No recent requests found'));
+                      }
+                      // Barber shop cards
+                      return Column(
+                        children: List.generate(
+                            jobApplicationsList.length > 3
+                                ? 3
+                                : jobApplicationsList.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                AppRouter.route.pushNamed(RoutePath.visitShop,
+                                    extra: userRole);
+                              },
+                              child: CustomHiringCard(
+                                isMessage: true,
+                                imageUrl:
+                                    jobApplicationsList[index].barber.image ??
+                                        '',
+                                // Image URL (dynamic)
+                                name:
+                                    jobApplicationsList[index].barber.fullName,
+                                // Dynamic title (Job name)
+                                role: jobApplicationsList[index].barber.email,
+                                // Hardcoded or dynamic role
+                                rating: 4.5,
+                                // Hardcoded or dynamic rating
+                                location: "New York, USA",
+                                // Dynamic location or hardcoded
+                                onHireTap: () {}, // Hire button action
+                              ),
                             ),
-                          ),
-                        );
-                      }),
-                    ),
+                          );
+                        }),
+                      );
+                    }),
 
                     Row(
                       children: [
@@ -271,9 +297,8 @@ class OwnerHomeScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10.r),
                       decoration: BoxDecoration(
-                        color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          color: AppColors.secondary,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Row(
                         children: [
                           CustomNetworkImage(
@@ -291,7 +316,8 @@ class OwnerHomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 15,
                                 color: AppColors.black,
-                              ),  CustomText(
+                              ),
+                              CustomText(
                                 left: 8,
                                 text: "09:00 - 09:30,  Barber: Talha",
                                 fontWeight: FontWeight.w400,
@@ -303,10 +329,11 @@ class OwnerHomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10.h,),
+                    SizedBox(
+                      height: 10.h,
+                    ),
 
                     ///: <<<<<<======✅✅ Feed✅✅>>>>>>>>===========
-
                     CustomTitle(
                       title: "Feed",
                       actionText: AppStrings.seeAll,
@@ -320,57 +347,131 @@ class OwnerHomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 12.h,
                     ),
+                    Obx(() {
+                      final feeds = controller.homeFeedsList;
+                      if (controller.getFeedsStatus.value.isLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (feeds.isEmpty) {
+                        return Center(child: Text('No feeds available'));
+                      }
+                      return Column(
+                        children: feeds
+                            .take(feeds.length > 4 ? 4 : feeds.length)
+                            .map((feed) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 12.h),
+                            child: Column(
+                              children: [
+                                CustomFeedCard(
+                                  isFavouriteFromApi: feed.isFavorite ?? false,
+                                  isVisitShopButton: feed.saloonOwner != null,
+                                  favoriteCount: feed.favoriteCount.toString(),
+                                  userImageUrl:
+                                      feed.userImage ?? AppConstants.demoImage,
+                                  userName: feed.userName,
+                                  userAddress:
+                                      feed.saloonOwner?.shopAddress ?? '',
+                                  postImageUrl: feed.images.isNotEmpty
+                                      ? feed.images.first
+                                      : AppConstants.demoImage,
+                                  postText: feed.caption,
+                                  rating: feed.saloonOwner != null
+                                      ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                      : "",
+                                  onFavoritePressed: (isFavorite) {
+                                    controller.toggleLikeFeed(
+                                      feedId: feed.id,
+                                      isUnlike: isFavorite == true,
+                                    );
+                                  },
+                                  onVisitShopPressed: () {
+                                    if (feed.saloonOwner != null) {
+                                      // controller.getSelonData(
+                                      //     userId:
+                                      //         feed.saloonOwner!.userId);
+                                      AppRouter.route.pushNamed(
+                                        RoutePath.shopProfileScreen,
+                                        extra: {
+                                          'userRole': userRole,
+                                          'userId': feed.saloonOwner!.userId,
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }),
+                    SizedBox(height: 30.h),
 
-                    // Feed Cards Section
+                    // CustomTitle(
+                    //   title: "Feed",
+                    //   actionText: AppStrings.seeAll,
+                    //   onActionTap: () {
+                    //     AppRouter.route
+                    //         .pushNamed(RoutePath.feedAll, extra: userRole);
+                    //   },
+                    //   actionColor: AppColors.secondary,
+                    // ),
+
+                    // SizedBox(
+                    //   height: 12.h,
+                    // ),
+
+                    // // Feed Cards Section
+                    // // Column(
+                    // //   children: List.generate(4, (index) {
+                    // //     return CustomFeedCard(
+                    // //       userImageUrl: AppConstants.demoImage,
+                    // //       userName: "Roger Hunt",
+                    // //       userAddress:
+                    // //           "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                    // //       postImageUrl: AppConstants.demoImage,
+                    // //       postText:
+                    // //           "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+                    // //       rating: "5.0 * (169)",
+                    // //       onFavoritePressed: () {
+                    // //         // Handle favorite button press
+                    // //       },
+                    // //       onVisitShopPressed: () {
+                    // //         AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
+                    // //             extra: userRole);
+                    // //         // Handle visit shop button press
+                    // //       },
+                    // //     );
+                    // //   }),
+                    // // ),
+
                     // Column(
                     //   children: List.generate(4, (index) {
-                    //     return CustomFeedCard(
-                    //       userImageUrl: AppConstants.demoImage,
-                    //       userName: "Roger Hunt",
-                    //       userAddress:
-                    //           "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                    //       postImageUrl: AppConstants.demoImage,
-                    //       postText:
-                    //           "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
-                    //       rating: "5.0 * (169)",
-                    //       onFavoritePressed: () {
-                    //         // Handle favorite button press
-                    //       },
-                    //       onVisitShopPressed: () {
-                    //         AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
-                    //             extra: userRole);
-                    //         // Handle visit shop button press
-                    //       },
+                    //     final postUrl = index == 0
+                    //         ? AppConstants.demoImage
+                    //         : "https://www.youtube.com/watch?v=vE4jYKyv_GM"; // YouTube ভিডিও URL
+
+                    //     return Padding(
+                    //       padding: EdgeInsets.only(bottom: 12.h),
+                    //       child: CustomFeedCard(
+                    //         userImageUrl: AppConstants.demoImage,
+                    //         userName: "Roger Hunt",
+                    //         userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+                    //         postImageUrl: postUrl,
+                    //         postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
+                    //         rating: "5.0 ★ (169)",
+                    //         onFavoritePressed: (isFavorite) {
+                    //           // Handle favorite button press
+                    //         },
+                    //         onVisitShopPressed: () => AppRouter.route.pushNamed(
+                    //           RoutePath.shopProfileScreen,
+                    //           extra: userRole,
+                    //         ),
+                    //       ),
                     //     );
                     //   }),
                     // ),
-
-                    Column(
-                      children: List.generate(4, (index) {
-                        final postUrl = index == 0
-                            ? AppConstants.demoImage
-                            : "https://www.youtube.com/watch?v=vE4jYKyv_GM"; // YouTube ভিডিও URL
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 12.h),
-                          child: CustomFeedCard(
-                            userImageUrl: AppConstants.demoImage,
-                            userName: "Roger Hunt",
-                            userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                            postImageUrl: postUrl,
-                            postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
-                            rating: "5.0 ★ (169)",
-                            onFavoritePressed: (isFavorite) {
-                              // Handle favorite button press
-                            },
-                            onVisitShopPressed: () => AppRouter.route.pushNamed(
-                              RoutePath.shopProfileScreen,
-                              extra: userRole,
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
                   ],
                 ),
               ),

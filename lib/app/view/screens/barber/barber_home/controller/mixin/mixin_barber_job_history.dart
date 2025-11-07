@@ -11,14 +11,17 @@ mixin BarberJobHistoryMixin  {
 var isJobHistoryLoading = false.obs;
 RxList<JobApplication> jobHistoryList = <JobApplication>[].obs;
 
- Future<void> getAllJobHistory({String? status}) async {
+ Future<void> getAllJobHistory({String? status, bool? isBarberOwner}) async {
     try {
       final Map<String, String> queryParams = {};
       if (status != null && status.isNotEmpty) {
         queryParams['status'] = status;
       }
       isJobHistoryLoading.value = true;
-      final response = await ApiClient.getData(ApiUrl.historyOfMyApplications, query: queryParams);
+      final String url= isBarberOwner == true
+          ? ApiUrl.barberOwnerApplications
+          : ApiUrl.historyOfMyApplications;
+      final response = await ApiClient.getData(url, query: queryParams);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
     final body =
@@ -37,6 +40,7 @@ RxList<JobApplication> jobHistoryList = <JobApplication>[].obs;
       }
     } catch (e) {
       debugPrint("Error fetching all job history: ${e.toString()}");
+      isJobHistoryLoading.value = false;
       toastMessage(message: 'Failed to load all job history');
     } finally {
       isJobHistoryLoading.value = false;

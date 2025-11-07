@@ -18,6 +18,11 @@ class CustomBorderCard extends StatelessWidget {
   final bool? isButton;
   final bool? isEdit;
   final bool? isSeeDescription;
+  final bool? isDelete;
+  final VoidCallback? onTapDelete;
+  final bool? isToggle;
+  final bool? toggleValue;
+  final ValueChanged<bool>? onToggleChanged;
 
   const CustomBorderCard({
     required this.title,
@@ -30,7 +35,14 @@ class CustomBorderCard extends StatelessWidget {
     super.key,
     this.isButton = false,
     required this.seeDescriptionTap,
-    this.isSeeDescription = false, this.isEdit = false,  this.isEditTap,
+    this.isSeeDescription = false,
+    this.isEdit = false,
+    this.isEditTap,
+    this.isDelete = false,
+    this.onTapDelete,
+    this.isToggle = false,
+    this.toggleValue,
+    this.onToggleChanged,
   });
 
   @override
@@ -92,12 +104,14 @@ class CustomBorderCard extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    const Spacer(),
+                    SizedBox(
+                      width: 10.w,
+                    ),
                     isSeeDescription == true
                         ? GestureDetector(
                             onTap: seeDescriptionTap,
                             child: Container(
-                              margin: const EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 0),
                               padding: const EdgeInsets.all(5),
                               decoration: const BoxDecoration(
                                   color: AppColors.black,
@@ -114,9 +128,7 @@ class CustomBorderCard extends StatelessWidget {
                             ),
                           )
                         : const SizedBox(),
-                    SizedBox(
-                      width: 8.w,
-                    ),
+                    const Spacer(),
                     isButton == true
                         ? GestureDetector(
                             onTap: onButtonTap,
@@ -137,14 +149,38 @@ class CustomBorderCard extends StatelessWidget {
                               ),
                             ),
                           )
-                        : const SizedBox() ,
-
-                    isEdit == true
-                        ? GestureDetector(
-                            onTap: isEditTap,
-                            child: Assets.icons.edit.svg()
+                        : const SizedBox(),
+                    if (isEdit == true) ...[
+                      GestureDetector(
+                        onTap: isEditTap,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.0.w),
+                          child: Assets.icons.edit
+                              .svg(color: Colors.green, height: 15.h),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    isToggle == true
+                        ? Transform.scale(
+                            scale: 0.7,
+                            child: Switch.adaptive(
+                              value: toggleValue ?? false,
+                              onChanged: onToggleChanged,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                            ),
                           )
-                        : const SizedBox()
+                        : const SizedBox(),
+                    isDelete == true
+                        ? GestureDetector(
+                            onTap: onTapDelete,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.0.w),
+                              child: Assets.icons.delete.svg(),
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               ],

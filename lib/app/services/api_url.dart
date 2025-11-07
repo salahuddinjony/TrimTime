@@ -46,6 +46,8 @@ class ApiUrl {
   static String deleteJobPost({required String id}) => "$baseUrl/job-posts/$id";
   static const historyOfMyApplications =
       "$baseUrl/job-applications/my-applications";
+  static String toggleJobPostStatus({required String id, required String status}) =>
+      "$baseUrl/job-posts/$id/$status";
 
   //Profile
   static const fetchProfileInfo = "$baseUrl/users/me";

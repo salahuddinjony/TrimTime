@@ -73,6 +73,7 @@ class AppStrings {
   static const  addFeed = "Add Feed";
   static const seeProfile = "See profile";
   static const cancel = "Cancel";
+  static const delete = "Delete";
   static const follow = "Follow ";
   static const following = "Following  ";
   static const totalFollowers = "Total Followers:";
@@ -197,4 +198,5 @@ class AppStrings {
   static const addService    = "Add Service";
   static const somethingWentWrong    = "Something went wrong."; 
   static const noJobPostFound    = "No Job Post Found.";
+  static const pleaseFillAllFields    = "Please fill all fields.";
 }

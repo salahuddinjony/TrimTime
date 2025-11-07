@@ -66,9 +66,9 @@ class JobPostData {
     shopName = json['shopName'];
     shopLogo = json['shopLogo'];
     description = json['description'];
-    hourlyRate = json['hourlyRate'] != null 
-        ? (json['hourlyRate'] is int 
-            ? (json['hourlyRate'] as int).toDouble() 
+    hourlyRate = json['hourlyRate'] != null
+        ? (json['hourlyRate'] is int
+            ? (json['hourlyRate'] as int).toDouble()
             : json['hourlyRate'] as double?)
         : null;
     salary = json['salary'];

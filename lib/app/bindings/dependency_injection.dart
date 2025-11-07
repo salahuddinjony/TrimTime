@@ -7,6 +7,7 @@ import 'package:barber_time/app/view/screens/barber/barber_feed/controller/barbe
 import 'package:barber_time/app/view/screens/barber/barber_history/controller/history_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/controller/owner_hiring_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/controller/barber_owner_job_post_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
@@ -32,6 +33,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => OwnerProfileController(), fenix: true);
     Get.lazyPut(() => HistoryController(), fenix: true);
     Get.lazyPut(() => BarberOwnerJobPostController(), fenix: true);
+    Get.lazyPut(() => BarberOwnerHomeController(), fenix: true);
 
 
   }

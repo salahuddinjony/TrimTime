@@ -105,49 +105,90 @@ class JobPost extends StatelessWidget {
                             Assets.images.logo.image(height: 50),
                       )
                     : Assets.images.logo.image(height: 50);
-                return CustomBorderCard(
-                  isEdit: true,
-                  isEditTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.createJobPost,
-                      extra: {
-                        'userRole': userRole,
-                        'jobPost': jobPost,
-                        'isEditMode': true,
-
-                      },
-                    );
+                return GestureDetector(
+                  onTap: () {
+                    debugPrint('Job Post Tapped: ${jobPost.id}');
                   },
-                  title: jobPost.shopName ?? 'Barber Shop',
-                  time:
-                      '${DateTime.tryParse(jobPost.startDate ?? '')?.formatDate() ?? ''} - ${DateTime.tryParse(jobPost.endDate ?? '')?.formatDate() ?? ''}',
-                  price: jobPost.salary != null 
-                      ? '\$${jobPost.salary}' 
-                      : (jobPost.hourlyRate != null 
-                          ? '\$${jobPost.hourlyRate}/hr' 
-                          : '\$0'),
-                  date: DateTime.tryParse(jobPost.datePosted ?? '')
-                          ?.formatDate() ??
-                      '02/10/23',
-                  buttonText: 'See Description',
-                  isButton: false,
-                  isSeeDescription: true,
-                  onButtonTap: () {},
-                  logoImage: logoWidget,
-                  seeDescriptionTap: () {
-                    showGroomingDialog(
-                      context: context,
-                      logoImage: logoWidget,
-                      barberShopName: jobPost.shopName,
-                      barberShopDescription: jobPost.description,
-                    );
-                  },
+                  child: CustomBorderCard(
+                    isEdit: true,
+                    isEditTap: () {
+                      AppRouter.route.pushNamed(
+                        RoutePath.createJobPost,
+                        extra: {
+                          'userRole': userRole,
+                          'jobPost': jobPost,
+                          'isEditMode': true,
+                        },
+                      );
+                    },
+                    title: jobPost.shopName ?? 'Barber Shop',
+                    time:
+                        '${DateTime.tryParse(jobPost.startDate ?? '')?.formatDate() ?? ''} - ${DateTime.tryParse(jobPost.endDate ?? '')?.formatDate() ?? ''}',
+                    price: jobPost.salary != null
+                        ? '\$${jobPost.salary}'
+                        : (jobPost.hourlyRate != null
+                            ? '\$${jobPost.hourlyRate}/hr'
+                            : '\$0'),
+                    date: DateTime.tryParse(jobPost.datePosted ?? '')
+                            ?.formatDate() ??
+                        '02/10/23',
+                    buttonText: 'See Description',
+                    isButton: false,
+                    isDelete: true,
+                    onTapDelete: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              deleteDialog(context, controller, jobPost.id as String));
+                    },
+                    isSeeDescription: true,
+                    onButtonTap: () {},
+                    logoImage: logoWidget,
+                    seeDescriptionTap: () {
+                      showGroomingDialog(
+                        context: context,
+                        logoImage: logoWidget,
+                        barberShopName: jobPost.shopName,
+                        barberShopDescription: jobPost.description,
+                      );
+                    },
+                    isToggle: true,
+                    toggleValue: jobPost.isActive ?? false,
+                    onToggleChanged: (value) {
+                      controller.toggleJobPostStatus(
+                        jobId: jobPost.id ?? '',
+                        isActive: value,
+                      );
+                    },
+                  ),
                 );
               },
             ),
           );
         }),
       ),
+    );
+  }
+
+  Widget deleteDialog(
+      BuildContext context, BarberOwnerJobPostController controller, String jobPostId) {
+    return AlertDialog(
+      title: Text("Do you want to delete this job post?"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text(AppStrings.cancel),
+        ),
+        TextButton(
+          onPressed: () {
+            controller.deleteJob(jobPostId);
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text(AppStrings.delete),
+        ),
+      ],
     );
   }
 }

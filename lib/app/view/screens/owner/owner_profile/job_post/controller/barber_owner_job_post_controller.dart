@@ -303,9 +303,8 @@ class BarberOwnerJobPostController extends GetxController {
       final response = await ApiClient.deleteData(url);
 
       if (response.statusCode == 200) {
+        await fetchBarberJobPost();
         EasyLoading.showSuccess('Job deleted');
-        fetchBarberJobPost();
-        toastMessage(message: 'Job deleted successfully');
       } else {
         EasyLoading.showError('Failed to delete job');
         debugPrint(
@@ -319,5 +318,48 @@ class BarberOwnerJobPostController extends GetxController {
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+  Future<bool> toggleJobPostStatus(
+      {required String jobId, required bool isActive}) async {
+    // Optimistically update the UI
+    final jobIndex = barberJobPosts.indexWhere((job) => job.id == jobId);
+    if (jobIndex != -1) {
+      final oldStatus = barberJobPosts[jobIndex].isActive;
+      barberJobPosts[jobIndex].isActive = isActive;
+      barberJobPosts.refresh();
+
+      try {
+        final String status = isActive ? "active" : "deactive";
+        final response = await ApiClient.patchData(
+          ApiUrl.toggleJobPostStatus(id: jobId, status: status),
+          null,
+          isBody: false,
+        );
+        if (response.statusCode == 200) {
+          debugPrint("Successfully toggled job post status");
+          toastMessage(
+              message:
+                  'Job post ${isActive ? "activated" : "deactivated"} successfully');
+          return true;
+        } else {
+          // Revert on failure
+          barberJobPosts[jobIndex].isActive = oldStatus;
+          barberJobPosts.refresh();
+          debugPrint(
+              "Failed to toggle job post status: ${response.statusCode} - ${response.statusText}");
+          toastMessage(message: 'Failed to update job post status');
+          return false;
+        }
+      } catch (e) {
+        // Revert on error
+        barberJobPosts[jobIndex].isActive = oldStatus;
+        barberJobPosts.refresh();
+        debugPrint("Error toggling job post status: ${e.toString()}");
+        toastMessage(message: 'Error updating job post status');
+        return false;
+      }
+    }
+    return false;
   }
 }

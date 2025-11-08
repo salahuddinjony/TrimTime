@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_barber_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_owner_profile_image_update.dart';
@@ -51,9 +53,10 @@ class OwnerProfileController extends GetxController
 
     // address may be null
     locationController.text = data.address ?? '';
-  imagepath.value = data.image ?? '';
-  // If the image from the server is a URL, mark it as network image so UI uses network loader.
-  isNetworkImage.value = (data.image != null && data.image!.toLowerCase().startsWith('http'));
+    imagepath.value = data.image ?? '';
+    // If the image from the server is a URL, mark it as network image so UI uses network loader.
+    isNetworkImage.value =
+        (data.image != null && data.image!.toLowerCase().startsWith('http'));
     // Initialize gender value for radio buttons and the text controller
     if (data.gender.isNotEmpty) {
       genderController.text = data.gender;
@@ -68,10 +71,19 @@ class OwnerProfileController extends GetxController
   void onInit() {
     super.onInit();
     fetchProfileInfo();
-    barberProfileFetch();
+    initializeFunctions();
+    // barberProfileFetch();
     // Ensure InfoController is initialized for fetch the data
     //  final infoController = Get.find<InfoController>();
     selectedValue.value = '';
+  }
+
+  void initializeFunctions() async {
+    final userName = await SharePrefsHelper.getString(AppConstants.role);
+    if (userName == 'BARBER') {
+      debugPrint("Barber Owner Profile");
+      barberProfileFetch();
+    }
   }
 
   // for selecete calender
@@ -98,7 +110,7 @@ class OwnerProfileController extends GetxController
     experienceController.text = data.experienceYears.toString();
     currentWorkController.text = data.currentWorkDes ?? '';
     addSkillsController.text = data.skills.join(', ');
-    
+
     // Set image path from portfolio if available
     if (data.portfolio.isNotEmpty) {
       imagepath.value = data.portfolio.first;

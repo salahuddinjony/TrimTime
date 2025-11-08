@@ -1,61 +1,25 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/monitization_date_picar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class OwnerRequestBooking extends StatefulWidget {
-  const OwnerRequestBooking({super.key});
+class OwnerRequestBooking extends StatelessWidget {
+  final BarberOwnerHomeController controller;
+  final userRole;
+  const OwnerRequestBooking(
+      {super.key, required this.controller, this.userRole});
 
-  @override
-  _ServiceListScreenState createState() => _ServiceListScreenState();
-}
 
-class _ServiceListScreenState extends State<OwnerRequestBooking> {
-  // List of services with their details
-  final List<Map<String, dynamic>> services = [
-    {
-      'name': 'Hair Cut & Beard Cut',
-      'time': '09:00 - 09:30',
-      'barber': 'Talha',
-      'price': 35.0,
-      'image': 'assets/talha.png',
-      // Make sure to add the barber image in your assets
-    },
-    {
-      'name': 'Arm Wax',
-      'time': '09:00 - 09:30',
-      'barber': 'Talha',
-      'price': 20.0,
-      'image': 'assets/talha.png',
-    },
-    {
-      'name': 'Arm Wax',
-      'time': '09:00 - 09:30',
-      'barber': 'Talha',
-      'price': 20.0,
-      'image': 'assets/talha.png',
-    },
-    {
-      'name': 'Arm Wax',
-      'time': '09:00 - 09:30',
-      'barber': 'Talha',
-      'price': 20.0,
-      'image': 'assets/talha.png',
-    },
-    {
-      'name': 'Hair Cut & Beard Cut',
-      'time': '09:00 - 09:30',
-      'barber': 'Talha',
-      'price': 35.0,
-      'image': 'assets/talha.png',
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,23 +30,53 @@ class _ServiceListScreenState extends State<OwnerRequestBooking> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-        child: ListView.builder(
-          itemCount: services.length,
-          itemBuilder: (context, index) {
-            var service = services[index];
-            return GestureDetector(
-              onTap: () {
-                _showBookingDialog(context);
-              },
-              child: ServiceTile(
-                serviceName: service['name'],
-                serviceTime: service['time'],
-                barberName: service['barber'],
-                price: service['price'],
-                imagePath: service['image'],
-              ),
-            );
-          },
+        child: Column(
+          children: [
+            HorizontalDatePicker(
+              controller: controller,
+            ),
+            Expanded(
+              child: Obx(() {
+                if (controller.dateWiseBookingsStatus.value.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final data = controller.dateWiseBookings;
+                if (data.isEmpty) {
+                  return Center(
+                    child: CustomText(
+                      text: "No bookings available for ${controller.selectedDate.formatDate()}.",
+                      fontSize: 16.sp,
+                      maxLines: 2,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.black,
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _showBookingDialog(context);
+                      },
+                      child: ServiceTile(
+                        serviceName: data[index].customerName,
+                        serviceTime:
+                            data[index].startTime + " - " + data[index].endTime,
+                        barberName: data[index].barberName,
+                        price: data[index].totalPrice,
+                        imagePath: data[index].barberImage,
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );
@@ -163,7 +157,9 @@ class _ServiceListScreenState extends State<OwnerRequestBooking> {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 30.w,),
+                    SizedBox(
+                      width: 30.w,
+                    ),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(10.r),
@@ -185,7 +181,7 @@ class _ServiceListScreenState extends State<OwnerRequestBooking> {
                                   fontSize: 14.sp,
                                   color: AppColors.seconderDark,
                                 ),
-                                     Spacer(),
+                                Spacer(),
                                 CustomText(
                                   text: "\$10",
                                   fontWeight: FontWeight.w500,
@@ -224,7 +220,9 @@ class _ServiceListScreenState extends State<OwnerRequestBooking> {
                   flex: 5,
                   child: CustomButton(
                     onTap: () {
-                      context.pushNamed(RoutePath.rescheduleScreen,);
+                      context.pushNamed(
+                        RoutePath.rescheduleScreen,
+                      );
                     },
                     textColor: AppColors.white,
                     fillColor: AppColors.secondary,

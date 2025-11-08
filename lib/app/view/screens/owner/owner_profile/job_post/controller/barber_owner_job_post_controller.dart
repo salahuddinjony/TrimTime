@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'dart:convert';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
@@ -18,8 +19,8 @@ class BarberOwnerJobPostController extends GetxController {
 
   // Form controllers for create/edit job post
   final dateController = TextEditingController();
-  final startTimeController = TextEditingController();
-  final endTimeController = TextEditingController();
+  final startDateController = TextEditingController();
+  final endDateController = TextEditingController();
   final rateController = TextEditingController();
   final shopNameController = TextEditingController();
   final shopLogoController = TextEditingController();
@@ -36,39 +37,23 @@ class BarberOwnerJobPostController extends GetxController {
       return;
     }
 
+    List<TextEditingController> textControllers = [
+      dateController,
+      startDateController,
+      endDateController
+    ];
+    List<String?> dates = [
+      jobPost.datePosted,
+      jobPost.startDate,
+      jobPost.endDate
+    ];
+
     _currentJobId = jobPost.id;
     selectedJobPost.value = jobPost;
     isEditMode.value = true;
 
-    // Fill date
-    if (jobPost.datePosted != null) {
-      final date = DateTime.tryParse(jobPost.datePosted!);
-      if (date != null) {
-        dateController.text =
-            '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year.toString().substring(2)}';
-      }
-    }
-
-    // Fill start time
-    if (jobPost.startDate != null) {
-      final startDate = DateTime.tryParse(jobPost.startDate!);
-      if (startDate != null) {
-        final hour = startDate.hour > 12 ? startDate.hour - 12 : startDate.hour;
-        final period = startDate.hour >= 12 ? 'PM' : 'AM';
-        startTimeController.text =
-            '${hour.toString().padLeft(2, '0')}:${startDate.minute.toString().padLeft(2, '0')} $period';
-      }
-    }
-
-    // Fill end time
-    if (jobPost.endDate != null) {
-      final endDate = DateTime.tryParse(jobPost.endDate!);
-      if (endDate != null) {
-        final hour = endDate.hour > 12 ? endDate.hour - 12 : endDate.hour;
-        final period = endDate.hour >= 12 ? 'PM' : 'AM';
-        endTimeController.text =
-            '${hour.toString().padLeft(2, '0')}:${endDate.minute.toString().padLeft(2, '0')} $period';
-      }
+    for (int i = 0; i < dates.length; i++) {
+      setDate(date: dates[i] ?? '', dateController: textControllers[i]);
     }
 
     // Fill rate
@@ -78,15 +63,15 @@ class BarberOwnerJobPostController extends GetxController {
       rateController.text = jobPost.hourlyRate.toString();
     }
 
-    // Fill shop name
-    shopNameController.text = jobPost.shopName ?? '';
+    // // Fill shop name
+    // shopNameController.text = jobPost.shopName ?? '';
 
-    // Fill shop logo path
-    if (jobPost.shopLogo?.isNotEmpty == true) {
-      imagePath.value = jobPost.shopLogo!;
-      isNetworkImage.value = true;
-      shopLogoController.text = 'Logo uploaded';
-    }
+    // // Fill shop logo path
+    // if (jobPost.shopLogo?.isNotEmpty == true) {
+    //   imagePath.value = jobPost.shopLogo!;
+    //   isNetworkImage.value = true;
+    //   shopLogoController.text = 'Logo uploaded';
+    // }
 
     // Fill description
     descriptionController.text = jobPost.description ?? '';
@@ -95,10 +80,19 @@ class BarberOwnerJobPostController extends GetxController {
     isFormLoaded.value = true;
   }
 
+  void setDate(
+      {required String date, required TextEditingController dateController}) {
+    // Fill date
+    final parsedDate = DateTime.tryParse(date);
+    if (parsedDate != null) {
+      dateController.text = parsedDate.formatDateApi();
+    }
+  }
+
   void clearForm() {
     dateController.clear();
-    startTimeController.clear();
-    endTimeController.clear();
+    startDateController.clear();
+    endDateController.clear();
     rateController.clear();
     shopNameController.clear();
     shopLogoController.clear();
@@ -128,8 +122,8 @@ class BarberOwnerJobPostController extends GetxController {
   @override
   void onClose() {
     dateController.dispose();
-    startTimeController.dispose();
-    endTimeController.dispose();
+    startDateController.dispose();
+    endDateController.dispose();
     rateController.dispose();
     shopNameController.dispose();
     shopLogoController.dispose();
@@ -203,26 +197,31 @@ class BarberOwnerJobPostController extends GetxController {
       final Map<String, dynamic> bodyData = {
         "description": descriptionController.text,
         "hourlyRate": int.tryParse(rateController.text) ?? 0,
-        "startDate": startTimeController.text,
-        "endDate": endTimeController.text,
-        'shopName': shopNameController.text,
+        "startDate": startDateController.text,
+        "endDate": endDateController.text,
+        // 'shopName': shopNameController.text,
         "datePosted": dateController.text,
       };
 
-      // Check if image is selected and it's a valid local file
-      bool hasValidImage = imagePath.value.isNotEmpty &&
-          !isNetworkImage.value &&
-          File(imagePath.value).existsSync();
+      // // Check if image is selected and it's a valid local file
+      // bool hasValidImage = imagePath.value.isNotEmpty &&
+      //     !isNetworkImage.value &&
+      //     File(imagePath.value).existsSync();
 
-      final response = await ApiClient.postMultipartData(
+      final response = await ApiClient.postData(
         ApiUrl.createBarberOwnerJobPost,
-        {
-          'bodyData': bodyData,
-        },
-        multipartBody: hasValidImage
-            ? [MultipartBody('shopLogo', File(imagePath.value))]
-            : [],
+        jsonEncode(bodyData),
       );
+
+      // final response = await ApiClient.postMultipartData(
+      //   ApiUrl.createBarberOwnerJobPost,
+      //   {
+      //     'bodyData': bodyData,
+      //   },
+      //   multipartBody: hasValidImage
+      //       ? [MultipartBody('shopLogo', File(imagePath.value))]
+      //       : [],
+      // );
 
       if (response.statusCode == 201) {
         EasyLoading.showSuccess('Job created');
@@ -256,25 +255,30 @@ class BarberOwnerJobPostController extends GetxController {
       final Map<String, dynamic> bodyData = {
         "description": descriptionController.text,
         "hourlyRate": int.tryParse(rateController.text) ?? 0,
-        "startDate": startTimeController.text,
-        "endDate": endTimeController.text,
+        "startDate": startDateController.text,
+        "endDate": endDateController.text,
         "datePosted": dateController.text,
       };
 
-      // Check if we have a valid local file to upload
-      bool hasValidLocalImage = imagePath.value.isNotEmpty &&
-          !isNetworkImage.value &&
-          File(imagePath.value).existsSync();
+      // // Check if we have a valid local file to upload
+      // bool hasValidLocalImage = imagePath.value.isNotEmpty &&
+      //     !isNetworkImage.value &&
+      //     File(imagePath.value).existsSync();
 
-      final response = await ApiClient.patchMultipart(
+      final response = await ApiClient.patchData(
         ApiUrl.updateJobPost(id: jobId),
-        {
-          'bodyData': bodyData,
-        },
-        multipartBody: hasValidLocalImage
-            ? [MultipartBody('shopLogo', File(imagePath.value))]
-            : [],
+        jsonEncode(bodyData),
       );
+
+      // final response = await ApiClient.patchMultipart(
+      //   ApiUrl.updateJobPost(id: jobId),
+      //   {
+      //     'bodyData': bodyData,
+      //   },
+      //   multipartBody: hasValidLocalImage
+      //       ? [MultipartBody('shopLogo', File(imagePath.value))]
+      //       : [],
+      // );
 
       if (response.statusCode == 200) {
         EasyLoading.showSuccess('Job updated');
@@ -312,9 +316,9 @@ class BarberOwnerJobPostController extends GetxController {
         throw response.statusText ?? 'Failed to delete job';
       }
     } catch (e) {
-      EasyLoading.showError('Error deleting job');
+      EasyLoading.showError('Failed to delete job');
       debugPrint("Error deleting job: ${e.toString()}");
-      toastMessage(message: e.toString());
+      // toastMessage(message: e.toString());
     } finally {
       EasyLoading.dismiss();
     }
@@ -332,15 +336,15 @@ class BarberOwnerJobPostController extends GetxController {
       try {
         final String status = isActive ? "active" : "deactive";
         final response = await ApiClient.patchData(
-          ApiUrl.toggleJobPostStatus(id: jobId, status: status),
+          ApiUrl.toggleJobPostStatus(id: jobId, status: "active"),
           null,
           isBody: false,
         );
         if (response.statusCode == 200) {
           debugPrint("Successfully toggled job post status");
-          toastMessage(
-              message:
-                  'Job post ${isActive ? "activated" : "deactivated"} successfully');
+          // toastMessage(
+          //     message:
+          //         'Job post ${isActive ? "activated" : "deactivated"} successfully');
           return true;
         } else {
           // Revert on failure
@@ -348,7 +352,7 @@ class BarberOwnerJobPostController extends GetxController {
           barberJobPosts.refresh();
           debugPrint(
               "Failed to toggle job post status: ${response.statusCode} - ${response.statusText}");
-          toastMessage(message: 'Failed to update job post status');
+          // toastMessage(message: 'Failed to update job post status');
           return false;
         }
       } catch (e) {

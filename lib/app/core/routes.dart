@@ -29,6 +29,7 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/total_customer_screen.dart';
@@ -1087,10 +1088,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.ownerRequestBooking,
           path: RoutePath.ownerRequestBooking.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerRequestBooking(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as BarberOwnerHomeController?;
+
+            return _buildPageWithAnimation(
+              child: OwnerRequestBooking(
+                userRole: userRole!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///======================= =======================

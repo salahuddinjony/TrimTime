@@ -54,6 +54,13 @@ extension DateFormat on DateTime {
     return '${local.day} ${months[local.month - 1]} ${local.year}';
   }
 }
+extension DateFormatApi on DateTime {
+
+  String formatDateApi() {
+    final local = this.toLocal();
+    return '${local.year}-${local.month.toString().padLeft(2,'0')}-${local.day.toString().padLeft(2,'0')}';
+  }
+}
 
 extension DateTimeParsing on DateTime {
   String dayName() {

@@ -1,0 +1,82 @@
+import 'dart:convert';
+
+import 'package:barber_time/app/global/helper/extension/extension.dart' as intl;
+import 'package:barber_time/app/services/api_client.dart';
+import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/model/date_wise_booking_data/date_wise_booking_data.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+mixin DateWiseBookingsMixin {
+  final RxList<BookingData> dateWiseBookings = <BookingData>[].obs;
+  Rx<RxStatus> dateWiseBookingsStatus = Rx<RxStatus>(RxStatus.empty());
+
+  RxInt selectedIndex = 0.obs;
+
+  final List<DateTime> dates = List.generate(
+    21,
+    (index) => DateTime.now().add(Duration(days: index)),
+  );
+
+  // Getter for selected date based on selectedIndex
+  DateTime get selectedDate => dates[selectedIndex.value];
+
+  void selectDate(int index) {
+    selectedIndex.value = index;
+  }
+
+  Future<void> fetchDateWiseBookings({String? date}) async {
+    dateWiseBookingsStatus.value = RxStatus.loading();
+    try {
+
+      final response = await ApiClient.getData(
+        ApiUrl.getDateWiseBookings,
+        query: {
+           'date': date ?? selectedDate.formatDateApi(),
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        debugPrint("Raw Response Body Type: ${response.body.runtimeType}");
+        debugPrint("Raw Response Body: ${response.body}");
+        
+        // Handle both String and Map responses
+        final Map<String, dynamic> responseData;
+        if (response.body is String) {
+          responseData = jsonDecode(response.body) as Map<String, dynamic>;
+        } else {
+          responseData = response.body as Map<String, dynamic>;
+        }
+        
+        debugPrint("Parsed Response Data Type: ${responseData.runtimeType}");
+        debugPrint("Data field type: ${responseData['data']?.runtimeType}");
+        debugPrint("Meta field type: ${responseData['meta']?.runtimeType}");
+        
+        final bookingDataList = DateWiseBookingDataResponse.fromJson(responseData);
+        dateWiseBookings.value = bookingDataList.data;
+
+        debugPrint("Date-wise bookings fetched successfully.");
+        debugPrint("Number of bookings: ${dateWiseBookings.length}");
+        
+        if (dateWiseBookings.isEmpty) {
+          dateWiseBookingsStatus.value = RxStatus.empty();
+        } else {
+          dateWiseBookingsStatus.value = RxStatus.success();
+        }
+      } else {
+        debugPrint(
+            "Failed to load date-wise bookings: ${response.statusCode} - ${response.statusText}");
+        dateWiseBookingsStatus.value = RxStatus.error(
+            'Failed to load date-wise bookings: ${response.statusText}');
+      }
+    } catch (e, stackTrace) {
+      debugPrint("Error fetching bookings: $e");
+      debugPrint("Stack trace: $stackTrace");
+      dateWiseBookingsStatus.value =
+          RxStatus.error('Failed to load date-wise bookings');
+    } finally {
+      debugPrint("Fetch date-wise bookings completed."); 
+
+    }
+  }
+}

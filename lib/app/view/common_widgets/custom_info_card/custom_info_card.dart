@@ -5,7 +5,8 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 
 class CustomInfoCard extends StatelessWidget {
   final String title;
-  final String value;
+  final String? value;
+  final Widget? valueWidget; // Optional widget for custom value display (like shimmer)
   final Widget image;
   final VoidCallback onTap;
 
@@ -13,7 +14,8 @@ class CustomInfoCard extends StatelessWidget {
   const CustomInfoCard({
     super.key,
     required this.title,
-    required this.value, 
+    this.value,
+    this.valueWidget, 
     required this.image, 
     required this.onTap,
   });
@@ -51,8 +53,9 @@ class CustomInfoCard extends StatelessWidget {
               color: AppColors.black,
             ),
             const SizedBox(height: 4), // Space between title and value
-            CustomText(
-              text: value, // Value passed dynamically
+            // Use valueWidget if provided, otherwise use value text
+            valueWidget ?? CustomText(
+              text: value ?? "...", // Value passed dynamically
               fontWeight: FontWeight.w700,
               fontSize: 20.sp, // Larger font size for the value
               color: AppColors.black,

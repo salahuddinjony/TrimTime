@@ -1,3 +1,4 @@
+
 // Generated model for review response with null-checks
 
 class ReviewResponse {
@@ -41,25 +42,32 @@ class ReviewResponse {
       };
 }
 
+
 class ReviewData {
+  final String id;
   final String customerId;
   final int rating;
   final String comment;
-  final DateTime? createdAt;
   final String barberId;
+  final String saloonOwnerId;
   final String saloonName;
   final String saloonAddress;
   final String saloonLogo;
+  final String bookingId;
+  final DateTime? createdAt;
 
   ReviewData({
+    required this.id,
     required this.customerId,
     required this.rating,
     required this.comment,
-    required this.createdAt,
     required this.barberId,
+    required this.saloonOwnerId,
     required this.saloonName,
     required this.saloonAddress,
     required this.saloonLogo,
+    required this.bookingId,
+    required this.createdAt,
   });
 
   factory ReviewData.fromJson(Map<String, dynamic>? json) {
@@ -78,27 +86,33 @@ class ReviewData {
     }
 
     return ReviewData(
+      id: json['id']?.toString() ?? '',
       customerId: json['customerId']?.toString() ?? '',
       rating: json['rating'] is int
           ? json['rating'] as int
           : int.tryParse('${json['rating']}') ?? 0,
       comment: json['comment']?.toString() ?? '',
-      createdAt: parsedDate,
       barberId: json['barberId']?.toString() ?? '',
+      saloonOwnerId: json['saloonOwnerId']?.toString() ?? '',
       saloonName: json['saloonName']?.toString() ?? '',
       saloonAddress: json['saloonAddress']?.toString() ?? '',
       saloonLogo: json['saloonLogo']?.toString() ?? '',
+      bookingId: json['bookingId']?.toString() ?? '',
+      createdAt: parsedDate,
     );
   }
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'customerId': customerId,
         'rating': rating,
         'comment': comment,
-        'createdAt': createdAt?.toIso8601String(),
         'barberId': barberId,
+        'saloonOwnerId': saloonOwnerId,
         'saloonName': saloonName,
         'saloonAddress': saloonAddress,
         'saloonLogo': saloonLogo,
+        'bookingId': bookingId,
+        'createdAt': createdAt?.toIso8601String(),
       };
 }

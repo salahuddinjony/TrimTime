@@ -14,10 +14,12 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'inner_widgets/monitization_date_picar.dart';
@@ -99,43 +101,116 @@ class OwnerHomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            CustomInfoCard(
-                              title: AppStrings.totalCustomer,
-                              // Title text
-                              value: "00",
-                              image: Assets.images.totalCustomer.image(),
-                              onTap: () {
-                                AppRouter.route.pushNamed(
-                                    RoutePath.totalCustomerScreen,
-                                    extra: userRole);
-                              },
+                            Obx(
+                              () => CustomInfoCard(
+                                title: AppStrings.totalCustomer,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 20,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller
+                                            .dashboardData.value?.totalCustomers
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                image: Assets.images.totalCustomer.image(),
+                                onTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.totalCustomerScreen,
+                                      extra: userRole);
+                                },
+                              ),
                             ),
                             SizedBox(
                               width: 5.w,
                             ),
-                            CustomInfoCard(
-                              image: Assets.images.totalBarber.image(),
-                              title: AppStrings.totalBarber,
-                              // Title text
-                              value: "00",
-                              onTap: () {
-                                AppRouter.route.pushNamed(RoutePath.totalBarber,
-                                    extra: userRole);
-                              },
+                            Obx(
+                              () => CustomInfoCard(
+                                image: Assets.images.totalBarber.image(),
+                                title: AppStrings.totalBarber,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller
+                                            .dashboardData.value?.totalBarbers
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                onTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.totalBarber,
+                                      extra: userRole);
+                                },
+                              ),
                             ),
                             SizedBox(
                               width: 5.w,
                             ),
-                            CustomInfoCard(
-                              image: Assets.images.hiringSelected.image(),
-
-                              title: AppStrings.hiringPost,
-                              // Title text
-                              value: "00",
-                              onTap: () {
-                                AppRouter.route.pushNamed(RoutePath.hiringPost,
-                                    extra: userRole);
-                              }, // Dynamic value (could be fetched from a database)
+                            Obx(
+                              () => CustomInfoCard(
+                                image: Assets.images.hiringSelected.image(),
+                                title: AppStrings.hiringPost,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller
+                                            .dashboardData.value?.totalJobPosts
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                onTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.hiringPost,
+                                      extra: userRole);
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -150,43 +225,112 @@ class OwnerHomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            CustomInfoCard(
-                              image: Assets.images.barberRequest.image(),
-
-                              title: AppStrings.barberRequest,
-                              // Title text
-                              value: "00",
-                              onTap: () {
-                                AppRouter.route.pushNamed(
-                                    RoutePath.barberRequest,
-                                    extra: userRole);
-                              }, // Dynamic value (could be fetched from a database)
+                            Obx(
+                              () => CustomInfoCard(
+                                image: Assets.images.barberRequest.image(),
+                                title: AppStrings.barberRequest,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller.dashboardData.value
+                                            ?.totalJobApplicants
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                onTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.barberRequest,
+                                      extra: userRole);
+                                },
+                              ),
                             ),
                             SizedBox(
                               width: 5.w,
                             ),
-                            CustomInfoCard(
-                              image: Assets.images.pending.image(),
-
-                              title: AppStrings.pending,
-                              // Title text
-                              value: "00",
-                              onTap: () {
-                                context.pushNamed(RoutePath.ownerRequestBooking,
-                                    extra: userRole);
-                              },
+                            Obx(
+                              () => CustomInfoCard(
+                                image: Assets.images.pending.image(),
+                                title: AppStrings.pending,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller
+                                            .dashboardData.value?.totalBookings
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                onTap: () {
+                                  context.pushNamed(
+                                      RoutePath.ownerRequestBooking,
+                                      extra: userRole);
+                                },
+                              ),
                             ),
                             SizedBox(
                               width: 5.w,
                             ),
-                            CustomInfoCard(
-                              image: Assets.images.waiting.image(),
-
-                              title: AppStrings.waiting,
-                              // Title text
-                              value: "00",
-                              onTap:
-                                  () {}, // Dynamic value (could be fetched from a database)
+                            Obx(
+                              () => CustomInfoCard(
+                                image: Assets.images.waiting.image(),
+                                title: AppStrings.waiting,
+                                valueWidget: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 40,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                value: controller
+                                        .dashboardDataStatus.value.isLoading
+                                    ? null
+                                    : controller
+                                            .dashboardData.value?.totalEarnings
+                                            .toString()
+                                            .padLeft(2, '0') ??
+                                        "00",
+                                onTap: () {},
+                              ),
                             ),
                           ],
                         ),
@@ -202,14 +346,11 @@ class OwnerHomeScreen extends StatelessWidget {
                       title: AppStrings.recentRequest,
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
-
-                        AppRouter.route.pushNamed(
-                          RoutePath.recentRequestScreen,
-                            extra:{
-                              'userRole': userRole,
-                              'controller': controller,
-                            }
-                            );
+                        AppRouter.route
+                            .pushNamed(RoutePath.recentRequestScreen, extra: {
+                          'userRole': userRole,
+                          'controller': controller,
+                        });
                       },
                       actionColor: AppColors.secondary,
                     ),
@@ -262,20 +403,58 @@ class OwnerHomeScreen extends StatelessWidget {
 
                     Row(
                       children: [
-                        CustomText(
-                          textAlign: TextAlign.start,
-                          text:
-                              'You have 5 \n appointments waiting for you today!',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                          color: AppColors.black,
-                          bottom: 20,
-                        ),
+                        Obx(() {
+                          return Column(
+                                children: [
+                                RichText(
+                                textAlign: TextAlign.start,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: controller.dateWiseBookings.length > 0
+                                          ? 'You have '
+                                          : '',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14.sp,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: controller.dateWiseBookings.length > 0
+                                          ? '${controller.dateWiseBookings.length.toString().padLeft(2, '0')} '
+                                          : '',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.sp,
+                                        color: AppColors.secondary,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: controller.dateWiseBookings.length > 0
+                                          ? '\nappointments waiting for you!'
+                                          : '',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14.sp,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ), 
+                              SizedBox(height: 10.h),
+                                ],
+                              );
+                        }),
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
                             context.pushNamed(RoutePath.ownerRequestBooking,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': controller,
+                                });
                           },
                           child: const Text(
                             AppStrings.seeAll,
@@ -289,46 +468,45 @@ class OwnerHomeScreen extends StatelessWidget {
                       ],
                     ),
 
-                    HorizontalDatePicker(),
+                    HorizontalDatePicker(controller: controller),
                     SizedBox(
                       height: 10.h,
                     ),
 
-                    Container(
-                      padding: EdgeInsets.all(10.r),
-                      decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          CustomNetworkImage(
-                            imageUrl: AppConstants.demoImage,
-                            height: 42,
-                            width: 42,
-                            boxShape: BoxShape.circle,
+                    Obx(() {
+                      final data = controller.dateWiseBookings;
+                      if (controller.dateWiseBookingsStatus.value.isLoading) {
+                        return Center(
+                            child: const SizedBox(
+                          width: 30,
+                          height: 15,
+                          child: LinearProgressIndicator(
+                            backgroundColor: Colors.amber,
+                            valueColor:
+                                AlwaysStoppedAnimation(Colors.deepOrangeAccent),
                           ),
-                          const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                left: 8,
-                                text: "Hair Cut & Beard Cut",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                                color: AppColors.black,
-                              ),
-                              CustomText(
-                                left: 8,
-                                text: "09:00 - 09:30,  Barber: Talha",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                                color: AppColors.black,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                        ));
+                      }
+                      if (data.isEmpty) {
+                        return Center(
+                            child: Text('No appointments for selected date'));
+                      }
+                      return Column(
+                        children: List.generate(
+                            data.length > 2 ? 2 : data.length, (index) {
+                          final bookingData = data[index];
+                          return ServiceTile(
+                            serviceName: bookingData.customerName,
+                            serviceTime: bookingData.startTime +
+                                " - " +
+                                bookingData.endTime,
+                            barberName: bookingData.barberName,
+                            price: bookingData.totalPrice,
+                            imagePath: bookingData.barberImage,
+                          );
+                        }),
+                      );
+                    }),
                     SizedBox(
                       height: 10.h,
                     ),

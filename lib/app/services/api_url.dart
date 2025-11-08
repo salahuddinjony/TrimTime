@@ -4,6 +4,10 @@ class ApiUrl {
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
+
+//deshboard data
+  static const dashboardData = "$baseUrl/saloons/dashboard";
+
   ///================================= User Authentication url==========================
   static const login = "/auth/login";
   static const register = "/users/register";
@@ -22,7 +26,7 @@ class ApiUrl {
   static const privacyPolicy = "$baseUrl/privacy-policy";
   static const changePassword = "/auth/change-password";
   static const deleteAccount = "/users/delete-account";
-  static const getBarberReviews = "$baseUrl/reviews/barber";
+  static const getBarberReviews = "$baseUrl/reviews";
   static const getMyAllFavourites = "$baseUrl/favorites";
   static const BarberQueueCapacity = "$baseUrl/queue-capacities";
 
@@ -42,13 +46,15 @@ class ApiUrl {
   static const createBarberOwnerJobPost = "/job-posts";
   static String getJobPostById({required String id}) =>
       "$baseUrl/job-posts/$id";
-  static String updateJobPost({required String id}) => "/job-posts/$id";
+  static String updateJobPost({required String id}) => "$baseUrl/job-posts/$id";
   static String deleteJobPost({required String id}) => "$baseUrl/job-posts/$id";
   static const historyOfMyApplications =
       "$baseUrl/job-applications/my-applications";
       
   static const barberOwnerApplications = 
       "$baseUrl/job-applications";
+
+
 
 
   static String toggleJobPostStatus({required String id, required String status}) =>
@@ -83,4 +89,5 @@ class ApiUrl {
 
   // booking management
   static const getBarberBookings = "$baseUrl/barbers/my-bookings";
+  static String getDateWiseBookings="$baseUrl//bookings/list";
 }

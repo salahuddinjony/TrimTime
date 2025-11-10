@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (data.isEmpty) {
+                    if (data.value?.isEmpty == true) {
                       return const Text('No profile data');
                     }
                     return Column(
@@ -155,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
                         Obx(() {
                           // Prefer controller's picked image (local path) when available.
                           final currentData =
-                              ownerProfileController.profileDataList.first;
+                              ownerProfileController.profileDataList.value!;
                           final imageUrl =
                               ownerProfileController.imagepath.value.isNotEmpty
                                   ? ownerProfileController.imagepath.value
@@ -174,14 +174,14 @@ class ProfileScreen extends StatelessWidget {
                         }),
                         CustomText(
                           top: 8,
-                          text: data.first.fullName.safeCap(),
+                          text: data.value!.fullName.safeCap(),
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                           color: AppColors.black,
                         ),
                         CustomText(
                           top: 8,
-                          text: data.first.email,
+                          text: data.value!.email,
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
                           color: AppColors.black,
@@ -198,7 +198,7 @@ class ProfileScreen extends StatelessWidget {
                       AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
                         'userRole': userRole,
                         'profileData':
-                            ownerProfileController.profileDataList.first,
+                            ownerProfileController.profileDataList.value!,
                         'controller': ownerProfileController
                       });
                     },
@@ -218,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: {
                                   'userRole': userRole,
                                   'profileData': ownerProfileController
-                                      .profileDataList.first,
+                                      .profileDataList.value!,
                                   'controller': ownerProfileController
                                 });
                           },

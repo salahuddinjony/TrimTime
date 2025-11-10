@@ -325,7 +325,7 @@ class OwnerHomeScreen extends StatelessWidget {
                                         .dashboardDataStatus.value.isLoading
                                     ? null
                                     : controller
-                                            .dashboardData.value?.totalEarnings
+                                            .dashboardData.value?.totalQueuedBookings
                                             .toString()
                                             .padLeft(2, '0') ??
                                         "00",

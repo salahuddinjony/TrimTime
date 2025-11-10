@@ -18,6 +18,12 @@ mixin DateWiseBookingsMixin {
     (index) => DateTime.now().add(Duration(days: index)),
   );
 
+  debugPrintDates() {
+    for (var date in dates) {
+      debugPrint("Generated Date: ${date}");
+    }
+  }
+
   // Getter for selected date based on selectedIndex
   DateTime get selectedDate => dates[selectedIndex.value];
 

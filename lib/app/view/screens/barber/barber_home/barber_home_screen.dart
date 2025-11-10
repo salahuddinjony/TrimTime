@@ -57,7 +57,7 @@ class BarberHomeScreen extends StatelessWidget {
           children: [
             ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
             Obx(() {
-              final hasProfile = profileController.profileDataList.isNotEmpty;
+              final hasProfile = profileController.profileDataList.value != null;
               if (!hasProfile) {
                 return Padding(
                   padding:
@@ -127,7 +127,7 @@ class BarberHomeScreen extends StatelessWidget {
               }
 
               // When profile data is available show the regular app bar
-              final profile = profileController.profileDataList[0];
+              final profile = profileController.profileDataList.value!;
               return CommonHomeAppBar(
                 onCalender: () {
                   AppRouter.route

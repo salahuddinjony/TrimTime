@@ -5,6 +5,7 @@ class AppConstants {
   static String bearerToken = "BearerToken";
   static String userId = "Id";
   static String role="role";
+  static bool qrCode= false;
 
 
   

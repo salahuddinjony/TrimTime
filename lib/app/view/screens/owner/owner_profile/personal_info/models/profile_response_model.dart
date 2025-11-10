@@ -142,6 +142,8 @@ class ProfileData {
     );
   }
 
+  get isEmpty => null;
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'fullName': fullName,

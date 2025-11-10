@@ -61,6 +61,10 @@ dependencies:
   youtube_player_flutter: ^9.0.1
   jwt_decoder: ^2.0.1
   flutter_widget_from_html: 0.17.1
+  printing: ^5.13.2
+  pdf: ^3.11.1
+  path_provider: ^2.1.4
+  gal: ^2.3.0
 
   
 

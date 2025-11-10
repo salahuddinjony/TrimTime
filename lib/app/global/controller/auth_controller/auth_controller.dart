@@ -122,6 +122,8 @@ class AuthController extends GetxController with PasswordConstraintController {
             AppConstants.userId, resBody['data']?["_id"] ?? '');
         await SharePrefsHelper.setString(
             AppConstants.role, resBody['data']?["role"] ?? '');
+         await SharePrefsHelper.setBool(
+            AppConstants.qrCode.toString(), resBody['data']?["qrCode"] ?? false);
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         String roleStr = decodedToken['role'] ?? '';

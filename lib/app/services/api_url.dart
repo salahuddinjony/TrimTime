@@ -90,4 +90,9 @@ class ApiUrl {
   // booking management
   static const getBarberBookings = "$baseUrl/barbers/my-bookings";
   static String getDateWiseBookings="$baseUrl//bookings/list";
+  
+  // QR Code management
+  static const sendQrCodeInfo = "/qr-codes";
+  static const getQrCodeInfo = "$baseUrl/qr-codes";
+  static const verifyQrCode = "${baseUrl}/qr-codes/verify";
 }

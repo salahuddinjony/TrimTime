@@ -47,8 +47,8 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
   @override
   void initState() {
     super.initState();
-    final ProfileData initialData = widget.controller.profileDataList.isNotEmpty
-        ? widget.controller.profileDataList.first
+    final ProfileData initialData = widget.controller.profileDataList.value != null
+        ? widget.controller.profileDataList.value!
         : widget.data;
     widget.controller.setInitialValue(initialData);
   }
@@ -291,8 +291,8 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
                   children: [
                     Obx(() {
                       final ProfileData currentData =
-                          widget.controller.profileDataList.isNotEmpty
-                              ? widget.controller.profileDataList.first
+                          widget.controller.profileDataList.value != null
+                              ? widget.controller.profileDataList.value!
                               : widget.data;
                       final imageUrl =
                           widget.controller.imagepath.value.isNotEmpty

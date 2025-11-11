@@ -257,7 +257,7 @@ class BarberOwnerJobPostController extends GetxController {
         "hourlyRate": int.tryParse(rateController.text) ?? 0,
         "startDate": startDateController.text,
         "endDate": endDateController.text,
-        "datePosted": dateController.text,
+        // "datePosted": dateController.text,
       };
 
       // // Check if we have a valid local file to upload

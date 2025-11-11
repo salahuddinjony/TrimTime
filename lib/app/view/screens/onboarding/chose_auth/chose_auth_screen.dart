@@ -18,7 +18,7 @@ class ChoseAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouterState.of(context).extra as UserRole?;
-    debugPrint("Selected Role============================${userRole?.name}");
+    debugPrint("Selected Role============================>${userRole?.name ?? "No Role"}");
     return Scaffold(
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),

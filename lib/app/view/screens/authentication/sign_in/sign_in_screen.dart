@@ -138,7 +138,7 @@ class SignInScreen extends StatelessWidget {
                       //ToDo ==========✅✅ Sing In Button✅✅==========
                       CustomButton(
                         onTap: () {
-                          authController.signIn();
+                          authController.signIn(userRole: userRole?.name.toString());
                           // if (userRole == UserRole.user) {
                           //   AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
                           // } else if (userRole == UserRole.barber) {

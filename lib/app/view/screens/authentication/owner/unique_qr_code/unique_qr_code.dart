@@ -135,7 +135,7 @@ class UniqueQrCode extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
                                   decoration: BoxDecoration(
-                                    color: Colors.green.withValues(alpha: .5),
+                                    color: Colors.green.withValues(alpha: .9),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Row(
@@ -148,11 +148,11 @@ class UniqueQrCode extends StatelessWidget {
                                       ),
                                       SizedBox(width: 8.w),
                                       Text(
-                                        'Syncronized',
+                                        'Synchronized',
                                         style: TextStyle(
-                                          fontSize: 10.sp,
+                                          fontSize: 11.sp,
                                           color: Colors.white,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w800,
                                         ),
                                       ),
                                     ],

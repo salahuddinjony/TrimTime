@@ -1,12 +1,13 @@
-import 'dart:convert';
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScannerController extends GetxController {
@@ -15,107 +16,311 @@ class ScannerController extends GetxController {
 
   // Loading state
   final RxBool isVerifying = false.obs;
-  final RxBool verificationSuccess = false.obs;
+  final RxBool isScannerActive = false.obs;
 
-  // Verification result data
-  final Rx<Map<String, dynamic>?> verificationResult =
-      Rx<Map<String, dynamic>?>(null);
+  // Captured image for freeze effect
+  final Rx<Uint8List?> capturedImage = Rx<Uint8List?>(null);
 
-  // MobileScannerController to control the scanner
-  final MobileScannerController mobileScannerController =
-      MobileScannerController();
+  // MobileScannerController
+  late final MobileScannerController mobileScannerController;
+
+  // Timer for debouncing
+  Timer? _debounceTimer;
+  String? _lastScannedCode;
+  DateTime? _lastScanTime;
+
+  @override
+  void onInit() {
+    super.onInit();
+    print('🎯 ScannerController: onInit called');
+    initializeScanner();
+  }
+
+  void initializeScanner() {
+    mobileScannerController = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      facing: CameraFacing.back,
+      torchEnabled: false,
+      returnImage: true, // Enable image capture
+    );
+    print('🎥 MobileScannerController initialized');
+  }
+
+  /// Start scanner
+  Future<void> startScanner() async {
+    try {
+      if (isScannerActive.value) {
+        print('⚠️ Scanner already active');
+        return;
+      }
+
+      print('▶️ Starting scanner...');
+      await mobileScannerController.start();
+      isScannerActive.value = true;
+      capturedImage.value = null; // Clear any captured image
+      print('✅ Scanner started successfully');
+    } catch (e) {
+      print('❌ Error starting scanner: $e');
+      isScannerActive.value = false;
+
+      // Retry once after delay
+      await Future.delayed(const Duration(milliseconds: 500));
+      try {
+        await mobileScannerController.start();
+        isScannerActive.value = true;
+        print('✅ Scanner started on retry');
+      } catch (retryError) {
+        print('❌ Retry failed: $retryError');
+      }
+    }
+  }
+
+  /// Stop scanner completely
+  Future<void> stopScanner() async {
+    try {
+      if (!isScannerActive.value) {
+        print('⚠️ Scanner already stopped');
+        return;
+      }
+
+      print('🛑 Stopping scanner...');
+      await mobileScannerController.stop();
+      isScannerActive.value = false;
+      capturedImage.value = null;
+      _cancelDebounce();
+      print('✅ Scanner stopped successfully');
+    } catch (e) {
+      print('❌ Error stopping scanner: $e');
+      isScannerActive.value = false;
+    }
+  }
+
+  /// Pause scanner temporarily
+  Future<void> pauseScanner() async {
+    try {
+      if (isScannerActive.value) {
+        print('⏸️ Pausing scanner...');
+        await mobileScannerController.stop();
+        print('✅ Scanner paused');
+      }
+    } catch (e) {
+      print('❌ Error pausing scanner: $e');
+    }
+  }
+
+  /// Resume scanner
+  Future<void> resumeScanner() async {
+    try {
+      if (isScannerActive.value && !isVerifying.value) {
+        print('▶️ Resuming scanner...');
+        await mobileScannerController.start();
+        print('✅ Scanner resumed');
+      }
+    } catch (e) {
+      print('❌ Error resuming scanner: $e');
+    }
+  }
+
+  /// Reset and restart scanner
+  Future<void> resetAndRestart() async {
+    print('🔄 Resetting and restarting scanner...');
+
+    // Reset state
+    _lastScannedCode = null;
+    _lastScanTime = null;
+    capturedImage.value = null;
+    isVerifying.value = false;
+    _cancelDebounce();
+
+    // Stop and restart
+    await stopScanner();
+    await Future.delayed(const Duration(milliseconds: 300));
+    await startScanner();
+
+    print('✅ Scanner reset and restarted');
+  }
+
+  /// Cancel debounce timer
+  void _cancelDebounce() {
+    _debounceTimer?.cancel();
+    _debounceTimer = null;
+  }
+
+  /// Check if scan is duplicate
+  bool _isDuplicateScan(String code) {
+    final now = DateTime.now();
+
+    // Same code scanned within 3 seconds
+    if (_lastScannedCode == code && _lastScanTime != null) {
+      final difference = now.difference(_lastScanTime!);
+      if (difference.inSeconds < 3) {
+        print('⚠️ Duplicate scan detected (within 3s)');
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   /// Verify scanned QR code with backend
-  Future<void> verifyQrCode(String rawQrData, BuildContext context) async {
+  Future<void> verifyQrCode(
+    String rawQrData,
+    BuildContext context,
+    UserRole userRole,
+  ) async {
+    // Prevent duplicate scans
+    if (isVerifying.value) {
+      print('⚠️ Already verifying, ignoring scan');
+      return;
+    }
+
+    if (_isDuplicateScan(rawQrData)) {
+      return;
+    }
+
+    // Check if context is still mounted
+    if (!context.mounted) {
+      print('⚠️ Context not mounted, aborting verification');
+      return;
+    }
+
     try {
+      // Freeze the screen immediately
       isVerifying.value = true;
-      verificationSuccess.value = false;
       scannedData.value = rawQrData;
+      _lastScannedCode = rawQrData;
+      _lastScanTime = DateTime.now();
 
-      // Freeze the scanner (pause camera)
-      mobileScannerController.stop();
+      // Stop scanner to freeze the frame
+      await mobileScannerController.stop();
 
-      print('🔍 Scanner - Raw QR Data: $rawQrData');
+      print('🔍 Verifying QR Code: $rawQrData');
+      print('🎥 Screen frozen with captured frame');
 
-      // // Parse the QR code data
-      // Map<String, dynamic> qrDataMap;
-      // try {
-      //   qrDataMap = jsonDecode(rawQrData);
-      // } catch (e) {
-      //   print('❌ Failed to parse QR code data: $e');
-      //   EasyLoading.showError('Invalid QR code format');
-      //   return;
-      // }
-
-      // // Extract data from QR code
-      // final userId = qrDataMap['userId'];
-      // final email = qrDataMap['email'];
-      // final timestamp = qrDataMap['timestamp'];
-
-      // if (userId == null || email == null || timestamp == null) {
-      //   print('❌ Missing required fields in QR code');
-      //   EasyLoading.showError('QR code is missing required information');
-      //   return;
-      // }
-
-      // Create the verification code string without spaces
-      final verificationCode = "$rawQrData";
-
-      print('🔍 Verification Code: $verificationCode');
-
-      // Call the verification API
+      // Call API without showing success loader
       final response = await ApiClient.getData(
-        '${ApiUrl.verifyQrCode}/$verificationCode',
+        '${ApiUrl.verifyQrCode}/$rawQrData',
+      ).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          throw TimeoutException('Verification request timed out');
+        },
       );
 
       print('📡 API Response Status: ${response.statusCode}');
       print('📡 API Response Body: ${response.body}');
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        verificationSuccess.value = true;
-        print('✅ QR Code verified successfully');
-        EasyLoading.showSuccess('QR Code verified successfully');
-        context.pushNamed(RoutePath.userBookingScreen);
-      } else {
-        print('❌ QR Code verification failed: ${response.statusCode}');
-        verificationSuccess.value = false;
-        EasyLoading.showError('Verification failed: ${response.body}');
-        // Resume scanner after a short delay
-        await Future.delayed(const Duration(seconds: 2));
-        mobileScannerController.start();
+      // Check if context is still valid
+      if (!context.mounted) {
+        print('⚠️ Context unmounted during verification');
+        return;
       }
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('✅ QR Code verified successfully');
+
+        // Navigate immediately without success message
+        if (context.mounted) {
+          await stopScanner();
+
+          //***********/ there have a , when navigate to other scanner screen,
+          //********** the camera still working to scan but camera not show on the screen, will fix it later
+          // await mobileScannerController.stop();
+          // mobileScannerController.dispose();
+          // debugPrint('stop scanner called before navigation');
+          // debugPrint('Navigating to UserBookingScreen with role: $userRole');
+          // Get.delete<ScannerController>(force: true);
+          context.pushNamed(RoutePath.userBookingScreen, extra: userRole);
+        }
+      } else {
+        print('❌ Verification failed: ${response.statusCode}');
+
+        if (context.mounted) {
+          EasyLoading.showError(
+            'Verification failed',
+            duration: const Duration(seconds: 2),
+          );
+        }
+
+        // Reset and restart scanner after error
+        await Future.delayed(const Duration(seconds: 2));
+        if (!context.mounted) return;
+
+        await _resetAfterFailure();
+      }
+    } on TimeoutException catch (e) {
+      print('⏱️ Timeout error: $e');
+
+      if (context.mounted) {
+        EasyLoading.showError(
+          'Request timed out',
+          duration: const Duration(seconds: 2),
+        );
+      }
+
+      await _resetAfterFailure();
     } catch (e) {
       print('❌ Error verifying QR code: $e');
-      verificationSuccess.value = false;
+
       if (context.mounted) {
-        EasyLoading.showError('Error verifying QR code: $e');
+        EasyLoading.showError(
+          'Error verifying QR code',
+          duration: const Duration(seconds: 2),
+        );
       }
-      // Resume scanner after a short delay
-      await Future.delayed(const Duration(seconds: 2));
-      mobileScannerController.start();
+
+      await _resetAfterFailure();
     } finally {
       isVerifying.value = false;
     }
   }
 
-  /// Reset scanner state
-  void resetScanner() {
+  /// Reset scanner after verification failure
+  Future<void> _resetAfterFailure() async {
+    print('🔄 Resetting after failure...');
+
+    _lastScannedCode = null;
+    _lastScanTime = null;
+    capturedImage.value = null;
+
+    // Restart scanner if it was active
+    if (isScannerActive.value) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      try {
+        await mobileScannerController.start();
+        print('✅ Scanner restarted after failure');
+      } catch (e) {
+        print('❌ Failed to restart scanner: $e');
+      }
+    }
+  }
+
+  /// Reset scanner state completely
+  Future<void> resetScanner() async {
+    print('🔄 Resetting scanner state...');
+
+    _cancelDebounce();
+    _lastScannedCode = null;
+    _lastScanTime = null;
     scannedData.value = '';
-    verificationSuccess.value = false;
-    verificationResult.value = null;
-    mobileScannerController.start();
+    capturedImage.value = null;
+    isVerifying.value = false;
+
+    if (isScannerActive.value) {
+      try {
+        await mobileScannerController.start();
+        print('✅ Scanner reset complete');
+      } catch (e) {
+        print('❌ Error in resetScanner: $e');
+      }
+    }
   }
 
   @override
   void onClose() {
-    resetScanner();
+    print('🗑️ ScannerController: onClose called');
+    _cancelDebounce();
+    stopScanner();
     super.onClose();
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    // Always start scanner when controller is initialized
-    mobileScannerController.start();
   }
 }

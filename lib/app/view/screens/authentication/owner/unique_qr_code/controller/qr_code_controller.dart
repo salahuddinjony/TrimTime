@@ -164,7 +164,7 @@ class QrCodeController extends GetxController {
           qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+          await image.toByteData(format: ui.ImageByteFormat.png); // PNG format
       return byteData?.buffer.asUint8List();
     } catch (e) {
       print('❌ Error capturing QR code image: $e');
@@ -191,7 +191,14 @@ class QrCodeController extends GetxController {
       }
 
       // Create PDF document
-      final pdf = pw.Document();
+      final pdf = pw.Document(
+        title: 'Barber Shop QR Code',
+        author: 'Barber Time App',
+        creator: 'Barber Time App',
+        subject: 'QR Code for Barber Shop',
+        keywords: 'QR Code, Barber Shop, Booking',
+        producer: 'Barber Time App',
+      );
       final image = pw.MemoryImage(imageBytes);
 
       pdf.addPage(
@@ -207,6 +214,7 @@ class QrCodeController extends GetxController {
                     style: pw.TextStyle(
                       fontSize: 24,
                       fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.blue900,
                     ),
                   ),
                   pw.SizedBox(height: 20),

@@ -75,7 +75,7 @@ class OwnerSignUp extends StatelessWidget {
                             hinText: AppStrings.enterYourPassword,
                             title: AppStrings.password,
                             controller:
-                                authController.confirmPasswordController,
+                                authController.passwordController,
                             validator: (v) {
                               return null;
                             }),

@@ -5,6 +5,7 @@ import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/global/controller/password_constraint/password_constraint_controller.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/services/api_check.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
@@ -28,7 +29,7 @@ class AuthController extends GetxController with PasswordConstraintController {
 
   // //for CUSTOMER SIGN UP
   // final emailController = TextEditingController(text: "efazkh@gmail.com");
-  // final passwordController = TextEditingController(text: "12345678");
+// final passwordController = TextEditingController(text: "12345678");
 
   // //for Owner SIGN UP
   // final emailController = TextEditingController(text: "r3tov4uez6@zudpck.com");
@@ -68,7 +69,7 @@ class AuthController extends GetxController with PasswordConstraintController {
 
   RxBool isSignInLoading = false.obs;
 
-  Future<void> signIn() async {
+  Future<void> signIn({String? userRole}) async {
     EasyLoading.show(status: 'Signing in...');
     isSignInLoading.value = true;
 
@@ -114,6 +115,17 @@ class AuthController extends GetxController with PasswordConstraintController {
         debugPrint("Access Token: $accessToken");
         debugPrint("User Data: ${resBody['data']}");
         debugPrint("User Role: ${resBody['data']?['role']}");
+
+       Map <String, String> roles = {
+          'user': 'CUSTOMER',
+          'owner': 'SALOON_OWNER',
+          'barber': 'BARBER',
+        };
+
+        if (resBody['data']?['role'] != roles[userRole]) {
+          EasyLoading.showInfo( "Please sign in using the correct role: ${userRole=='user'? 'Customer' : userRole.safeCap()}", duration: const Duration(seconds: 4));
+          return;
+        }
 
         // Save token & user info
         await SharePrefsHelper.setString(AppConstants.bearerToken, accessToken);

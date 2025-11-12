@@ -23,6 +23,18 @@ mixin DateWiseBookingsMixin {
       debugPrint("Generated Date: ${date}");
     }
   }
+  void goToNextDate() {
+    if (selectedIndex.value < dates.length - 1) {
+      selectedIndex.value++;
+      fetchDateWiseBookings(date: selectedDate.formatDateApi());
+    }
+  }
+  void goToPreviousDate() {
+    if (selectedIndex.value > 0) {
+      selectedIndex.value--;
+      fetchDateWiseBookings(date: selectedDate.formatDateApi());
+    }
+  }
 
   // Getter for selected date based on selectedIndex
   DateTime get selectedDate => dates[selectedIndex.value];

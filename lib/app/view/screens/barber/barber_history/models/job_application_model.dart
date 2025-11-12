@@ -18,7 +18,8 @@ class JobApplicationResponse {
   factory JobApplicationResponse.fromMap(Map<String, dynamic> map) {
     return JobApplicationResponse(
       success: map['success'] as bool? ?? false,
-      statusCode: map['statusCode'] as int? ?? (map['status_code'] as int? ?? 0),
+      statusCode:
+          map['statusCode'] as int? ?? (map['status_code'] as int? ?? 0),
       message: map['message'] as String? ?? '',
       data: map['data'] != null
           ? List<JobApplication>.from((map['data'] as List)
@@ -118,9 +119,11 @@ class Barber {
   factory Barber.fromMap(Map<String, dynamic> map) {
     return Barber(
       id: map['id'] as String? ?? '',
-      fullName: map['fullName'] as String? ?? (map['full_name'] as String? ?? ''),
+      fullName:
+          map['fullName'] as String? ?? (map['full_name'] as String? ?? ''),
       email: map['email'] as String? ?? '',
-      phoneNumber: map['phoneNumber'] as String? ?? (map['phone_number'] as String? ?? ''),
+      phoneNumber: map['phoneNumber'] as String? ??
+          (map['phone_number'] as String? ?? ''),
       image: map['image'] as String?,
     );
   }
@@ -195,7 +198,9 @@ class JobPost {
       shopAverageRating: toDouble(map['shopAverageRating']),
       shopAddress: map['shopAddress'] as String?,
       saloonOwnerAvgRating: toDouble(map['saloonOwnerAvgRating']),
-      saloonOwnerRatingCount: map['saloonOwnerRatingCount'] is int ? map['saloonOwnerRatingCount'] as int : int.tryParse(map['saloonOwnerRatingCount']?.toString() ?? ''),
+      saloonOwnerRatingCount: map['saloonOwnerRatingCount'] is int
+          ? map['saloonOwnerRatingCount'] as int
+          : int.tryParse(map['saloonOwnerRatingCount']?.toString() ?? ''),
     );
   }
 
@@ -216,17 +221,17 @@ class JobPost {
   }
 
   factory JobPost.empty() => JobPost(
-    id: '',
-    description: '',
-    hourlyRate: null,
-    startDate: null,
-    endDate: null,
-    datePosted: null,
-    shopName: '',
-    shopAverageRating: null,
-    shopAddress: null,
-    saloonOwnerAvgRating: null,
-    saloonOwnerRatingCount: null);
+      id: '',
+      description: '',
+      hourlyRate: null,
+      startDate: null,
+      endDate: null,
+      datePosted: null,
+      shopName: '',
+      shopAverageRating: null,
+      shopAddress: null,
+      saloonOwnerAvgRating: null,
+      saloonOwnerRatingCount: null);
 }
 
 class Meta {
@@ -251,9 +256,12 @@ class Meta {
       page: map['page'] as int? ?? 0,
       limit: map['limit'] as int? ?? 0,
       total: map['total'] as int? ?? 0,
-      totalPages: map['totalPages'] as int? ?? (map['total_pages'] as int? ?? 0),
-      hasNextPage: map['hasNextPage'] as bool? ?? (map['has_next_page'] as bool? ?? false),
-      hasPrevPage: map['hasPrevPage'] as bool? ?? (map['has_prev_page'] as bool? ?? false),
+      totalPages:
+          map['totalPages'] as int? ?? (map['total_pages'] as int? ?? 0),
+      hasNextPage: map['hasNextPage'] as bool? ??
+          (map['has_next_page'] as bool? ?? false),
+      hasPrevPage: map['hasPrevPage'] as bool? ??
+          (map['has_prev_page'] as bool? ?? false),
     );
   }
 

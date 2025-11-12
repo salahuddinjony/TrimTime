@@ -128,31 +128,35 @@ class RecentRequestScreen extends StatelessWidget {
                           onTap: () {
                             // AppRouter.route.pushNamed(RoutePath.visitShop,
                             //     extra: nonNullUserRole);
-                               final barber =
-                                    jobApplicationsList[index].barber;
-                                // Use userId if available, otherwise use id
-                                final barberId = barber.id;
-                                debugPrint("Barber ${barber.fullName} clicked");
-                                debugPrint("Barber ID: $barberId");
+                            final barber = jobApplicationsList[index].barber;
+                            // Use userId if available, otherwise use id
+                            final barberId = barber.id;
+                            debugPrint("Barber ${barber.fullName} clicked");
+                            debugPrint("Barber ID: $barberId");
 
-                                // Navigate to professional profile with barber ID
-                                AppRouter.route.pushNamed(
-                                  RoutePath.professionalProfile,
-                                  extra: {
-                                    'userRole': userRole,
-                                    'barberId': barberId,
-                                    'isForActionButton': true,
-                                    if (application.status == 'PENDING')
-                                      ...{
-                                        'onActionApprove': () {
-                                          controller?.updateJobStatus(applicationId: application.id, status: 'COMPLETED', context: context);
-                                        },
-                                        'onActionReject': () {
-                                          controller?.updateJobStatus(applicationId: application.id, status: 'REJECTED', context: context);
-                                        },
-                                      },
+                            // Navigate to professional profile with barber ID
+                            AppRouter.route.pushNamed(
+                              RoutePath.professionalProfile,
+                              extra: {
+                                'userRole': userRole,
+                                'barberId': barberId,
+                                'isForActionButton': true,
+                                if (application.status == 'PENDING') ...{
+                                  'onActionApprove': () {
+                                    controller?.updateJobStatus(
+                                        applicationId: application.id,
+                                        status: 'COMPLETED',
+                                        context: context);
                                   },
-                                );
+                                  'onActionReject': () {
+                                    controller?.updateJobStatus(
+                                        applicationId: application.id,
+                                        status: 'REJECTED',
+                                        context: context);
+                                  },
+                                },
+                              },
+                            );
                           },
                           child: CustomHiringCard(
                             isMessage: true,

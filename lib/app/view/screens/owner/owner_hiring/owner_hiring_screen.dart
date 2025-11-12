@@ -98,7 +98,7 @@ class OwnerHiringScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const TextSpan(text: "status"),
+                                const TextSpan(text: " status"),
                               ],
                             ),
                           ),

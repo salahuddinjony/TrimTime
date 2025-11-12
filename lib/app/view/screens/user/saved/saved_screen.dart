@@ -128,8 +128,9 @@ class _SavedScreenState extends State<SavedScreen>
                           onFavoritePressed: (isFavorite) {
                             // Handle favorite button press
                           },
-                          onVisitShopPressed: () => AppRouter.route
-                              .pushNamed(RoutePath.shopProfileScreen, extra: userRole),
+                          onVisitShopPressed: () => AppRouter.route.pushNamed(
+                              RoutePath.shopProfileScreen,
+                              extra: userRole),
                         ),
                       );
                     }),

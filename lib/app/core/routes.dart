@@ -183,6 +183,9 @@ class AppRouter {
             final profileData = extra['profileData'] as ProfileData?;
             final controller = extra['controller'] as OwnerProfileController?;
             final barberId = extra['barberId'] as String?;
+            final isForActionButton = extra['isForActionButton'] as bool?;
+            final onActionApprove = extra['onActionApprove'] as VoidCallback?;
+            final onActionReject = extra['onActionReject'] as VoidCallback?;
 
             return _buildPageWithAnimation(
               child: ProfessionalProfile(
@@ -190,8 +193,12 @@ class AppRouter {
                 data: profileData,
                 controller: controller,
                 barberId: barberId,
+                isForActionButton: isForActionButton ?? false,
+                onActionApprove: onActionApprove,
+                onActionReject: onActionReject,
               ),
               state: state,
+              transitionType: TransitionType.detailsScreen
             );
           }
         ),
@@ -643,6 +650,7 @@ class AppRouter {
                 controller: controller!,
               ),
               state: state,
+             
             );
           }
         ),

@@ -81,7 +81,9 @@ class RecentRequestScreen extends StatelessWidget {
             ),
             // Data content on top
             Obx(() {
-              final jobApplicationsList = nonNullController.jobHistoryList;
+              final jobApplicationsList = nonNullController.jobHistoryList
+                  .where((job) => job.status.toLowerCase() == 'pending')
+                  .toList();
 
               if (nonNullController.isJobHistoryLoading.value) {
                 return const Center(child: CircularProgressIndicator());

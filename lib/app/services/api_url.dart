@@ -54,6 +54,8 @@ class ApiUrl {
   static const barberOwnerApplications = 
       "$baseUrl/job-applications";
 
+  static String updateJobApplicationStatus({required String id}) => "$baseUrl/job-applications/$id";
+
 
 
 

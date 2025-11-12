@@ -7,28 +7,28 @@ import 'package:barber_time/app/view/screens/barber/barber_history/models/job_ap
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-mixin BarberJobHistoryMixin  {
-var isJobHistoryLoading = false.obs;
-RxList<JobApplication> jobHistoryList = <JobApplication>[].obs;
+mixin BarberJobHistoryMixin {
+  var isJobHistoryLoading = false.obs;
+  RxList<JobApplication> jobHistoryList = <JobApplication>[].obs;
 
- Future<void> getAllJobHistory({String? status, bool? isBarberOwner}) async {
+  Future<void> getAllJobHistory({String? status, bool? isBarberOwner}) async {
     try {
       final Map<String, String> queryParams = {};
       if (status != null && status.isNotEmpty) {
         queryParams['status'] = status;
       }
       isJobHistoryLoading.value = true;
-      final String url= isBarberOwner == true
+      final String url = isBarberOwner == true
           ? ApiUrl.barberOwnerApplications
           : ApiUrl.historyOfMyApplications;
       final response = await ApiClient.getData(url, query: queryParams);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-    final body =
-      response.body is String ? jsonDecode(response.body) : response.body;
-    final resp = body is String
-      ? JobApplicationResponse.fromJson(body)
-      : JobApplicationResponse.fromMap(body as Map<String, dynamic>);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body =
+            response.body is String ? jsonDecode(response.body) : response.body;
+        final resp = body is String
+            ? JobApplicationResponse.fromJson(body)
+            : JobApplicationResponse.fromMap(body as Map<String, dynamic>);
         jobHistoryList.value = resp.data;
         debugPrint("All Job History data length: ${jobHistoryList.length}");
         debugPrint("All Job History Data: ${jobHistoryList}");

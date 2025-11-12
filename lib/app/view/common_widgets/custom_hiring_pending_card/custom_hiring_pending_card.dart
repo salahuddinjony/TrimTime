@@ -23,7 +23,8 @@ class CustomHiringCard extends StatelessWidget {
     required this.rating,
     required this.location,
     required this.onHireTap,
-    this.isMessage = false, this.isCalling = false,
+    this.isMessage = false,
+    this.isCalling = false,
   });
 
   @override
@@ -128,7 +129,7 @@ class CustomHiringCard extends StatelessWidget {
                     //     ),
                     //     child: const Icon(Icons.call,size: 20,)
                     //     )
-                  
+
                     //     :const SizedBox()
                   ],
                 ),

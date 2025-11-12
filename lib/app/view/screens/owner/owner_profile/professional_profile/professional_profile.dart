@@ -316,7 +316,7 @@ class ProfessionalProfile extends StatelessWidget {
                               Expanded(
                                   flex: 5,
                                   child: CustomButton(
-                                    title: AppStrings.rejected,
+                                    title: AppStrings.reject,
                                     onTap: onActionReject,
                                     fillColor: Colors.white,
                                   )),

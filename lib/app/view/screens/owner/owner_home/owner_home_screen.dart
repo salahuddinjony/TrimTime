@@ -358,8 +358,9 @@ class OwnerHomeScreen extends StatelessWidget {
                       height: 12.h,
                     ),
                     Obx(() {
-                      final jobApplicationsList = controller.jobHistoryList.where((job) =>
-                          job.status.toLowerCase() == 'pending').toList();
+                      final jobApplicationsList = controller.jobHistoryList
+                          .where((job) => job.status.toLowerCase() == 'pending')
+                          .toList();
                       if (controller.isJobHistoryLoading.value) {
                         return Center(child: CircularProgressIndicator());
                       }
@@ -376,8 +377,33 @@ class OwnerHomeScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: GestureDetector(
                               onTap: () {
-                                AppRouter.route.pushNamed(RoutePath.visitShop,
-                                    extra: userRole);
+                                // AppRouter.route.pushNamed(RoutePath.visitShop,
+                                //     extra: userRole);
+                                final barber =
+                                    jobApplicationsList[index].barber;
+                                // Use userId if available, otherwise use id
+                                final barberId = barber.id;
+                                debugPrint("Barber ${barber.fullName} clicked");
+                                debugPrint("Barber ID: $barberId");
+
+                                // Navigate to professional profile with barber ID
+                                AppRouter.route.pushNamed(
+                                  RoutePath.professionalProfile,
+                                  extra: {
+                                    'userRole': userRole,
+                                    'barberId': barberId,
+                                     'isForActionButton': true,
+                                     if (jobApplicationsList[index].status == 'PENDING')
+                                      ...{
+                                        'onActionApprove': () {
+                                          controller.updateJobStatus(applicationId: jobApplicationsList[index].id, status: 'COMPLETED');
+                                        },
+                                        'onActionReject': () {
+                                          controller.updateJobStatus(applicationId: jobApplicationsList[index].id, status: 'REJECTED');
+                                        },
+                                      },
+                                  },
+                                );
                               },
                               child: CustomHiringCard(
                                 isMessage: true,

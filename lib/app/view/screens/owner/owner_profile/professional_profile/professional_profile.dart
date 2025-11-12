@@ -3,6 +3,8 @@ import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
+import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/barber_professional_profile.dart';
@@ -23,6 +25,10 @@ class ProfessionalProfile extends StatelessWidget {
   final UserRole? userRole;
   final OwnerProfileController? controller;
   final String? barberId; // For viewing other barber's profile
+  final bool isForActionButton;
+  final VoidCallback? onActionApprove;
+  final VoidCallback? onActionReject;
+
 
   const ProfessionalProfile({
     super.key,
@@ -30,6 +36,9 @@ class ProfessionalProfile extends StatelessWidget {
     this.userRole,
     this.controller,
     this.barberId,
+    this.isForActionButton = false,
+    this.onActionApprove,
+    this.onActionReject,
   });
 
   @override
@@ -280,9 +289,55 @@ class ProfessionalProfile extends StatelessWidget {
                             );
                           }).toList(),
                         ),
+                        const SizedBox(height: 12),
+                        CustomText(
+                          text: 'Portfolio:',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: 100.w,
+                          height: 100.h,
+                          child: DesignFilesGallery(
+                            designFiles: professionalData.portfolio.map((e) {
+                              return e;
+                            }).toList(),
+                            height: 100.h,
+                            width: double.infinity,
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        // action button for Accept/Reject
+                        if (isForActionButton && (onActionApprove != null && onActionReject != null)) ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 5,
+                                  child: CustomButton(
+                                    title: AppStrings.rejected,
+                                    onTap: onActionReject,
+                                    fillColor: Colors.white,
+                                  )),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                  flex: 5,
+                                  child: CustomButton(
+                                    onTap: onActionApprove,
+                                    fillColor: AppColors.bottomColor,
+                                    title: AppStrings.approve,
+                                    textColor: Colors.white,
+                                  )),
+                            ],
+                          )
+                        ],
+                        SizedBox( height: 20.h)
                       ],
                     ),
-                    const SizedBox(height: 12),
+
                   ],
                 );
               }),

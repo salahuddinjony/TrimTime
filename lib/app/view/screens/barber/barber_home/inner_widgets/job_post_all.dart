@@ -47,7 +47,7 @@ class JobPostAll extends StatelessWidget {
                   _buildFilterButton("Nearby job"),
                   _buildFilterButton(AppStrings.pending),
                   _buildFilterButton(AppStrings.approve),
-                  _buildFilterButton(AppStrings.rejected),
+                  _buildFilterButton(AppStrings.reject),
                 ],
               ),
             ),
@@ -252,7 +252,7 @@ class JobPostAll extends StatelessWidget {
           controller.getAllJobHistory(status: 'PENDING');
         } else if (filterText == AppStrings.approve) {
           controller.getAllJobHistory(status: 'COMPLETED');
-        } else if (filterText == AppStrings.rejected) {
+        } else if (filterText == AppStrings.reject) {
           controller.getAllJobHistory(status: 'REJECTED');
         }
       },

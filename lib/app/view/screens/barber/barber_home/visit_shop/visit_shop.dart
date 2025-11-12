@@ -249,7 +249,7 @@ class _VisitShopState extends State<VisitShop> {
                                 Expanded(
                                     flex: 5,
                                     child: CustomButton(
-                                      title: AppStrings.rejected,
+                                      title: AppStrings.reject,
                                       onTap: () {},
                                       fillColor: Colors.white,
                                     )),

@@ -12,10 +12,30 @@ class HorizontalDatePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx(() => Text(
-              '${controller.selectedDate.formatDate()}',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            )),
+        Obx(() => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  IconButton(
+                    onPressed: () {
+                      controller.goToPreviousDate();
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54, size: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                  ),
+                Text(
+                  '${controller.selectedDate.formatDate()}',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                  IconButton(
+                    onPressed: () {
+                      controller.goToNextDate();
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios, color: Colors.black54, size: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                  ),
+              ],
+            ),
+            ),
         SizedBox(
           height: 90,
           child: ListView.builder(

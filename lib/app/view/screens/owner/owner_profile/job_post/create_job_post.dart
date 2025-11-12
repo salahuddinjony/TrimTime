@@ -1,4 +1,3 @@
-
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -57,13 +56,13 @@ class CreateJobPost extends StatelessWidget {
       );
 
       if (picked != null && forDate == DateFor.datePosted) {
-        controller.dateController.text =  picked.formatDateApi();
+        controller.dateController.text = picked.formatDateApi();
       }
       if (picked != null && forDate == DateFor.startDate) {
-        controller.startDateController.text =  picked.formatDateApi();
+        controller.startDateController.text = picked.formatDateApi();
       }
       if (picked != null && forDate == DateFor.endDate) {
-        controller.endDateController.text =  picked.formatDateApi();
+        controller.endDateController.text = picked.formatDateApi();
       }
     }
 

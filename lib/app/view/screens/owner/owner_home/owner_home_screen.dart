@@ -324,8 +324,8 @@ class OwnerHomeScreen extends StatelessWidget {
                                 value: controller
                                         .dashboardDataStatus.value.isLoading
                                     ? null
-                                    : controller
-                                            .dashboardData.value?.totalQueuedBookings
+                                    : controller.dashboardData.value
+                                            ?.totalQueuedBookings
                                             .toString()
                                             .padLeft(2, '0') ??
                                         "00",
@@ -358,7 +358,8 @@ class OwnerHomeScreen extends StatelessWidget {
                       height: 12.h,
                     ),
                     Obx(() {
-                      final jobApplicationsList = controller.jobHistoryList;
+                      final jobApplicationsList = controller.jobHistoryList.where((job) =>
+                          job.status.toLowerCase() == 'pending').toList();
                       if (controller.isJobHistoryLoading.value) {
                         return Center(child: CircularProgressIndicator());
                       }
@@ -389,9 +390,15 @@ class OwnerHomeScreen extends StatelessWidget {
                                 // Dynamic title (Job name)
                                 role: jobApplicationsList[index].barber.email,
                                 // Hardcoded or dynamic role
-                                rating: 4.5,
+                                rating: jobApplicationsList[index]
+                                        .jobPost
+                                        .shopAverageRating ??
+                                    0.0,
                                 // Hardcoded or dynamic rating
-                                location: "New York, USA",
+                                location: jobApplicationsList[index]
+                                        .jobPost
+                                        .shopAddress ??
+                                    '',
                                 // Dynamic location or hardcoded
                                 onHireTap: () {}, // Hire button action
                               ),
@@ -405,15 +412,16 @@ class OwnerHomeScreen extends StatelessWidget {
                       children: [
                         Obx(() {
                           return Column(
-                                children: [
-                                RichText(
+                            children: [
+                              RichText(
                                 textAlign: TextAlign.start,
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: controller.dateWiseBookings.length > 0
-                                          ? 'You have '
-                                          : '',
+                                      text:
+                                          controller.dateWiseBookings.length > 0
+                                              ? 'You have '
+                                              : '',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14.sp,
@@ -421,7 +429,8 @@ class OwnerHomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: controller.dateWiseBookings.length > 0
+                                      text: controller.dateWiseBookings.length >
+                                              0
                                           ? '${controller.dateWiseBookings.length.toString().padLeft(2, '0')} '
                                           : '',
                                       style: TextStyle(
@@ -431,7 +440,8 @@ class OwnerHomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: controller.dateWiseBookings.length > 0
+                                      text: controller.dateWiseBookings.length >
+                                              0
                                           ? '\nappointments waiting for you!'
                                           : '',
                                       style: TextStyle(
@@ -442,10 +452,10 @@ class OwnerHomeScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ), 
+                              ),
                               SizedBox(height: 10.h),
-                                ],
-                              );
+                            ],
+                          );
                         }),
                         const Spacer(),
                         GestureDetector(

@@ -48,70 +48,94 @@ class OwnerHiringScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Column(
-          children: [
-            // Filter Buttons Row
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildFilterButton("Pending"),
-                  _buildFilterButton(AppStrings.ongoing),
-                  _buildFilterButton(AppStrings.completed),
-                  _buildFilterButton(AppStrings.rejected),
-                ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Filter Buttons Row
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFilterButton("Pending"),
+                    _buildFilterButton(AppStrings.ongoing),
+                    _buildFilterButton(AppStrings.completed),
+                    _buildFilterButton(AppStrings.rejected),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            // Filtered Job Listings
-            Obx(() {
-              var filteredJobs = controller.allJobs
-                  .where(
-                      (job) => job['status'] == controller.selectedFilter.value)
-                  .toList();
-
-              return filteredJobs.isEmpty
-                  ? Padding(
-                    padding:  EdgeInsets.only(top: 50.h),
+              SizedBox(height: 20.h),
+              // Filtered Job Listings
+              Obx(() {
+                var filteredJobs = controller.jobHistoryAllList;
+                if (controller.isJobHistoryLoading.value) {
+                  return SizedBox(
+                    height: 300.h,
                     child: const Center(
-                        child: CustomText(
-                          textAlign: TextAlign.center,
-                        text: "No jobs found",
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  )
-                  : Column(
-                      children: filteredJobs.map((job) {
-                        return GestureDetector(
-                          onTap: (){
-                            print("");
-                            AppRouter.route
-                                .pushNamed(RoutePath.visitShop, extra: userRole);
-                          },
-                          child: CustomHiringCard(
-
-                            isCalling: true,
-                            imageUrl: AppConstants.demoImage,
-                            // Image URL (dynamic)
-                            name: job['title'] ?? "Unknown",
-                            // Dynamic title (Job name)
-                            role: "Barber",
-                            // Hardcoded or dynamic role
-                            rating: 4.5,
-                            // Hardcoded or dynamic rating
-                            location: "New York, USA",
-                            // Dynamic location or hardcoded
-                            onHireTap: () {
-                              AppRouter.route.pushNamed(RoutePath.chatScreen,
-                                  extra: userRole);
-                            }, // Hire button action
+                      child: CircularProgressIndicator(
+                        color: AppColors.orange700,
+                      ),
+                    ),
+                  );
+                }
+                return filteredJobs.isEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: Center(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              children: [
+                                const TextSpan(text: "No jobs found on "),
+                                TextSpan(
+                                  text: controller.selectedFilter.value,
+                                  style: const TextStyle(
+                                    color: AppColors.orange700,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const TextSpan(text: "status"),
+                              ],
+                            ),
                           ),
-                        );
-                      }).toList(),
-                    );
-            }),
-          ],
+                        ),
+                      )
+                    : Column(
+                        children: filteredJobs.map<Widget>((job) {
+                          return GestureDetector(
+                            onTap: () {
+                              print("");
+                              AppRouter.route.pushNamed(RoutePath.visitShop,
+                                  extra: userRole);
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: CustomHiringCard(
+                                isCalling: true,
+                                imageUrl: AppConstants.demoImage,
+                                name: job.barber.fullName ?? "N/A",
+                                role: job.barber.email ?? "",
+                                rating: job.jobPost.saloonOwnerAvgRating ?? 0.0,
+                                location: job.jobPost.shopAddress ?? "N/A",
+                                onHireTap: () {
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.chatScreen,
+                                      extra: userRole);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+              }),
+              SizedBox(height: 20.h),
+            ],
+          ),
         ),
       ),
     );
@@ -121,7 +145,7 @@ class OwnerHiringScreen extends StatelessWidget {
   Widget _buildFilterButton(String filterText) {
     return GestureDetector(
       onTap: () {
-        controller.selectedFilter.value = filterText;
+        controller.filterJobs(filterText);
       },
       child: Obx(() => Container(
             padding: const EdgeInsets.all(12),

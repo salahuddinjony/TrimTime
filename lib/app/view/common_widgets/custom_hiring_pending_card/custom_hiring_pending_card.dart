@@ -118,15 +118,18 @@ class CustomHiringCard extends StatelessWidget {
                       width: 8.w,
                     ),
 
-                    isMessage == false?
-                    Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: AppColors.container, // Button color
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Icon(Icons.call,size: 20,)):const SizedBox()
+                    // isMessage == false?
+                    // Container(
+                    //     padding: const EdgeInsets.symmetric(
+                    //         horizontal: 10, vertical: 10),
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.container, // Button color
+                    //       borderRadius: BorderRadius.circular(4),
+                    //     ),
+                    //     child: const Icon(Icons.call,size: 20,)
+                    //     )
+                  
+                    //     :const SizedBox()
                   ],
                 ),
               ],

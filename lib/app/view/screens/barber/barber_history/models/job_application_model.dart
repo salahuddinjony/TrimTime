@@ -148,6 +148,9 @@ class JobPost {
   final DateTime? datePosted;
   final String shopName;
   final String? shopAddress;
+  final double? shopAverageRating;
+  final double? saloonOwnerAvgRating;
+  final int? saloonOwnerRatingCount;
 
   JobPost({
     required this.id,
@@ -158,6 +161,9 @@ class JobPost {
     required this.datePosted,
     required this.shopName,
     required this.shopAddress,
+    required this.shopAverageRating,
+    this.saloonOwnerAvgRating,
+    this.saloonOwnerRatingCount,
   });
 
   factory JobPost.fromMap(Map<String, dynamic> map) {
@@ -186,7 +192,10 @@ class JobPost {
       endDate: parseDate(map['endDate']),
       datePosted: parseDate(map['datePosted']),
       shopName: map['shopName'] as String? ?? '',
+      shopAverageRating: toDouble(map['shopAverageRating']),
       shopAddress: map['shopAddress'] as String?,
+      saloonOwnerAvgRating: toDouble(map['saloonOwnerAvgRating']),
+      saloonOwnerRatingCount: map['saloonOwnerRatingCount'] is int ? map['saloonOwnerRatingCount'] as int : int.tryParse(map['saloonOwnerRatingCount']?.toString() ?? ''),
     );
   }
 
@@ -200,18 +209,24 @@ class JobPost {
       'datePosted': datePosted?.toIso8601String(),
       'shopName': shopName,
       'shopAddress': shopAddress,
+      'shopAverageRating': shopAverageRating,
+      'saloonOwnerAvgRating': saloonOwnerAvgRating,
+      'saloonOwnerRatingCount': saloonOwnerRatingCount,
     };
   }
 
   factory JobPost.empty() => JobPost(
-      id: '',
-      description: '',
-      hourlyRate: null,
-      startDate: null,
-      endDate: null,
-      datePosted: null,
-      shopName: '',
-      shopAddress: null);
+    id: '',
+    description: '',
+    hourlyRate: null,
+    startDate: null,
+    endDate: null,
+    datePosted: null,
+    shopName: '',
+    shopAverageRating: null,
+    shopAddress: null,
+    saloonOwnerAvgRating: null,
+    saloonOwnerRatingCount: null);
 }
 
 class Meta {

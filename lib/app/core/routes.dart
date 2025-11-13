@@ -448,10 +448,22 @@ class AppRouter {
         GoRoute(
           name: RoutePath.hiringBarber,
           path: RoutePath.hiringBarber.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const HiringBarber(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final isOwner = extra['isOwner'] as bool?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            
+            return _buildPageWithAnimation(
+              child:  HiringBarber(
+                userRole: userRole!,
+                isOwner: isOwner?? false,
+                controller: controller !,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================FollowerScreen  =======================

@@ -9,6 +9,7 @@ class CustomBarberCard extends StatelessWidget {
   final String name;
   final String role;
   final String contact;
+  final String? hourlyRate;
 
   const CustomBarberCard({
     super.key,
@@ -16,6 +17,7 @@ class CustomBarberCard extends StatelessWidget {
     required this.name,
     required this.role,
     required this.contact,
+    this.hourlyRate,
   });
 
   @override
@@ -33,8 +35,8 @@ class CustomBarberCard extends StatelessWidget {
           CustomNetworkImage(
             boxShape: BoxShape.circle, // Circle shape for image
             imageUrl: imageUrl, // Image URL passed from constructor
-            height: 98.h, // ScreenUtil for responsive design
-            width: 98.w, // ScreenUtil for responsive design
+            height: 60.h, // ScreenUtil for responsive design
+            width: 60.w, // ScreenUtil for responsive design
           ),
           const SizedBox(width: 12), // Space between image and text
           // Barber's Information Column
@@ -42,27 +44,52 @@ class CustomBarberCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                top: 12,
-                left: 10,
-                text: name, // Barber's name passed from constructor
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColors.black,
+              Row(
+                children: [
+                  CustomText(
+                    left: 00,
+                    text: name, // Barber's name passed from constructor
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black,
+                  ),
+                  if (hourlyRate != null) ...[
+                    const SizedBox(width: 8),
+                    CustomText(
+                      left: 10,
+                      text:
+                          '(\$$hourlyRate/hr)', // Display hourly rate if provided
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.app,
+                    ),
+                  ],
+                ],
               ),
-              CustomText(
-                left: 10,
-                text: role, // Barber's role passed from constructor
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.black,
+              SizedBox(height: 6.h),
+              Row(
+                children: [
+                  Icon(Icons.email, size: 14, color: AppColors.f32Color),
+                  CustomText(
+                    left: 05,
+                    text: role,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.black,
+                  ),
+                ],
               ),
-              CustomText(
-                left: 10,
-                text: contact, // Barber's contact passed from constructor
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.black,
+              Row(
+                children: [
+                  Icon(Icons.phone, size: 14, color: AppColors.f32Color),
+                  CustomText(
+                    left: 10,
+                    text: contact, 
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.black,
+                  ),
+                ],
               ),
             ],
           ),

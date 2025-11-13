@@ -23,16 +23,20 @@ mixin DateWiseBookingsMixin {
       debugPrint("Generated Date: ${date}");
     }
   }
+
   void goToNextDate() {
     if (selectedIndex.value < dates.length - 1) {
       selectedIndex.value++;
       fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      scrollToSelectedDate(selectedIndex.value);
     }
   }
+
   void goToPreviousDate() {
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
       fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      scrollToSelectedDate(selectedIndex.value);
     }
   }
 
@@ -41,23 +45,35 @@ mixin DateWiseBookingsMixin {
 
   void selectDate(int index) {
     selectedIndex.value = index;
+    scrollToSelectedDate(selectedIndex.value);
+  }
+
+  final ScrollController datePickerScrollController = ScrollController();
+
+  void scrollToSelectedDate(int index) {
+    final itemWidth = 60.0 + 12.0;
+    final offset = (index * itemWidth) - (itemWidth * 2);
+    datePickerScrollController.animateTo(
+      offset < 0 ? 0 : offset,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeInOutCubic,
+    );
   }
 
   Future<void> fetchDateWiseBookings({String? date}) async {
     dateWiseBookingsStatus.value = RxStatus.loading();
     try {
-
       final response = await ApiClient.getData(
         ApiUrl.getDateWiseBookings,
         query: {
-           'date': date ?? selectedDate.formatDateApi(),
+          'date': date ?? selectedDate.formatDateApi(),
         },
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         debugPrint("Raw Response Body Type: ${response.body.runtimeType}");
         debugPrint("Raw Response Body: ${response.body}");
-        
+
         // Handle both String and Map responses
         final Map<String, dynamic> responseData;
         if (response.body is String) {
@@ -65,17 +81,18 @@ mixin DateWiseBookingsMixin {
         } else {
           responseData = response.body as Map<String, dynamic>;
         }
-        
+
         debugPrint("Parsed Response Data Type: ${responseData.runtimeType}");
         debugPrint("Data field type: ${responseData['data']?.runtimeType}");
         debugPrint("Meta field type: ${responseData['meta']?.runtimeType}");
-        
-        final bookingDataList = DateWiseBookingDataResponse.fromJson(responseData);
+
+        final bookingDataList =
+            DateWiseBookingDataResponse.fromJson(responseData);
         dateWiseBookings.value = bookingDataList.data;
 
         debugPrint("Date-wise bookings fetched successfully.");
         debugPrint("Number of bookings: ${dateWiseBookings.length}");
-        
+
         if (dateWiseBookings.isEmpty) {
           dateWiseBookingsStatus.value = RxStatus.empty();
         } else {
@@ -93,8 +110,7 @@ mixin DateWiseBookingsMixin {
       dateWiseBookingsStatus.value =
           RxStatus.error('Failed to load date-wise bookings');
     } finally {
-      debugPrint("Fetch date-wise bookings completed."); 
-
+      debugPrint("Fetch date-wise bookings completed.");
     }
   }
 }

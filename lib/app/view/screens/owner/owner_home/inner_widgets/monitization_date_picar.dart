@@ -12,48 +12,53 @@ class HorizontalDatePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx(() => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  IconButton(
-                    onPressed: () {
-                      controller.goToPreviousDate();
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54, size: 18),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                Text(
-                  '${controller.selectedDate.formatDate()}',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                  IconButton(
-                    onPressed: () {
-                      controller.goToNextDate();
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios, color: Colors.black54, size: 18),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                  ),
-              ],
-            ),
-            ),
+        Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  controller.goToPreviousDate();
+                },
+                icon: const Icon(Icons.arrow_back_ios_new,
+                    color: Colors.black54, size: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+              Text(
+                '${controller.selectedDate.formatDate()}',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                onPressed: () {
+                  controller.goToNextDate();
+                },
+                icon: const Icon(Icons.arrow_forward_ios,
+                    color: Colors.black54, size: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+            ],
+          ),
+        ),
         SizedBox(
           height: 90,
           child: ListView.builder(
+            controller: controller.datePickerScrollController,
             scrollDirection: Axis.horizontal,
             itemCount: controller.dates.length,
             itemBuilder: (context, index) {
               final date = controller.dates[index];
-
               return Obx(() {
                 final isSelected = index == controller.selectedIndex.value;
-
                 return GestureDetector(
                   onTap: () {
                     controller.selectDate(index);
-                    controller.fetchDateWiseBookings(date:
-                        intl.DateFormat('yyyy-MM-dd').format(date));
+                    controller.fetchDateWiseBookings(
+                        date: intl.DateFormat('yyyy-MM-dd').format(date));
                   },
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeInOut,
                     width: 60,
                     margin:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
@@ -68,21 +73,25 @@ class HorizontalDatePicker extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          intl.DateFormat('dd').format(date),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: isSelected ? Colors.white : Colors.black,
                           ),
+                          child: Text(intl.DateFormat('dd').format(date)),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          intl.DateFormat('E').format(date), // Sat, Sun etc.
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
                           style: TextStyle(
                             fontSize: 14,
                             color: isSelected ? Colors.white : Colors.grey[700],
                           ),
+                          child: Text(intl.DateFormat('E').format(date)),
                         ),
                       ],
                     ),

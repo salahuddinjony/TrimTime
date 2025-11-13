@@ -7,6 +7,7 @@ import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_barber_professional_profile.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_hired_barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_logged_profile_info.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_owner_profile_image_update.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/barber_professional_profile.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class OwnerProfileController extends GetxController
-    with BarberProfessionalProfile, OwnerProfileImageUpdateMixin, LoggedProfileInfoMixin{
+    with BarberProfessionalProfile, OwnerProfileImageUpdateMixin, LoggedProfileInfoMixin, MixinHiredBarbers{
   var selectedValue = ''.obs;
 
 

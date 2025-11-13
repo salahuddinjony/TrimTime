@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ApiUrl {
   // static const baseUrl = "http://10.10.20.26:8080/api/v1";
   static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
@@ -97,4 +99,12 @@ class ApiUrl {
   static const sendQrCodeInfo = "/qr-codes";
   static const getQrCodeInfo = "$baseUrl/qr-codes";
   static const verifyQrCode = "${baseUrl}/qr-codes/verify";
+
+
+  // Barber 
+  static const getHiredBarbers = "$baseUrl/job-applications/hired-barbers";
+
+
+  //Que management
+  static String getQueList({required String id}) => "$baseUrl/bookings/walking-in/barbers/$id/queue";
 }

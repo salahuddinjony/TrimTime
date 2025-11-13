@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/common_msg_and_follow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -44,9 +46,21 @@ class CommonProfileCard extends StatelessWidget {
               const SizedBox(height: 50),
               CustomText(
                 text: name,
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customButton(true ? "Unfollow" : "Follow", Icons.person_add),
+                  const SizedBox(width: 10),
+                  iconButton(Assets.images.chartSelected.image(
+                    color: Colors.white,
+                    height: 15,
+                  )),
+                ],
               ),
               const SizedBox(height: 20),
               Padding(

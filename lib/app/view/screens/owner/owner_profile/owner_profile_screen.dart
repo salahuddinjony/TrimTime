@@ -301,8 +301,13 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
+                            ownerProfileController.fetchHiredBarbers();
                             AppRouter.route.pushNamed(RoutePath.hiringBarber,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'isOwner': true,
+                                  'controller': ownerProfileController
+                                });
                           },
                           text: AppStrings.barber,
                           icon: Assets.images.berber

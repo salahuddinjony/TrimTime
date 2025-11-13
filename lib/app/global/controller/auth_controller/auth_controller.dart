@@ -111,7 +111,7 @@ class AuthController extends GetxController with PasswordConstraintController {
           toastMessage(message: AppStrings.someThing);
           return;
         }
-
+        debugPrint("User Details before saving token:");
         debugPrint("Access Token: $accessToken");
         debugPrint("User Data: ${resBody['data']}");
         debugPrint("User Role: ${resBody['data']?['role']}");
@@ -131,11 +131,22 @@ class AuthController extends GetxController with PasswordConstraintController {
         await SharePrefsHelper.setString(AppConstants.bearerToken, accessToken);
 
         await SharePrefsHelper.setString(
-            AppConstants.userId, resBody['data']?["_id"] ?? '');
+            AppConstants.userId, resBody['data']?["id"] ??  resBody['data']?["_id"]?? '');
         await SharePrefsHelper.setString(
             AppConstants.role, resBody['data']?["role"] ?? '');
          await SharePrefsHelper.setBool(
             AppConstants.qrCode.toString(), resBody['data']?["qrCode"] ?? false);
+      
+      debugPrint("User info after saved token:");
+        debugPrint(
+            "Saved Token: ${await SharePrefsHelper.getString(AppConstants.bearerToken)}");
+        debugPrint(
+            "Saved Role: ${await SharePrefsHelper.getString(AppConstants.role)}");
+              debugPrint(
+            "Saved User ID: ${await SharePrefsHelper.getString(AppConstants.userId)}");
+          debugPrint(
+            "Saved QR Code: ${await SharePrefsHelper.getBool(AppConstants.qrCode.toString())}");
+        
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         String roleStr = decodedToken['role'] ?? '';

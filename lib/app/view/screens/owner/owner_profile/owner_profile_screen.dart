@@ -440,8 +440,15 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.followerScreen,
-                                extra: userRole);
+                            ownerProfileController.fetchFollowerOrFollowingData( 
+                                isFollowers: true);
+                            AppRouter.route.pushNamed(
+                              RoutePath.followerScreen,
+                                extra:{
+                              'userRole':userRole,
+                              'controller':ownerProfileController
+                                }
+                            );
                           },
                           text: "My Followers",
                           icon: Assets.icons.flowing.svg(

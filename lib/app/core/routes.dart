@@ -470,10 +470,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.followerScreen,
           path: RoutePath.followerScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const FollowerScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: FollowerScreen(
+                userRole: userRole!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================OwnerPayment  =======================

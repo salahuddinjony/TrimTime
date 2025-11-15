@@ -8,6 +8,8 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/monitization_date_picar.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/model/date_wise_booking_data/date_wise_booking_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,8 +20,6 @@ class OwnerRequestBooking extends StatelessWidget {
   final userRole;
   const OwnerRequestBooking(
       {super.key, required this.controller, this.userRole});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,8 @@ class OwnerRequestBooking extends StatelessWidget {
                 if (data.isEmpty) {
                   return Center(
                     child: CustomText(
-                      text: "No bookings available for ${controller.selectedDate.formatDate()}.",
+                      text:
+                          "No bookings available for ${controller.selectedDate.formatDate()}.",
                       fontSize: 16.sp,
                       maxLines: 2,
                       fontWeight: FontWeight.w500,
@@ -61,10 +62,10 @@ class OwnerRequestBooking extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        _showBookingDialog(context);
+                        _showBookingDialog(context, data[index]);
                       },
                       child: ServiceTile(
-                        serviceName: data[index].customerName,
+                        serviceName: data[index].customerName.safeCap(),
                         serviceTime:
                             data[index].startTime + " - " + data[index].endTime,
                         barberName: data[index].barberName,
@@ -82,10 +83,11 @@ class OwnerRequestBooking extends StatelessWidget {
     );
   }
 
-  void _showBookingDialog(BuildContext context) {
+  void _showBookingDialog(BuildContext context, BookingData bookingData) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final maxHeight = MediaQuery.of(context).size.height * 0.8;
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -110,93 +112,141 @@ class OwnerRequestBooking extends StatelessWidget {
               ],
             ),
           ),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Divider(),
-                SizedBox(
-                  height: 8,
-                ),
-                IconTextRow(
-                  icon: Icons.calendar_month,
-                  text: '26 December 2023',
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 8,
-                ),
-                IconTextRow(
-                  icon: Icons.watch_later,
-                  text: '09:00 am - 09:30am',
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 8,
-                ),
-                IconTextRow(
-                  icon: Icons.person,
-                  text: 'Barber: Faizan',
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(),
-                IconTextRow(
-                  icon: Icons.notes,
-                  text: 'Services',
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 30.w,
+          content: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: maxHeight,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Divider(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  IconTextRow(
+                    icon: Icons.calendar_month,
+                    text: DateTime.tryParse(bookingData.bookingDate)
+                            ?.formatDate() ??
+                        '',
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  IconTextRow(
+                    icon: Icons.watch_later,
+                    text: bookingData.startTime + " - " + bookingData.endTime,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  CustomerInfo(customerData: {
+                    'name': bookingData.customerName,
+                    'email': bookingData.customerEmail,
+                    'phone': bookingData.customerPhone,
+                    'notes': bookingData.notes,
+                    'image': bookingData.customerImage,
+                  }),
+                  IconTextRow(
+                    icon: Icons.cut,
+                    text: 'Barber: ${bookingData.barberName}',
+                    subtitle: bookingData.status,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Divider(),
+                  IconTextRow(
+                    icon: Icons.notes,
+                    text: 'Services',
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 30.w),
+                    padding: EdgeInsets.all(12.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(10.r),
-                        color: AppColors.secondary,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
+                            Icon(Icons.list_alt,
+                                color: AppColors.secondary, size: 20),
+                            SizedBox(width: 8.w),
                             CustomText(
-                              text: "Hair Cut & Beard Cut",
+                              text:
+                                  "${bookingData.services.length} Services Selected",
                               fontWeight: FontWeight.w600,
                               fontSize: 16.sp,
                               color: AppColors.black,
                             ),
-                            Row(
-                              children: [
-                                CustomText(
-                                  text: "Client: Jacob Shawn",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14.sp,
-                                  color: AppColors.seconderDark,
-                                ),
-                                Spacer(),
-                                CustomText(
-                                  text: "\$10",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14.sp,
-                                  color: AppColors.black,
-                                ),
-                              ],
-                            ),
                           ],
                         ),
-                      ),
+                        SizedBox(height: 10.h),
+                        ...bookingData.services
+                            .map((service) => Container(
+                                  margin: EdgeInsets.only(bottom: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8.h, horizontal: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    border: Border.all(
+                                        color: AppColors.secondary
+                                            .withValues(alpha: 0.2)),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.cut,
+                                          color: AppColors.secondary, size: 18),
+                                      SizedBox(width: 8.w),
+                                      Expanded(
+                                        child: CustomText(
+                                          text: service.serviceName,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp,
+                                          color: AppColors.seconderDark,
+                                        ),
+                                      ),
+                                      CustomText(
+                                        text:
+                                            "\$${service.price.toStringAsFixed(2)}",
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                        color: AppColors.black,
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CustomText(
+                    text:
+                        "Total Price: \$${bookingData.totalPrice.toStringAsFixed(2)}",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                    color: AppColors.black,
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -210,7 +260,7 @@ class OwnerRequestBooking extends StatelessWidget {
                     },
                     textColor: AppColors.white,
                     fillColor: AppColors.secondary,
-                    title: "Request Cancel",
+                    title: "Cancel",
                   ),
                 ),
                 SizedBox(
@@ -226,7 +276,7 @@ class OwnerRequestBooking extends StatelessWidget {
                     },
                     textColor: AppColors.white,
                     fillColor: AppColors.secondary,
-                    title: "Request reschedule",
+                    title: "Reschedule",
                   ),
                 ),
               ],
@@ -363,11 +413,13 @@ class ServiceTile extends StatelessWidget {
 class IconTextRow extends StatelessWidget {
   final IconData icon;
   final String text;
+  final String? subtitle;
 
   const IconTextRow({
     super.key,
     required this.icon,
     required this.text,
+    this.subtitle,
   });
 
   @override
@@ -381,12 +433,135 @@ class IconTextRow extends StatelessWidget {
         SizedBox(width: 8.0), // Adjust the spacing between the icon and text
         CustomText(
           left: 8.0,
-          text: text,
+          text: text.safeCap(),
           fontSize: 20.0,
           fontWeight: FontWeight.w500,
           color: AppColors.black,
         ),
+        if (subtitle != null) ...[
+          SizedBox(width: 8.0),
+          CustomText(
+            left: 8.0,
+            text: subtitle!,
+            fontSize: 11.0,
+            fontWeight: FontWeight.w400,
+            color: AppColors.bodyGrayMedium,
+          ),
+        ],
       ],
+    );
+  }
+}
+
+class CustomerInfo extends StatelessWidget {
+  final Map<String, dynamic> customerData;
+  const CustomerInfo({super.key, required this.customerData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 8.w, right: 8.w, bottom: 8.h),
+      padding: EdgeInsets.all(14.r),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: AppColors.secondary.withValues(alpha: .15)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: AppColors.secondary.withValues(alpha: .15),
+                backgroundImage: customerData['image'] != null
+                    ? CachedNetworkImageProvider(customerData['image'])
+                    : null,
+                child: customerData['image'] == null
+                    ? Icon(Icons.person_4_rounded, color: AppColors.secondary)
+                    : null,
+                radius: 20.r,
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: customerData['name'] ?? "N/A",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
+                      color: AppColors.black,
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      children: [
+                        Icon(Icons.email,
+                            size: 16, color: AppColors.bodyGrayMedium),
+                        SizedBox(width: 4.w),
+                        Flexible(
+                          child: CustomText(
+                            text: customerData['email'] ?? "N/A",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13.sp,
+                            color: AppColors.bodyGrayMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Row(
+            children: [
+              Icon(Icons.phone, size: 16, color: AppColors.bodyGrayMedium),
+              SizedBox(width: 4.w),
+              CustomText(
+                text: customerData['phone'] ?? "N/A",
+                fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+                color: AppColors.black,
+              ),
+            ],
+          ),
+          if ((customerData['notes'] ?? "").toString().isNotEmpty) ...[
+            SizedBox(height: 10.h),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.sticky_note_2,
+                    size: 16, color: AppColors.bodyGrayMedium),
+                SizedBox(width: 4.w),
+                Flexible(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: CustomText(
+                      text: customerData['notes'],
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13.sp,
+                      color: AppColors.bodyGrayMedium,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

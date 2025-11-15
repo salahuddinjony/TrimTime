@@ -1,3 +1,4 @@
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 class FollowingCard extends StatelessWidget {
   final String imageUrl;
   final String name;
-  final String status; // Can be 'follow' or 'unfollow'
+  final String? email;
+  final String status; 
   final VoidCallback onUnfollowPressed;
   final bool? isFollower;
 
@@ -15,15 +17,16 @@ class FollowingCard extends StatelessWidget {
     required this.imageUrl,
     required this.name,
     required this.status,
+    this.email,
     required this.onUnfollowPressed, this.isFollower = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8,),
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(15),
         decoration: const BoxDecoration(
           color: AppColors.linearFirst,
           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -47,16 +50,19 @@ class FollowingCard extends StatelessWidget {
                 children: [
                   // User Name
                   CustomText(
-                    text: name,
+                    text: name.safeCap(),
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
                     color: AppColors.black,
                   ),
+                  SizedBox(height: email != null ? 4 : 0),
                   Row(
                     children: [
                       // Username Subtitle or Role
+                      Icon(Icons.email, size: 12, color: AppColors.gray500),
+                      const SizedBox(width: 4),
                       CustomText(
-                        text: name, // You can pass a different subtitle if needed
+                        text: email ?? 'N/A', // You can pass a different subtitle if needed
                         fontWeight: FontWeight.w300,
                         fontSize: 11,
                         color: AppColors.black,

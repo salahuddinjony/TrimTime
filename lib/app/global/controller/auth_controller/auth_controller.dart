@@ -116,37 +116,38 @@ class AuthController extends GetxController with PasswordConstraintController {
         debugPrint("User Data: ${resBody['data']}");
         debugPrint("User Role: ${resBody['data']?['role']}");
 
-       Map <String, String> roles = {
+        Map<String, String> roles = {
           'user': 'CUSTOMER',
           'owner': 'SALOON_OWNER',
           'barber': 'BARBER',
         };
 
         if (resBody['data']?['role'] != roles[userRole]) {
-          EasyLoading.showInfo( "Please sign in using the correct role: ${userRole=='user'? 'Customer' : userRole.safeCap()}", duration: const Duration(seconds: 4));
+          EasyLoading.showInfo(
+              "Please sign in using the correct role: ${userRole == 'user' ? 'Customer' : userRole.safeCap()}",
+              duration: const Duration(seconds: 4));
           return;
         }
 
         // Save token & user info
         await SharePrefsHelper.setString(AppConstants.bearerToken, accessToken);
 
-        await SharePrefsHelper.setString(
-            AppConstants.userId, resBody['data']?["id"] ??  resBody['data']?["_id"]?? '');
+        await SharePrefsHelper.setString(AppConstants.userId,
+            resBody['data']?["id"] ?? resBody['data']?["_id"] ?? '');
         await SharePrefsHelper.setString(
             AppConstants.role, resBody['data']?["role"] ?? '');
-         await SharePrefsHelper.setBool(
-            AppConstants.qrCode.toString(), resBody['data']?["qrCode"] ?? false);
-      
-      debugPrint("User info after saved token:");
+        await SharePrefsHelper.setBool(AppConstants.qrCode.toString(),
+            resBody['data']?["qrCode"] ?? false);
+
+        debugPrint("User info after saved token:");
         debugPrint(
             "Saved Token: ${await SharePrefsHelper.getString(AppConstants.bearerToken)}");
         debugPrint(
             "Saved Role: ${await SharePrefsHelper.getString(AppConstants.role)}");
-              debugPrint(
+        debugPrint(
             "Saved User ID: ${await SharePrefsHelper.getString(AppConstants.userId)}");
-          debugPrint(
+        debugPrint(
             "Saved QR Code: ${await SharePrefsHelper.getBool(AppConstants.qrCode.toString())}");
-        
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         String roleStr = decodedToken['role'] ?? '';

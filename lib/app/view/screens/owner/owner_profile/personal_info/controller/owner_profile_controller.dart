@@ -6,6 +6,8 @@ import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/mixin_followers_following/mixin_followers_following.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_barber_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_hired_barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_logged_profile_info.dart';
@@ -17,11 +19,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class OwnerProfileController extends GetxController
-    with BarberProfessionalProfile, OwnerProfileImageUpdateMixin, LoggedProfileInfoMixin, MixinHiredBarbers{
+    with
+        BarberProfessionalProfile,
+        OwnerProfileImageUpdateMixin,
+        LoggedProfileInfoMixin,
+        MixinHiredBarbers,
+        MixinSelonManagement,
+        MixinFollowersFollowing {
   var selectedValue = ''.obs;
-
-
-
 
   void updateSelection(String value, TextEditingController controller) {
     selectedValue.value = value;
@@ -29,7 +34,6 @@ class OwnerProfileController extends GetxController
   }
 
   // Owner profile update
-
 
   final genderController = TextEditingController();
   final phoneController = TextEditingController();
@@ -40,7 +44,7 @@ class OwnerProfileController extends GetxController
   @override
   void setInitialValue(ProfileData data) {
     super.setInitialValue(data);
-    
+
     // phoneNumber is already a String? in the model, but avoid unsafe casts
     phoneController.text = data.phoneNumber ?? '';
 

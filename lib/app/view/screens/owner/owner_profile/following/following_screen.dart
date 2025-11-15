@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -93,28 +95,45 @@ class FollowingScreen extends StatelessWidget {
                   itemCount: followingList!.length,
                   itemBuilder: (context, index) {
                     final user = followingList[index];
-                    return FollowingCard(
-                      imageUrl: user.followingImage,
-                      name: user.followingName,
-                      status: 'Unfollow',
-                      email: user.followingEmail,
-                      onUnfollowPressed: () async {
-                        controller?.followingList.removeAt(index);
-                        final result = await controller?.toggleFollow(
-                            userId: user.followingId, isfollowUnfollow: false);
-
-                        if (result == true) {
-                          controller?.followingList.refresh();
-                          controller?.fetchFollowerOrFollowingData(
-                              isFollowers: false, needLoader: false);
-                        } else {
-                          controller?.followingList.insert(index, user);
-                          controller?.followingList.refresh();
-                          toastMessage(
-                              message:
-                                  "Failed to unfollow ${user.followingName}");
-                        }
+                    return GestureDetector(
+                      onTap: () {
+                           final barberId = user.followingId;
+                    debugPrint("Barber ${user.followingName} clicked");
+                    debugPrint("Barber ID: $barberId");
+                    AppRouter.route.pushNamed(
+                      RoutePath.professionalProfile,
+                      extra: {
+                        'userRole': userRole,
+                        'barberId': barberId,
+                        'isForActionButton': false,
                       },
+                    );
+                        // Handle card tap if needed
+                      },
+                      child: FollowingCard(
+                        imageUrl: user.followingImage,
+                        name: user.followingName,
+                        status: 'Unfollow',
+                        email: user.followingEmail,
+                        
+                        onUnfollowPressed: () async {
+                          controller?.followingList.removeAt(index);
+                          final result = await controller?.toggleFollow(
+                              userId: user.followingId, isfollowUnfollow: false);
+                      
+                          if (result == true) {
+                            controller?.followingList.refresh();
+                            controller?.fetchFollowerOrFollowingData(
+                                isFollowers: false, needLoader: false);
+                          } else {
+                            controller?.followingList.insert(index, user);
+                            controller?.followingList.refresh();
+                            toastMessage(
+                                message:
+                                    "Failed to unfollow ${user.followingName}");
+                          }
+                        },
+                      ),
                     );
                   },
                 ),

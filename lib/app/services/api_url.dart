@@ -102,8 +102,13 @@ class ApiUrl {
 
   //Que management
   static String getQueList({required String id}) =>
-      "$baseUrl/bookings/walking-in/barbers/$id/queue";
+      "$baseUrl/bookings/walking-in/barbers/$id/QUEUE";
 
   static String fetchUserData({required String filter}) =>
       "$baseUrl/follows/$filter";
+  static String getBarbersCustomerQue({required String ownerId, required String barberId}) =>
+      "$baseUrl/bookings/barbers/$ownerId/$barberId";
+  static String onOffQueueToggle= "${baseUrl}/saloons/queue-control";
+  
+  static String getServices= "$baseUrl/services";
 }

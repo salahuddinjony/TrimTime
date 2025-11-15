@@ -1,7 +1,6 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/following_card/following_card.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
@@ -93,7 +92,7 @@ class FollowerScreen extends StatelessWidget {
                       extra: {
                         'userRole': userRole,
                         'barberId': barberId,
-                        'isForActionButton': true,
+                        'isForActionButton': false,
                       },
                     );
                   },

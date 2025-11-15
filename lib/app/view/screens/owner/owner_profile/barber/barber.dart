@@ -95,14 +95,29 @@ class HiringBarber extends StatelessWidget {
                 final barber = hiredBarbers[index];
                 return GestureDetector(
                   onTap: () {
-                    AppRouter.route
-                        .pushNamed(RoutePath.visitShop, extra: userRole);
+                    // AppRouter.route.pushNamed(RoutePath.visitShop,
+                    // extra: userRole);
+
+                    final barberId = barber.barberId;
+                    debugPrint("Barber ${barber.barberFullName} clicked");
+                    debugPrint("Barber ID: $barberId");
+
+                    // Navigate to professional profile with barber ID
+                    AppRouter.route.pushNamed(
+                      RoutePath.professionalProfile,
+                      extra: {
+                        'userRole': userRole,
+                        'barberId': barberId,
+                        'isForActionButton': true,
+                      },
+                    );
                   },
                   child: CustomBarberCard(
-                    imageUrl:barber.barberImage?? '', // Barber's image URL
-                    name: barber.barberFullName ?? 'Unknown', // Barber's name
-                    role: barber.barberEmail ?? '', // Barber's role
-                    contact: barber.barberPhoneNumber ?? 'N/A', // Barber's contact number
+                    imageUrl: barber.barberImage ?? '', // Barber's image URL
+                    name: barber.barberFullName, // Barber's name
+                    role: barber.barberEmail, // Barber's role
+                    contact: barber.barberPhoneNumber ??
+                        'N/A', // Barber's contact number
                   ),
                 );
               },

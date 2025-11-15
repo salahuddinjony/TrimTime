@@ -14,21 +14,6 @@ class FollowerScreen extends StatelessWidget {
   final OwnerProfileController? controller;
   const FollowerScreen({super.key, required this.userRole, this.controller});
 
-  // List of users that are followed (now static)
-  static final List<Map<String, String>> followingUsers = [
-    {
-      "name": "Christian Ronaldo",
-      "imageUrl": AppConstants.demoImage,
-      "status": "",
-    },
-    {
-      "name": "Lionel Messi",
-      "imageUrl": AppConstants.demoImage,
-      "status": "",
-    },
-    // Add more users as needed
-  ];
-
   @override
   Widget build(BuildContext context) {
     final extra = GoRouter.of(context).state.extra;
@@ -71,45 +56,58 @@ class FollowerScreen extends StatelessWidget {
               ),
             );
           } else if (followers.isEmpty) {
-            return const Center(
-              child: Text('No followers found.'),
+            return RefreshIndicator(
+              onRefresh: () async {
+                await controller?.fetchFollowerOrFollowingData(
+                  isFollowers: true,
+                  needLoader: true,
+                );
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: const [
+                  SizedBox(height: 200),
+                  Center(child: Text('No followers found.')),
+                ],
+              ),
             );
           }
-          return ListView.builder(
-            itemCount: followers.length,
-            itemBuilder: (context, index) {
-              final user = followers[index];
-              return GestureDetector(
-                onTap: (){
-                       // AppRouter.route.pushNamed(RoutePath.visitShop,
-                  // extra: userRole);
-
-                  final barberId = user.followerId;
-                  debugPrint("Barber ${user.followerName} clicked");
-                  debugPrint("Barber ID: $barberId");
-
-                  // Navigate to professional profile with barber ID
-                  AppRouter.route.pushNamed(
-                    RoutePath.professionalProfile,
-                    extra: {
-                      'userRole': userRole,
-                      'barberId': barberId,
-                      'isForActionButton': true,
-                    },
-                  );
-                },
-                child: FollowingCard(
-                  isFollower: false,
-                  imageUrl: user.followerImage,
-                  name: user.followerName,
-                  status: '',
-                  email: user.followerEmail,
-                  onUnfollowPressed: () {
-                             
-                  },
-                ),
+          return RefreshIndicator(
+            onRefresh: () async {
+              await controller?.fetchFollowerOrFollowingData(
+                isFollowers: true,
+                needLoader: true,
               );
             },
+            child: ListView.builder(
+              itemCount: followers.length,
+              itemBuilder: (context, index) {
+                final user = followers[index];
+                return GestureDetector(
+                  onTap: () {
+                    final barberId = user.followerId;
+                    debugPrint("Barber ${user.followerName} clicked");
+                    debugPrint("Barber ID: $barberId");
+                    AppRouter.route.pushNamed(
+                      RoutePath.professionalProfile,
+                      extra: {
+                        'userRole': userRole,
+                        'barberId': barberId,
+                        'isForActionButton': true,
+                      },
+                    );
+                  },
+                  child: FollowingCard(
+                    isFollower: false,
+                    imageUrl: user.followerImage,
+                    name: user.followerName,
+                    status: '',
+                    email: user.followerEmail,
+                    onUnfollowPressed: () {},
+                  ),
+                );
+              },
+            ),
           );
         }),
       ),

@@ -1,7 +1,8 @@
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_que_management.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/services/mixin/mixin_get_services.dart';
 import 'package:get/get.dart';
 
-class QueController extends GetxController with QueManagementMixin{
+class QueController extends GetxController with MixinGetServices, QueManagementMixin{
   var selectedValue = ''.obs;
 
   @override

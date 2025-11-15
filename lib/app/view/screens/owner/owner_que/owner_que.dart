@@ -9,42 +9,34 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/model/que_model_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-
 import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
-class OwnerQue extends StatefulWidget {
-  const OwnerQue({super.key});
+class OwnerQue extends StatelessWidget {
+  Future<void> _refresh() async {
+    await controller.fetchQueList();
+  }
 
-  @override
-  State<OwnerQue> createState() => _OwnerQueState();
-}
-
-class _OwnerQueState extends State<OwnerQue> {
-  bool isQueueEnabled = false; // State for the toggle switch
-  final QueController controller = Get.find<QueController>();
+  OwnerQue({super.key});
+  final QueController controller = Get.put(QueController());
 
   @override
   Widget build(BuildContext context) {
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
+
     if (extra is UserRole) {
       userRole = extra;
     } else if (extra is Map) {
-      try {
-        userRole = extra['userRole'] as UserRole?;
-      } catch (_) {
-        userRole = null;
-      }
+      userRole = extra['userRole'] as UserRole?;
     }
 
-    debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
@@ -52,297 +44,560 @@ class _OwnerQueState extends State<OwnerQue> {
       );
     }
 
-    // Format the current date
-    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    // String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     return Scaffold(
-        bottomNavigationBar: BottomNavbar(
-          currentIndex: 1,
-          role: userRole,
-        ),
-        backgroundColor: AppColors.white,
-        appBar: const CustomAppBar(
-          appBarContent: AppStrings.activeNow,
-          appBarBgColor: AppColors.linearFirst,
-        ),
-        body: ClipPath(
-            clipper: CurvedBannerClipper(),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xCCEDBC9F), // First color (with opacity)
-                    Color(0xFFE98952),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    // Display Date
-                    CustomText(
-                      text:
-                          "Date: $formattedDate", // Displaying the formatted date
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Use Obx to bind the queList and display loading, empty, or data
-                    Obx(
-                      () {
-                        if (controller.queListStatus.value.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (controller.queList.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              'No data available.',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.gray500,
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: 1,
+        role: userRole,
+      ),
+      backgroundColor: AppColors.white,
+      appBar: const CustomAppBar(
+        appBarContent: AppStrings.activeNow,
+        appBarBgColor: AppColors.linearFirst,
+      ),
+      body: ClipPath(
+        clipper: CurvedBannerClipper(),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 1.5,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDBC9F),
+                Color(0xFFE98952),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: Obx(() {
+                      if (controller.queListStatus.value.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (controller.queList.isEmpty) {
+                        return ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: const [
+                            SizedBox(height: 100),
+                            Center(
+                              child: Text(
+                                'No data available.',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.gray500,
+                                ),
                               ),
                             ),
-                          );
-                        } else {
-                          return Expanded(
-                            child: ListView.builder(
-                              itemCount: controller.queList.length,
-                              itemBuilder: (context, index) {
-                                QueBarber barber = controller.queList[index];
-
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                          ],
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: controller.queList.length,
+                          itemBuilder: (context, index) {
+                            QueBarber barber = controller.queList[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Column(
-                                        children: [
-                                          CustomNetworkImage(
-                                            imageUrl: barber.image,
-                                            height: 62,
-                                            width: 62,
-                                            boxShape: BoxShape.circle,
-                                          ),
-                                          CustomText(
-                                            text: barber.name,
-                                            fontSize: 13.sp,
-                                            top: 8,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.gray500,
-                                          ),
-                                        ],
+                                      CustomNetworkImage(
+                                        imageUrl: barber.image,
+                                        height: 62,
+                                        width: 62,
+                                        boxShape: BoxShape.circle,
                                       ),
-                                      const Spacer(),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                      SizedBox(height: 6),
+                                      CustomText(
+                                        text: barber.name,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.gray500,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 18),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(height: 8),
+                                      CustomText(
+                                        textAlign: TextAlign.end,
+                                        text: barber.schedule != null
+                                            ? "${barber.schedule!.start}-${barber.schedule!.end}"
+                                            : "No Schedule",
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.gray500,
+                                      ),
+                                      SizedBox(height: 16),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          SizedBox(
-                                            height: 20.h,
-                                          ),
-                                          CustomText(
-                                            textAlign: TextAlign.end,
-                                            text: barber.schedule != null
-                                                ? "${barber.schedule!.start}-${barber.schedule!.end}"
-                                                : "No Schedule",
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.gray500,
-                                          ),
-                                          SizedBox(
-                                            height: 20.h,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.all(10.r),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: AppColors.black),
-                                                    shape: BoxShape.circle),
-                                                child: CustomText(
-                                                  text: "${index + 1}",
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: AppColors.white,
-                                                ),
+                                          Container(
+                                            padding: EdgeInsets.all(8.r),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: AppColors.black,
                                               ),
-                                              SizedBox(
-                                                width: 20.h,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  AppRouter.route.pushNamed(
-                                                      RoutePath.queScreen,
-                                                      extra: userRole);
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
+                                            ),
+                                            child: CustomText(
+                                              text:
+                                                  "${barber.totalQueueLength?.toString()}",
+                                              fontSize: 13.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColors.black,
+                                            ),
+                                          ),
+                                          SizedBox(width: 12),
+                                          GestureDetector(
+                                            onTap: () {
+                                              debugPrint(
+                                                  "Navigating to Queue Screen for ${barber.name}");
+                                              debugPrint(
+                                                  "Barber ID: ${barber.barberId}");
+                                              controller
+                                                  .fetchBarbersCustomerQue(
+                                                      barberId:
+                                                          barber.barberId);
+                                              AppRouter.route.pushNamed(
+                                                RoutePath.queScreen,
+                                                extra: {
+                                                  'userRole': userRole,
+                                                  'barberId': barber.barberId,
+                                                  'controller': controller,
                                                 },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10.r),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.black,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  child: CustomText(
-                                                    text: "See Queue",
-                                                    fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.white,
-                                                  ),
-                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16, vertical: 8),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.black,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
-                                            ],
-                                          )
+                                              child: CustomText(
+                                                text: "See Queue",
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: AppColors.white,
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                      },
-                    ),
-
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(5.r),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.black),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Text(
-                            'Enable',
-                            style:
-                                TextStyle(fontSize: 16, color: AppColors.white),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Switch(
-                          activeTrackColor: AppColors.black,
-                          activeThumbColor: AppColors.secondary,
-                          value: isQueueEnabled,
-                          onChanged: (bool value) {
-                            setState(() {
-                              isQueueEnabled = value; // Update the state
-                            });
-                            controller.toggleQueueStatus(
-                                value); // Call the controller method to manage state
-                            debugPrint(
-                                'Queue is ${isQueueEnabled ? 'enabled' : 'disabled'}');
+                                ],
+                              ),
+                            );
                           },
+                        );
+                      }
+                    }),
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8.r),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: controller.isQueueEnabled.value
+                                ? AppColors.black
+                                : AppColors.black),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Obx(
+                        () => CustomText(
+                          text: controller.isQueueEnabled.value
+                              ? "Enabled"
+                              : "Disabled",
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: controller.isQueueEnabled.value
+                              ? AppColors.white
+                              : AppColors.black,
                         ),
-                      ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    CustomButton(
-                      onTap: () {
-                        showChooseBarberDialog(context);
-                      },
-                      textColor: AppColors.white,
-                      fillColor: AppColors.black,
-                      title: AppStrings.addNewCustomer,
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    )
+                    const SizedBox(width: 10),
+                    Obx(() {
+                      return Switch(
+                        activeTrackColor: AppColors.black,
+                        activeThumbColor: AppColors.secondary,
+                        inactiveTrackColor: Colors.grey,
+                        inactiveThumbColor: Colors.grey[600]!,
+                        value: controller.isQueueEnabled.value,
+                        onChanged: controller.toggleQueueStatus,
+                      );
+                    }),
                   ],
                 ),
-              ),
-            )));
-  }
+                SizedBox(height: 30.h),
+                CustomButton(
+                  
+                  onTap: (){
+                    controller.getServices();
 
-  void showChooseBarberDialog(BuildContext context) {
-    // Define a list of selected barbers and services
-    List<bool> selectedBarbers = List.filled(5, false); // Assuming 5 barbers
-    List<bool> selectedServices = List.filled(4, false); // 4 service options
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      // Prevent dismissing the dialog by tapping outside
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          title: const Text(
-            'Chose Customer',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // List of Barbers
-                Column(
-                  children: List.generate(5, (index) {
-                    return Row(
-                      children: [
-                        CustomNetworkImage(
-                          imageUrl: AppConstants.demoImage,
-                          height: 30,
-                          width: 30,
-                          boxShape: BoxShape.circle,
-                        ),
-                        const SizedBox(width: 12),
-                        Text('Jane Cooper'),
-                        const Spacer(),
-                        Checkbox(
-                          value: selectedBarbers[index],
-                          onChanged: (bool? value) {
-                            selectedBarbers[index] = value ?? false;
-                            // Refresh the UI
-                            (context as Element).markNeedsBuild();
-                          },
-                        ),
-                      ],
-                    );
-                  }),
+                    showChooseBarberBottomSheet(
+                    context,
+                    barbers: ["John", "Alex", "Robert"],
+                    services: controller.services.map((service) => service.name).toList(),
+                    controller: controller,
+                  );
+                  },
+                  textColor: AppColors.white,
+                  fillColor: AppColors.black,
+                  title: AppStrings.addNewCustomer,
                 ),
+                SizedBox(height: 20.h),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Handle saving the queue
-                print(
-                    "Selected Barbers: ${selectedBarbers.where((e) => e).toList()}");
+        ),
+      ),
+    );
+  }
 
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Save Queue'),
+  void showChooseBarberBottomSheet(
+    BuildContext context, {
+    required List<String> barbers,
+    required List<String> services,
+    required QueController controller 
+  }) {
+    String? selectedBarber;
+    List<String> selectedServices = [];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+          ),
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.82,
+            minChildSize: 0.5,
+            maxChildSize: 0.95,
+            builder: (_, scrollController) {
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return SingleChildScrollView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Register Customer",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+
+                        // Name
+                        CustomTextField(
+                          hintText: "Name",
+                          prefixIcon: const Icon(Icons.person),
+                          textEditingController:controller.nameController,
+                        ),
+                        const SizedBox(height: 18),
+
+                        // Email
+                        CustomTextField(
+                          hintText: "Email Address",
+                          prefixIcon: const Icon(Icons.email),
+                          textEditingController: controller.emailController,
+                        ),
+                        const SizedBox(height: 18),
+
+                        // Time
+                        CustomTextField(
+                          readOnly: true,
+                          onTap: ()  {
+                           controller.selecTime(context: context);
+
+                          },
+                          hintText: "Select Time",
+                          prefixIcon: const Icon(Icons.access_time),
+                          textEditingController: controller.timeController,
+                        ),
+                        const SizedBox(height: 20),
+                        
+                      Obx(() {
+  return GestureDetector(
+    onTap: () {
+      _showMultiSelectDialog(
+        context,
+        title: "Select Services",
+        items: services,
+        selectedList: controller.servicesSelected.value, // Bind selected services here
+        onSave: () {
+          controller.servicesSelected.value = List.from(controller.servicesSelected.value); // Update services list
+        },
+      );
+    },
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              controller.servicesSelected.value.isEmpty
+                  ? "Select Services"
+                  : controller.servicesSelected.value.join(", "), // Show selected services
+              overflow: TextOverflow.ellipsis,
             ),
-          ],
+          ),
+          const Icon(Icons.arrow_drop_down),
+        ],
+      ),
+    ),
+  );
+})
+,
+
+                        const SizedBox(height: 20),
+
+                   Obx(() {
+  return GestureDetector(
+    onTap: () {
+      _showSingleSelectDialog(
+        context,
+        title: "Select Barber",
+        items: barbers,
+        selected: controller.selectedBarbderId.value, // Bind selected barber here
+        onSelect: (value) {
+          controller.selectedBarbderId.value = value; // Update the selected barber
+        },
+      );
+    },
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              controller.selectedBarbderId.value.isEmpty
+                  ? "Select Barber"
+                  : controller.selectedBarbderId.value, // Show selected barber
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const Icon(Icons.arrow_drop_down),
+        ],
+      ),
+    ),
+  );
+})
+,
+
+
+                        const SizedBox(height: 20),
+
+                        // Notes
+                        CustomTextField(
+                          hintText: "Notes",
+                          prefixIcon: const Icon(Icons.note),
+                          textEditingController: controller.notesController,
+                        ),
+
+                        const SizedBox(height: 25),
+
+                        // Save
+                        CustomButton(
+                          onTap: () {
+                            debugPrint("Barber: $selectedBarber");
+                            debugPrint("Services: $selectedServices");
+                            Navigator.pop(context);
+                          },
+                          fillColor: AppColors.black,
+                          textColor: Colors.white,
+                          title: "Save Queue",
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSingleSelectDialog(
+    BuildContext context, {
+    required String title,
+    required List<String> items,
+    required String? selected,
+    required Function(String) onSelect,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white,
+          title: Text(title),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              shrinkWrap: true,
+              children: items.map((item) {
+                return RadioListTile<String>(
+                  title:Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundColor: AppColors.gray300,
+                        child: Text(
+                          item[0],
+                          style: const TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(item),
+                    ],
+                  ),
+                  value: item,
+                  groupValue: selected,
+                  onChanged: (value) {
+                    onSelect(value!);
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMultiSelectDialog(
+    BuildContext context, {
+    required String title,
+    required List<String> items,
+    required List<String> selectedList,
+    required VoidCallback onSave,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: AppColors.white,
+              title: Text(title),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: items.map((item) {
+                    final checked = selectedList.contains(item);
+                    return CheckboxListTile(
+                      title:Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundColor: AppColors.gray300,
+                            child: Text(
+                              item[0],
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10.0),
+                          Text(item),
+                        ],
+                      ),
+                      value: checked,
+                      onChanged: (value) {
+                        setState(() {
+                          value == true
+                              ? selectedList.add(item)
+                              : selectedList.remove(item);
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    onSave();
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Save"),
+                ),
+              ],
+            );
+          },
         );
       },
     );

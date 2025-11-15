@@ -6,7 +6,6 @@ class ApiUrl {
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
-
 //deshboard data
   static const dashboardData = "$baseUrl/saloons/dashboard";
 
@@ -52,16 +51,14 @@ class ApiUrl {
   static String deleteJobPost({required String id}) => "$baseUrl/job-posts/$id";
   static const historyOfMyApplications =
       "$baseUrl/job-applications/my-applications";
-      
-  static const barberOwnerApplications = 
-      "$baseUrl/job-applications";
 
-  static String updateJobApplicationStatus({required String id}) => "$baseUrl/job-applications/$id";
+  static const barberOwnerApplications = "$baseUrl/job-applications";
 
+  static String updateJobApplicationStatus({required String id}) =>
+      "$baseUrl/job-applications/$id";
 
-
-
-  static String toggleJobPostStatus({required String id, required String status}) =>
+  static String toggleJobPostStatus(
+          {required String id, required String status}) =>
       "$baseUrl/job-posts/$id/$status";
 
   //Profile
@@ -93,18 +90,20 @@ class ApiUrl {
 
   // booking management
   static const getBarberBookings = "$baseUrl/barbers/my-bookings";
-  static String getDateWiseBookings="$baseUrl//bookings/list";
-  
+  static String getDateWiseBookings = "$baseUrl//bookings/list";
+
   // QR Code management
   static const sendQrCodeInfo = "/qr-codes";
   static const getQrCodeInfo = "$baseUrl/qr-codes";
   static const verifyQrCode = "${baseUrl}/qr-codes/verify";
 
-
-  // Barber 
+  // Barber
   static const getHiredBarbers = "$baseUrl/job-applications/hired-barbers";
 
-
   //Que management
-  static String getQueList({required String id}) => "$baseUrl/bookings/walking-in/barbers/$id/queue";
+  static String getQueList({required String id}) =>
+      "$baseUrl/bookings/walking-in/barbers/$id/queue";
+
+  static String fetchUserData({required String filter}) =>
+      "$baseUrl/follows/$filter";
 }

@@ -60,6 +60,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyali
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/owner_que.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
@@ -1001,11 +1002,21 @@ class AppRouter {
         GoRoute(
           name: RoutePath.queScreen,
           path: RoutePath.queScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const QueScreen(),
-            state: state,
-            disableAnimation: true,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as QueController?;
+            final barberId = extra['barberId'] as String?;
+
+            return _buildPageWithAnimation(
+              child: QueScreen(
+                userRole: userRole!,
+                controller: controller!,
+                barberId: barberId!, 
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///======================= =======================
@@ -1023,7 +1034,7 @@ class AppRouter {
           name: RoutePath.ownerQue,
           path: RoutePath.ownerQue.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const OwnerQue(), state: state, disableAnimation: true),
+              child:  OwnerQue(), state: state, disableAnimation: true),
         ),
 
         ///======================= =======================

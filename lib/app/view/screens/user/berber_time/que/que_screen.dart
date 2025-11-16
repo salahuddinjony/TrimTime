@@ -17,11 +17,13 @@ import '../../../../../core/routes.dart';
 import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class QueScreen extends StatelessWidget {
-    Future<void> _refresh(BuildContext context) async {
-      if (controller != null) {
-        await controller!.fetchBarbersCustomerQue(barberId: barberId);
-      }
+
+  Future<void> _refresh(BuildContext context) async {
+    if (controller != null) {
+      await controller!.fetchBarbersCustomerQue(barberId: barberId);
     }
+  }
+
   final UserRole userRole;
   final String barberId;
   final QueController? controller;
@@ -141,12 +143,13 @@ class QueScreen extends StatelessWidget {
                                     child: Center(
                                       child: Column(
                                         children: [
-                                          Icon(Icons.hourglass_empty, size: 48, color: Colors.grey.shade400),
+                                          Icon(Icons.hourglass_empty,
+                                              size: 48, color: Colors.white),
                                           const SizedBox(height: 12),
                                           Text(
                                             "No customers in queue",
                                             style: TextStyle(
-                                              color: Colors.grey.shade500,
+                                              color: Colors.white,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -207,78 +210,77 @@ class QueScreen extends StatelessWidget {
     );
   }
 
-Widget shimmerHeader() {
-  return Column(
-    children: [
-      Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          // Shimmer Cover Image
-          Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: Container(
-              width: double.infinity,
-              height: 200.h,
-              color: Colors.white,
-            ),
-          ),
-
-          // Floating Avatar Shimmer (same as real position)
-          Positioned(
-            bottom: -70, // EXACT same as real avatar position
-            child: Shimmer.fromColors(
+  Widget shimmerHeader() {
+    return Column(
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            // Shimmer Cover Image
+            Shimmer.fromColors(
               baseColor: Colors.grey.shade300,
               highlightColor: Colors.grey.shade100,
               child: Container(
-                width: 120.w,
-                height: 120.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
+                width: double.infinity,
+                height: 200.h,
+                color: Colors.white,
+              ),
+            ),
+
+            // Floating Avatar Shimmer (same as real position)
+            Positioned(
+              bottom: -70, // EXACT same as real avatar position
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                  width: 120.w,
+                  height: 120.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
 
-      const SizedBox(height: 80), // Allow avatar overflow space
+        const SizedBox(height: 80), // Allow avatar overflow space
 
-      // Name text shimmer
-      Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Container(
-          width: 140,
-          height: 20,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(6),
+        // Name text shimmer
+        Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            width: 140,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6),
+            ),
           ),
         ),
-      ),
-      const SizedBox(height: 10),
+        const SizedBox(height: 10),
 
-      // "See profile" button shimmer
-      Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Container(
-          width: 110,
-          height: 35,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+        // "See profile" button shimmer
+        Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            width: 110,
+            height: 35,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
-      ),
-       const SizedBox(height: 50),
-    ],
-  );
-}
-
+        const SizedBox(height: 50),
+      ],
+    );
+  }
 
   Widget shimmerGrid() {
     return GridView.builder(
@@ -286,16 +288,16 @@ Widget shimmerHeader() {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
+        crossAxisCount: 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 20,
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.9,
       ),
-      itemCount: 8,
+      itemCount: 6,
       itemBuilder: (_, __) {
         return Column(
           children: [
-            shimmerCircle(52),
+            shimmerCircle(60),
             const SizedBox(height: 6),
             shimmerBox(width: 60, height: 10),
             const SizedBox(height: 4),
@@ -316,10 +318,10 @@ Widget shimmerHeader() {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
+        crossAxisCount: 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 20,
-        childAspectRatio: 0.75,
+        childAspectRatio: .9,
       ),
       itemCount: bookings.length,
       itemBuilder: (context, index) {
@@ -347,10 +349,25 @@ Widget shimmerHeader() {
               color: AppColors.gray500,
               maxLines: 1,
             ),
-            const SizedBox(height: 4),
+          
+            Expanded(
+              child: Chip(
+                label: Container(
+                  padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+                  child: CustomText(
+                    text: "${customer.startTime}-${customer.endTime}" ?? 'N/A',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 10,
+                    color: AppColors.black,
+                    maxLines: null,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+              ),
+            ),
             CustomText(
               text: "${customer.totalTime ?? 'N/A'} min",
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w800,
               fontSize: 10,
               color: AppColors.gray500,
               maxLines: 1,

@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/validators/validators.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -13,9 +14,11 @@ import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_tex
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/model/que_model_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:collection/collection.dart';
 import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class OwnerQue extends StatelessWidget {
@@ -82,7 +85,78 @@ class OwnerQue extends StatelessWidget {
                     onRefresh: _refresh,
                     child: Obx(() {
                       if (controller.queListStatus.value.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        // Shimmer effect for loading state
+                        return ListView.builder(
+                          itemCount: 6,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        height: 62,
+                                        width: 62,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      SizedBox(height: 6),
+                                      Container(
+                                        height: 14,
+                                        width: 50,
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 18),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(height: 8),
+                                      Container(
+                                        height: 16,
+                                        width: 80,
+                                        color: Colors.grey.shade300,
+                                      ),
+                                      SizedBox(height: 16),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            height: 32,
+                                            width: 32,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade300,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                          SizedBox(width: 12),
+                                          Container(
+                                            height: 32,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade300,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
                       } else if (controller.queList.isEmpty) {
                         return ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -256,16 +330,13 @@ class OwnerQue extends StatelessWidget {
                 ),
                 SizedBox(height: 30.h),
                 CustomButton(
-                  
-                  onTap: (){
+                  onTap: () {
                     controller.getServices();
 
                     showChooseBarberBottomSheet(
-                    context,
-                    barbers: ["John", "Alex", "Robert"],
-                    services: controller.services.map((service) => service.name).toList(),
-                    controller: controller,
-                  );
+                      context,
+                      controller: controller,
+                    );
                   },
                   textColor: AppColors.white,
                   fillColor: AppColors.black,
@@ -280,15 +351,8 @@ class OwnerQue extends StatelessWidget {
     );
   }
 
-  void showChooseBarberBottomSheet(
-    BuildContext context, {
-    required List<String> barbers,
-    required List<String> services,
-    required QueController controller 
-  }) {
-    String? selectedBarber;
-    List<String> selectedServices = [];
-
+  void showChooseBarberBottomSheet(BuildContext context,
+      {required QueController controller}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -338,111 +402,237 @@ class OwnerQue extends StatelessWidget {
 
                         // Name
                         CustomTextField(
+                          isColor: true,
                           hintText: "Name",
                           prefixIcon: const Icon(Icons.person),
-                          textEditingController:controller.nameController,
+                          textEditingController: controller.nameController,
                         ),
                         const SizedBox(height: 18),
 
                         // Email
                         CustomTextField(
+                          isColor: true,
                           hintText: "Email Address",
                           prefixIcon: const Icon(Icons.email),
                           textEditingController: controller.emailController,
+                          validator:Validators.emailValidator,
+                          keyboardType: TextInputType.emailAddress,
+                       
                         ),
                         const SizedBox(height: 18),
 
                         // Time
                         CustomTextField(
+                          isColor: true,
                           readOnly: true,
-                          onTap: ()  {
-                           controller.selecTime(context: context);
-
+                          onTap: () async {
+                            await controller.selecTime(context: context);
+                            // After selecting time, trigger a UI update
+                            setState(() {});
                           },
                           hintText: "Select Time",
                           prefixIcon: const Icon(Icons.access_time),
                           textEditingController: controller.timeController,
                         ),
                         const SizedBox(height: 20),
-                        
-                      Obx(() {
-  return GestureDetector(
-    onTap: () {
-      _showMultiSelectDialog(
-        context,
-        title: "Select Services",
-        items: services,
-        selectedList: controller.servicesSelected.value, // Bind selected services here
-        onSave: () {
-          controller.servicesSelected.value = List.from(controller.servicesSelected.value); // Update services list
-        },
-      );
-    },
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              controller.servicesSelected.value.isEmpty
-                  ? "Select Services"
-                  : controller.servicesSelected.value.join(", "), // Show selected services
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Icon(Icons.arrow_drop_down),
-        ],
-      ),
-    ),
-  );
-})
-,
+
+                        Obx(() {
+                          return GestureDetector(
+                            onTap: () {
+                              if (controller.timeController.text.isEmpty) {
+                                EasyLoading.showInfo(
+                                    "Please select time first");
+                                return;
+                              }
+                              _showMultiSelectDialog(
+                                context,
+                                title: "Select Services",
+                                onSave: () async {
+                                  if (controller.servicesSelected.isEmpty) {
+                                    EasyLoading.showInfo(
+                                        "Please select at least one service");
+                                    return;
+                                  }
+
+                                  // After selecting services, clear barber list and selected barber
+                                   controller.barberList.clear();
+                                   controller.selectedBarbderId.value = '';
+
+                                  Navigator.pop(context);
+                                  await controller.getBarber();
+                                  // controller.servicesSelected.value = List.from(
+                                  //     controller.servicesSelected
+                                  //         .value); // Update services list
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 14),
+                              decoration: BoxDecoration(
+                                color: controller.timeController.text.isEmpty
+                                    ? Colors.grey.shade300
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.grey.shade300),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      controller.servicesSelected.isEmpty
+                                          ? "Select Services"
+                                          : controller.servicesSelected.length >
+                                                  2
+                                              ? "${controller.servicesSelected.length} services selected"
+                                              : controller.services
+                                                  .where((service) => controller
+                                                      .servicesSelected
+                                                      .contains(service.id))
+                                                  .map(
+                                                      (service) => service.name)
+                                                  .join(", "),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: controller
+                                                .timeController.text.isEmpty
+                                            ? Colors.grey.shade400
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  controller.timeController.text.isEmpty
+                                      ? const SizedBox.shrink()
+                                      : const Icon(Icons.arrow_drop_down),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
 
                         const SizedBox(height: 20),
 
-                   Obx(() {
-  return GestureDetector(
-    onTap: () {
-      _showSingleSelectDialog(
-        context,
-        title: "Select Barber",
-        items: barbers,
-        selected: controller.selectedBarbderId.value, // Bind selected barber here
-        onSelect: (value) {
-          controller.selectedBarbderId.value = value; // Update the selected barber
-        },
-      );
-    },
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              controller.selectedBarbderId.value.isEmpty
-                  ? "Select Barber"
-                  : controller.selectedBarbderId.value, // Show selected barber
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Icon(Icons.arrow_drop_down),
-        ],
-      ),
-    ),
-  );
-})
-,
-
+                        Obx(() {
+                          return GestureDetector(
+                              onTap: () {
+                                if (controller.servicesSelected.isEmpty) {
+                                  EasyLoading.showInfo(
+                                      "Please select services first");
+                                  return;
+                                }
+                                if (controller.barberList.isNotEmpty) {
+                                  _showSingleSelectDialog(
+                                    context,
+                                    title: "Select Barber",
+                                    controller: controller,
+                                    onSelect: (barberId) {
+                                      controller.selectedBarbderId.value =
+                                          barberId;
+                                    },
+                                  );
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 14),
+                                    decoration: BoxDecoration(
+                                      color: controller.barberList.isEmpty
+                                          ? Colors.grey.shade300
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            controller.selectedBarbderId.isEmpty
+                                                ? controller.message.isNotEmpty
+                                                    ? controller.message
+                                                    : "Select Barber"
+                                                : (controller.barberList
+                                                        .firstWhereOrNull(
+                                                            (barber) =>
+                                                                barber
+                                                                    .user.id ==
+                                                                controller
+                                                                    .selectedBarbderId
+                                                                    .value)
+                                                        ?.user
+                                                        .fullName ??
+                                                    controller.selectedBarbderId
+                                                        .value),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color:
+                                                  controller.message.isNotEmpty
+                                                      ? Colors.red
+                                                      : controller.barberList
+                                                              .isEmpty
+                                                          ? Colors.grey.shade400
+                                                          : Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        controller.getBarberWithDateTimeStatus
+                                                .value.isLoading
+                                            ? SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  color: AppColors.black,
+                                                ),
+                                              )
+                                            : controller.barberList.isEmpty
+                                                ? const SizedBox.shrink()
+                                                : const Icon(
+                                                    Icons.arrow_drop_down),
+                                      ],
+                                    ),
+                                  ),
+                                  if (controller.barberList.isEmpty &&
+                                      controller.message.isEmpty &&
+                                      controller.getBarberWithDateTimeStatus
+                                          .value.isSuccess) ...[
+                                    const SizedBox(height: 6),
+                                    Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: const EdgeInsets.only(
+                                            top: 6, left: 4),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.info_outline,
+                                              size: 16,
+                                              color: AppColors.app,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Expanded(
+                                              child: Text(
+                                                controller.barberList.isEmpty
+                                                    ? "No barbers available for the selected time and services."
+                                                    : "",
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: AppColors.app,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ))
+                                  ]
+                                ],
+                              ));
+                        }),
 
                         const SizedBox(height: 20),
 
@@ -451,16 +641,26 @@ class OwnerQue extends StatelessWidget {
                           hintText: "Notes",
                           prefixIcon: const Icon(Icons.note),
                           textEditingController: controller.notesController,
+                          isColor: true,
                         ),
 
                         const SizedBox(height: 25),
 
                         // Save
                         CustomButton(
-                          onTap: () {
-                            debugPrint("Barber: $selectedBarber");
-                            debugPrint("Services: $selectedServices");
-                            Navigator.pop(context);
+                          onTap: () async {
+                          if (!controller.isAllFiledFilled()) {
+                              EasyLoading.showInfo(
+                                  "Please fill all the fields");
+                              return;
+                            }
+                            debugPrint("Saving Queue");
+                            final result =
+                                await controller.registerCustomerQue();
+                            if (result){
+                              Navigator.pop(context); // Close bottom sheet
+                              controller.clearControllers(); // Clear fields
+                            }
                           },
                           fillColor: AppColors.black,
                           textColor: Colors.white,
@@ -482,9 +682,8 @@ class OwnerQue extends StatelessWidget {
   void _showSingleSelectDialog(
     BuildContext context, {
     required String title,
-    required List<String> items,
-    required String? selected,
     required Function(String) onSelect,
+    required QueController controller,
   }) {
     showDialog(
       context: context,
@@ -494,37 +693,37 @@ class OwnerQue extends StatelessWidget {
           title: Text(title),
           content: SizedBox(
             width: double.maxFinite,
-            child: ListView(
-              shrinkWrap: true,
-              children: items.map((item) {
-                return RadioListTile<String>(
-                  title:Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundColor: AppColors.gray300,
-                        child: Text(
-                          item[0],
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+            child: Obx(() => ListView(
+                  shrinkWrap: true,
+                  children: controller.barberList.map((barber) {
+                    return RadioListTile<String>(
+                      title: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundColor: AppColors.gray300,
+                            child: Text(
+                              barber.user.fullName[0],
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          Text(barber.user.fullName),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Text(item),
-                    ],
-                  ),
-                  value: item,
-                  groupValue: selected,
-                  onChanged: (value) {
-                    onSelect(value!);
-                    Navigator.pop(context);
-                  },
-                );
-              }).toList(),
-            ),
+                      value: barber.user.id,
+                      groupValue: controller.selectedBarbderId.value,
+                      onChanged: (value) {
+                        onSelect(value!);
+                        Navigator.pop(context);
+                      },
+                    );
+                  }).toList(),
+                )),
           ),
         );
       },
@@ -534,8 +733,6 @@ class OwnerQue extends StatelessWidget {
   void _showMultiSelectDialog(
     BuildContext context, {
     required String title,
-    required List<String> items,
-    required List<String> selectedList,
     required VoidCallback onSave,
   }) {
     showDialog(
@@ -550,16 +747,17 @@ class OwnerQue extends StatelessWidget {
                 width: double.maxFinite,
                 child: ListView(
                   shrinkWrap: true,
-                  children: items.map((item) {
-                    final checked = selectedList.contains(item);
+                  children: controller.services.map((service) {
+                    final checked =
+                        controller.servicesSelected.contains(service.id);
                     return CheckboxListTile(
-                      title:Row(
+                      title: Row(
                         children: [
                           CircleAvatar(
                             radius: 12,
                             backgroundColor: AppColors.gray300,
                             child: Text(
-                              item[0],
+                              service.name[0],
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 14,
@@ -568,15 +766,15 @@ class OwnerQue extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 10.0),
-                          Text(item),
+                          Text(service.name),
                         ],
                       ),
                       value: checked,
                       onChanged: (value) {
                         setState(() {
                           value == true
-                              ? selectedList.add(item)
-                              : selectedList.remove(item);
+                              ? controller.servicesSelected.add(service.id)
+                              : controller.servicesSelected.remove(service.id);
                         });
                       },
                     );
@@ -591,7 +789,6 @@ class OwnerQue extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     onSave();
-                    Navigator.pop(context);
                   },
                   child: const Text("Save"),
                 ),

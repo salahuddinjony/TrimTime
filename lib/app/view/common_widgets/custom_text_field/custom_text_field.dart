@@ -76,7 +76,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     // Determine the input text color based on the isColor flag
     final textStyle = widget.inputTextStyle ??
         TextStyle(
-          color: widget.isColor! ? Colors.white : Colors.red,
+          color: widget.isColor! ? Colors.black : Colors.red,
         );
 
     return TextFormField(

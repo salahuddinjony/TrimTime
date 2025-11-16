@@ -1,7 +1,7 @@
 
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/services/model/services_model.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/model/services_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

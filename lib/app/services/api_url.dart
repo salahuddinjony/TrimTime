@@ -1,8 +1,6 @@
-import 'package:get/get.dart';
-
 class ApiUrl {
-  // static const baseUrl = "http://10.10.20.26:8080/api/v1";
-  static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
+  static const baseUrl = "http://10.10.20.26:8080/api/v1";
+  // static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
@@ -106,9 +104,12 @@ class ApiUrl {
 
   static String fetchUserData({required String filter}) =>
       "$baseUrl/follows/$filter";
-  static String getBarbersCustomerQue({required String ownerId, required String barberId}) =>
+  static String getBarbersCustomerQue(
+          {required String ownerId, required String barberId}) =>
       "$baseUrl/bookings/barbers/$ownerId/$barberId";
-  static String onOffQueueToggle= "${baseUrl}/saloons/queue-control";
-  
-  static String getServices= "$baseUrl/services";
+  static String onOffQueueToggle = "${baseUrl}/saloons/queue-control";
+
+  static String getServices = "$baseUrl/services";
+  static const getBarberWithDateTime = "$baseUrl/bookings/barbers";
+  static const nonRegisteredBooking = "/non-registered-bookings";
 }

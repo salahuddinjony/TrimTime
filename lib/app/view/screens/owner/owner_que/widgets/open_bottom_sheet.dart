@@ -26,7 +26,7 @@ class OpenBottomSheet {
           ),
           child: DraggableScrollableSheet(
             expand: false,
-            initialChildSize: 0.82,
+            initialChildSize: 0.7,
             minChildSize: 0.5,
             maxChildSize: 0.95,
             builder: (_, scrollController) {
@@ -64,6 +64,7 @@ class OpenBottomSheet {
                           hintText: "Name",
                           prefixIcon: const Icon(Icons.person),
                           textEditingController: controller.nameController,
+                          validator: Validators.nameValidator,
                         ),
                         const SizedBox(height: 18),
 
@@ -75,6 +76,7 @@ class OpenBottomSheet {
                           textEditingController: controller.emailController,
                           validator: Validators.emailValidator,
                           keyboardType: TextInputType.emailAddress,
+                          
                         ),
                         const SizedBox(height: 18),
 
@@ -113,7 +115,7 @@ class OpenBottomSheet {
                                   }
 
                                   // After selecting services, clear barber list and selected barber
-                                  controller.barberList.clear();
+                                  // controller.barberList.clear();
                                   controller.selectedBarbderId.value = '';
 
                                   Navigator.pop(context);
@@ -321,7 +323,6 @@ class OpenBottomSheet {
                                 await controller.registerCustomerQue();
                             if (result) {
                               Navigator.pop(context); // Close bottom sheet
-                              controller.clearControllers(); // Clear fields
                             }
                           },
                           fillColor: AppColors.black,

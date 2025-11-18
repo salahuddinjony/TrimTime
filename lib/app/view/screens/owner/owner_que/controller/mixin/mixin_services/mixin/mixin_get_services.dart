@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 
 mixin MixinGetServices {
-  Rx<RxStatus> getServicesStatus = Rx<RxStatus>(RxStatus.loading());
+  Rx<RxStatus> getServicesStatus = Rx<RxStatus>(RxStatus.empty());
   
   RxList<ServiceItem> servicesList = RxList<ServiceItem>();
 

@@ -117,8 +117,8 @@ mixin QueManagementMixin
 
 // Register Customer Que Controllers and Logic
 
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
+  // final TextEditingController dateController = TextEditingController();
+  // final TextEditingController timeController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -126,21 +126,21 @@ mixin QueManagementMixin
   RxList<ServiceItem> get services =>
       servicesList; // From MixinGetServices reactive list
 
-  RxList<DateTimeWiseBarber> get barberList =>
-      barberWithDateTimeList; // From GetBarberWithDateTimeMixin reactive list
+  // RxList<DateTimeWiseBarber> get barberList =>
+  //     barberWithDateTimeList; // From GetBarberWithDateTimeMixin reactive list
 
   RxList<String> servicesSelected = <String>[].obs;
   RxString selectedBarbderId = ''.obs;
 
-  int calculateTotalServiceTime() {
-    int totalTime = 0;
-    for (var service in servicesList) {
-      if (servicesSelected.contains(service.id)) {
-        totalTime += service.duration;
-      }
-    }
-    return totalTime;
-  }
+  // int calculateTotalServiceTime() {
+  //   int totalTime = 0;
+  //   for (var service in servicesList) {
+  //     if (servicesSelected.contains(service.id)) {
+  //       totalTime += service.duration;
+  //     }
+  //   }
+  //   return totalTime;
+  // }
 
   String formattedTime(TimeOfDay time) {
     final myTime = time;
@@ -149,56 +149,56 @@ mixin QueManagementMixin
     return '${hour.toString().padLeft(2, '0')}:${myTime.minute.toString().padLeft(2, '0')} $period';
   }
 
-  Future<void> selecTime({required BuildContext context}) async {
-    final now = TimeOfDay.now();
-    TimeOfDay? picked;
-    do {
-      picked = await showTimePicker(
-        context: context,
-        initialTime: now,
-      );
-      if (picked == null) return; // User cancelled
+  // Future<void> selecTime({required BuildContext context}) async {
+  //   final now = TimeOfDay.now();
+  //   TimeOfDay? picked;
+  //   do {
+  //     picked = await showTimePicker(
+  //       context: context,
+  //       initialTime: now,
+  //     );
+  //     if (picked == null) return; // User cancelled
 
-      final pickedMinutes = picked.hour * 60 + picked.minute;
-      final nowMinutes = now.hour * 60 + now.minute;
+  //     final pickedMinutes = picked.hour * 60 + picked.minute;
+  //     final nowMinutes = now.hour * 60 + now.minute;
 
-      if (pickedMinutes <= nowMinutes) {
-        EasyLoading.showInfo(
-            'Pick a later time from now.',
-            duration: const Duration(seconds: 3));
-      } else {
-        final formattedTimeStr = formattedTime(picked);
-        timeController.text = formattedTimeStr;
-        debugPrint('Selected time: $picked');
-        if (timeController.text.isNotEmpty && calculateTotalServiceTime() > 0) {
-          barberList.clear();
-          selectedBarbderId.value = '';
-          await getBarber();
-        }
-        break; // Exit the loop if a valid time is picked
-      }
-    } while (true); // Repeat until a valid time is picked
-  }
+  //     if (pickedMinutes <= nowMinutes) {
+  //       EasyLoading.showInfo(
+  //           'Pick a later time from now.',
+  //           duration: const Duration(seconds: 3));
+  //     } else {
+  //       final formattedTimeStr = formattedTime(picked);
+  //       timeController.text = formattedTimeStr;
+  //       debugPrint('Selected time: $picked');
+  //       if (timeController.text.isNotEmpty && calculateTotalServiceTime() > 0) {
+  //         barberList.clear();
+  //         selectedBarbderId.value = '';
+  //         await getBarber();
+  //       }
+  //       break; // Exit the loop if a valid time is picked
+  //     }
+  //   } while (true); // Repeat until a valid time is picked
+  // }
 
   String get message => msg.value;
 
-  Future<void> getBarber() async {
-    // Use the time in hh:mm AM/PM format as required by the API
-    String timeText = timeController.text.trim();
-    await getBarberWithDateTime(
-      time: timeText,
-      totalServicesTime: calculateTotalServiceTime().toString(),
-    );
-  }
+  // Future<void> getBarber() async {
+  //   // Use the time in hh:mm AM/PM format as required by the API
+  //   String timeText = timeController.text.trim();
+  //   await getBarberWithDateTime(
+  //     time: timeText,
+  //     totalServicesTime: calculateTotalServiceTime().toString(),
+  //   );
+  // }
 
   Future<bool> registerCustomerQue() async {
     // Use the time in hh:mm AM/PM format for appointmentAt
-    String timeText = timeController.text.trim();
+    // String timeText = timeController.text.trim();
     final success = await registerNonRegisteredBookings(
       fullName: nameController.text,
       email: emailController.text,
-      barberId: selectedBarbderId.value,
-      appointmentAt: timeText,
+      // barberId: selectedBarbderId.value,
+      // appointmentAt: timeText,
       services: servicesSelected.isEmpty ? null : servicesSelected.toList(),
       notes: notesController.text,
     );
@@ -206,12 +206,12 @@ mixin QueManagementMixin
   }
 
   bool isAllFiledFilled() {
-    if (timeController.text.isNotEmpty &&
+    if (
         nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
-        servicesSelected.isNotEmpty &&
-        selectedBarbderId.value.isNotEmpty) {
+        servicesSelected.isNotEmpty) {
       debugPrint('All fields are filled.');
+      
       return true;
     } else {
       return false;
@@ -220,12 +220,12 @@ mixin QueManagementMixin
 
 // Clear all controllers, barberList and selections after successful booking
   void clearControllers() {
-    timeController.clear();
+    // timeController.clear();
     nameController.clear();
     emailController.clear();
     notesController.clear();
     servicesSelected.clear();
     selectedBarbderId.value = '';
-    barberList.clear();
+    // barberList.clear();
   }
 }

@@ -14,7 +14,7 @@ mixin DateWiseBookingsMixin {
   RxInt selectedIndex = 0.obs;
 
   final List<DateTime> dates = List.generate(
-    21,
+    28, // Generate dates for the next 28 days
     (index) => DateTime.now().add(Duration(days: index)),
   );
 

@@ -6,56 +6,56 @@ import 'package:get/get.dart';
 
 class selectShowDialog {
 
-  static void showSingleSelectDialog(
-    BuildContext context, {
-    required String title,
-    required Function(String) onSelect,
-    required QueController controller,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: AppColors.white,
-          title: Text(title),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: Obx(() => ListView(
-                  shrinkWrap: true,
-                  children: controller.barberList.map((barber) {
-                    return RadioListTile<String>(
-                      title: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 12,
-                            backgroundColor: AppColors.gray300,
-                            child: Text(
-                              barber.user.fullName[0],
-                              style: const TextStyle(
-                                color: AppColors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(barber.user.fullName),
-                        ],
-                      ),
-                      value: barber.user.id,
-                      groupValue: controller.selectedBarbderId.value,
-                      onChanged: (value) {
-                        onSelect(value!);
-                        Navigator.pop(context);
-                      },
-                    );
-                  }).toList(),
-                )),
-          ),
-        );
-      },
-    );
-  }
+  // static void showSingleSelectDialog(
+  //   BuildContext context, {
+  //   required String title,
+  //   required Function(String) onSelect,
+  //   required QueController controller,
+  // }) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         backgroundColor: AppColors.white,
+  //         title: Text(title),
+  //         content: SizedBox(
+  //           width: double.maxFinite,
+  //           child: Obx(() => ListView(
+  //                 shrinkWrap: true,
+  //                 children: controller.barberList.map((barber) {
+  //                   return RadioListTile<String>(
+  //                     title: Row(
+  //                       children: [
+  //                         CircleAvatar(
+  //                           radius: 12,
+  //                           backgroundColor: AppColors.gray300,
+  //                           child: Text(
+  //                             barber.user.fullName[0],
+  //                             style: const TextStyle(
+  //                               color: AppColors.white,
+  //                               fontSize: 14,
+  //                               fontWeight: FontWeight.w600,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         const SizedBox(width: 8),
+  //                         Text(barber.user.fullName),
+  //                       ],
+  //                     ),
+  //                     value: barber.user.id,
+  //                     groupValue: controller.selectedBarbderId.value,
+  //                     onChanged: (value) {
+  //                       onSelect(value!);
+  //                       Navigator.pop(context);
+  //                     },
+  //                   );
+  //                 }).toList(),
+  //               )),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   static void showMultiSelectDialog(
     BuildContext context, {

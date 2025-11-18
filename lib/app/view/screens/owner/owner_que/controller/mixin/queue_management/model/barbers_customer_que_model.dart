@@ -60,9 +60,8 @@ class BarbersQueData {
       image: json['image'],
       name: json['name'],
       status: json['status'],
-      schedule: json['schedule'] != null
-          ? Schedule.fromJson(json['schedule'])
-          : null,
+      schedule:
+          json['schedule'] != null ? Schedule.fromJson(json['schedule']) : null,
       bookings: (json['bookings'] as List? ?? [])
           .map((e) => Booking.fromJson(e))
           .toList(),
@@ -133,12 +132,16 @@ class Slot {
 class Booking {
   final String? startTime;
   final String? endTime;
+  final String? customerName;
+  final String? customerImage;
   final List<String> services;
   final int? totalTime;
 
   Booking({
     this.startTime,
     this.endTime,
+    this.customerName,
+    this.customerImage,
     this.services = const [],
     this.totalTime,
   });
@@ -147,7 +150,10 @@ class Booking {
     return Booking(
       startTime: json['startTime'],
       endTime: json['endTime'],
-      services: (json['services'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      customerName: json['customerName'],
+      customerImage: json['customerImage'],
+      services:
+          (json['services'] as List?)?.map((e) => e.toString()).toList() ?? [],
       totalTime: json['totalTime'],
     );
   }
@@ -157,6 +163,8 @@ class Booking {
       'startTime': startTime,
       'endTime': endTime,
       'services': services,
+      'customerName': customerName,
+      'customerImage': customerImage,
       'totalTime': totalTime,
     };
   }

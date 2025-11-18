@@ -1,6 +1,7 @@
 class SingleSaloonModel {
   final String id;
   final String userId;
+  final bool isMe;
   final String shopOwnerName;
   final String shopOwnerEmail;
   final String shopOwnerPhone;
@@ -27,6 +28,7 @@ class SingleSaloonModel {
   SingleSaloonModel({
     required this.id,
     required this.userId,
+    required this.isMe,
     required this.shopOwnerName,
     required this.shopOwnerEmail,
     required this.shopOwnerPhone,
@@ -58,6 +60,7 @@ class SingleSaloonModel {
     return SingleSaloonModel(
       id: data['id']?.toString() ?? '',
       userId: data['userId']?.toString() ?? '',
+      isMe: data['isMe'] ?? false,
       shopOwnerName: data['shopOwnerName']?.toString() ?? '',
       shopOwnerEmail: data['shopOwnerEmail']?.toString() ?? '',
       shopOwnerPhone: data['shopOwnerPhone']?.toString() ?? '',

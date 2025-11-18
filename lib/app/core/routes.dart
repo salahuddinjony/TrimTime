@@ -1098,11 +1098,13 @@ class AppRouter {
             final extra = state.extra as Map<String, dynamic>? ?? {};
             final userId = extra['userId'] as String?;
             final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'];
 
             return _buildPageWithAnimation(
               child: ShopProfileScreen(
                 userId: userId ?? '',
                 userRole: userRole!,
+                controller: controller,
               ),
               state: state,
             );

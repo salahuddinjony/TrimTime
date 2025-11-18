@@ -50,21 +50,24 @@ mixin MixinSelonManagement {
   }
 
   Future<bool> toggleFollow(
-      {required String userId, bool isFollowing = false, bool isfollowUnfollow=true}) async {
+      {required String userId,
+      bool isFollowing = false,
+      bool isfollowUnfollow = true}) async {
     // Optimistically update the follow status
-   if(isfollowUnfollow){
-     setIsFollowing();
-   }
+    if (isfollowUnfollow) {
+      setIsFollowing();
+    }
 
     try {
-      final response =( this.isFollowing.value == true && isfollowUnfollow==true)
-          ? await ApiClient.postData(
-              ApiUrl.toggleFollowSalon,
-              jsonEncode({"followingId": userId}),
-            )
-          : await ApiClient.deleteData(
-              ApiUrl.makeUnfollow(id: userId),
-            );
+      final response =
+          (this.isFollowing.value == true && isfollowUnfollow == true)
+              ? await ApiClient.postData(
+                  ApiUrl.toggleFollowSalon,
+                  jsonEncode({"followingId": userId}),
+                )
+              : await ApiClient.deleteData(
+                  ApiUrl.makeUnfollow(id: userId),
+                );
 
       if (response.statusCode == 200) {
         return true;

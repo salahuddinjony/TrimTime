@@ -2,9 +2,7 @@ import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
-import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -20,29 +18,36 @@ import 'package:get/get.dart';
 
 import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
-class ShopProfileScreen extends StatelessWidget {
+class ShopProfileScreen<T> extends StatelessWidget {
   final String userId;
   final UserRole userRole;
+  final T controller;
 
-  ShopProfileScreen({super.key, required this.userId, required this.userRole});
+  ShopProfileScreen(
+      {super.key,
+      required this.userId,
+      required this.userRole,
+      required this.controller});
 
-  BarberHomeController get controller {
-    // Initialize or get the controller with the userId tag
-    if (Get.isRegistered<BarberHomeController>(tag: userId)) {
-      return Get.find<BarberHomeController>(tag: userId);
-    } else {
-      final ctrl = Get.put(BarberHomeController(), tag: userId);
-      // Fetch salon data once when controller is created
-      ctrl.getSelonData(userId: userId);
-      // Don't set isFollowing here - wait for data to load
-      // ctrl.isFollowing.value will be updated after data fetch completes
+  // BarberHomeController get controller {
+  //   // Initialize or get the controller with the userId tag
+  //   if (Get.isRegistered<BarberHomeController>(tag: userId)) {
+  //     return Get.find<BarberHomeController>(tag: userId);
+  //   } else {
+  //     final ctrl = Get.put(BarberHomeController(), tag: userId);
+  //     // Fetch salon data once when controller is created
+  //     ctrl.getSelonData(userId: userId);
+  //     // Don't set isFollowing here - wait for data to load
+  //     // ctrl.isFollowing.value will be updated after data fetch completes
 
-      return ctrl;
-    }
-  }
+  //     return ctrl;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final dynamic controller = this.controller;
+    controller.getSelonData(userId: userId);
     return Obx(() {
       final selonData = controller.selonList.value;
 
@@ -132,43 +137,44 @@ class ShopProfileScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                    
                                       ],
                                     ),
                               const SizedBox(height: 10),
-                              isLoading
-                                  ? Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        width: 80,
-                                        height: 20,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        _customButton(
-                                            controller.isFollowing.value
-                                                ? "Unfollow"
-                                                : "Follow",
-                                            controller.isFollowing.value
-                                                ? Icons.person_remove
-                                                : Icons.person_add,
-                                            controller,
-                                            controller.isFollowing.value,
-                                            selonData?.userId ?? ""),
-                                        const SizedBox(width: 10),
-                                        _iconButton(
-                                            Assets.images.chartSelected.image(
+                              if (!(selonData?.isMe ?? false)) ...[
+                                isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 80,
+                                          height: 20,
                                           color: Colors.white,
-                                          height: 15,
-                                        )),
-                                      ],
-                                    ),
-                              const SizedBox(height: 20),
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          _customButton(
+                                              controller.isFollowing.value
+                                                  ? "Unfollow"
+                                                  : "Follow",
+                                              controller.isFollowing.value
+                                                  ? Icons.person_remove
+                                                  : Icons.person_add,
+                                              controller,
+                                              controller.isFollowing.value,
+                                              selonData?.userId ?? ""),
+                                          const SizedBox(width: 10),
+                                          _iconButton(
+                                              Assets.images.chartSelected.image(
+                                            color: Colors.white,
+                                            height: 15,
+                                          )),
+                                        ],
+                                      ),
+                                const SizedBox(height: 20),
+                              ],
                               isLoading
                                   ? Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
@@ -268,7 +274,8 @@ class ShopProfileScreen extends StatelessWidget {
                                         SizedBox(width: 10.w),
                                         GestureDetector(
                                           onTap: () {
-                                            _showInformationDialog(context, selonData!);
+                                            _showInformationDialog(
+                                                context, selonData!);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(5.r),
@@ -320,7 +327,9 @@ class ShopProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Rating Badge Section
-                    if (selonData != null && selonData.ratingCount > 0 && !isLoading)
+                    if (selonData != null &&
+                        selonData.ratingCount > 0 &&
+                        !isLoading)
                       Center(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 16.h),
@@ -386,7 +395,6 @@ class ShopProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            
                               CommonProfileTotalCard(
                                 title: AppStrings.ratings,
                                 value: selonData != null
@@ -457,13 +465,16 @@ class ShopProfileScreen extends StatelessWidget {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          final barber = selonData?.barbers[index];
+                                          final barber =
+                                              selonData?.barbers[index];
                                           if (barber != null) {
                                             // Use userId if available, otherwise use id
-                                            final barberId = barber.userId ?? barber.id;
-                                            debugPrint("Barber ${barber.fullName} clicked");
+                                            final barberId =
+                                                barber.userId ?? barber.id;
+                                            debugPrint(
+                                                "Barber ${barber.fullName} clicked");
                                             debugPrint("Barber ID: $barberId");
-                                            
+
                                             // Navigate to professional profile with barber ID
                                             AppRouter.route.pushNamed(
                                               RoutePath.professionalProfile,
@@ -565,7 +576,8 @@ class ShopProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        AppColors.orange500.withValues(alpha: .1),
+                                        AppColors.orange500
+                                            .withValues(alpha: .1),
                                         AppColors.last.withValues(alpha: .05),
                                       ],
                                       begin: Alignment.topLeft,
@@ -573,8 +585,8 @@ class ShopProfileScreen extends StatelessWidget {
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color:
-                                          AppColors.orange500.withValues(alpha: .3),
+                                      color: AppColors.orange500
+                                          .withValues(alpha: .3),
                                       width: 1,
                                     ),
                                     boxShadow: [
@@ -656,7 +668,7 @@ class ShopProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w700,
                                               color: AppColors.black,
                                             ),
-                                          ), 
+                                          ),
                                         ],
                                       ),
                                       // SizedBox(height: 12.h),
@@ -734,9 +746,7 @@ class ShopProfileScreen extends StatelessWidget {
                                       //     ),
                                       //   ),
                                       // ),
-                                      
                                     ],
-
                                   ),
                                 );
                               }),
@@ -811,7 +821,8 @@ class ShopProfileScreen extends StatelessWidget {
     });
   }
 
-  void _showInformationDialog(BuildContext context, SingleSaloonModel selonData) {
+  void _showInformationDialog(
+      BuildContext context, SingleSaloonModel selonData) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1016,10 +1027,11 @@ class ShopProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _customButton(String text, IconData icon,
-      BarberHomeController controller, bool isFollowing, String userId) {
+  Widget _customButton(String text, IconData icon, T controller,
+      bool isFollowing, String userId) {
     return GestureDetector(
       onTap: () {
+        final dynamic controller = this.controller;
         controller.toggleFollow(userId: userId);
       },
       child: Container(

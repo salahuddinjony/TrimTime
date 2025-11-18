@@ -17,7 +17,6 @@ import '../../../../../core/routes.dart';
 import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class QueScreen extends StatelessWidget {
-
   Future<void> _refresh(BuildContext context) async {
     if (controller != null) {
       await controller!.fetchBarbersCustomerQue(barberId: barberId);
@@ -328,34 +327,40 @@ class QueScreen extends StatelessWidget {
         var customer = bookings[index];
         return Column(
           children: [
-            Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: generateColor(index),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                generateIcon(index),
-                size: 32,
-                color: Colors.white,
-              ),
-            ),
+            customer.customerImage != null && customer.customerImage!.isNotEmpty
+                ? CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                        CachedNetworkImageProvider(customer.customerImage!),
+                  )
+                : Container(
+                    height: 52,
+                    width: 52,
+                    decoration: BoxDecoration(
+                      color: generateColor(index),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      generateIcon(index),
+                      size: 32,
+                      color: Colors.white,
+                    ),
+                  ),
             const SizedBox(height: 6),
             CustomText(
-              text: "${customer.services.length} Services",
+              text: "${customer.customerName ?? 'N/A'}",
               fontWeight: FontWeight.w500,
-              fontSize: 10,
+              fontSize: 15,
               color: AppColors.gray500,
               maxLines: 1,
             ),
-          
             Expanded(
               child: Chip(
                 label: Container(
-                  padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+                  padding: const EdgeInsets.only(
+                      left: 0, right: 0, top: 0, bottom: 0),
                   child: CustomText(
-                    text: "${customer.startTime}-${customer.endTime}" ?? 'N/A',
+                    text: "${customer.startTime}-${customer.endTime}",
                     fontWeight: FontWeight.w500,
                     fontSize: 10,
                     color: AppColors.black,

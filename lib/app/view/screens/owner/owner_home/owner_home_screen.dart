@@ -76,6 +76,16 @@ class OwnerHomeScreen extends StatelessWidget {
               }
             },
             onCalender: () {
+              debugPrint("Calendar button clicked");
+              debugPrint("User Role: ${controller.userRole}");
+              if (controller.userRole == "SALOON_OWNER") {
+                context.pushNamed(RoutePath.ownerRequestBooking,
+                extra: {
+                  'userRole': userRole,
+                  'controller': controller,
+                });
+                return;
+              }
               AppRouter.route
                   .pushNamed(RoutePath.scheduleScreen, extra: userRole);
             },
@@ -347,7 +357,8 @@ class OwnerHomeScreen extends StatelessWidget {
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
                         AppRouter.route
-                            .pushNamed(RoutePath.recentRequestScreen, extra: {
+                            .pushNamed(RoutePath.recentRequestScreen,
+                          extra: {
                           'userRole': userRole,
                           'controller': controller,
                         });
@@ -392,16 +403,22 @@ class OwnerHomeScreen extends StatelessWidget {
                                   extra: {
                                     'userRole': userRole,
                                     'barberId': barberId,
-                                     'isForActionButton': true,
-                                     if (jobApplicationsList[index].status == 'PENDING')
-                                      ...{
-                                        'onActionApprove': () {
-                                          controller.updateJobStatus(applicationId: jobApplicationsList[index].id, status: 'COMPLETED');
-                                        },
-                                        'onActionReject': () {
-                                          controller.updateJobStatus(applicationId: jobApplicationsList[index].id, status: 'REJECTED');
-                                        },
+                                    'isForActionButton': true,
+                                    if (jobApplicationsList[index].status ==
+                                        'PENDING') ...{
+                                      'onActionApprove': () {
+                                        controller.updateJobStatus(
+                                            applicationId:
+                                                jobApplicationsList[index].id,
+                                            status: 'COMPLETED');
                                       },
+                                      'onActionReject': () {
+                                        controller.updateJobStatus(
+                                            applicationId:
+                                                jobApplicationsList[index].id,
+                                            status: 'REJECTED');
+                                      },
+                                    },
                                   },
                                 );
                               },
@@ -609,6 +626,7 @@ class OwnerHomeScreen extends StatelessWidget {
                                         extra: {
                                           'userRole': userRole,
                                           'userId': feed.saloonOwner!.userId,
+                                          'controller': controller,
                                         },
                                       );
                                     }

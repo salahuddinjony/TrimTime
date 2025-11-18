@@ -372,6 +372,7 @@ class BarberHomeScreen extends StatelessWidget {
                                           extra: {
                                             'userRole': userRole,
                                             'userId': feed.saloonOwner!.userId,
+                                            'controller': controller,
                                           },
                                         );
                                       }

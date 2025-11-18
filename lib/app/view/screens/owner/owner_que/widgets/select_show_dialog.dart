@@ -3,9 +3,7 @@ import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_cont
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class selectShowDialog {
-
   // static void showSingleSelectDialog(
   //   BuildContext context, {
   //   required String title,
@@ -126,5 +124,5 @@ class selectShowDialog {
         );
       },
     );
-  } 
+  }
 }

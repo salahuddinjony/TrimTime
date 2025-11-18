@@ -19,7 +19,8 @@ mixin MixinNonRegisteredBookings {
       required List<String>? services,
       required String notes}) async {
     try {
-      final saloonOwnerId = await SharePrefsHelper.getString(AppConstants.userId);
+      final saloonOwnerId =
+          await SharePrefsHelper.getString(AppConstants.userId);
       nonRegisteredBookingStatus.value = RxStatus.loading();
       EasyLoading.show(status: 'Creating booking...');
       final Map<String, dynamic> body = {
@@ -38,11 +39,22 @@ mixin MixinNonRegisteredBookings {
         ApiUrl.nonRegisteredBooking,
         jsonEncode(body),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         nonRegisteredBookingStatus.value = RxStatus.success();
         debugPrint('Non-registered booking successful: ${response.body}');
         EasyLoading.showSuccess('Booking created successfully');
+
         return true;
+      } else if (response.statusCode == 404) {
+        final responseBody = response.body;
+        final errorMessage = responseBody['message'] ?? 'No Barbers Available';
+        EasyLoading.showInfo(errorMessage,
+            duration: const Duration(seconds: 4));
+        nonRegisteredBookingStatus.value = RxStatus.error(
+            'Failed to create non-registered booking: ${response.statusCode} - $errorMessage');
+        debugPrint(
+            'Failed to create non-registered booking: ${response.statusCode} - ${response.body}');
+        return false;
       } else {
         EasyLoading.showError('Failed to create booking');
         nonRegisteredBookingStatus.value = RxStatus.error(

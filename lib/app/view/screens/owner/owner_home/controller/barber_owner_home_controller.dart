@@ -1,3 +1,5 @@
+import 'package:barber_time/app/utils/enums/mixin_user_info_from_storage.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_job_history.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
@@ -13,11 +15,11 @@ class BarberOwnerHomeController extends GetxController
     with
         MixinFeedsManagement,
         MixinSelonManagement,
-        ScheduleManagementMixin,
+        ScheduleManagementMixin, 
         BarberJobHistoryMixin,
         JobApplicationManageMixin,
         DashboardDataMixin,
-        DateWiseBookingsMixin {
+        DateWiseBookingsMixin,UserInfoFromStorage{
   @override
   void onInit() {
     super.onInit();
@@ -26,6 +28,7 @@ class BarberOwnerHomeController extends GetxController
     fetchDateWiseBookings();
     // fetchScheduleData(useDay: false); // Fetch all schedule data
     getHomeFeeds();
+    loadUserInfo();
 
     debugPrint("Barber Owner Home Controller initialized");
   }

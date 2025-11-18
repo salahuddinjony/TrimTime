@@ -4,14 +4,12 @@ import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_get_barber_with_date_time/mixin_get_barber_with_date_time.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_get_barber_with_date_time/model/date_time_wise_barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_non_registered_bookings/mixin_non_registered_bookings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/mixin/mixin_get_services.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/model/services_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/queue_management/model/barbers_customer_que_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/queue_management/model/que_model_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 mixin QueManagementMixin
@@ -117,8 +115,8 @@ mixin QueManagementMixin
 
 // Register Customer Que Controllers and Logic
 
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
+  // final TextEditingController dateController = TextEditingController();
+  // final TextEditingController timeController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -126,21 +124,21 @@ mixin QueManagementMixin
   RxList<ServiceItem> get services =>
       servicesList; // From MixinGetServices reactive list
 
-  RxList<DateTimeWiseBarber> get barberList =>
-      barberWithDateTimeList; // From GetBarberWithDateTimeMixin reactive list
+  // RxList<DateTimeWiseBarber> get barberList =>
+  //     barberWithDateTimeList; // From GetBarberWithDateTimeMixin reactive list
 
   RxList<String> servicesSelected = <String>[].obs;
   RxString selectedBarbderId = ''.obs;
 
-  int calculateTotalServiceTime() {
-    int totalTime = 0;
-    for (var service in servicesList) {
-      if (servicesSelected.contains(service.id)) {
-        totalTime += service.duration;
-      }
-    }
-    return totalTime;
-  }
+  // int calculateTotalServiceTime() {
+  //   int totalTime = 0;
+  //   for (var service in servicesList) {
+  //     if (servicesSelected.contains(service.id)) {
+  //       totalTime += service.duration;
+  //     }
+  //   }
+  //   return totalTime;
+  // }
 
   String formattedTime(TimeOfDay time) {
     final myTime = time;
@@ -202,32 +200,36 @@ mixin QueManagementMixin
       services: servicesSelected.isEmpty ? null : servicesSelected.toList(),
       notes: notesController.text,
     );
+    if (success) {
+      clearControllers();
+      fetchQueList();
+      debugPrint('Customer que registered successfully.');
+    } else {
+      debugPrint('Failed to register customer que-----!!!!!!!.');
+    }
     return success;
   }
 
   bool isAllFiledFilled() {
-    if (
-        nameController.text.isNotEmpty &&
+    if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         servicesSelected.isNotEmpty) {
       debugPrint('All fields are filled.');
+
       return true;
     } else {
-      debugPrint('Not all fields are filled.');
-      debugPrint(
-          'name: ${nameController.text}, email: ${emailController.text}, services: ${servicesSelected},');
       return false;
     }
   }
 
 // Clear all controllers, barberList and selections after successful booking
   void clearControllers() {
-    timeController.clear();
+    // timeController.clear();
     nameController.clear();
     emailController.clear();
     notesController.clear();
     servicesSelected.clear();
     selectedBarbderId.value = '';
-    barberList.clear();
+    // barberList.clear();
   }
 }

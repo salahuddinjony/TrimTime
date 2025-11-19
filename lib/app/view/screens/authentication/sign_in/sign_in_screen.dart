@@ -10,6 +10,7 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_rich_text/custom_rich_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/onboarding/chose_auth/authenticator_names.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,14 @@ class SignInScreen extends StatelessWidget {
     final userRole = GoRouterState.of(context).extra as UserRole?;
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: AppColors.linearFirst,
+        title: Text(
+          AuthenticatorNames.displayNameFromUserRole(userRole),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Obx(() {
           return Column(
@@ -45,7 +54,7 @@ class SignInScreen extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding:  EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                           horizontal: 20.w, vertical: 30.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +62,7 @@ class SignInScreen extends StatelessWidget {
                           SizedBox(
                             height: 30.h,
                           ),
-                           CustomText(
+                          CustomText(
                             textAlign: TextAlign.start,
                             text: AppStrings.welcomeBack,
                             fontWeight: FontWeight.w700,
@@ -76,7 +85,6 @@ class SignInScreen extends StatelessWidget {
                               }),
                           //ToDo ==========✅✅ password ✅✅==========
                           CustomFromCard(
-
                               isPassword: true,
                               hinText: AppStrings.enterYourPassword,
                               title: AppStrings.password,
@@ -100,7 +108,7 @@ class SignInScreen extends StatelessWidget {
                                       "Checkbox clicked, Remember value: ${authController.isRemember.value}");
                                 },
                               ),
-                               CustomText(
+                              CustomText(
                                 top: 12.h,
                                 text: AppStrings.rememberMe,
                                 fontSize: 14.sp,
@@ -111,7 +119,8 @@ class SignInScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  AppRouter.route.pushNamed(RoutePath.forgetPasswordScreen);
+                                  AppRouter.route.pushNamed(
+                                      RoutePath.forgetPasswordScreen);
                                   debugPrint("Forgot Password Clicked");
                                   // authController.forgetMethod();
                                 },
@@ -132,13 +141,14 @@ class SignInScreen extends StatelessWidget {
               ),
               Padding(
                   padding:
-                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                   child: Column(
                     children: [
                       //ToDo ==========✅✅ Sing In Button✅✅==========
                       CustomButton(
                         onTap: () {
-                          authController.signIn(userRole: userRole?.name.toString());
+                          authController.signIn(
+                              userRole: userRole?.name.toString());
                           // if (userRole == UserRole.user) {
                           //   AppRouter.route.goNamed(RoutePath.homeScreen, extra: userRole);
                           // } else if (userRole == UserRole.barber) {
@@ -148,7 +158,6 @@ class SignInScreen extends StatelessWidget {
                           // } else {
                           //   debugPrint('No route selected');
                           // }
-                      
                         },
                         title: AppStrings.signIn,
                         fillColor: Colors.black,
@@ -185,8 +194,3 @@ class SignInScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

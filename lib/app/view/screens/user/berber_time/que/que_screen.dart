@@ -354,19 +354,28 @@ class QueScreen extends StatelessWidget {
               color: AppColors.gray500,
               maxLines: 1,
             ),
-            Expanded(
-              child: Chip(
-                label: Container(
-                  padding: const EdgeInsets.only(
-                      left: 0, right: 0, top: 0, bottom: 0),
-                  child: CustomText(
-                    text: "${customer.startTime}-${customer.endTime}",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 10,
-                    color: AppColors.black,
-                    maxLines: null,
-                    overflow: TextOverflow.visible,
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(6),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: CustomText(
+                  text: "${customer.startTime}-${customer.endTime}",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 10,
+                  color: AppColors.black,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

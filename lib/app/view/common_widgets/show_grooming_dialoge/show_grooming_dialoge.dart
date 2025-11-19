@@ -52,7 +52,7 @@ void showGroomingDialog(
   );
 }
 
-Widget _buildPoint(String title, String description) {
+Widget buildPoint(String title, String description) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: Row(

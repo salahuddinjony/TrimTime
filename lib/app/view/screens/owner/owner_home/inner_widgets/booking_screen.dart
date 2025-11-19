@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -129,6 +128,7 @@ class OwnerRequestBooking extends StatelessWidget {
                     text: DateTime.tryParse(bookingData.bookingDate)
                             ?.formatDate() ??
                         '',
+                    subtitle: bookingData.status.safeCap(),
                   ),
                   SizedBox(
                     height: 8,
@@ -158,7 +158,7 @@ class OwnerRequestBooking extends StatelessWidget {
                   IconTextRow(
                     icon: Icons.cut,
                     text: 'Barber: ${bookingData.barberName}',
-                    subtitle: bookingData.status,
+                    subtitle: null,
                   ),
                   SizedBox(
                     height: 8,
@@ -256,29 +256,30 @@ class OwnerRequestBooking extends StatelessWidget {
                   flex: 5,
                   child: CustomButton(
                     onTap: () {
+
                       context.pop();
                     },
                     textColor: AppColors.white,
                     fillColor: AppColors.secondary,
-                    title: "Cancel",
+                    title: "Booking Cancel",
                   ),
                 ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Expanded(
-                  flex: 5,
-                  child: CustomButton(
-                    onTap: () {
-                      context.pushNamed(
-                        RoutePath.rescheduleScreen,
-                      );
-                    },
-                    textColor: AppColors.white,
-                    fillColor: AppColors.secondary,
-                    title: "Reschedule",
-                  ),
-                ),
+                // SizedBox(
+                //   width: 8.w,
+                // ),
+                // Expanded(
+                //   flex: 5,
+                //   child: CustomButton(
+                //     onTap: () {
+                //       context.pushNamed(
+                //         RoutePath.rescheduleScreen,
+                //       );
+                //     },
+                //     textColor: AppColors.white,
+                //     fillColor: AppColors.secondary,
+                //     title: "Reschedule",
+                //   ),
+                // ),
               ],
             ),
           ],

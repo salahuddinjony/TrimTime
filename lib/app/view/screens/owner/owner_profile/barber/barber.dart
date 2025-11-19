@@ -1,5 +1,4 @@
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';

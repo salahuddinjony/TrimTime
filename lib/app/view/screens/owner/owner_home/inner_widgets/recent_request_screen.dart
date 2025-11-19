@@ -46,7 +46,7 @@ class RecentRequestScreen extends StatelessWidget {
 
     // Now controller is guaranteed to be non-null
     final nonNullController = controller;
-    final nonNullUserRole = userRole;
+    // final nonNullUserRole = userRole;
     return Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(

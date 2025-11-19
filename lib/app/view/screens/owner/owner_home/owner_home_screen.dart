@@ -10,8 +10,6 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_hiring_pending_card/custom_hiring_pending_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_info_card/custom_info_card.dart';
-import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
-import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';

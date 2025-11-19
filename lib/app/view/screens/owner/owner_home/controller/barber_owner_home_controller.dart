@@ -1,5 +1,4 @@
 import 'package:barber_time/app/utils/enums/mixin_user_info_from_storage.dart';
-import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_job_history.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
@@ -8,7 +7,6 @@ import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/mixin/mixin_date_wise_bookings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/mixin/mixin_deshboard_data.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/mixin/mixin_job_app_manage.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BarberOwnerHomeController extends GetxController

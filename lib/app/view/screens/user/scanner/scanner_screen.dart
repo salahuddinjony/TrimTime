@@ -293,7 +293,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                                 filter:
                                     ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
                                 child: Container(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.black.withValues(alpha: .3),
                                 ),
                               ),
 
@@ -305,10 +305,10 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     vertical: 24.h,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                      color: Colors.white.withOpacity(0.3),
+                                      color: Colors.white.withValues(alpha: 0.3),
                                       width: 2,
                                     ),
                                   ),
@@ -328,7 +328,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                                               padding: const EdgeInsets.all(20),
                                               decoration: BoxDecoration(
                                                 color: Colors.white
-                                                    .withOpacity(0.2),
+                                                    .withValues(alpha: 0.2),
                                                 shape: BoxShape.circle,
                                               ),
                                               child: const Icon(
@@ -392,7 +392,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
             // Scan Prompt (only when not verifying)
             Obx(() {
-              if (!(scannerController?.isVerifying.value ?? false)) {
+              if (!(scannerController.isVerifying.value)) {
                 return _buildScanPromptWidget();
               }
               return const SizedBox.shrink();
@@ -440,10 +440,10 @@ class _ScannerScreenState extends State<ScannerScreen>
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.white.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -452,7 +452,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         children: [
           Icon(
             Icons.qr_code_scanner_rounded,
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             size: 28,
           ),
           const SizedBox(width: 12),
@@ -461,7 +461,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             style: TextStyle(
               fontSize: 15.sp,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
         ],

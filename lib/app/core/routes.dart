@@ -225,7 +225,7 @@ class AppRouter {
 
             return _buildPageWithAnimation(
               child: FollowingScreen(
-                userRole: userRole!,
+                userRole: userRole,
                 controller: controller!,
               ),
               state: state,

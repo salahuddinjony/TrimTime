@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/common_msg_and_follow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -11,6 +12,7 @@ class CommonProfileCard extends StatelessWidget {
   final String imageUrl;
   final VoidCallback? onEditTap;
   final bool showEditIcon;
+  final UserRole? userRole;
 
   const CommonProfileCard({
     super.key,
@@ -19,6 +21,7 @@ class CommonProfileCard extends StatelessWidget {
     required this.imageUrl,
     this.onEditTap,
     this.showEditIcon = true,
+    this.userRole,
   });
 
   @override
@@ -51,7 +54,7 @@ class CommonProfileCard extends StatelessWidget {
                 color: AppColors.black,
               ),
               const SizedBox(height: 10),
-              Row(
+              if(userRole != UserRole.owner && userRole != null)  Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   customButton(true ? "Unfollow" : "Follow", Icons.person_add),
@@ -62,6 +65,7 @@ class CommonProfileCard extends StatelessWidget {
                   )),
                 ],
               ),
+            
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),

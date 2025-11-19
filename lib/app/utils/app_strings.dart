@@ -19,7 +19,7 @@ class AppStrings {
   static const getStarted = "Get Started";
   static const startWithSign = "Start with sign up or sign in";
   static const signIn = "Sign in";
-  static const welcomeBack = "Welcome \n Back";
+  static const welcomeBack = "Welcome Back!";
   static const email = "Email";
   static const messaging = "Messaging";
   static const enterYourEmail = "Enter your email";

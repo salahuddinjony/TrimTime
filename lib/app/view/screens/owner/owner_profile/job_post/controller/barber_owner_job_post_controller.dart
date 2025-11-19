@@ -334,7 +334,7 @@ class BarberOwnerJobPostController extends GetxController {
       barberJobPosts.refresh();
 
       try {
-        final String status = isActive ? "active" : "deactive";
+        // final String status = isActive ? "active" : "deactive";
         final response = await ApiClient.patchData(
           ApiUrl.toggleJobPostStatus(id: jobId, status: "active"),
           null,

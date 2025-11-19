@@ -112,4 +112,5 @@ class ApiUrl {
   static String getServices = "$baseUrl/services";
   static const getBarberWithDateTime = "$baseUrl/bookings/barbers";
   static const nonRegisteredBooking = "/bookings";
+  static const businessProfile = "$baseUrl/users/saloon-owner-profile";
 }

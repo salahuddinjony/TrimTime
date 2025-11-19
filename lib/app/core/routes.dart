@@ -569,10 +569,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.businessProfile,
           path: RoutePath.businessProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BusinessProfile(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: BusinessProfile(
+                userRole: userRole!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================  =======================

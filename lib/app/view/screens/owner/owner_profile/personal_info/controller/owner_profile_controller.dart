@@ -7,6 +7,7 @@ import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/mixin/business_profile_mixin.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/mixin_followers_following/mixin_followers_following.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_barber_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_hired_barber.dart';
@@ -25,7 +26,7 @@ class OwnerProfileController extends GetxController
         LoggedProfileInfoMixin,
         MixinHiredBarbers,
         MixinSelonManagement,
-        MixinFollowersFollowing {
+        MixinFollowersFollowing,BusinessProfileMixin{
   var selectedValue = ''.obs;
 
   void updateSelection(String value, TextEditingController controller) {

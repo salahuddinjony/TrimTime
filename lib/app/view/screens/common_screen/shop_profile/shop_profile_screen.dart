@@ -932,7 +932,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
     );
   }
 
-  void _showRatingDialog(BuildContext context) {
+  void showRatingDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

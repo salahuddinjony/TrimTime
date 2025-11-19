@@ -1,7 +1,6 @@
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class selectShowDialog {
   // static void showSingleSelectDialog(

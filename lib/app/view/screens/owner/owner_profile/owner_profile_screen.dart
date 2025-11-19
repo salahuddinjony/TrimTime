@@ -233,9 +233,16 @@ class ProfileScreen extends StatelessWidget {
                   //TOdo=====businessProfile====
                   userRole == UserRole.owner
                       ? CustomMenuCard(
+                        
                           onTap: () {
+                            ownerProfileController.fetchBusinessProfiles();
                             AppRouter.route.pushNamed(RoutePath.businessProfile,
-                                extra: userRole);
+                                extra:{
+                                  'userRole': userRole,
+                                  'controller': ownerProfileController
+                                }
+                                
+                                );
                           },
                           text: AppStrings.businessProfile,
                           icon: Assets.icons.business.svg(

@@ -88,7 +88,7 @@ class ProfessionalProfile extends StatelessWidget {
       appBar: const CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: "Barber Profile",
-        iconData: Icons.arrow_back,
+        iconData: Icons.arrow_back, 
       ),
 
       body: SingleChildScrollView(
@@ -159,6 +159,7 @@ class ProfessionalProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CommonProfileCard(
+                      isBarberProfile: true,
                       name: professionalData.user?.fullName ??
                           data?.fullName.safeCap() ??
                           'Unknown',

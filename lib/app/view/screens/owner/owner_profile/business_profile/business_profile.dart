@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -249,7 +250,10 @@ class BusinessProfile extends StatelessWidget {
                           onEditTap: () {
                             AppRouter.route.pushNamed(
                               RoutePath.businessProfileEdit,
-                              extra: userRole,
+                              extra: {
+                                'userRole': userRole,
+                                'controller': controller,
+                              },
                             );
                           },
                           userRole: userRole,
@@ -329,7 +333,7 @@ class BusinessProfile extends StatelessWidget {
                                   onTap: () {
                                     AppRouter.route.pushNamed(
                                         RoutePath.showAllBarber,
-                                        extra:{
+                                        extra: {
                                           'userRole': userRole,
                                           'controller': controller,
                                         });
@@ -341,7 +345,7 @@ class BusinessProfile extends StatelessWidget {
                                         color: Colors.white,
                                         shape: BoxShape.circle),
                                     child: const Icon(
-                                        Icons.more_horiz,
+                                      Icons.more_horiz,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -357,7 +361,7 @@ class BusinessProfile extends StatelessWidget {
                                         extra: {
                                           'userRole': userRole,
                                           'controller': controller,
-                                        }); 
+                                        });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(8.r),
@@ -365,7 +369,7 @@ class BusinessProfile extends StatelessWidget {
                                         color: Colors.white,
                                         shape: BoxShape.circle),
                                     child: const Icon(
-                                        Icons.schedule,
+                                      Icons.schedule,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -515,6 +519,93 @@ class BusinessProfile extends StatelessWidget {
                             //         width: 96),
                             //   ],
                             // ),
+                            SizedBox(
+                              height: 14.h,
+                            ),
+                            if (data.registrationNumber.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 18.0, bottom: 10.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 18),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: .95),
+                                    borderRadius: BorderRadius.circular(14),
+                                    border: Border.all(
+                                      color:
+                                          AppColors.app.withValues(alpha: 0.25),
+                                      width: 1.2,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12
+                                            .withValues(alpha: 0.08),
+                                        blurRadius: 8,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.verified_user_rounded,
+                                        color: AppColors.app,
+                                        size: 28,
+                                      ),
+                                      SizedBox(width: 14),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              text: 'Business Registration',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.black
+                                                  .withValues(alpha: 0.7),
+                                            ),
+                                            SizedBox(height: 2),
+                                            CustomText(
+                                              text:
+                                                  '${data.registrationNumber}',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.app,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.copy_rounded,
+                                            color: AppColors.app, size: 22),
+                                        tooltip: 'Copy',
+                                        onPressed: () {
+                                          Clipboard.setData(
+                                            ClipboardData(
+                                                text: data.registrationNumber),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Registration number copied!'),
+                                              duration: Duration(seconds: 1),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Icon(
+                                        Icons.lock_outline_rounded,
+                                        color: Colors.grey.shade400,
+                                        size: 22,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             data.services.isNotEmpty == true
                                 ? Column(
                                     crossAxisAlignment:

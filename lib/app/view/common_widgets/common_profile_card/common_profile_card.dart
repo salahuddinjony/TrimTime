@@ -13,6 +13,8 @@ class CommonProfileCard extends StatelessWidget {
   final VoidCallback? onEditTap;
   final bool showEditIcon;
   final UserRole? userRole;
+  final bool
+      isBarberProfile; // This should be managed by state management in real use case
 
   const CommonProfileCard({
     super.key,
@@ -22,6 +24,7 @@ class CommonProfileCard extends StatelessWidget {
     this.onEditTap,
     this.showEditIcon = true,
     this.userRole,
+    this.isBarberProfile = false,
   });
 
   @override
@@ -54,18 +57,19 @@ class CommonProfileCard extends StatelessWidget {
                 color: AppColors.black,
               ),
               const SizedBox(height: 10),
-              if(userRole != UserRole.owner && userRole != null)  Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  customButton(true ? "Unfollow" : "Follow", Icons.person_add),
-                  const SizedBox(width: 10),
-                  iconButton(Assets.images.chartSelected.image(
-                    color: Colors.white,
-                    height: 15,
-                  )),
-                ],
-              ),
-            
+              if (userRole != UserRole.owner && isBarberProfile)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    customButton(
+                        true ? "Unfollow" : "Follow", Icons.person_add),
+                    const SizedBox(width: 10),
+                    iconButton(Assets.images.chartSelected.image(
+                      color: Colors.white,
+                      height: 15,
+                    )),
+                  ],
+                ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),

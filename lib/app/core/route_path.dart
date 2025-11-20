@@ -76,6 +76,7 @@ class RoutePath{
   static const String invoicePaymentScreen = 'InvoicePaymentScreen';
   static const String ownerPaymentOption = 'OwnerPaymentOption';
   static const String barberAddedScreen = 'BarberAddedScreen';
+  static const String showAllBarber = 'ShowAllBarber';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';

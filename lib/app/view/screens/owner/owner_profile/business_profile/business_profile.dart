@@ -6,7 +6,6 @@ import 'package:barber_time/app/view/common_widgets/common_profile_total_card/co
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
@@ -329,8 +328,12 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     AppRouter.route.pushNamed(
-                                        RoutePath.barberAddedScreen,
-                                        extra: userRole);
+                                        RoutePath.showAllBarber,
+                                        extra:{
+                                          'userRole': userRole,
+                                          'controller': controller,
+                                        });
+                                    debugPrint("More options clicked");
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(8.r),
@@ -338,7 +341,7 @@ class BusinessProfile extends StatelessWidget {
                                         color: Colors.white,
                                         shape: BoxShape.circle),
                                     child: const Icon(
-                                      Icons.edit,
+                                        Icons.more_horiz,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -348,9 +351,13 @@ class BusinessProfile extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    debugPrint("Schedule clicked");
                                     AppRouter.route.pushNamed(
                                         RoutePath.barberAddedScreen,
-                                        extra: userRole);
+                                        extra: {
+                                          'userRole': userRole,
+                                          'controller': controller,
+                                        }); 
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(8.r),
@@ -358,7 +365,7 @@ class BusinessProfile extends StatelessWidget {
                                         color: Colors.white,
                                         shape: BoxShape.circle),
                                     child: const Icon(
-                                      Icons.add,
+                                        Icons.schedule,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -377,23 +384,44 @@ class BusinessProfile extends StatelessWidget {
                                     SizedBox(width: 14.w),
                                 itemBuilder: (context, index) {
                                   final barber = data.barbers[index];
-                                  return Column(
-                                    children: [
-                                      CustomNetworkImage(
-                                        imageUrl: barber.image,
-                                        height: 70,
-                                        width: 70,
-                                        boxShape: BoxShape.circle,
-                                      ),
-                                      SizedBox(height: 6.h),
-                                      CustomText(
-                                        text: barber.fullName,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.black,
-                                        bottom: 10,
-                                      ),
-                                    ],
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // AppRouter.route.pushNamed(RoutePath.visitShop,
+                                      // extra: userRole);
+
+                                      final barberId = barber.id;
+                                      debugPrint(
+                                          "Barber ${barber.fullName} clicked");
+                                      debugPrint("Barber ID: $barberId");
+
+                                      // Navigate to professional profile with barber ID
+                                      AppRouter.route.pushNamed(
+                                        RoutePath.professionalProfile,
+                                        extra: {
+                                          'userRole': userRole,
+                                          'barberId': barberId,
+                                          'isForActionButton': true,
+                                        },
+                                      );
+                                    },
+                                    child: Column(
+                                      children: [
+                                        CustomNetworkImage(
+                                          imageUrl: barber.image,
+                                          height: 70,
+                                          width: 70,
+                                          boxShape: BoxShape.circle,
+                                        ),
+                                        SizedBox(height: 6.h),
+                                        CustomText(
+                                          text: barber.fullName,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.black,
+                                          bottom: 10,
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 },
                               ),

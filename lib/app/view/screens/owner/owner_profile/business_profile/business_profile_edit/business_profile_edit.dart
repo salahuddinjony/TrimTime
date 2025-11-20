@@ -1,5 +1,4 @@
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
@@ -29,7 +28,7 @@ class BusinessProfileEdit extends StatefulWidget {
 
 class _BusinessProfileEditState extends State<BusinessProfileEdit> {
   final List<dynamic> _shopImages = []; // Can be File or String (URL)
-  dynamic? _shopLogo; // Can be File or String (URL)
+  dynamic _shopLogo; // Can be File or String (URL)
   final List<dynamic> _shopVideos = []; // Can be File or String (URL)
 
   final TextEditingController _shopNameController = TextEditingController();
@@ -278,7 +277,7 @@ class _BusinessProfileEditState extends State<BusinessProfileEdit> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(.3),
+                            color: Colors.white.withValues(alpha: .3),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(Icons.add, color: Colors.grey),
@@ -405,7 +404,7 @@ class _BusinessProfileEditState extends State<BusinessProfileEdit> {
       width: 80,
       height: 80,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.3),
+        color: Colors.white.withValues(alpha: .3),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(icon, color: Colors.grey),

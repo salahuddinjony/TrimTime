@@ -15,7 +15,7 @@ mixin BusinessProfileMixin {
       if (response.statusCode == 200) {
         final data = response.body;
         final responseObj = BusinessProfileResponse.fromJson(data);
-        businessProfileData.value = responseObj.data; 
+        businessProfileData.value = responseObj.data;
         businessProfileStatus.value = RxStatus.success();
       } else {
         businessProfileStatus.value =
@@ -25,5 +25,12 @@ mixin BusinessProfileMixin {
       businessProfileStatus.value =
           RxStatus.error('Failed to fetch business profiles');
     }
+  }
+
+  RxString selectedType = 'Queue'.obs;
+  final RxString selectedBarberId = ''.obs;
+
+  void selectType(String type) {
+    selectedType.value = type;
   }
 }

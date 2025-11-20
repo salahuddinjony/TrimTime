@@ -39,6 +39,7 @@ import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.da
 import 'package:barber_time/app/view/screens/owner/owner_profile/barber/barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile_edit/business_profile_edit.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/show_all_barber/show_all_barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
@@ -529,11 +530,39 @@ class AppRouter {
         GoRoute(
           name: RoutePath.barberAddedScreen,
           path: RoutePath.barberAddedScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BarberAddedScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: BarberAddedScreen(
+                userRole: userRole!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
         ),
+        // show all barber
+          GoRoute(
+          name: RoutePath.showAllBarber,
+          path: RoutePath.showAllBarber.addBasePath,
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: ShowAllBarber(
+                userRole: userRole!,
+                controller: controller!,
+              ),
+              state: state,
+            );
+          }
+        ),
+
      ///=======================OwnerPaymentOption  =======================
         GoRoute(
           name: RoutePath.ownerPaymentOption,

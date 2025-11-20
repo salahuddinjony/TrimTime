@@ -146,6 +146,7 @@ class Schedule {
 	final String openingTime;
 	final String closingTime;
 	final String type;
+  final bool isActive;
 
 	Schedule({
 		required this.id,
@@ -153,6 +154,7 @@ class Schedule {
 		required this.openingTime,
 		required this.closingTime,
 		required this.type,
+    this.isActive = true,
 	});
 
 	factory Schedule.fromJson(Map<String, dynamic> json) {
@@ -162,6 +164,7 @@ class Schedule {
 			openingTime: json['openingTime'] as String,
 			closingTime: json['closingTime'] as String,
 			type: json['type'] as String,
+      isActive: json['isActive'] as bool? ?? true,
 		);
 	}
 }

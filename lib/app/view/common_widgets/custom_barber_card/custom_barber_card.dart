@@ -84,7 +84,7 @@ class CustomBarberCard extends StatelessWidget {
                   Icon(Icons.phone, size: 14, color: AppColors.f32Color),
                   CustomText(
                     left: 10,
-                    text: contact, 
+                    text: contact,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: AppColors.black,

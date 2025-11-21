@@ -47,9 +47,10 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
   @override
   void initState() {
     super.initState();
-    final ProfileData initialData = widget.controller.profileDataList.value != null
-        ? widget.controller.profileDataList.value!
-        : widget.data;
+    final ProfileData initialData =
+        widget.controller.profileDataList.value != null
+            ? widget.controller.profileDataList.value!
+            : widget.data;
     widget.controller.setInitialValue(initialData);
   }
 
@@ -160,7 +161,8 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
               title: const Text('Pick Video File'),
               onTap: () async {
                 Navigator.of(context).pop();
-                final result = await FilePicker.platform.pickFiles(type: FileType.video);
+                final result =
+                    await FilePicker.platform.pickFiles(type: FileType.video);
                 if (result != null && result.files.isNotEmpty) {
                   final videoPath = result.files.first.path;
                   if (videoPath != null) {
@@ -561,4 +563,3 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
     );
   }
 }
-

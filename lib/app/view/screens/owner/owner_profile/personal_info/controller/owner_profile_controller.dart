@@ -26,7 +26,8 @@ class OwnerProfileController extends GetxController
         LoggedProfileInfoMixin,
         MixinHiredBarbers,
         MixinSelonManagement,
-        MixinFollowersFollowing,BusinessProfileMixin{
+        MixinFollowersFollowing,
+        BusinessProfileMixin {
   var selectedValue = ''.obs;
 
   void updateSelection(String value, TextEditingController controller) {

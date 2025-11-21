@@ -77,8 +77,7 @@ class OwnerHomeScreen extends StatelessWidget {
               debugPrint("Calendar button clicked");
               debugPrint("User Role: ${controller.userRole}");
               if (controller.userRole == "SALOON_OWNER") {
-                context.pushNamed(RoutePath.ownerRequestBooking,
-                extra: {
+                context.pushNamed(RoutePath.ownerRequestBooking, extra: {
                   'userRole': userRole,
                   'controller': controller,
                 });
@@ -355,8 +354,7 @@ class OwnerHomeScreen extends StatelessWidget {
                       actionText: AppStrings.seeAll,
                       onActionTap: () {
                         AppRouter.route
-                            .pushNamed(RoutePath.recentRequestScreen,
-                          extra: {
+                            .pushNamed(RoutePath.recentRequestScreen, extra: {
                           'userRole': userRole,
                           'controller': controller,
                         });

@@ -96,17 +96,17 @@ class FollowingScreen extends StatelessWidget {
                     final user = followingList[index];
                     return GestureDetector(
                       onTap: () {
-                           final barberId = user.followingId;
-                    debugPrint("Barber ${user.followingName} clicked");
-                    debugPrint("Barber ID: $barberId");
-                    AppRouter.route.pushNamed(
-                      RoutePath.professionalProfile,
-                      extra: {
-                        'userRole': userRole,
-                        'barberId': barberId,
-                        'isForActionButton': false,
-                      },
-                    );
+                        final barberId = user.followingId;
+                        debugPrint("Barber ${user.followingName} clicked");
+                        debugPrint("Barber ID: $barberId");
+                        AppRouter.route.pushNamed(
+                          RoutePath.professionalProfile,
+                          extra: {
+                            'userRole': userRole,
+                            'barberId': barberId,
+                            'isForActionButton': false,
+                          },
+                        );
                         // Handle card tap if needed
                       },
                       child: FollowingCard(
@@ -114,12 +114,12 @@ class FollowingScreen extends StatelessWidget {
                         name: user.followingName,
                         status: 'Unfollow',
                         email: user.followingEmail,
-                        
                         onUnfollowPressed: () async {
                           controller?.followingList.removeAt(index);
                           final result = await controller?.toggleFollow(
-                              userId: user.followingId, isfollowUnfollow: false);
-                      
+                              userId: user.followingId,
+                              isfollowUnfollow: false);
+
                           if (result == true) {
                             controller?.followingList.refresh();
                             controller?.fetchFollowerOrFollowingData(

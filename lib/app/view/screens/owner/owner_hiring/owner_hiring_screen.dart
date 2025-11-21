@@ -122,15 +122,18 @@ class OwnerHiringScreen extends StatelessWidget {
                                     'userRole': userRole,
                                     'barberId': barberId,
                                     'isForActionButton': true,
-                                    if (job.status == 'PENDING')
-                                      ...{
-                                        'onActionApprove': () {
-                                          controller.updateJobStatus(applicationId: job.id!, status: 'COMPLETED');
-                                        },
-                                        'onActionReject': () {
-                                          controller.updateJobStatus(applicationId: job.id!, status: 'REJECTED');
-                                        },
+                                    if (job.status == 'PENDING') ...{
+                                      'onActionApprove': () {
+                                        controller.updateJobStatus(
+                                            applicationId: job.id!,
+                                            status: 'COMPLETED');
                                       },
+                                      'onActionReject': () {
+                                        controller.updateJobStatus(
+                                            applicationId: job.id!,
+                                            status: 'REJECTED');
+                                      },
+                                    },
                                   },
                                 );
                               }

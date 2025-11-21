@@ -177,33 +177,31 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.professionalProfile,
-          path: RoutePath.professionalProfile.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map <String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData?;
-            final controller = extra['controller'] as OwnerProfileController?;
-            final barberId = extra['barberId'] as String?;
-            final isForActionButton = extra['isForActionButton'] as bool?;
-            final onActionApprove = extra['onActionApprove'] as VoidCallback?;
-            final onActionReject = extra['onActionReject'] as VoidCallback?;
+            name: RoutePath.professionalProfile,
+            path: RoutePath.professionalProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData?;
+              final controller = extra['controller'] as OwnerProfileController?;
+              final barberId = extra['barberId'] as String?;
+              final isForActionButton = extra['isForActionButton'] as bool?;
+              final onActionApprove = extra['onActionApprove'] as VoidCallback?;
+              final onActionReject = extra['onActionReject'] as VoidCallback?;
 
-            return _buildPageWithAnimation(
-              child: ProfessionalProfile(
-                userRole: userRole,
-                data: profileData,
-                controller: controller,
-                barberId: barberId,
-                isForActionButton: isForActionButton ?? false,
-                onActionApprove: onActionApprove,
-                onActionReject: onActionReject,
-              ),
-              state: state,
-              transitionType: TransitionType.detailsScreen
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                  child: ProfessionalProfile(
+                    userRole: userRole,
+                    data: profileData,
+                    controller: controller,
+                    barberId: barberId,
+                    isForActionButton: isForActionButton ?? false,
+                    onActionApprove: onActionApprove,
+                    onActionReject: onActionReject,
+                  ),
+                  state: state,
+                  transitionType: TransitionType.detailsScreen);
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -217,22 +215,21 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.followingScreen,
-          path: RoutePath.followingScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.followingScreen,
+            path: RoutePath.followingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: FollowingScreen(
-                userRole: userRole,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: FollowingScreen(
+                  userRole: userRole,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= ForgetPasswordScreen Route =======================
         GoRoute(
@@ -268,18 +265,18 @@ class AppRouter {
 
         ///======================= OtpScreen Route =======================
         GoRoute(
-          name: RoutePath.resetPasswordScreen,
-          path: RoutePath.resetPasswordScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final email = extra['email'] as String?;
-            final userRole = extra['userRole'] as UserRole?;
-            return _buildPageWithAnimation(
-              child: ResetPasswordScreen(email: email ?? '', userRole: userRole!),
-              state: state,
-            );
-          }
-        ),
+            name: RoutePath.resetPasswordScreen,
+            path: RoutePath.resetPasswordScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final email = extra['email'] as String?;
+              final userRole = extra['userRole'] as UserRole?;
+              return _buildPageWithAnimation(
+                child: ResetPasswordScreen(
+                    email: email ?? '', userRole: userRole!),
+                state: state,
+              );
+            }),
 
         ///======================= OtpScreen Route =======================
         GoRoute(
@@ -302,7 +299,8 @@ class AppRouter {
             disableAnimation: true,
           ),
         ),
-    ///=======================barberPersonalProfile =======================
+
+        ///=======================barberPersonalProfile =======================
         GoRoute(
           name: RoutePath.barberPersonalProfile,
           path: RoutePath.barberPersonalProfile.addBasePath,
@@ -311,7 +309,6 @@ class AppRouter {
             state: state,
           ),
         ),
-
 
         ///=======================PixMatch =======================
         GoRoute(
@@ -392,7 +389,7 @@ class AppRouter {
           name: RoutePath.profileScreen,
           path: RoutePath.profileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  ProfileScreen(),
+            child: ProfileScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -408,22 +405,21 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.bookingScreen,
-          path: RoutePath.bookingScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final isBarber = extra['isBarber'] as bool? ?? false;
+            name: RoutePath.bookingScreen,
+            path: RoutePath.bookingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final isBarber = extra['isBarber'] as bool? ?? false;
 
-            return _buildPageWithAnimation(
-              child: BookingScreen(
-                userRole: userRole!,
-                isBarber: isBarber,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: BookingScreen(
+                  userRole: userRole!,
+                  isBarber: isBarber,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -457,44 +453,41 @@ class AppRouter {
 
         ///=======================HiringBarber  =======================
         GoRoute(
-          name: RoutePath.hiringBarber,
-          path: RoutePath.hiringBarber.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final isOwner = extra['isOwner'] as bool?;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.hiringBarber,
+            path: RoutePath.hiringBarber.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final isOwner = extra['isOwner'] as bool?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            
-            return _buildPageWithAnimation(
-              child:  HiringBarber(
-                userRole: userRole!,
-                isOwner: isOwner?? false,
-                controller: controller !,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: HiringBarber(
+                  userRole: userRole!,
+                  isOwner: isOwner ?? false,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================FollowerScreen  =======================
         GoRoute(
-          name: RoutePath.followerScreen,
-          path: RoutePath.followerScreen.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.followerScreen,
+            path: RoutePath.followerScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: FollowerScreen(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: FollowerScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================OwnerPayment  =======================
         GoRoute(
@@ -528,47 +521,45 @@ class AppRouter {
 
         ///=======================BarberAddedScreen  =======================
         GoRoute(
-          name: RoutePath.barberAddedScreen,
-          path: RoutePath.barberAddedScreen.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.barberAddedScreen,
+            path: RoutePath.barberAddedScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: BarberAddedScreen(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: BarberAddedScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
         // show all barber
-          GoRoute(
-          name: RoutePath.showAllBarber,
-          path: RoutePath.showAllBarber.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as OwnerProfileController?;
+        GoRoute(
+            name: RoutePath.showAllBarber,
+            path: RoutePath.showAllBarber.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: ShowAllBarber(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: ShowAllBarber(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
-     ///=======================OwnerPaymentOption  =======================
+        ///=======================OwnerPaymentOption  =======================
         GoRoute(
           name: RoutePath.ownerPaymentOption,
           path: RoutePath.ownerPaymentOption.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  OwnerPaymentOption(),
+            child: OwnerPaymentOption(),
             state: state,
           ),
         ),
@@ -596,41 +587,39 @@ class AppRouter {
 
         ///=======================VisitShop  =======================
         GoRoute(
-          name: RoutePath.businessProfile,
-          path: RoutePath.businessProfile.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.businessProfile,
+            path: RoutePath.businessProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: BusinessProfile(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: BusinessProfile(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.businessProfileEdit,
-          path: RoutePath.businessProfileEdit.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.businessProfileEdit,
+            path: RoutePath.businessProfileEdit.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: BusinessProfileEdit(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: BusinessProfileEdit(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -665,73 +654,74 @@ class AppRouter {
 
         ///=======================editProfessionalProfile  =======================
         GoRoute(
-          name: RoutePath.editProfessionalProfile,
-          path: RoutePath.editProfessionalProfile.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
+            name: RoutePath.editProfessionalProfile,
+            path: RoutePath.editProfessionalProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
 
-            // Try to resolve professional data from several possible shapes:
-            // - a BarberProfile under 'professionalData'
-            // - a List<BarberProfile> under 'professionalData' (take first)
-            // - legacy 'data' which is a ProfileData (create a minimal BarberProfile)
-            dynamic profExtra = extra['professionalData'] ?? extra['data'];
-            BarberProfile? professionalData;
+              // Try to resolve professional data from several possible shapes:
+              // - a BarberProfile under 'professionalData'
+              // - a List<BarberProfile> under 'professionalData' (take first)
+              // - legacy 'data' which is a ProfileData (create a minimal BarberProfile)
+              dynamic profExtra = extra['professionalData'] ?? extra['data'];
+              BarberProfile? professionalData;
 
-            if (profExtra is BarberProfile) {
-              professionalData = profExtra;
-            } else if (profExtra is List && profExtra.isNotEmpty && profExtra.first is BarberProfile) {
-              professionalData = profExtra.first as BarberProfile;
-            } else if (profExtra is ProfileData) {
-              // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
-              professionalData = BarberProfile(
-                id: profExtra.id,
-                userId: profExtra.id,
-                saloonOwnerId: profExtra.id,
-                currentWorkDes: null,
-                bio: null,
-                portfolio: <String>[],
-                isAvailable: false,
-                experienceYears: null,
-                skills: <String>[],
-                followerCount: profExtra.followerCount,
-                followingCount: profExtra.followingCount,
-                ratingCount: 0,
-                avgRating: 0.0,
-                createdAt: null,
-                updatedAt: null,
-              );
-            }
-
-            final controller = extra['controller'] as OwnerProfileController?;
-
-            return _buildPageWithAnimation(
-              child: EditProfessionalProfile(
-                userRole: userRole!,
-                professionalData: professionalData ?? BarberProfile(
-                  id: '',
-                  userId: '',
-                  saloonOwnerId: '',
-                  currentWorkDes: '',
+              if (profExtra is BarberProfile) {
+                professionalData = profExtra;
+              } else if (profExtra is List &&
+                  profExtra.isNotEmpty &&
+                  profExtra.first is BarberProfile) {
+                professionalData = profExtra.first as BarberProfile;
+              } else if (profExtra is ProfileData) {
+                // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
+                professionalData = BarberProfile(
+                  id: profExtra.id,
+                  userId: profExtra.id,
+                  saloonOwnerId: profExtra.id,
+                  currentWorkDes: null,
                   bio: null,
                   portfolio: <String>[],
                   isAvailable: false,
-                  experienceYears: '',
+                  experienceYears: null,
                   skills: <String>[],
-                  followerCount: 0,
-                  followingCount: 0,
+                  followerCount: profExtra.followerCount,
+                  followingCount: profExtra.followingCount,
                   ratingCount: 0,
                   avgRating: 0.0,
                   createdAt: null,
                   updatedAt: null,
+                );
+              }
+
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: EditProfessionalProfile(
+                  userRole: userRole!,
+                  professionalData: professionalData ??
+                      BarberProfile(
+                        id: '',
+                        userId: '',
+                        saloonOwnerId: '',
+                        currentWorkDes: '',
+                        bio: null,
+                        portfolio: <String>[],
+                        isAvailable: false,
+                        experienceYears: '',
+                        skills: <String>[],
+                        followerCount: 0,
+                        followingCount: 0,
+                        ratingCount: 0,
+                        avgRating: 0.0,
+                        createdAt: null,
+                        updatedAt: null,
+                      ),
+                  controller: controller!,
                 ),
-                controller: controller!,
-              ),
-              state: state,
-             
-            );
-          }
-        ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -819,55 +809,53 @@ class AppRouter {
 
         ///=======================PersonalInfo  =======================
         GoRoute(
-          name: RoutePath.personalInfo,
-          path: RoutePath.personalInfo.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.personalInfo,
+            path: RoutePath.personalInfo.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: PersonalInfo(
-                userRole: userRole,
-                data: profileData,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: PersonalInfo(
+                  userRole: userRole,
+                  data: profileData,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================PersonalInfo  =======================
         GoRoute(
           name: RoutePath.feedAll,
           path: RoutePath.feedAll.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  FeedAll(),
+            child: FeedAll(),
             state: state,
           ),
         ),
 
         ///=======================EditOwnerProfile  =======================
         GoRoute(
-          name: RoutePath.editOwnerProfile,
-          path: RoutePath.editOwnerProfile.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.editOwnerProfile,
+            path: RoutePath.editOwnerProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: EditOwnerProfile(
-                userRole: userRole!,
-                data: profileData,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: EditOwnerProfile(
+                  userRole: userRole!,
+                  data: profileData,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================Settings  =======================
         GoRoute(
@@ -924,7 +912,7 @@ class AppRouter {
           name: RoutePath.jobPost,
           path: RoutePath.jobPost.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  JobPost(),
+            child: JobPost(),
             state: state,
           ),
         ),
@@ -1047,24 +1035,23 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.queScreen,
-          path: RoutePath.queScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as QueController?;
-            final barberId = extra['barberId'] as String?;
+            name: RoutePath.queScreen,
+            path: RoutePath.queScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as QueController?;
+              final barberId = extra['barberId'] as String?;
 
-            return _buildPageWithAnimation(
-              child: QueScreen(
-                userRole: userRole!,
-                controller: controller!,
-                barberId: barberId!, 
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: QueScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                  barberId: barberId!,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(
@@ -1081,7 +1068,7 @@ class AppRouter {
           name: RoutePath.ownerQue,
           path: RoutePath.ownerQue.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child:  OwnerQue(), state: state, disableAnimation: true),
+              child: OwnerQue(), state: state, disableAnimation: true),
         ),
 
         ///======================= =======================
@@ -1139,24 +1126,23 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.shopProfileScreen,
-          path: RoutePath.shopProfileScreen.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userId = extra['userId'] as String?;
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'];
+            name: RoutePath.shopProfileScreen,
+            path: RoutePath.shopProfileScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userId = extra['userId'] as String?;
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
 
-            return _buildPageWithAnimation(
-              child: ShopProfileScreen(
-                userId: userId ?? '',
-                userRole: userRole!,
-                controller: controller,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: ShopProfileScreen(
+                  userId: userId ?? '',
+                  userRole: userRole!,
+                  controller: controller,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(
@@ -1184,22 +1170,22 @@ class AppRouter {
 
         ///=======================ownerRequestBooking =======================
         GoRoute(
-          name: RoutePath.ownerRequestBooking,
-          path: RoutePath.ownerRequestBooking.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'] as BarberOwnerHomeController?;
+            name: RoutePath.ownerRequestBooking,
+            path: RoutePath.ownerRequestBooking.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller =
+                  extra['controller'] as BarberOwnerHomeController?;
 
-            return _buildPageWithAnimation(
-              child: OwnerRequestBooking(
-                userRole: userRole!,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: OwnerRequestBooking(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(

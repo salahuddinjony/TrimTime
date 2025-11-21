@@ -1,23 +1,23 @@
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_job_history.dart';
 import 'package:get/get.dart';
 
-class OwnerHiringController extends GetxController with BarberJobHistoryMixin{
+class OwnerHiringController extends GetxController with BarberJobHistoryMixin {
   var selectedFilter = "Pending".obs; // Now it's reactive
 
   get jobHistoryAllList => super.jobHistoryList;
-
-
 
   @override
   void onInit() {
     super.onInit();
     // You can perform additional initialization here if needed
-    getAllJobHistory(isBarberOwner: true, status: selectedFilter.value.trim().toUpperCase());
+    getAllJobHistory(
+        isBarberOwner: true, status: selectedFilter.value.trim().toUpperCase());
   }
 
   void filterJobs(String status) {
     selectedFilter.value = status;
-    getAllJobHistory(isBarberOwner: true, status: selectedFilter.value.trim().toUpperCase());
+    getAllJobHistory(
+        isBarberOwner: true, status: selectedFilter.value.trim().toUpperCase());
   }
 
   // final List<Map<String, String>> allJobs = [

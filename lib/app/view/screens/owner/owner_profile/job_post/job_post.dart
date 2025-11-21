@@ -138,8 +138,8 @@ class JobPost extends StatelessWidget {
                     onTapDelete: () {
                       showDialog(
                           context: context,
-                          builder: (context) =>
-                              deleteDialog(context, controller, jobPost.id as String));
+                          builder: (context) => deleteDialog(
+                              context, controller, jobPost.id as String));
                     },
                     isSeeDescription: true,
                     onButtonTap: () {},
@@ -170,8 +170,8 @@ class JobPost extends StatelessWidget {
     );
   }
 
-  Widget deleteDialog(
-      BuildContext context, BarberOwnerJobPostController controller, String jobPostId) {
+  Widget deleteDialog(BuildContext context,
+      BarberOwnerJobPostController controller, String jobPostId) {
     return AlertDialog(
       title: Text("Do you want to delete this job post?"),
       actions: [

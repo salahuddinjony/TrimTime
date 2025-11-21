@@ -54,36 +54,43 @@ mixin BusinessProfileMixin {
   Future<bool> updateProfessionalProfile() async {
     EasyLoading.show(status: 'Updating Profile...');
     try {
-      final Map<String, dynamic> body = {
-        'shopName': shopName.text,
-        'registrationNumber': registrationNumber.text,
-        'shopAddress': shopAddress.text,
-        'shopBio': shopBio.text,
-        // 'latitude': double.tryParse(latitude.value.toString()) ?? 0.0,
-        // 'longitude': double.tryParse(longitude.value.toString()) ?? 0.0,
-      };
+      final Map<String, dynamic> body = {};
+      if (shopName.text.isNotEmpty) body['shopName'] = shopName.text;
+      if (registrationNumber.text.isNotEmpty)
+        body['registrationNumber'] = registrationNumber.text;
+      if (shopAddress.text.isNotEmpty) body['shopAddress'] = shopAddress.text;
+      if (shopBio.text.isNotEmpty) body['shopBio'] = shopBio.text;
+      // Add latitude/longitude if needed and not empty
+      // if (latitude.value != 0.0) body['latitude'] = latitude.value;
+      // if (longitude.value != 0.0) body['longitude'] = longitude.value;
+
       professionalStatus.value = RxStatus.loading();
+      // Prepare multipartBody only if there are files to send
+      final List<MultipartBody> multipartBody = [];
+      final shopImagesFiles = shopImages
+          .where((path) => path.isNotEmpty && File(path).existsSync())
+          .map((path) => MultipartBody('shop_images', File(path)))
+          .toList();
+      final shopVideosFiles = shopVideo
+          .where((path) => path.isNotEmpty && File(path).existsSync())
+          .map((path) => MultipartBody('shop_videos', File(path)))
+          .toList();
+      if (shopImagesFiles.isNotEmpty) multipartBody.addAll(shopImagesFiles);
+      if (shopVideosFiles.isNotEmpty) multipartBody.addAll(shopVideosFiles);
+      if (shopLogo.value.isNotEmpty && File(shopLogo.value).existsSync()) {
+        multipartBody.add(MultipartBody('shop_logo', File(shopLogo.value)));
+      }
+
       final response = await ApiClient.patchMultipart(
         ApiUrl.updateBusinessProfile,
         body,
-        multipartBody: [
-          ...shopImages
-              .where((path) => path.isNotEmpty && File(path).existsSync())
-              .map((path) => MultipartBody('shop_images', File(path))),
-          ...shopVideo
-              .where((path) => path.isNotEmpty && File(path).existsSync())
-              .map((path) => MultipartBody('shop_videos', File(path))),
-          if (shopLogo.value.isNotEmpty && File(shopLogo.value).existsSync())
-            MultipartBody('shop_logo', File(shopLogo.value)),
-        ],
+        multipartBody: multipartBody.isNotEmpty ? multipartBody : null,
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         professionalStatus.value = RxStatus.success();
-
         fetchBusinessProfiles();
-        EasyLoading.showSuccess(
-            'Profile Updated Successfully'); // Refresh the business profile data
+        EasyLoading.showSuccess('Profile Updated Successfully');
         return true;
       } else {
         professionalStatus.value =

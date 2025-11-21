@@ -59,8 +59,8 @@ mixin BusinessProfileMixin {
         'registrationNumber': registrationNumber.text,
         'shopAddress': shopAddress.text,
         'shopBio': shopBio.text,
-        'latitude': double.tryParse(latitude.value.toString()) ?? 0.0,
-        'longitude': double.tryParse(longitude.value.toString()) ?? 0.0,
+        // 'latitude': double.tryParse(latitude.value.toString()) ?? 0.0,
+        // 'longitude': double.tryParse(longitude.value.toString()) ?? 0.0,
       };
       professionalStatus.value = RxStatus.loading();
       final response = await ApiClient.patchMultipart(

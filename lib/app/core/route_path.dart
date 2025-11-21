@@ -1,7 +1,4 @@
-
-
-
-class RoutePath{
+class RoutePath {
   static const String basePath = '/';
 
   static const String splashScreen = 'splashScreen';
@@ -25,7 +22,7 @@ class RoutePath{
   static const String totalBarber = 'TotalBarber';
   static const String hiringPost = 'HiringPost';
   static const String barberRequest = 'BarberRequest';
-  
+
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   static const String queScreen = 'QueScreen';
@@ -44,7 +41,6 @@ class RoutePath{
   static const String pixMatch = 'PixMatch';
   static const String blockingScreen = 'BlockingScreen';
   static const String followerScreen = 'FollowerScreen';
-
 
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
@@ -100,5 +96,4 @@ class RoutePath{
   static const String ownerRequestBooking = 'OwnerRequestBooking';
   static const String barberPersonalProfile = 'BarberPersonalProfile';
   static const String barberEditProfile = 'BarberEditProfile';
-
 }

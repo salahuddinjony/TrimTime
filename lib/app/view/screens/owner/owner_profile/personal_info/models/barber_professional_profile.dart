@@ -30,6 +30,7 @@ class BarberProfileResponse {
 
 class BarberProfile {
   final String id;
+  final bool isMe;
   final String userId;
   final String saloonOwnerId;
   final String? currentWorkDes;
@@ -45,11 +46,12 @@ class BarberProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final BarberUser? user;
-  final bool isFollowing;
+  bool isFollowing;
 
   BarberProfile({
     required this.id,
     required this.userId,
+    required this.isMe,
     required this.saloonOwnerId,
     this.currentWorkDes,
     this.bio,
@@ -71,6 +73,7 @@ class BarberProfile {
     return BarberProfile(
       id: json['id'] as String,
       userId: json['userId'] as String,
+      isMe: json['isMe'] as bool? ?? false,
       saloonOwnerId: json['saloonOwnerId'] as String,
       currentWorkDes: json['currentWorkDes'] as String?,
       bio: json['bio'] as String?,
@@ -107,6 +110,7 @@ class BarberProfile {
         'saloonOwnerId': saloonOwnerId,
         'currentWorkDes': currentWorkDes,
         'bio': bio,
+        'isMe': isMe,
         'portfolio': portfolio,
         'isAvailable': isAvailable,
         'experienceYears': experienceYears,

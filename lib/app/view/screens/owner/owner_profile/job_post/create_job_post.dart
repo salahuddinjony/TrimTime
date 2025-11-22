@@ -117,20 +117,17 @@ class CreateJobPost extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  selectDate(forDate: DateFor.datePosted);
+              CustomFromCard(
+                hinText: "Select date",
+                suffixIcon: const Icon(Icons.calendar_month),
+                title: 'Date',
+                controller: controller.dateController,
+                isRead: true,
+                isBgColor: true,
+                isBorderColor: true,
+                validator: (v) {
+                  return null;
                 },
-                child: AbsorbPointer(
-                  child: CustomFromCard(
-                      hinText: "Select date",
-                      suffixIcon: const Icon(Icons.calendar_month),
-                      title: 'Date',
-                      controller: controller.dateController,
-                      validator: (v) {
-                        return null;
-                      }),
-                ),
               ),
               Row(
                 children: [
@@ -142,7 +139,7 @@ class CreateJobPost extends StatelessWidget {
                       child: AbsorbPointer(
                         child: CustomFromCard(
                             hinText: "Select start date",
-                            suffixIcon: const Icon(Icons.access_time),
+                            suffixIcon: const Icon(Icons.calendar_today),
                             title: 'Start date',
                             controller: controller.startDateController,
                             validator: (v) {
@@ -160,7 +157,7 @@ class CreateJobPost extends StatelessWidget {
                       child: AbsorbPointer(
                         child: CustomFromCard(
                             hinText: "Select end date",
-                            suffixIcon: const Icon(Icons.access_time),
+                            suffixIcon: const Icon(Icons.event),
                             title: 'End date',
                             controller: controller.endDateController,
                             validator: (v) {
@@ -173,9 +170,16 @@ class CreateJobPost extends StatelessWidget {
               ),
               CustomFromCard(
                   title: 'Rate(hourly)',
-                  hinText: "Enter rate",
+                  hinText: "Enter rate in USD",
                   controller: controller.rateController,
                   validator: (v) {
+                   if(v == null || v.isEmpty) {
+                      return 'Please enter hourly rate';
+                    }
+                    final rate = double.tryParse(v);
+                    if (rate == null || rate <= 0) {
+                      return 'Please enter a valid hourly rate greater than 0';
+                    }
                     return null;
                   }),
 

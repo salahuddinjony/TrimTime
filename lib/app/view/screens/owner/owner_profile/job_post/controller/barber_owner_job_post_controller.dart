@@ -25,6 +25,11 @@ class BarberOwnerJobPostController extends GetxController {
   final shopNameController = TextEditingController();
   final shopLogoController = TextEditingController();
   final descriptionController = TextEditingController();
+  
+// constructor for initializing dateController
+  BarberOwnerJobPostController() {
+    dateController.text = DateTime.now().formatDateApi();
+  }
 
   Rx<JobPostData?> selectedJobPost = Rx<JobPostData?>(null);
   RxBool isEditMode = false.obs;
@@ -60,7 +65,7 @@ class BarberOwnerJobPostController extends GetxController {
     if (jobPost.salary != null) {
       rateController.text = jobPost.salary.toString();
     } else if (jobPost.hourlyRate != null) {
-      rateController.text = jobPost.hourlyRate.toString();
+      rateController.text = double.tryParse(jobPost.hourlyRate.toString())?.toInt().toString() ?? '';
     }
 
     // // Fill shop name
@@ -115,6 +120,7 @@ class BarberOwnerJobPostController extends GetxController {
 
     // Clear form only if coming from edit mode or first time
     clearForm();
+    dateController.text = DateTime.now().formatDateApi();
     _currentJobId = 'create_mode';
     isFormLoaded.value = true;
   }
@@ -196,7 +202,7 @@ class BarberOwnerJobPostController extends GetxController {
 
       final Map<String, dynamic> bodyData = {
         "description": descriptionController.text,
-        "hourlyRate": int.tryParse(rateController.text) ?? 0,
+      "hourlyRate": double.tryParse(rateController.text)?.toInt() ?? 0,
         "startDate": startDateController.text,
         "endDate": endDateController.text,
         // 'shopName': shopNameController.text,

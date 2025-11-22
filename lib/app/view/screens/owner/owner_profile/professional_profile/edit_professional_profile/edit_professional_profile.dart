@@ -75,14 +75,14 @@ class _EditProfessionalProfileState extends State<EditProfessionalProfile> {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 50.h),
-                          CustomFromCard(
-                            hinText: "Enter your name",
-                            title: AppStrings.name,
-                            controller: widget.controller.nameController,
-                            validator: (v) => null,
-                          ),
-                          SizedBox(height: 20.h),
+                          // SizedBox(height: 50.h),
+                          // CustomFromCard(
+                          //   hinText: "Enter your name",
+                          //   title: AppStrings.name,
+                          //   controller: widget.controller.nameController,
+                          //   validator: (v) => null,
+                          // ),
+                          SizedBox(height: 40.h),
                           CustomFromCard(
                             hinText: "Enter your bio",
                             title: "Bio",

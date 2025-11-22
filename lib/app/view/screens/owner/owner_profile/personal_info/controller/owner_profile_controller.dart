@@ -21,7 +21,8 @@ import 'package:get/get.dart';
 
 class OwnerProfileController extends GetxController
     with
-        BarberProfessionalProfile,
+        
+        BarberProfessionalProfile, 
         OwnerProfileImageUpdateMixin,
         LoggedProfileInfoMixin,
         MixinHiredBarbers,

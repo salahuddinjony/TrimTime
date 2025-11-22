@@ -3,6 +3,7 @@ import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -523,6 +524,56 @@ class ShopProfileScreen<T> extends StatelessWidget {
                             ),
                           ),
                     const SizedBox(height: 10),
+                    if (selonData != null && selonData.shopImages.isNotEmpty ||
+                        isLoading) ...[
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                width: 120,
+                                height: 24,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                color: Colors.white,
+                              ),
+                            )
+                          : const CustomText(
+                              top: 10,
+                              bottom: 8,
+                              text: "Shop Images",
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black,
+                            ),
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 80,
+                                    margin: const EdgeInsets.all(8),
+                                    color: Colors.white,
+                                  )
+                                ],
+                              ),
+                            )
+                          : SizedBox(
+                              width: 100.w,
+                              height: 100.h,
+                              child: DesignFilesGallery(
+                                designFiles: selonData?.shopImages.map((e) {
+                                  return e;
+                                }).toList(),
+                                height: 100.h,
+                                width: double.infinity,
+                              ),
+                            ),
+                      SizedBox(height: 20.h)
+                    ],
                     // Services Section
                     isLoading
                         ? Shimmer.fromColors(
@@ -547,19 +598,22 @@ class ShopProfileScreen<T> extends StatelessWidget {
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
-                            child: Row(
-                              children: List.generate(
-                                  2,
-                                  (index) => Container(
-                                        width: 200,
-                                        height: 120,
-                                        margin: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                      )),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                    2,
+                                    (index) => Container(
+                                          width: 200,
+                                          height: 120,
+                                          margin: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        )),
+                              ),
                             ),
                           )
                         : SingleChildScrollView(

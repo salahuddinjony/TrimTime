@@ -57,7 +57,8 @@ class BarberHomeScreen extends StatelessWidget {
           children: [
             ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
             Obx(() {
-              final hasProfile = profileController.profileDataList.value != null;
+              final hasProfile =
+                  profileController.profileDataList.value != null;
               if (!hasProfile) {
                 return Padding(
                   padding:

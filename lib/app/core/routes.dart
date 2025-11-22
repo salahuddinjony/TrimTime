@@ -676,6 +676,7 @@ class AppRouter {
               } else if (profExtra is ProfileData) {
                 // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
                 professionalData = BarberProfile(
+                  isMe: false,
                   id: profExtra.id,
                   userId: profExtra.id,
                   saloonOwnerId: profExtra.id,
@@ -701,6 +702,7 @@ class AppRouter {
                   userRole: userRole!,
                   professionalData: professionalData ??
                       BarberProfile(
+                        isMe: false,
                         id: '',
                         userId: '',
                         saloonOwnerId: '',

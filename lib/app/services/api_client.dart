@@ -146,7 +146,49 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+/// formdata  patch method 
+  static Future<Response> patchFormData(
+    String uri,
+    Map<String, dynamic> body, {
+    Map<String, String>? headers,
+  }) async {
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
 
+    var mainHeaders = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': '$bearerToken'
+    };
+
+    try {
+      final usedHeaders = Map<String, String>.from(mainHeaders);
+      if (headers != null) {
+        usedHeaders.addAll(headers);
+      }
+
+      // Convert body to x-www-form-urlencoded format
+      final formBody = body.map((k, v) => MapEntry(k.toString(), v.toString()));
+
+      printRequest(
+        method: 'PATCH',
+        uri: uri,
+        headers: usedHeaders,
+        body: formBody,
+      );
+
+      http.Response response = await client
+          .patch(
+            Uri.parse(uri),
+            body: formBody,
+            headers: usedHeaders,
+          )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      debugPrint('❌ ERROR: ${e.toString()}');
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
   ///================================================================Patch Method============================///
   static Future<Response> patchData(
     String uri,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:barber_time/app/services/api_client.dart';
@@ -43,7 +44,7 @@ mixin BusinessProfileMixin {
   final TextEditingController shopBio = TextEditingController();
   final TextEditingController registrationNumber = TextEditingController();
 
-  Rx latitude = 0.0.obs;
+  RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
 
   final RxList<String> shopImages = <String>[].obs;
@@ -60,9 +61,6 @@ mixin BusinessProfileMixin {
         body['registrationNumber'] = registrationNumber.text;
       if (shopAddress.text.isNotEmpty) body['shopAddress'] = shopAddress.text;
       if (shopBio.text.isNotEmpty) body['shopBio'] = shopBio.text;
-      // Add latitude/longitude if needed and not empty
-      // if (latitude.value != 0.0) body['latitude'] = latitude.value;
-      // if (longitude.value != 0.0) body['longitude'] = longitude.value;
 
       professionalStatus.value = RxStatus.loading();
       // Prepare multipartBody only if there are files to send
@@ -81,11 +79,19 @@ mixin BusinessProfileMixin {
         multipartBody.add(MultipartBody('shop_logo', File(shopLogo.value)));
       }
 
-      final response = await ApiClient.patchMultipart(
-        ApiUrl.updateBusinessProfile,
-        body,
-        multipartBody: multipartBody.isNotEmpty ? multipartBody : null,
-      );
+      final response = multipartBody.isNotEmpty
+          ? await ApiClient.patchMultipart(
+              ApiUrl.updateBusinessProfile,
+              {"bodyData": jsonEncode(body)},
+              multipartBody: multipartBody,
+            )
+          : await ApiClient.patchFormData(
+              ApiUrl.baseUrl + ApiUrl.updateBusinessProfile,
+             {
+    "bodyData": jsonEncode(body), // body is your map of all fields
+  },
+             
+            );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         professionalStatus.value = RxStatus.success();

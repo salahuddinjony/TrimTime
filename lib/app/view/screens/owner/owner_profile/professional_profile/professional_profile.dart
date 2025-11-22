@@ -85,10 +85,11 @@ class ProfessionalProfile extends StatelessWidget {
             ),
       backgroundColor: AppColors.linearFirst,
       //==================✅✅Header✅✅===================
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: "Barber Profile",
         iconData: Icons.arrow_back, 
+      
       ),
 
       body: SingleChildScrollView(
@@ -123,6 +124,7 @@ class ProfessionalProfile extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                        
                           CommonProfileCard(
                             name: data?.fullName.safeCap() ??
                                 professionalData?.user?.fullName ??
@@ -159,6 +161,9 @@ class ProfessionalProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CommonProfileCard(
+                      controller: ctrl,
+                      
+                      userId: professionalData.userId,
                       isBarberProfile: true,
                       name: professionalData.user?.fullName ??
                           data?.fullName.safeCap() ??
@@ -166,7 +171,7 @@ class ProfessionalProfile extends StatelessWidget {
                       bio: professionalData.bio ?? "No bio available",
                       imageUrl: imageUrl,
                       showEditIcon: !isViewingOtherBarber,
-                      onEditTap: !isViewingOtherBarber
+                      onEditTap: (!isViewingOtherBarber)
                           ? () {
                               AppRouter.route.pushNamed(
                                 RoutePath.editProfessionalProfile,

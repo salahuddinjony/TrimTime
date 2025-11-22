@@ -31,8 +31,15 @@ class OwnerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Handle both direct UserRole and Map containing userRole
     final extra = GoRouter.of(context).state.extra;
-    final UserRole? userRole = extra is UserRole ? extra : null;
+    UserRole? userRole;
+
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -301,7 +308,10 @@ class OwnerHomeScreen extends StatelessWidget {
                                 onTap: () {
                                   context.pushNamed(
                                       RoutePath.ownerRequestBooking,
-                                      extra: userRole);
+                                      extra: {
+                                        'userRole': userRole,
+                                        'controller': controller,
+                                      });
                                 },
                               ),
                             ),

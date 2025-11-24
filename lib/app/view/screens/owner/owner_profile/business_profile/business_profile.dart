@@ -290,9 +290,13 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     print("");
-                                    // AppRouter.route.pushNamed(
-                                    //     RoutePath.followingScreen,
-                                    //     extra: userRole);
+                                    AppRouter.route.pushNamed(
+                                        RoutePath.followingScreen,
+                                        extra: {
+                                          'userRole': userRole,
+                                          'controller': controller,
+                                        }
+                                        );
                                   },
                                   child: CommonProfileTotalCard(
                                       title: AppStrings.following,
@@ -304,9 +308,11 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     print("");
-                                    // AppRouter.route.pushNamed(
-                                    //     RoutePath.followerScreen,
-                                    //     extra: userRole);
+                                AppRouter.route.pushNamed(RoutePath.followerScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': controller,
+                                });
                                   },
                                   child: CommonProfileTotalCard(
                                       title: "Follower",

@@ -11,6 +11,7 @@ import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/controller/barber_owner_job_post_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyality/controller/loyality_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/splash/controller/splash_controller.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
@@ -36,6 +37,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => BarberOwnerJobPostController(), fenix: true);
     Get.lazyPut(() => BarberOwnerHomeController(), fenix: true);
     Get.lazyPut(() => QueController(), fenix: true);
+    Get.lazyPut(() => LoyalityController(), fenix: true);
 
 
   }

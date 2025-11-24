@@ -321,11 +321,17 @@ class AuthController extends GetxController with PasswordConstraintController {
 
   RxBool isDeletingLoading = false.obs;
 
-  Future<void> deleteAccount(String email, String password) async {
-    debugPrint("Delete account called with email: $email");
+  Future<void> deleteAccount(String password, String confirmPassword) async {
+    debugPrint("Delete account called with email: $confirmPassword");
     debugPrint("Password length: ${password}");
-    if (email.isEmpty || password.isEmpty) {
+
+    if (confirmPassword.isEmpty || password.isEmpty) {
       EasyLoading.showInfo("Please fill all fields.");
+      return;
+    }
+
+    if (password.trim() != confirmPassword.trim()) {
+      EasyLoading.showInfo("Password and Confirm Password do not match.");
       return;
     }
 
@@ -333,8 +339,8 @@ class AuthController extends GetxController with PasswordConstraintController {
     refresh();
 
     final Map<String, String> body = {
-      // "fullName": name.trim(),
-      "email": email.trim(),
+      // // "fullName": name.trim(),
+      // "email": email.trim(),
       "password": password,
     };
     EasyLoading.show(status: 'Deleting account...');

@@ -19,6 +19,7 @@ mixin BarberProfessionalProfile {
   Rx<BarberProfile?> otherBarberProfile = Rx<BarberProfile?>(null);
 
   var imagepath = ''.obs;
+  RxList<String> portfolioImages = RxList<String>([]);
   var isNetworkImage = false.obs;
   var clearedInitialImage = false.obs;
   RxBool isFollowing = false.obs;
@@ -161,10 +162,11 @@ mixin BarberProfessionalProfile {
         // Add other fields as necessary
       };
       final multipart = <MultipartBody>[];
-      // Only add image if it's a local file, not a network URL ... multiple images not supported yet
-      if (imagepath.value.isNotEmpty && !isNetworkImage.value) {
-        multipart.add(MultipartBody("portfolioImages", File(imagepath.value)));
-      }
+    
+      final protfolioImages = portfolioImages.where((path) => path.isNotEmpty && File(path).existsSync())
+          .map((path) => MultipartBody('portfolioImages', File(path)))
+          .toList();
+      if (protfolioImages.isNotEmpty) multipart.addAll(protfolioImages);
 
       final response = multipart.isNotEmpty
           ? await ApiClient.patchMultipart(

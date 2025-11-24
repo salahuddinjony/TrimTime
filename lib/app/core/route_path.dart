@@ -59,6 +59,7 @@ class RoutePath {
   static const String myFeed = 'MyFeed';
   static const String followingScreen = 'FollowingScreen';
   static const String professionalProfile = 'ProfessionalProfile';
+  static const String customerProfileScreen = 'CustomerProfileScreen';
   static const String myFavoriteScreen = 'MyFavoriteScreen';
   static const String rateScreen = 'RateScreen';
   static const String createJobPost = 'CreateJobPost';

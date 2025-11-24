@@ -1078,7 +1078,7 @@ class AppRouter {
           name: RoutePath.loyalityScreen,
           path: RoutePath.loyalityScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const LoyalityScreen(),
+            child:  LoyalityScreen(),
             state: state,
           ),
         ),

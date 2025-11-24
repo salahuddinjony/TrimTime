@@ -1,4 +1,5 @@
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
+import 'package:barber_time/app/global/helper/validators/validators.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_from_card/custom_from_card.dart';
@@ -15,6 +16,8 @@ class GlobalAlert {
         // final TextEditingController name = TextEditingController();
         final TextEditingController emailController = TextEditingController();
         final TextEditingController passwordController =
+            TextEditingController();
+        final TextEditingController confirmPasswordController =
             TextEditingController();
 
         return AlertDialog(
@@ -34,14 +37,14 @@ class GlobalAlert {
               //   ),
               // ),
               // const SizedBox(height: 12),
-              CustomFromCard(
-                  isPassword: false,
-                  hinText: "Enter Your Email",
-                  title: AppStrings.email,
-                  controller: emailController,
-                  validator: (v) {
-                    return null;
-                  }),
+              // CustomFromCard(
+              //     isPassword: false,
+              //     hinText: "Enter Your Email",
+              //     title: AppStrings.email,
+              //     controller: emailController,
+              //     validator: (v) {
+              //       return null;
+              //     }),
 
               CustomFromCard(
                   isPassword: true,
@@ -49,7 +52,16 @@ class GlobalAlert {
                   title: AppStrings.password,
                   controller: passwordController,
                   validator: (v) {
-                    return null;
+                    return Validators.passwordValidator(v);
+                  }),
+              CustomFromCard(
+                  isPassword: true,
+                  hinText: AppStrings.confirmPassword,
+                  title: AppStrings.confirmPassword,
+                  controller: confirmPasswordController,
+                  validator: (v) {
+                    return Validators.confirmPasswordValidator(
+                        v, passwordController.text);
                   }),
             ],
           ),
@@ -67,11 +79,11 @@ class GlobalAlert {
             ElevatedButton(
                 onPressed: () {
                   // final enteredName = name.text.trim();
-                  final email = emailController.text.trim();
+                  final confirmPassword = confirmPasswordController.text.trim();
                   final password = passwordController.text;
                   authController.deleteAccount(
-                    email,
                     password,
+                    confirmPassword,
                   );
 
                   // Navigator.pop(context);

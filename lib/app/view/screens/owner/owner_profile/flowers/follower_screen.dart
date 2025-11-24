@@ -15,6 +15,7 @@ class FollowerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller?.fetchFollowerOrFollowingData(isFollowers: true);
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
     if (extra is UserRole) {

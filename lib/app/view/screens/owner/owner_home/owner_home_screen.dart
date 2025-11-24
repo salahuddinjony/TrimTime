@@ -144,9 +144,9 @@ class OwnerHomeScreen extends StatelessWidget {
                                         "00",
                                 image: Assets.images.totalCustomer.image(),
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.totalCustomerScreen,
-                                      extra: userRole);
+                                  // AppRouter.route.pushNamed(
+                                  //     RoutePath.totalCustomerScreen,
+                                  //     extra: userRole);
                                 },
                               ),
                             ),
@@ -182,9 +182,9 @@ class OwnerHomeScreen extends StatelessWidget {
                                             .padLeft(2, '0') ??
                                         "00",
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.totalBarber,
-                                      extra: userRole);
+                                  // AppRouter.route.pushNamed(
+                                  //     RoutePath.totalBarber,
+                                  //     extra: userRole);
                                 },
                               ),
                             ),
@@ -220,9 +220,9 @@ class OwnerHomeScreen extends StatelessWidget {
                                             .padLeft(2, '0') ??
                                         "00",
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.hiringPost,
-                                      extra: userRole);
+                                  // AppRouter.route.pushNamed(
+                                  //     RoutePath.hiringPost,
+                                  //     extra: userRole);
                                 },
                               ),
                             ),
@@ -268,9 +268,9 @@ class OwnerHomeScreen extends StatelessWidget {
                                             .padLeft(2, '0') ??
                                         "00",
                                 onTap: () {
-                                  AppRouter.route.pushNamed(
-                                      RoutePath.barberRequest,
-                                      extra: userRole);
+                                  // AppRouter.route.pushNamed(
+                                  //     RoutePath.barberRequest,
+                                  //     extra: userRole);
                                 },
                               ),
                             ),
@@ -306,12 +306,12 @@ class OwnerHomeScreen extends StatelessWidget {
                                             .padLeft(2, '0') ??
                                         "00",
                                 onTap: () {
-                                  context.pushNamed(
-                                      RoutePath.ownerRequestBooking,
-                                      extra: {
-                                        'userRole': userRole,
-                                        'controller': controller,
-                                      });
+                                  // context.pushNamed(
+                                  //     RoutePath.ownerRequestBooking,
+                                  //     extra: {
+                                  //       'userRole': userRole,
+                                  //       'controller': controller,
+                                  //     });
                                 },
                               ),
                             ),
@@ -645,7 +645,6 @@ class OwnerHomeScreen extends StatelessWidget {
                       );
                     }),
                     SizedBox(height: 30.h),
-
                     // CustomTitle(
                     //   title: "Feed",
                     //   actionText: AppStrings.seeAll,

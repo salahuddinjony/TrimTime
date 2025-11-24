@@ -128,8 +128,15 @@ class _BusinessProfileEditState extends State<BusinessProfileEdit> {
         _shopImages.map((f) => f is File ? f.path : f).toList().cast<String>();
     widget.controller.shopVideo.value =
         _shopVideos.map((f) => f is File ? f.path : f).toList().cast<String>();
-    widget.controller.shopLogo.value =
-        _shopLogo is File ? _shopLogo.path : (_shopLogo ?? '');
+    if (_shopLogo != null) {
+      if (_shopLogo is File) {
+        widget.controller.shopLogo.value = [_shopLogo.path];
+      } else if (_shopLogo is String) {
+        widget.controller.shopLogo.value = [_shopLogo];
+      }
+    } else {
+      widget.controller.shopLogo.value = [];
+    }
     final bool result = await widget.controller.updateProfessionalProfile();
     if (mounted && result) context.pop();
   }

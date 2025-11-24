@@ -11,13 +11,12 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/m
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../../core/bottom_navbar.dart';
 import '../../../../common_widgets/common_profile_card/common_profile_card.dart';
 
 class ProfessionalProfile extends StatelessWidget {
@@ -28,7 +27,6 @@ class ProfessionalProfile extends StatelessWidget {
   final bool isForActionButton;
   final VoidCallback? onActionApprove;
   final VoidCallback? onActionReject;
-
 
   const ProfessionalProfile({
     super.key,
@@ -77,19 +75,18 @@ class ProfessionalProfile extends StatelessWidget {
     }
 
     return Scaffold(
-      bottomNavigationBar: isViewingOtherBarber
-          ? null
-          : BottomNavbar(
-              currentIndex: 4,
-              role: userRole,
-            ),
+      // bottomNavigationBar: isViewingOtherBarber
+      //     ? null
+      //     : BottomNavbar(
+      //         currentIndex: 4,
+      //         role: userRole,
+      //       ),
       backgroundColor: AppColors.linearFirst,
       //==================✅✅Header✅✅===================
       appBar: CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: "Barber Profile",
-        iconData: Icons.arrow_back, 
-      
+        iconData: Icons.arrow_back,
       ),
 
       body: SingleChildScrollView(
@@ -124,7 +121,6 @@ class ProfessionalProfile extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                        
                           CommonProfileCard(
                             name: data?.fullName.safeCap() ??
                                 professionalData?.user?.fullName ??
@@ -152,17 +148,25 @@ class ProfessionalProfile extends StatelessWidget {
                   );
                 }
 
-                // Choose profile image from portfolio or user image
-                String imageUrl = professionalData.portfolio.isNotEmpty
-                    ? professionalData.portfolio.first
-                    : (professionalData.user?.image ?? '');
+                // Debug: Print image values
+                debugPrint('API image: [32m${professionalData.image}[0m');
+                debugPrint(
+                    'User image: [34m${professionalData.user?.image}[0m');
+                // Always show professionalData.image at the top (profile image)
+                String imageUrl = (professionalData.image != null &&
+                        professionalData.image!.isNotEmpty)
+                    ? professionalData.image!
+                    : (professionalData.user != null &&
+                            professionalData.user!.image != null &&
+                            professionalData.user!.image!.isNotEmpty
+                        ? professionalData.user!.image!
+                        : AppConstants.demoImage);
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CommonProfileCard(
                       controller: ctrl,
-                      
                       userId: professionalData.userId,
                       isBarberProfile: true,
                       name: professionalData.user?.fullName ??
@@ -243,12 +247,16 @@ class ProfessionalProfile extends StatelessWidget {
                         SizedBox(width: 8),
                         CommonProfileTotalCard(
                           title: AppStrings.following,
-                          value: professionalData.followingCount.toString(),
+                          value: professionalData.followingCount
+                              .toString()
+                              .padLeft(2, '0'),
                         ),
                         SizedBox(width: 8),
                         CommonProfileTotalCard(
                           title: 'Followers',
-                          value: professionalData.followerCount.toString(),
+                          value: professionalData.followerCount
+                              .toString()
+                              .padLeft(2, '0'),
                         ),
                       ],
                     ),
@@ -297,7 +305,7 @@ class ProfessionalProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         CustomText(
-                          text: 'Portfolio:',
+                          text: 'Portfolio Images:',
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.black,
@@ -316,7 +324,9 @@ class ProfessionalProfile extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         // action button for Accept/Reject
-                        if (isForActionButton && (onActionApprove != null && onActionReject != null)) ...[
+                        if (isForActionButton &&
+                            (onActionApprove != null &&
+                                onActionReject != null)) ...[
                           Row(
                             children: [
                               Expanded(
@@ -340,10 +350,9 @@ class ProfessionalProfile extends StatelessWidget {
                             ],
                           )
                         ],
-                        SizedBox( height: 20.h)
+                        SizedBox(height: 20.h)
                       ],
                     ),
-
                   ],
                 );
               }),

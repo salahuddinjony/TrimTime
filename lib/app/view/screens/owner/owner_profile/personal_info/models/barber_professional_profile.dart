@@ -47,6 +47,7 @@ class BarberProfile {
   final DateTime? updatedAt;
   final BarberUser? user;
   bool isFollowing;
+  final String? image;
 
   BarberProfile({
     required this.id,
@@ -67,6 +68,7 @@ class BarberProfile {
     this.updatedAt,
     this.user,
     this.isFollowing = false,
+    this.image,
   });
 
   factory BarberProfile.fromJson(Map<String, dynamic> json) {
@@ -101,6 +103,7 @@ class BarberProfile {
           ? BarberUser.fromJson(json['user'] as Map<String, dynamic>)
           : null,
       isFollowing: json['isFollowing'] as bool? ?? false,
+      image: json['image'] as String?,
     );
   }
 
@@ -123,6 +126,7 @@ class BarberProfile {
         'updatedAt': updatedAt?.toUtc().toIso8601String(),
         'user': user?.toJson(),
         'isFollowing': isFollowing,
+        'image': image,
       };
 }
 

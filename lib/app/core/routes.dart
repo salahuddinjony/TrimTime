@@ -40,6 +40,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/barber/barber.d
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile_edit/business_profile_edit.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/show_all_barber/show_all_barber.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/customer/customer_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
@@ -202,6 +203,29 @@ class AppRouter {
                   state: state,
                   transitionType: TransitionType.detailsScreen);
             }),
+
+            // ======================= Customer Profile =======================
+          GoRoute(
+          name: RoutePath.customerProfileScreen,
+          path: RoutePath.customerProfileScreen.addBasePath,
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final customerId = extra['customerId'] as String?;
+            final controller = extra['controller'] as OwnerProfileController?;
+
+            return _buildPageWithAnimation(
+              child: CustomerProfileScreen(
+                userRole: userRole!,
+                controller: controller!,
+                userId: customerId ?? '',
+
+              ),
+              state: state,
+              transitionType: TransitionType.detailsScreen,
+            );
+          }
+        ),
 
         ///=======================  =======================
         GoRoute(
@@ -1141,6 +1165,7 @@ class AppRouter {
                   userId: userId ?? '',
                   userRole: userRole!,
                   controller: controller,
+                  isShowOwnerInfo: extra['isShowOwnerInfo'] as bool? ?? false,
                 ),
                 state: state,
               );

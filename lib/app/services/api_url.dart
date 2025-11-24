@@ -115,4 +115,5 @@ class ApiUrl {
   static const businessProfile = "$baseUrl/users/saloon-owner-profile";
   static const updateBusinessProfile = "/users/update/saloon-owner";
   static const loyalityProgram = "$baseUrl/loyalty-programs";
+  static String getCustomer(String id) => "$baseUrl/customers/$id";
 }

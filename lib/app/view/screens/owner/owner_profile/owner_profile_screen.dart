@@ -431,8 +431,8 @@ class ProfileScreen extends StatelessWidget {
                       ? const SizedBox()
                       : CustomMenuCard(
                           onTap: () {
-                            // ownerProfileController.fetchFollowerOrFollowingData(
-                            //     isFollowers: false);
+                            ownerProfileController.fetchFollowerOrFollowingData(
+                                isFollowers: false);
                             AppRouter.route.pushNamed(RoutePath.followingScreen,
                                 extra: {
                                   'userRole': userRole,
@@ -449,8 +449,8 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            // ownerProfileController.fetchFollowerOrFollowingData(
-                            //     isFollowers: true);
+                            ownerProfileController.fetchFollowerOrFollowingData(
+                                isFollowers: true);
                             AppRouter.route.pushNamed(RoutePath.followerScreen,
                                 extra: {
                                   'userRole': userRole,

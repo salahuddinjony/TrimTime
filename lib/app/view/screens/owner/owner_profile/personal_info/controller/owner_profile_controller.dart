@@ -8,6 +8,7 @@ import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_selon_management.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/mixin/business_profile_mixin.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/customer/mixin/customer_management.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/mixin_followers_following/mixin_followers_following.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_barber_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_hired_barber.dart';
@@ -21,14 +22,14 @@ import 'package:get/get.dart';
 
 class OwnerProfileController extends GetxController
     with
-        
-        BarberProfessionalProfile, 
+        BarberProfessionalProfile,
         OwnerProfileImageUpdateMixin,
         LoggedProfileInfoMixin,
         MixinHiredBarbers,
         MixinSelonManagement,
         MixinFollowersFollowing,
-        BusinessProfileMixin {
+        BusinessProfileMixin,
+        CustomerManagement {
   var selectedValue = ''.obs;
 
   void updateSelection(String value, TextEditingController controller) {
@@ -110,6 +111,9 @@ class OwnerProfileController extends GetxController
     experienceController.text = data.experienceYears.toString();
     currentWorkController.text = data.currentWorkDes ?? '';
     addSkillsController.text = data.skills.join(', ');
+
+    portfolioImages.addAll(
+        data.portfolio.map((url) => url.startsWith('http') ? url : url));
 
     // Set image path from portfolio if available
     if (data.portfolio.isNotEmpty) {

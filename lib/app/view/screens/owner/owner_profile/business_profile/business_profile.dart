@@ -290,6 +290,7 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     print("");
+                                      controller.fetchFollowerOrFollowingData(isFollowers: false, needLoader: true);
                                     AppRouter.route.pushNamed(
                                         RoutePath.followingScreen,
                                         extra: {
@@ -307,6 +308,7 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     print("");
+                                      controller.fetchFollowerOrFollowingData(isFollowers: true);
                                     AppRouter.route.pushNamed(
                                         RoutePath.followerScreen,
                                         extra: {

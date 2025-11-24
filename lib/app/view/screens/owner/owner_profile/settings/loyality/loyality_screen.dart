@@ -212,7 +212,7 @@ class LoyalityScreen extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.orange.withOpacity(0.2),
+                                color: Colors.orange.withValues(alpha: .2),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               ),

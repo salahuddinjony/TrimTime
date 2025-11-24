@@ -13,11 +13,12 @@ class BarberOwnerHomeController extends GetxController
     with
         MixinFeedsManagement,
         MixinSelonManagement,
-        ScheduleManagementMixin, 
+        ScheduleManagementMixin,
         BarberJobHistoryMixin,
         JobApplicationManageMixin,
         DashboardDataMixin,
-        DateWiseBookingsMixin,UserInfoFromStorage{
+        DateWiseBookingsMixin,
+        UserInfoFromStorage {
   @override
   void onInit() {
     super.onInit();

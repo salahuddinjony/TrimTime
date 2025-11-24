@@ -32,6 +32,7 @@ class Follower {
 	final String followerImage;
 	final String followerAddress;
 	final String followerGender;
+  final String? followerRole;
 
 	Follower({
 		required this.id,
@@ -42,6 +43,7 @@ class Follower {
 		required this.followerImage,
 		required this.followerAddress,
 		required this.followerGender,
+    this.followerRole,
 	});
 
 	factory Follower.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class Follower {
 			followerImage: json['followerImage'] ?? '',
 			followerAddress: json['followerAddress'] ?? '',
 			followerGender: json['followerGender'] ?? '',
+      followerRole: json['followerRole'] as String?,
 		);
 	}
 }

@@ -14,7 +14,7 @@ class GlobalAlert {
       context: context,
       builder: (BuildContext context) {
         // final TextEditingController name = TextEditingController();
-        final TextEditingController emailController = TextEditingController();
+        // final TextEditingController emailController = TextEditingController();
         final TextEditingController passwordController =
             TextEditingController();
         final TextEditingController confirmPasswordController =

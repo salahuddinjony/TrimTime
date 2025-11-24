@@ -1,11 +1,11 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyality/controller/loyality_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 
 class LoyalityScreen extends StatelessWidget {
   LoyalityScreen({super.key}) {
@@ -19,94 +19,280 @@ class LoyalityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        appBarBgColor: const Color(0xCCEDC4AC),
         add: false,
-        appBarContent: AppStrings.loyaLity,
+        appBarContent: AppStrings.loyaLity.safeCap(),
         iconData: Icons.arrow_back,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Obx(() {
-          if (controller.loyalityStatus.value.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (controller.loyalityStatus.value.isError) {
-            return Center(child: Text(controller.loyalityStatus.value.errorMessage ?? 'Error'));
-          } else if (controller.loyalityData.isEmpty) {
-            return Center(child: Text('No loyalty data found'));
-          }
-          return ListView.separated(
-            itemCount: controller.loyalityData.length,
-            separatorBuilder: (context, index) => SizedBox(height: 16.h),
-            itemBuilder: (context, index) {
-              final item = controller.loyalityData[index];
-              return Card(
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xCCEDC4AC), // First color (with opacity)
+              Color(0xFFE9874E),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          child: Obx(() {
+            if (controller.loyalityStatus.value.isLoading) {
+              // Shimmer loader for loyalty cards (no Stack, no badge)
+              return ListView.separated(
+                itemCount: 2,
+                separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                itemBuilder: (context, index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.orange.shade100,
+                    highlightColor: Colors.orange.shade50,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            Colors.orange.shade50,
+                            Colors.orange.shade100,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        padding: const EdgeInsets.all(12),
-                        child: Icon(Icons.card_giftcard, color: Colors.orange, size: 32),
                       ),
-                      SizedBox(width: 16.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 24),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              item.serviceName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.sp,
+                            // Loyalty badge shimmer (circle)
+                            Container(
+                              height: 56,
+                              width: 56,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                            SizedBox(height: 6.h),
-                            Row(
-                              children: [
-                                Icon(Icons.star, color: Colors.amber, size: 18),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  '${item.points} Points',
-                                  style: TextStyle(fontSize: 15.sp, color: Colors.black87),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6.h),
-                            Row(
-                              children: [
-                                Icon(
-                                  item.isActive ? Icons.check_circle : Icons.cancel,
-                                  color: item.isActive ? Colors.green : Colors.red,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  item.isActive ? 'Active' : 'Inactive',
-                                  style: TextStyle(
-                                    color: item.isActive ? Colors.green : Colors.red,
-                                    fontWeight: FontWeight.w500,
+                            SizedBox(width: 20.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Service name shimmer
+                                  Container(
+                                    height: 18,
+                                    width: 140,
+                                    margin: EdgeInsets.only(top: 4, bottom: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  // Points shimmer
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      SizedBox(width: 6.w),
+                                      Container(
+                                        height: 16,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  // Status shimmer
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      SizedBox(width: 6.w),
+                                      Container(
+                                        height: 15,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  // Created date shimmer
+                                  Container(
+                                    height: 13,
+                                    width: 110,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      // Optionally, add a trailing icon or action
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
-            },
-          );
-        }),
+            } else if (controller.loyalityStatus.value.isError) {
+              return Center(
+                  child: Text(
+                      controller.loyalityStatus.value.errorMessage ?? 'Error'));
+            } else if (controller.loyalityData.isEmpty) {
+              return Center(child: Text('No loyalty data found'));
+            }
+            return ListView.separated(
+              itemCount: controller.loyalityData.length,
+              separatorBuilder: (context, index) => SizedBox(height: 20.h),
+              itemBuilder: (context, index) {
+                final item = controller.loyalityData[index];
+                return Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.orange.withValues(alpha: .18),
+                        blurRadius: 16,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white,
+                        Colors.orange.shade50,
+                        Colors.orange.shade100,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 24),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Loyalty badge
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.orange.shade400,
+                                Colors.amber.shade200,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.orange.withOpacity(0.2),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Icon(Icons.card_giftcard,
+                              color: Colors.white, size: 32),
+                        ),
+                        SizedBox(width: 20.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.serviceName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp,
+                                  color: Colors.orange.shade900,
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              Row(
+                                children: [
+                                  Icon(Icons.star,
+                                      color: Colors.amber, size: 20),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    '${item.points} Points',
+                                    style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: Colors.orange.shade800,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    item.isActive
+                                        ? Icons.check_circle
+                                        : Icons.cancel,
+                                    color: item.isActive
+                                        ? Colors.green
+                                        : Colors.red,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    item.isActive ? 'Active' : 'Inactive',
+                                    style: TextStyle(
+                                      color: item.isActive
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(
+                                'Created: ${item.createdAt.substring(0, 10)}',
+                                style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: Colors.grey.shade600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+        ),
       ),
     );
   }
@@ -215,5 +401,4 @@ class LoyalityScreen extends StatelessWidget {
       },
     );
   }
-
 }

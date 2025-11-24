@@ -187,7 +187,7 @@ class AppStrings {
   static const youHaveComplete  = "You have completed the job.!";
   static const goToHome  = "Go to Home";
   static const typeSomething  = "Type something…";
-  static const loyaLity  = "loyalty ";
+  static const loyaLity  = "Loyalty ";
   static const addPhoto  = "Add Photo ";
   static const ongoing   = "Ongoing";
   static const completed   = "Completed  ";

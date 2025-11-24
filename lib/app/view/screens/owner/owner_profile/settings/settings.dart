@@ -8,6 +8,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
@@ -75,7 +76,7 @@ class Settings extends StatelessWidget {
                           },
                           isContainerCard: true,
                           text: AppStrings.loyaLity,
-                          icon: Assets.icons.location.svg(
+                          icon: Assets.icons.loyality.svg(
                             colorFilter: const ColorFilter.mode(
                                 AppColors.normalHover, BlendMode.srcIn),
                           ),
@@ -179,6 +180,8 @@ class Settings extends StatelessWidget {
                           AppColors.normalHover, BlendMode.srcIn),
                     ),
                   ),
+
+                  SizedBox(height: 40.h),
                 ],
               ),
             ),

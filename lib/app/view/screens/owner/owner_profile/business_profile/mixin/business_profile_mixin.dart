@@ -85,13 +85,11 @@ mixin BusinessProfileMixin {
               {"bodyData": jsonEncode(body)},
               multipartBody: multipartBody,
             )
-          : await ApiClient.patchFormData(
+          : await ApiClient.patchData(
               ApiUrl.baseUrl + ApiUrl.updateBusinessProfile,
-             {
-    "bodyData": jsonEncode(body), // body is your map of all fields
-  },
-             
+              jsonEncode(body),   
             );
+
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         professionalStatus.value = RxStatus.success();

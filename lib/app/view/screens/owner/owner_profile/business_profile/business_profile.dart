@@ -295,8 +295,7 @@ class BusinessProfile extends StatelessWidget {
                                         extra: {
                                           'userRole': userRole,
                                           'controller': controller,
-                                        }
-                                        );
+                                        });
                                   },
                                   child: CommonProfileTotalCard(
                                       title: AppStrings.following,
@@ -308,11 +307,12 @@ class BusinessProfile extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     print("");
-                                AppRouter.route.pushNamed(RoutePath.followerScreen,
-                                extra: {
-                                  'userRole': userRole,
-                                  'controller': controller,
-                                });
+                                    AppRouter.route.pushNamed(
+                                        RoutePath.followerScreen,
+                                        extra: {
+                                          'userRole': userRole,
+                                          'controller': controller,
+                                        });
                                   },
                                   child: CommonProfileTotalCard(
                                       title: "Follower",

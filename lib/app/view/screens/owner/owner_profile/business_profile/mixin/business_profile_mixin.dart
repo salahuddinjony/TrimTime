@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/model/business_profile_data.dart';
@@ -49,7 +48,7 @@ mixin BusinessProfileMixin {
 
   final RxList<String> shopImages = <String>[].obs;
   final RxList<String> shopVideo = <String>[].obs;
-  final RxString shopLogo = ''.obs;
+  final RxList<String> shopLogo = <String>[].obs;
 
   Rx<RxStatus> professionalStatus = Rx<RxStatus>(RxStatus.empty());
   Future<bool> updateProfessionalProfile() async {
@@ -75,8 +74,9 @@ mixin BusinessProfileMixin {
           .toList();
       if (shopImagesFiles.isNotEmpty) multipartBody.addAll(shopImagesFiles);
       if (shopVideosFiles.isNotEmpty) multipartBody.addAll(shopVideosFiles);
-      if (shopLogo.value.isNotEmpty && File(shopLogo.value).existsSync()) {
-        multipartBody.add(MultipartBody('shop_logo', File(shopLogo.value)));
+      if (shopLogo.isNotEmpty && File(shopLogo.first).existsSync()) {
+        multipartBody
+            .addAll([MultipartBody('shop_logo', File(shopLogo.first))]);
       }
 
       final response = multipartBody.isNotEmpty
@@ -87,9 +87,8 @@ mixin BusinessProfileMixin {
             )
           : await ApiClient.patchData(
               ApiUrl.baseUrl + ApiUrl.updateBusinessProfile,
-              jsonEncode(body),   
+              jsonEncode(body),
             );
-
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         professionalStatus.value = RxStatus.success();

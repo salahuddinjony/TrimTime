@@ -23,11 +23,13 @@ class ShopProfileScreen<T> extends StatelessWidget {
   final String userId;
   final UserRole userRole;
   final T controller;
+  final bool isShowOwnerInfo;
 
   ShopProfileScreen(
       {super.key,
       required this.userId,
       required this.userRole,
+      this.isShowOwnerInfo = true,
       required this.controller});
 
   // BarberHomeController get controller {
@@ -94,6 +96,62 @@ class ShopProfileScreen<T> extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Shop Owner Card (centered)
+                      if (isShowOwnerInfo)
+                        Center(
+                          child: Card(
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            margin: EdgeInsets.only(bottom: 16.h),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w, vertical: 10.h),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  isLoading
+                                      ? Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 100,
+                                            height: 18,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : CustomText(
+                                          text: selonData?.shopOwnerName ??
+                                              'No Owner Data',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.black,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                  SizedBox(height: 4.h),
+                                  isLoading
+                                      ? Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 60,
+                                            height: 12,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : CustomText(
+                                          text: "Shop Owner",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.gray500,
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       Stack(
                         alignment: Alignment.topCenter,
                         children: [
@@ -505,75 +563,90 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                         )),
                               ),
                             )
-                          : SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                    selonData?.barbers.length ?? 0, (index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            final barber =
-                                                selonData?.barbers[index];
-                                            if (barber != null) {
-                                              // Use userId if available, otherwise use id
-                                              final barberId =
-                                                  barber.userId ?? barber.id;
-                                              debugPrint(
-                                                  "Barber ${barber.fullName} clicked");
-                                              debugPrint(
-                                                  "Barber ID: $barberId");
+                          : selonData?.barbers.isEmpty == true
+                              ? Container(
+                                  child: CustomText(
+                                    text: "No barbers available.",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.gray500,
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        selonData?.barbers.length ?? 0,
+                                        (index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                final barber =
+                                                    selonData?.barbers[index];
+                                                if (barber != null) {
+                                                  // Use userId if available, otherwise use id
+                                                  final barberId =
+                                                      barber.userId ??
+                                                          barber.id;
+                                                  debugPrint(
+                                                      "Barber ${barber.fullName} clicked");
+                                                  debugPrint(
+                                                      "Barber ID: $barberId");
 
-                                              // Navigate to professional profile with barber ID
-                                              AppRouter.route.pushNamed(
-                                                RoutePath.professionalProfile,
-                                                extra: {
-                                                  'userRole': userRole,
-                                                  'barberId': barberId,
-                                                },
-                                              );
-                                            }
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 2,
+                                                  // Navigate to professional profile with barber ID
+                                                  AppRouter.route.pushNamed(
+                                                    RoutePath
+                                                        .professionalProfile,
+                                                    extra: {
+                                                      'userRole': userRole,
+                                                      'barberId': barberId,
+                                                    },
+                                                  );
+                                                }
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: Colors.white,
+                                                        width: 2,
+                                                      ),
+                                                    ),
+                                                    child: CustomNetworkImage(
+                                                        imageUrl: selonData
+                                                                ?.barbers[index]
+                                                                .image ??
+                                                            AppConstants
+                                                                .demoImage,
+                                                        height: 58.h,
+                                                        boxShape:
+                                                            BoxShape.circle,
+                                                        width: 58.h),
                                                   ),
-                                                ),
-                                                child: CustomNetworkImage(
-                                                    imageUrl: selonData
+                                                  SizedBox(height: 6.h),
+                                                  CustomText(
+                                                    text: selonData
                                                             ?.barbers[index]
-                                                            .image ??
-                                                        AppConstants.demoImage,
-                                                    height: 58.h,
-                                                    boxShape: BoxShape.circle,
-                                                    width: 58.h),
+                                                            .fullName ??
+                                                        "No Name",
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppColors.black,
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(height: 6.h),
-                                              CustomText(
-                                                text: selonData?.barbers[index]
-                                                        .fullName ??
-                                                    "No Name",
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w500,
-                                                color: AppColors.black,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ),
+                                      );
+                                    }),
+                                  ),
+                                ),
                       const SizedBox(height: 10),
                       if (selonData != null &&
                               selonData.shopImages.isNotEmpty ||
@@ -669,196 +742,214 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                    selonData?.services.length ?? 0, (index) {
-                                  final service = selonData!.services[index];
-                                  return Container(
-                                    width: 220,
-                                    margin: EdgeInsets.only(
-                                        right: 12.w, bottom: 8.h, top: 4.h),
-                                    padding: EdgeInsets.all(16.r),
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          AppColors.orange500
-                                              .withValues(alpha: .1),
-                                          AppColors.last.withValues(alpha: .05),
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: AppColors.orange500
-                                            .withValues(alpha: .3),
-                                        width: 1,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.orange500
-                                              .withValues(alpha: .1),
-                                          blurRadius: 8,
-                                          spreadRadius: 0,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: CustomText(
-                                                text: service.serviceName,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                                color: AppColors.black,
-                                                maxLines: 2,
-                                              ),
+                          : selonData?.services.isEmpty == true
+                              ? Container(
+                                  child: CustomText(
+                                    text: "No services available.",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.gray500,
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        selonData?.services.length ?? 0,
+                                        (index) {
+                                      final service =
+                                          selonData!.services[index];
+                                      return Container(
+                                        width: 220,
+                                        margin: EdgeInsets.only(
+                                            right: 12.w, bottom: 8.h, top: 4.h),
+                                        padding: EdgeInsets.all(16.r),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              AppColors.orange500
+                                                  .withValues(alpha: .1),
+                                              AppColors.last
+                                                  .withValues(alpha: .05),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          border: Border.all(
+                                            color: AppColors.orange500
+                                                .withValues(alpha: .3),
+                                            width: 1,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColors.orange500
+                                                  .withValues(alpha: .1),
+                                              blurRadius: 8,
+                                              spreadRadius: 0,
+                                              offset: const Offset(0, 2),
                                             ),
-                                            if (service.isActive)
-                                              Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 8.w,
-                                                    vertical: 4.h),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text: service.serviceName,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColors.black,
+                                                    maxLines: 2,
+                                                  ),
                                                 ),
-                                                child: CustomText(
-                                                  text: "Active",
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
+                                                if (service.isActive)
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 8.w,
+                                                            vertical: 4.h),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.green,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                    ),
+                                                    child: CustomText(
+                                                      text: "Active",
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 12.h),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_time,
+                                                  size: 16,
+                                                  color: AppColors.orange500,
                                                 ),
-                                              ),
+                                                SizedBox(width: 6.w),
+                                                CustomText(
+                                                  text:
+                                                      "${service.duration} min",
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppColors.gray500,
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 8.h),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.attach_money,
+                                                  size: 18,
+                                                  color: AppColors.orange500,
+                                                ),
+                                                Flexible(
+                                                  child: CustomText(
+                                                    text: "${service.price}",
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // SizedBox(height: 12.h),
+                                            // GestureDetector(
+                                            //   onTap: () {
+                                            //     // Handle book service
+                                            //     showDialog(
+                                            //       context: context,
+                                            //       builder: (_) => AlertDialog(
+                                            //         title: const Text('Book Service'),
+                                            //         content: Text(
+                                            //           'Would you like to book "${service.serviceName}"?\n\nPrice: £${service.price}\nDuration: ${service.duration} min',
+                                            //         ),
+                                            //         actions: [
+                                            //           TextButton(
+                                            //             onPressed: () => Navigator.of(context).pop(),
+                                            //             child: const Text('Cancel'),
+                                            //           ),
+                                            //           TextButton(
+                                            //             onPressed: () {
+                                            //               Navigator.of(context).pop();
+                                            //               // Add booking logic here
+                                            //               ScaffoldMessenger.of(context).showSnackBar(
+                                            //                 SnackBar(
+                                            //                   content: Text('Booking "${service.serviceName}" confirmed!'),
+                                            //                   backgroundColor: Colors.green,
+                                            //                 ),
+                                            //               );
+                                            //             },
+                                            //             child: const Text('Book Now'),
+                                            //           ),
+                                            //         ],
+                                            //       ),
+                                            //     );
+                                            //   },
+                                            //   child: Container(
+                                            //     width: double.infinity,
+                                            //     padding: EdgeInsets.symmetric(
+                                            //       vertical: 10.h,
+                                            //     ),
+                                            //     decoration: BoxDecoration(
+                                            //       gradient: LinearGradient(
+                                            //         colors: [
+                                            //           AppColors.orange500,
+                                            //           AppColors.last,
+                                            //         ],
+                                            //         begin: Alignment.centerLeft,
+                                            //         end: Alignment.centerRight,
+                                            //       ),
+                                            //       borderRadius: BorderRadius.circular(8),
+                                            //       boxShadow: [
+                                            //         BoxShadow(
+                                            //           color: AppColors.orange500.withValues(alpha: .3),
+                                            //           blurRadius: 4,
+                                            //           offset: const Offset(0, 2),
+                                            //         ),
+                                            //       ],
+                                            //     ),
+                                            //     child: Row(
+                                            //       mainAxisAlignment: MainAxisAlignment.center,
+                                            //       children: [
+                                            //         Icon(
+                                            //           Icons.calendar_today,
+                                            //           size: 16,
+                                            //           color: Colors.white,
+                                            //         ),
+                                            //         SizedBox(width: 6.w),
+                                            //         CustomText(
+                                            //           text: "Book Now",
+                                            //           fontSize: 14,
+                                            //           fontWeight: FontWeight.w600,
+                                            //           color: Colors.white,
+                                            //         ),
+                                            //       ],
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
-                                        SizedBox(height: 12.h),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.access_time,
-                                              size: 16,
-                                              color: AppColors.orange500,
-                                            ),
-                                            SizedBox(width: 6.w),
-                                            CustomText(
-                                              text: "${service.duration} min",
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppColors.gray500,
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 8.h),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.attach_money,
-                                              size: 18,
-                                              color: AppColors.orange500,
-                                            ),
-                                            Flexible(
-                                              child: CustomText(
-                                                text: "${service.price}",
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        // SizedBox(height: 12.h),
-                                        // GestureDetector(
-                                        //   onTap: () {
-                                        //     // Handle book service
-                                        //     showDialog(
-                                        //       context: context,
-                                        //       builder: (_) => AlertDialog(
-                                        //         title: const Text('Book Service'),
-                                        //         content: Text(
-                                        //           'Would you like to book "${service.serviceName}"?\n\nPrice: £${service.price}\nDuration: ${service.duration} min',
-                                        //         ),
-                                        //         actions: [
-                                        //           TextButton(
-                                        //             onPressed: () => Navigator.of(context).pop(),
-                                        //             child: const Text('Cancel'),
-                                        //           ),
-                                        //           TextButton(
-                                        //             onPressed: () {
-                                        //               Navigator.of(context).pop();
-                                        //               // Add booking logic here
-                                        //               ScaffoldMessenger.of(context).showSnackBar(
-                                        //                 SnackBar(
-                                        //                   content: Text('Booking "${service.serviceName}" confirmed!'),
-                                        //                   backgroundColor: Colors.green,
-                                        //                 ),
-                                        //               );
-                                        //             },
-                                        //             child: const Text('Book Now'),
-                                        //           ),
-                                        //         ],
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        //   child: Container(
-                                        //     width: double.infinity,
-                                        //     padding: EdgeInsets.symmetric(
-                                        //       vertical: 10.h,
-                                        //     ),
-                                        //     decoration: BoxDecoration(
-                                        //       gradient: LinearGradient(
-                                        //         colors: [
-                                        //           AppColors.orange500,
-                                        //           AppColors.last,
-                                        //         ],
-                                        //         begin: Alignment.centerLeft,
-                                        //         end: Alignment.centerRight,
-                                        //       ),
-                                        //       borderRadius: BorderRadius.circular(8),
-                                        //       boxShadow: [
-                                        //         BoxShadow(
-                                        //           color: AppColors.orange500.withValues(alpha: .3),
-                                        //           blurRadius: 4,
-                                        //           offset: const Offset(0, 2),
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //     child: Row(
-                                        //       mainAxisAlignment: MainAxisAlignment.center,
-                                        //       children: [
-                                        //         Icon(
-                                        //           Icons.calendar_today,
-                                        //           size: 16,
-                                        //           color: Colors.white,
-                                        //         ),
-                                        //         SizedBox(width: 6.w),
-                                        //         CustomText(
-                                        //           text: "Book Now",
-                                        //           fontSize: 14,
-                                        //           fontWeight: FontWeight.w600,
-                                        //           color: Colors.white,
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ),
+                                      );
+                                    }),
+                                  ),
+                                ),
                       const SizedBox(height: 10),
                       // isLoading
                       //     ? Shimmer.fromColors(

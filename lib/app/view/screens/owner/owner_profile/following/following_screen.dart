@@ -19,8 +19,8 @@ class FollowingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      controller?.fetchFollowerOrFollowingData(
-                                isFollowers: false);
+      // controller?.fetchFollowerOrFollowingData(
+      //                           isFollowers: false);
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
     if (extra is UserRole) {
@@ -98,17 +98,57 @@ class FollowingScreen extends StatelessWidget {
                     final user = followingList[index];
                     return GestureDetector(
                       onTap: () {
-                        final barberId = user.followingId;
-                        debugPrint("Barber ${user.followingName} clicked");
-                        debugPrint("Barber ID: $barberId");
-                        AppRouter.route.pushNamed(
-                          RoutePath.professionalProfile,
-                          extra: {
-                            'userRole': userRole,
-                            'barberId': barberId,
-                            'isForActionButton': false,
-                          },
-                        );
+                     final Id = user.followingId;
+                    final followerRole = user.followingRole;
+
+
+                    if(Id.isEmpty || userRole == null) {
+                      debugPrint("Invalid barber ID or user role");
+                      return;
+                    }
+
+                    if(followerRole.isNotEmpty &&
+                        followerRole == "CUSTOMER") {
+                      debugPrint("Customer ${user.followingName} clicked");
+                      debugPrint("Customer ID: $Id");
+                     AppRouter.route.pushNamed(
+                      RoutePath.customerProfileScreen,
+                      extra: {
+                        'userRole': userRole,
+                        'customerId': Id, 
+                        'controller': controller,
+                      },
+                    );
+                      return;
+                    }
+                    if (followerRole.isNotEmpty &&
+                      followerRole == "SALOON_OWNER") {
+                      AppRouter.route.pushNamed(
+                        RoutePath.shopProfileScreen,
+                        extra: {
+                          'userRole': userRole,
+                          'userId': user.followingId,
+                          'controller': controller,
+                          'isShowOwnerInfo': true,
+                        },
+                      );
+                      return;
+                    }
+
+                  if(followerRole.isNotEmpty &&
+                      followerRole == "BARBER") {
+                     debugPrint("Barber ${user.followingName} clicked");
+                    debugPrint("Barber ID: $Id");
+                    AppRouter.route.pushNamed(
+                      RoutePath.professionalProfile,
+                      extra: {
+                        'userRole': userRole,
+                        'barberId': Id,
+                        'isForActionButton': false,
+                      },
+                    );
+                    return;
+                  }
                         // Handle card tap if needed
                       },
                       child: FollowingCard(

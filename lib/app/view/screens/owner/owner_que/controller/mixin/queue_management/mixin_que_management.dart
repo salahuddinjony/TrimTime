@@ -87,12 +87,12 @@ mixin QueManagementMixin
     }
   }
 
-  Future<void> fetchBarbersCustomerQue({required String barberId}) async {
+  Future<void> fetchBarbersCustomerQue({required String barberId, String? saloonOwnerId}) async {
     try {
       barbersCustomerQueStatus.value = RxStatus.loading();
 
-      final String ownerId =
-          await SharePrefsHelper.getString(AppConstants.userId);
+      final String ownerId = saloonOwnerId ?? await SharePrefsHelper.getString(AppConstants.userId) ;
+      debugPrint('Fetching barber\'s customer que for owner ID: $ownerId, barber ID: $barberId');
       final url =
           ApiUrl.getBarbersCustomerQue(ownerId: ownerId, barberId: barberId);
       final response = await ApiClient.getData(url);

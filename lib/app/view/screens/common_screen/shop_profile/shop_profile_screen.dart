@@ -103,6 +103,11 @@ class ShopProfileScreen<T> extends StatelessWidget {
                             elevation: 0.5,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                color: const Color.fromARGB(255, 92, 168, 182)
+                                    .withValues(alpha: .1),
+                                width: 5,
+                              ),
                             ),
                             margin: EdgeInsets.only(bottom: 16.h),
                             child: Padding(

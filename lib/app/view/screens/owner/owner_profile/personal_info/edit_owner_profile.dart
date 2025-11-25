@@ -47,11 +47,13 @@ class _EditOwnerProfileState extends State<EditOwnerProfile> {
   @override
   void initState() {
     super.initState();
-    final ProfileData initialData =
-        widget.controller.profileDataList.value != null
-            ? widget.controller.profileDataList.value!
-            : widget.data;
-    widget.controller.setInitialValue(initialData);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ProfileData initialData =
+          widget.controller.profileDataList.value != null
+              ? widget.controller.profileDataList.value!
+              : widget.data;
+      widget.controller.setInitialValue(initialData);
+    });
   }
 
   Future<void> showPickerOptions() async {

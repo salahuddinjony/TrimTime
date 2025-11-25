@@ -35,6 +35,7 @@ class BarberBookingResponse {
 
 class BarberBookingData {
   final String bookingId;
+  final String bookingType;
   final String userId;
   final String saloonOwnerId;
   final String barberId;
@@ -54,6 +55,7 @@ class BarberBookingData {
     required this.bookingId,
     required this.userId,
     required this.saloonOwnerId,
+    required this.bookingType,
     required this.barberId,
     required this.date,
     required this.startDateTime,
@@ -73,6 +75,7 @@ class BarberBookingData {
       bookingId: json['bookingId'] ?? '',
       userId: json['userId'] ?? '',
       saloonOwnerId: json['saloonOwnerId'] ?? '',
+      bookingType: json['bookingType'] ?? '',
       barberId: json['barberId'] ?? '',
       date: DateTime.parse(json['date'] ?? DateTime.now().toIso8601String()),
       startDateTime: DateTime.parse(
@@ -100,6 +103,7 @@ class BarberBookingData {
       'userId': userId,
       'saloonOwnerId': saloonOwnerId,
       'barberId': barberId,
+      'bookingType': bookingType,
       'date': date.toIso8601String(),
       'startDateTime': startDateTime.toIso8601String(),
       'endDateTime': endDateTime.toIso8601String(),

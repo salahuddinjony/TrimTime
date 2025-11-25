@@ -1,10 +1,10 @@
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,21 +16,16 @@ import '../../../../../core/route_path.dart';
 import '../../../../../core/routes.dart';
 import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
-class QueScreen extends StatelessWidget {
-  Future<void> _refresh(BuildContext context) async {
-    if (controller != null) {
-      await controller!.fetchBarbersCustomerQue(barberId: barberId);
-    }
-  }
-
+class QueScreen<T> extends StatelessWidget {
   final UserRole userRole;
   final String barberId;
-  final QueController? controller;
-
+  final T? controller;
+  final String? saloonOwnerId;
   const QueScreen({
     super.key,
     required this.userRole,
     required this.barberId,
+    this.saloonOwnerId,
     this.controller,
   });
 
@@ -55,6 +50,21 @@ class QueScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dynamic controller = this.controller;
+    Future<void> _refresh(BuildContext context) async {
+      if (controller != null) {
+        String? ownerId = saloonOwnerId;
+        if (ownerId == null || ownerId.isEmpty) {
+          // Fallback: try to get from shared preferences
+          ownerId = await SharePrefsHelper.getString(AppConstants.userId);
+        }
+        await controller!.fetchBarbersCustomerQue(
+          barberId: barberId,
+          saloonOwnerId: ownerId,
+        );
+      }
+    }
+
     final extra = GoRouter.of(context).state.extra;
     UserRole? role;
 
@@ -99,40 +109,82 @@ class QueScreen extends StatelessWidget {
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  loading
-                      ? shimmerHeader()
-                      : barberHeaderSection(
-                          coverImage: data?.shopLogo ?? AppConstants.demoImage,
-                          profileImage: data?.image ?? AppConstants.demoImage,
-                          barberName: data?.name ?? "Unknown",
-                          onProfileTap: () {
-                            final barberId = data?.barberId ?? "";
-                            debugPrint("Barber \\${data?.name} clicked");
-                            debugPrint("Barber ID: $barberId");
-                            AppRouter.route.pushNamed(
-                              RoutePath.professionalProfile,
-                              extra: {
-                                'userRole': userRole,
-                                'barberId': barberId,
-                                'isForActionButton': true,
-                              },
-                            );
-                          },
-                        ),
+                  if (userRole != UserRole.barber) ...[
+                    loading
+                        ? shimmerHeader()
+                        : barberHeaderSection(
+                            coverImage:
+                                data?.shopLogo ?? AppConstants.demoImage,
+                            profileImage: data?.image ?? AppConstants.demoImage,
+                            barberName: data?.name ?? "Unknown",
+                            onProfileTap: () {
+                              final barberId = data?.barberId ?? "";
+                              debugPrint("Barber \\${data?.name} clicked");
+                              debugPrint("Barber ID: $barberId");
+                              AppRouter.route.pushNamed(
+                                RoutePath.professionalProfile,
+                                extra: {
+                                  'userRole': userRole,
+                                  'barberId': barberId,
+                                  'isForActionButton': true,
+                                },
+                              );
+                            },
+                          ),
+                  ],
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (userRole == UserRole.barber) ...[
+                          SizedBox(height: 10.h),
+                        ],
                         loading
                             ? shimmerText(width: 150, height: 20)
-                            : const CustomText(
-                                top: 16,
-                                text: "Ongoing Customer",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
-                                color: AppColors.gray500,
-                              ),
+                            : userRole == UserRole.barber
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 16.0, bottom: 4.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const CustomText(
+                                          text: "Ongoing Customers",
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: AppColors.gray500,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          height: 28,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                          ),
+                                          child: CustomText(
+                                            text:
+                                                "${data?.bookings.length ?? 0}",
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const CustomText(
+                                    top: 16,
+                                    text: "Ongoing Customer",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                    color: AppColors.gray500,
+                                  ),
                         const SizedBox(height: 12),
                         loading
                             ? shimmerGrid()
@@ -319,74 +371,88 @@ class QueScreen extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 12,
-        mainAxisSpacing: 20,
-        childAspectRatio: .9,
+        mainAxisSpacing: 12, // reduced spacing
+        childAspectRatio: .85, // slightly more vertical space
       ),
       itemCount: bookings.length,
       itemBuilder: (context, index) {
         var customer = bookings[index];
-        return Column(
-          children: [
-            customer.customerImage != null && customer.customerImage!.isNotEmpty
-                ? CircleAvatar(
-                    radius: 30,
-                    backgroundImage:
-                        CachedNetworkImageProvider(customer.customerImage!),
-                  )
-                : Container(
-                    height: 52,
-                    width: 52,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                customer.customerImage != null &&
+                        customer.customerImage!.isNotEmpty
+                    ? CircleAvatar(
+                        radius: 26, // slightly smaller
+                        backgroundImage:
+                            CachedNetworkImageProvider(customer.customerImage!),
+                      )
+                    : Container(
+                        height: 48,
+                        width: 48,
+                        decoration: BoxDecoration(
+                          color: generateColor(index),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          generateIcon(index),
+                          size: 28,
+                          color: Colors.white,
+                        ),
+                      ),
+                const SizedBox(height: 4),
+                Flexible(
+                  child: CustomText(
+                    text: "${customer.customerName ?? 'N/A'}",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    color: AppColors.gray500,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
-                      color: generateColor(index),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      generateIcon(index),
-                      size: 32,
                       color: Colors.white,
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: CustomText(
+                      text: "${customer.startTime}-${customer.endTime}",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                      color: AppColors.black,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-            const SizedBox(height: 6),
-            CustomText(
-              text: "${customer.customerName ?? 'N/A'}",
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-              color: AppColors.gray500,
-              maxLines: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
                 ),
-                child: CustomText(
-                  text: "${customer.startTime}-${customer.endTime}",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 10,
-                  color: AppColors.black,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: CustomText(
+                    text: "${customer.totalTime ?? 'N/A'} min",
+                    fontWeight: FontWeight.w800,
+                    fontSize: 9,
+                    color: AppColors.gray500,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ),
-            CustomText(
-              text: "${customer.totalTime ?? 'N/A'} min",
-              fontWeight: FontWeight.w800,
-              fontSize: 10,
-              color: AppColors.gray500,
-              maxLines: 1,
-            ),
-          ],
+              ],
+            );
+          },
         );
       },
     );

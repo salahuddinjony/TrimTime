@@ -4,6 +4,7 @@ class AppConstants {
   // Shared Preferences Keys of logged in user
   static String bearerToken = "BearerToken";
   static String userId = "Id";
+  static String saloonOwnerId = "saloonOwnerId";
   static String role="role";
   static bool qrCode= false;
 

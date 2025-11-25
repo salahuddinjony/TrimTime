@@ -49,7 +49,7 @@ class _BookingScreenState extends State<BookingScreen> {
       // Upcoming: CONFIRMED and PENDING status
       return barberHomeController.bookings
           .where((booking) =>
-              booking.status == 'CONFIRMED' || booking.status == 'PENDING')
+              (booking.status == 'CONFIRMED' || booking.status == 'PENDING') && booking.bookingType != 'QUEUE')
           .toList();
     } else {
       // Previous: COMPLETED and CANCELLED status
@@ -193,12 +193,14 @@ class _BookingScreenState extends State<BookingScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: CustomBookingCard(
                         onTap: () {
-                          if (!widget.isBarber) {
+                          if (widget.isBarber) {
+                            debugPrint(
+                                'Navigating to Booking Details for Barber');
                             AppRouter.route.pushNamed(
                               RoutePath.bookingDetailsScreen,
                               extra: {
                                 'userRole': userRole,
-                                'booking': booking,
+                                'bookingData': booking,
                               },
                             );
                           }

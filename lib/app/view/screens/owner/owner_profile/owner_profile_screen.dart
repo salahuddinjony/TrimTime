@@ -410,11 +410,41 @@ class ProfileScreen extends StatelessWidget {
 
                   //TOdo=========
 
-                  userRole == UserRole.barber
+                  // userRole == UserRole.barber
+                  //     ? CustomMenuCard(
+                  //         onTap: () {
+                  //           AppRouter.route.pushNamed(RoutePath.barberQueScreen,
+                  //               extra: userRole);
+                  //         },
+                  //         text: AppStrings.que,
+                  //         icon: Assets.icons.ques.svg(
+                  //           height: 16,
+                  //           colorFilter: const ColorFilter.mode(
+                  //               AppColors.gray500, BlendMode.srcIn),
+                  //         ),
+                  //       )
+                  //     : const SizedBox(),
+                        userRole == UserRole.barber
                       ? CustomMenuCard(
-                          onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.barberQueScreen,
-                                extra: userRole);
+                          onTap: () async{
+                            final barberId= await SharePrefsHelper.getString(AppConstants.userId);
+                            final barBerOwnerId= await SharePrefsHelper.getString(AppConstants.saloonOwnerId);
+                               debugPrint(
+                              "Navigating to Queue Screen for ${barBerOwnerId}");
+                                debugPrint(
+                                "Barber ID: ${  barberId}");
+                                  ownerProfileController.fetchBarbersCustomerQue(
+                                                      barberId: barberId,
+                                                      saloonOwnerId: barBerOwnerId);
+                                              AppRouter.route.pushNamed(
+                                                RoutePath.queScreen,
+                                                extra: {
+                                                  'userRole': userRole,
+                                                  'barberId': barberId,
+                                                  'controller': ownerProfileController,
+                                                  'saloonOwnerId':barBerOwnerId
+                                                },
+                                              );
                           },
                           text: AppStrings.que,
                           icon: Assets.icons.ques.svg(

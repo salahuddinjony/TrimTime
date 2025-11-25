@@ -10,7 +10,8 @@ import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
-import 'package:barber_time/app/view/common_widgets/user_nav_bar/user_nav_bar.dart' show CustomNavBar;
+import 'package:barber_time/app/view/common_widgets/user_nav_bar/user_nav_bar.dart'
+    show CustomNavBar;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -21,15 +22,24 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/c
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({
+  UserProfileScreen({
     super.key,
   });
 
+  final OwnerProfileController ownerProfileController =
+      Get.find<OwnerProfileController>();
+
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map && extra['userRole'] is UserRole) {
+      userRole = extra['userRole'] as UserRole;
+    }
 
-    debugPrint("===================${userRole?.name}");
+    debugPrint("==================={userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
@@ -38,8 +48,6 @@ class UserProfileScreen extends StatelessWidget {
     }
     return Scaffold(
       bottomNavigationBar: CustomNavBar(currentIndex: 4, role: userRole),
-
-
 
       ///============================ Header ===============================
       appBar: AppBar(
@@ -77,28 +85,28 @@ class UserProfileScreen extends StatelessWidget {
                   //TOdo=====Header====
                   Center(
                       child: Column(
-                        children: [
-                          CustomNetworkImage(
-                              boxShape: BoxShape.circle,
-                              imageUrl: AppConstants.demoImage,
-                              height: 102,
-                              width: 102),
-                          const CustomText(
-                            top: 8,
-                            text: "Jane Cooper",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            color: AppColors.black,
-                          ),
-                          const CustomText(
-                            top: 8,
-                            text: "Jane@example.com",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: AppColors.black,
-                          ),
-                        ],
-                      )),
+                    children: [
+                      CustomNetworkImage(
+                          boxShape: BoxShape.circle,
+                          imageUrl: AppConstants.demoImage,
+                          height: 102,
+                          width: 102),
+                      const CustomText(
+                        top: 8,
+                        text: "Jane Cooper",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: AppColors.black,
+                      ),
+                      const CustomText(
+                        top: 8,
+                        text: "Jane@example.com",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: AppColors.black,
+                      ),
+                    ],
+                  )),
 
                   //TOdo=====personalInformation====
                   CustomMenuCard(
@@ -111,12 +119,12 @@ class UserProfileScreen extends StatelessWidget {
                           email: 'Jane@example.com',
                           phoneNumber: '+1234567890',
                           address: 'User Address',
-                          dateOfBirth: DateTime.now().subtract(const Duration(days: 365 * 25)), // 25 years old
+                          dateOfBirth: DateTime.now().subtract(
+                              const Duration(days: 365 * 25)), // 25 years old
                           gender: 'female',
                           followerCount: 0,
-                          followingCount: 0, 
-                          role: userRole.name,
-                         
+                          followingCount: 0,
+                          role: userRole?.name ?? '',
                         );
 
                         // Ensure controller exists or create it
@@ -124,7 +132,8 @@ class UserProfileScreen extends StatelessWidget {
                           Get.put(OwnerProfileController());
                         }
 
-                        AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
+                        AppRouter.route
+                            .pushNamed(RoutePath.personalInfo, extra: {
                           'userRole': userRole,
                           'profileData': profileData,
                           'controller': Get.find<OwnerProfileController>(),
@@ -134,7 +143,8 @@ class UserProfileScreen extends StatelessWidget {
                         debugPrint('Error navigating to PersonalInfo: $e');
                         // You might want to create a user-specific profile route instead
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Profile feature coming soon')),
+                          const SnackBar(
+                              content: Text('Profile feature coming soon')),
                         );
                       }
                     },
@@ -145,93 +155,81 @@ class UserProfileScreen extends StatelessWidget {
                     ),
                   ),
 
-
-
-
-
                   //TOdo=====Ask rey (AI)====
-               CustomMenuCard(
+                  CustomMenuCard(
                       onTap: () {
-                        AppRouter.route.pushNamed(
-                            RoutePath.pixMatch,
-                            extra: userRole);
+                        AppRouter.route
+                            .pushNamed(RoutePath.pixMatch, extra: userRole);
                       },
                       text: "Ask rey (AI)",
-                      icon: Assets.images.alRemovebgPreview.image(height: 20,)
-                  ),
-
-
+                      icon: Assets.images.alRemovebgPreview.image(
+                        height: 20,
+                      )),
 
                   //=========
                   //TOdo=====myFeed====
                   userRole == UserRole.user
                       ? const SizedBox.shrink()
-                      :
-                  CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.myFeed, extra: userRole);
-                    },
-                    text: AppStrings.myFeedBack,
-                    icon: Assets.icons.myFeedBack.svg(
-                      colorFilter: const ColorFilter.mode(
-                          AppColors.black, BlendMode.srcIn),
-                    ),
-                  ),
-
-
-
-
-
-
-
-
+                      : CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route
+                                .pushNamed(RoutePath.myFeed, extra: userRole);
+                          },
+                          text: AppStrings.myFeedBack,
+                          icon: Assets.icons.myFeedBack.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        ),
 
                   //TOdo=====following====
 
                   userRole == UserRole.barber
                       ? const SizedBox()
                       : CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.followingScreen,
-                          extra: userRole);
-                    },
-                    text: AppStrings.myFollowing,
-                    icon: Assets.icons.flowing.svg(
-                      colorFilter: const ColorFilter.mode(
-                          AppColors.black, BlendMode.srcIn),
-                    ),
-                  ),
+                          onTap: () {
+                            ownerProfileController.fetchFollowerOrFollowingData(
+                                isFollowers: false);
+                            AppRouter.route.pushNamed(RoutePath.followingScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': ownerProfileController
+                                });
+                          },
+                          text: AppStrings.myFollowing,
+                          icon: Assets.icons.flowing.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        ),
 
                   //TOdo=========
 
                   userRole == UserRole.user
                       ? CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.myLoyality,
-                          extra: userRole);
-                    },
-                    text: "My Loyalty Rewards",
-                    icon: Assets.icons.loyality.svg(
-                      colorFilter: const ColorFilter.mode(
-                          AppColors.black, BlendMode.srcIn),
-                    ),
-                  )
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.myLoyality,
+                                extra: userRole);
+                          },
+                          text: "My Loyalty Rewards",
+                          icon: Assets.icons.loyality.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
                       : const SizedBox(),
 
                   //TOdo=========
 
                   userRole == UserRole.user
                       ? CustomMenuCard(
-                    onTap: () {
-                      AppRouter.route.pushNamed(RoutePath.bookingScreen,
-                          extra: userRole);
-                    },
-                    text: "My Booking",
-                    icon: Assets.images.myBooking.image(
-
-                    ),
-                  )
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                                extra: userRole);
+                          },
+                          text: "My Booking",
+                          icon: Assets.images.myBooking.image(),
+                        )
                       : const SizedBox(),
 
                   //=========
@@ -257,11 +255,9 @@ class UserProfileScreen extends StatelessWidget {
                           ontapNo: () {
                             context.pop();
                           },
-                          ontapYes: () async{
-                             await SharePrefsHelper.remove();
-                            Get.deleteAll(
-                                force:
-                                    true);
+                          ontapYes: () async {
+                            await SharePrefsHelper.remove();
+                            Get.deleteAll(force: true);
                             AppRouter.route.goNamed(
                               RoutePath.choseRoleScreen,
                             );

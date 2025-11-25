@@ -236,12 +236,12 @@ class BookingInfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: .06),
             blurRadius: 16,
             offset: Offset(0, 4),
           ),
         ],
-        border: Border.all(color: AppColors.gray500.withOpacity(0.08)),
+        border: Border.all(color: AppColors.gray500.withValues(alpha: .08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -250,7 +250,7 @@ class BookingInfoCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
             decoration: BoxDecoration(
-              color: AppColors.secondary.withOpacity(0.08),
+              color: AppColors.secondary.withValues(alpha: .08),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Column(
@@ -260,7 +260,7 @@ class BookingInfoCard extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: AppColors.secondary.withOpacity(0.18),
+                        color: AppColors.secondary.withValues(alpha: .18),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.all(6),
@@ -309,7 +309,7 @@ class BookingInfoCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.secondary.withOpacity(0.12),
+                  color: AppColors.secondary.withValues(alpha: .12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: EdgeInsets.all(6),
@@ -348,12 +348,12 @@ class BookingInfoCard extends StatelessWidget {
 }
 
 // Info row widget for card
-class _InfoRow extends StatelessWidget {
+class InfoRow extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final String text;
   final TextStyle textStyle;
-  const _InfoRow({
+  const InfoRow({
     required this.icon,
     required this.iconColor,
     required this.text,
@@ -367,7 +367,7 @@ class _InfoRow extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.12),
+            color: iconColor.withValues(alpha: .12),
             borderRadius: BorderRadius.circular(8),
           ),
           padding: EdgeInsets.all(6),

@@ -98,7 +98,7 @@ class TipsScreen extends StatelessWidget {
                                   name: "Barber $index",
                                   onSendTip: () {
                                     _showTipDialog(
-                                        context, TextEditingController(),(){
+                                        context, TextEditingController(), () {
                                       AppRouter.route.pushNamed(
                                         RoutePath.paymentOption,
                                         extra: userRole,

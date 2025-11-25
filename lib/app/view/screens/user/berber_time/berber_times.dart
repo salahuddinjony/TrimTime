@@ -51,7 +51,9 @@ class BerberTimes extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomNetworkImage(
-                    imageUrl: AppConstants.shop, height: 184, width: double.infinity),
+                    imageUrl: AppConstants.shop,
+                    height: 184,
+                    width: double.infinity),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -68,7 +70,7 @@ class BerberTimes extends StatelessWidget {
                           ),
                           const Spacer(),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               AppRouter.route.pushNamed(RoutePath.mapViewScreen,
                                   extra: userRole);
                             },
@@ -78,7 +80,7 @@ class BerberTimes extends StatelessWidget {
                               decoration: const BoxDecoration(
                                   color: AppColors.black,
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(14))),
+                                      BorderRadius.all(Radius.circular(14))),
                               child: Row(
                                 children: [
                                   Assets.icons.liveLocation.svg(),
@@ -147,7 +149,7 @@ class BerberTimes extends StatelessWidget {
                         height: 200,
                         child: GridView.builder(
                           gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
@@ -156,9 +158,9 @@ class BerberTimes extends StatelessWidget {
                           itemCount: 10,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 AppRouter.route.pushNamed(RoutePath.queScreen,
-                                    extra: [userRole,"IsQue"]);
+                                    extra: [userRole, "IsQue"]);
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -182,11 +184,9 @@ class BerberTimes extends StatelessWidget {
                           },
                         ),
                       ),
-
                       SizedBox(
                         height: 40.h,
                       ),
-
                       CustomButton(
                         onTap: () {
                           showChooseBarberDialog(context);
@@ -195,17 +195,9 @@ class BerberTimes extends StatelessWidget {
                         title: AppStrings.add,
                         textColor: Colors.white,
                       ),
-
-
-
-
                       SizedBox(
                         height: 20.h,
                       ),
-
-
-
-
                     ],
                   ),
                 )
@@ -215,14 +207,15 @@ class BerberTimes extends StatelessWidget {
         ));
   }
 
-static  void showChooseBarberDialog(BuildContext context) {
+  static void showChooseBarberDialog(BuildContext context) {
     // Define a list of selected barbers and services
-    List<bool> selectedBarbers = List.filled(5, false);  // Assuming 5 barbers
+    List<bool> selectedBarbers = List.filled(5, false); // Assuming 5 barbers
     List<bool> selectedServices = List.filled(4, false); // 4 service options
 
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+      barrierDismissible:
+          false, // Prevent dismissing the dialog by tapping outside
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -266,10 +259,12 @@ static  void showChooseBarberDialog(BuildContext context) {
                 // Auto selection
                 Row(
                   children: [
-                    const Text('Auto', style: TextStyle(fontWeight: FontWeight.w600)),
+                    const Text('Auto',
+                        style: TextStyle(fontWeight: FontWeight.w600)),
                     const Spacer(),
                     Checkbox(
-                      value: selectedBarbers[4], // Assuming Auto is the last option in the list
+                      value: selectedBarbers[
+                          4], // Assuming Auto is the last option in the list
                       onChanged: (bool? value) {
                         selectedBarbers[4] = value ?? false;
                         (context as Element).markNeedsBuild();
@@ -279,10 +274,16 @@ static  void showChooseBarberDialog(BuildContext context) {
                 ),
                 const SizedBox(height: 20),
                 // Services Section
-                const Text("Choice you’s Service", style: TextStyle(fontWeight: FontWeight.w600)),
+                const Text("Choice you’s Service",
+                    style: TextStyle(fontWeight: FontWeight.w600)),
                 Column(
                   children: List.generate(4, (index) {
-                    List<String> services = ['Hair Cut', 'Shaving', 'Beard Trim', 'Massage'];
+                    List<String> services = [
+                      'Hair Cut',
+                      'Shaving',
+                      'Beard Trim',
+                      'Massage'
+                    ];
                     return Row(
                       children: [
                         Text(services[index]),
@@ -313,10 +314,12 @@ static  void showChooseBarberDialog(BuildContext context) {
               onPressed: () {
                 // Handle saving the queue
                 // Print selected barbers and services (you can replace this with saving functionality)
-                print("Selected Barbers: ${selectedBarbers.where((e) => e).toList()}");
-                print("Selected Services: ${selectedServices.where((e) => e).toList()}");
-                AppRouter.route.pushNamed(RoutePath.queScreen,
-                    extra: UserRole.user);
+                print(
+                    "Selected Barbers: ${selectedBarbers.where((e) => e).toList()}");
+                print(
+                    "Selected Services: ${selectedServices.where((e) => e).toList()}");
+                AppRouter.route
+                    .pushNamed(RoutePath.queScreen, extra: UserRole.user);
                 // Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Save Queue'),

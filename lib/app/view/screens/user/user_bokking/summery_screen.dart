@@ -87,7 +87,6 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                       color: AppColors.black,
                                       fontWeight: FontWeight.w500,
                                     ),
-
                                     CustomText(
                                       text: "Chev 36 St, London",
                                       fontSize: 16.sp,
@@ -109,7 +108,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomNetworkImage(
-                                  boxShape: BoxShape.circle,
+                                    boxShape: BoxShape.circle,
                                     imageUrl: AppConstants.demoImage,
                                     height: 53,
                                     width: 53),
@@ -130,7 +129,6 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                           color: AppColors.white,
                                           fontWeight: FontWeight.w600,
                                         ),
-
                                       ],
                                     ),
                                   ],
@@ -254,7 +252,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 child: CustomButton(
                   onTap: () {
                     // Using GoRouter for pushing a route
-                    context.pushNamed(RoutePath.paymentOption,extra: userRole);
+                    context.pushNamed(RoutePath.paymentOption, extra: userRole);
                   },
                   textColor: Colors.white,
                   fillColor: Colors.black,

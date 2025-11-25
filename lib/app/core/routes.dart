@@ -16,6 +16,7 @@ import 'package:barber_time/app/view/screens/barber/barber_history/barber_histor
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/feed_all.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/job_post_all.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/models/barber_booking/barber_booking_model.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/schedule_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
@@ -204,28 +205,26 @@ class AppRouter {
                   transitionType: TransitionType.detailsScreen);
             }),
 
-            // ======================= Customer Profile =======================
-          GoRoute(
-          name: RoutePath.customerProfileScreen,
-          path: RoutePath.customerProfileScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final customerId = extra['customerId'] as String?;
-            final controller = extra['controller'] as OwnerProfileController?;
+        // ======================= Customer Profile =======================
+        GoRoute(
+            name: RoutePath.customerProfileScreen,
+            path: RoutePath.customerProfileScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final customerId = extra['customerId'] as String?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: CustomerProfileScreen(
-                userRole: userRole!,
-                controller: controller!,
-                userId: customerId ?? '',
-
-              ),
-              state: state,
-              transitionType: TransitionType.detailsScreen,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: CustomerProfileScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                  userId: customerId ?? '',
+                ),
+                state: state,
+                transitionType: TransitionType.detailsScreen,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -647,13 +646,22 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.bookingDetailsScreen,
-          path: RoutePath.bookingDetailsScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const BookingDetailsScreen(),
-              state: state,
-              transitionType: TransitionType.detailsScreen),
-        ),
+            name: RoutePath.bookingDetailsScreen,
+            path: RoutePath.bookingDetailsScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final bookingData = extra['bookingData'] as BarberBookingData?;
+
+              return _buildPageWithAnimation(
+                child: BookingDetailsScreen(
+                  userRole: userRole!,
+                  bookingData: bookingData!,
+                ),
+                state: state,
+                transitionType: TransitionType.detailsScreen,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -1066,14 +1074,17 @@ class AppRouter {
             pageBuilder: (context, state) {
               final extra = state.extra as Map<String, dynamic>? ?? {};
               final userRole = extra['userRole'] as UserRole?;
-              final controller = extra['controller'] as QueController?;
+              final controller = extra['controller'];
               final barberId = extra['barberId'] as String?;
+              final saloonOwnerId = extra['saloonOwnerId'] as String?;
 
               return _buildPageWithAnimation(
                 child: QueScreen(
                   userRole: userRole!,
                   controller: controller!,
                   barberId: barberId!,
+                  saloonOwnerId: saloonOwnerId?? '',
+
                 ),
                 state: state,
               );
@@ -1102,7 +1113,7 @@ class AppRouter {
           name: RoutePath.loyalityScreen,
           path: RoutePath.loyalityScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  LoyalityScreen(),
+            child: LoyalityScreen(),
             state: state,
           ),
         ),

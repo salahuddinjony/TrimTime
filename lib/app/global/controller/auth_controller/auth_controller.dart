@@ -134,6 +134,9 @@ class AuthController extends GetxController with PasswordConstraintController {
 
         await SharePrefsHelper.setString(AppConstants.userId,
             resBody['data']?["id"] ?? resBody['data']?["_id"] ?? '');
+        // save saloonOwnerId if present
+        await SharePrefsHelper.setString(AppConstants.saloonOwnerId,
+            resBody['data']?["saloonOwnerId"] ?? '');
         await SharePrefsHelper.setString(
             AppConstants.role, resBody['data']?["role"] ?? '');
         await SharePrefsHelper.setBool(AppConstants.qrCode.toString(),

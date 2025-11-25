@@ -9,6 +9,7 @@ import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_tex
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
 class NearYouShopScreen extends StatefulWidget {
   const NearYouShopScreen({super.key});
 
@@ -24,13 +25,15 @@ class _NearYouShopScreenState extends State<NearYouShopScreen> {
   @override
   void initState() {
     super.initState();
-    _allShops = List.generate(20, (index) => Shop(
-      title: "Barber Time $index",
-      rating: "5.0 ★ (169)",
-      location: "Oldesloer Strasse 82",
-      discount: "15%",
-      imageUrl: AppConstants.shop,
-    ));
+    _allShops = List.generate(
+        20,
+        (index) => Shop(
+              title: "Barber Time $index",
+              rating: "5.0 ★ (169)",
+              location: "Oldesloer Strasse 82",
+              discount: "15%",
+              imageUrl: AppConstants.shop,
+            ));
     _filteredShops = List.from(_allShops);
 
     _searchController.addListener(_onSearchChanged);
@@ -84,29 +87,32 @@ class _NearYouShopScreenState extends State<NearYouShopScreen> {
             SizedBox(height: 20.h),
             Expanded(
               child: _filteredShops.isEmpty
-                  ? Center(child: Text("No shops found", style: TextStyle(fontSize: 16.sp)))
+                  ? Center(
+                      child: Text("No shops found",
+                          style: TextStyle(fontSize: 16.sp)))
                   : ListView.builder(
-                itemCount: _filteredShops.length,
-                itemBuilder: (context, index) {
-                  final shop = _filteredShops[index];
-                  return GestureDetector(
-                    onTap: () {
-                      context.pushNamed(RoutePath.userBookingScreen, extra: userRole);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CommonShopCard(
-                        imageUrl: shop.imageUrl,
-                        title: shop.title,
-                        rating: shop.rating,
-                        location: shop.location,
-                        discount: shop.discount,
-                        onSaved: () => debugPrint("Saved Clicked!"),
-                      ),
+                      itemCount: _filteredShops.length,
+                      itemBuilder: (context, index) {
+                        final shop = _filteredShops[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.pushNamed(RoutePath.userBookingScreen,
+                                extra: userRole);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CommonShopCard(
+                              imageUrl: shop.imageUrl,
+                              title: shop.title,
+                              rating: shop.rating,
+                              location: shop.location,
+                              discount: shop.discount,
+                              onSaved: () => debugPrint("Saved Clicked!"),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),

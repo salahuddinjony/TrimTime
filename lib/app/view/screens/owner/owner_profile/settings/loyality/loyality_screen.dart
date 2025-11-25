@@ -160,9 +160,28 @@ class LoyalityScreen extends StatelessWidget {
                 },
               );
             } else if (controller.loyalityStatus.value.isError) {
+              // Show the API error message if available, with an icon
+              final errorMsg = controller.apiErrorMessage ??
+                  controller.loyalityStatus.value.errorMessage ??
+                  'Error';
               return Center(
-                  child: Text(
-                      controller.loyalityStatus.value.errorMessage ?? 'Error'));
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.error_outline,
+                          color: Colors.redAccent, size: 48),
+                      SizedBox(height: 12),
+                      Text(
+                        errorMsg,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
             } else if (controller.loyalityData.isEmpty) {
               return Center(child: Text('No loyalty data found'));
             }

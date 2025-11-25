@@ -427,10 +427,15 @@ class AuthController extends GetxController with PasswordConstraintController {
   Future<void> changePassword() async {
     // isChangepassLoading.value = true;
     // refresh();
-
+    if (passwordController.text.trim().isEmpty ||
+        newPasswordController.text.trim().isEmpty ||
+        confirmPasswordController.text.trim().isEmpty) {
+      EasyLoading.showInfo("Please fill all fields.");
+      return;
+    }
     if (newPasswordController.text.trim() !=
         confirmPasswordController.text.trim()) {
-      toastMessage(message: "Password and Confirm Password do not match.");
+      EasyLoading.showError("Password and Confirm Password do not match.");
       return;
     }
     EasyLoading.show(status: 'Changing password...');

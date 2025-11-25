@@ -424,27 +424,29 @@ class ProfileScreen extends StatelessWidget {
                   //         ),
                   //       )
                   //     : const SizedBox(),
-                        userRole == UserRole.barber
+                  userRole == UserRole.barber
                       ? CustomMenuCard(
-                          onTap: () async{
-                            final barberId= await SharePrefsHelper.getString(AppConstants.userId);
-                            final barBerOwnerId= await SharePrefsHelper.getString(AppConstants.saloonOwnerId);
-                               debugPrint(
-                              "Navigating to Queue Screen for ${barBerOwnerId}");
-                                debugPrint(
-                                "Barber ID: ${  barberId}");
-                                  ownerProfileController.fetchBarbersCustomerQue(
-                                                      barberId: barberId,
-                                                      saloonOwnerId: barBerOwnerId);
-                                              AppRouter.route.pushNamed(
-                                                RoutePath.queScreen,
-                                                extra: {
-                                                  'userRole': userRole,
-                                                  'barberId': barberId,
-                                                  'controller': ownerProfileController,
-                                                  'saloonOwnerId':barBerOwnerId
-                                                },
-                                              );
+                          onTap: () async {
+                            final barberId = await SharePrefsHelper.getString(
+                                AppConstants.userId);
+                            final barBerOwnerId =
+                                await SharePrefsHelper.getString(
+                                    AppConstants.saloonOwnerId);
+                            debugPrint(
+                                "Navigating to Queue Screen for ${barBerOwnerId}");
+                            debugPrint("Barber ID: ${barberId}");
+                            ownerProfileController.fetchBarbersCustomerQue(
+                                barberId: barberId,
+                                saloonOwnerId: barBerOwnerId);
+                            AppRouter.route.pushNamed(
+                              RoutePath.queScreen,
+                              extra: {
+                                'userRole': userRole,
+                                'barberId': barberId,
+                                'controller': ownerProfileController,
+                                'saloonOwnerId': barBerOwnerId
+                              },
+                            );
                           },
                           text: AppStrings.que,
                           icon: Assets.icons.ques.svg(

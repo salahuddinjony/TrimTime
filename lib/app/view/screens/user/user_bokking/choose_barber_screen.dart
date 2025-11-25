@@ -56,14 +56,13 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
             children: [
               ClipPath(
                   clipper: CurvedBannerClipper(),
-                  child:
-                  Container(
+                  child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                   color: AppColors.searchScreenBg
-                    ),
+                    decoration:
+                        const BoxDecoration(color: AppColors.searchScreenBg),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 20.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -73,7 +72,9 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.bold),
                           ),
-                          const Divider(color: AppColors.white,),
+                          const Divider(
+                            color: AppColors.white,
+                          ),
                           SizedBox(height: 16.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -180,21 +181,16 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
                             },
                           ),
                           SizedBox(height: 50.h),
-
-
                         ],
                       ),
                     ),
-                  )
-
-              ),
+                  )),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                 child: CustomButton(
                   onTap: () {
                     // Using GoRouter for pushing a route
-                    context.pushNamed(RoutePath.summeryScreen,
-                        extra: userRole);
+                    context.pushNamed(RoutePath.summeryScreen, extra: userRole);
                   },
                   title: AppStrings.continues,
                   fillColor: AppColors.gray500,
@@ -238,7 +234,7 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
             SizedBox(height: 8.h),
             Text(
               name,
-              style: TextStyle(fontSize: 14.sp,color: AppColors.white),
+              style: TextStyle(fontSize: 14.sp, color: AppColors.white),
             ),
             if (isSelected)
               const Icon(

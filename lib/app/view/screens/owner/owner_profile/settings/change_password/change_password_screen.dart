@@ -1,4 +1,5 @@
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
+import 'package:barber_time/app/global/helper/validators/validators.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -37,31 +38,44 @@ class ChangePasswordScreen extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: AppColors.linearFirst,
-
-      ///============================ Header ===============================
       appBar: const CustomAppBar(
         appBarBgColor: AppColors.linearFirst,
         appBarContent: AppStrings.changePassword,
         iconData: Icons.arrow_back,
       ),
-      body: ClipPath(
-        clipper: CurvedBannerClipper(),
-        child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xCCEDC4AC), // First color (with opacity)
-                  Color(0xFFE9874E),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: Stack(
+        children: [
+          // Curved background at the back
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ClipPath(
+              clipper: CurvedBannerClipper(),
+              child: Container(
+                width: double.infinity,
+                height: 380.h,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xCCEDC4AC),
+                      Color(0xFFE9874E),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
               ),
             ),
-            child: Padding(
+          ),
+          // Foreground content
+          SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
+                  SizedBox(height: 40.h),
                   //current password
                   CustomFromCard(
                       isBorderColor: true,
@@ -80,9 +94,8 @@ class ChangePasswordScreen extends StatelessWidget {
                       hinText: AppStrings.enterNewPassword,
                       controller: authController.newPasswordController,
                       validator: (v) {
-                        return null;
+                        return Validators.passwordValidator(v);
                       }),
-
                   //retype password
                   CustomFromCard(
                       isBorderColor: true,
@@ -91,23 +104,30 @@ class ChangePasswordScreen extends StatelessWidget {
                       hinText: AppStrings.retypeNewPassword,
                       controller: authController.confirmPasswordController,
                       validator: (v) {
-                        return null;
+                        return Validators.confirmPasswordValidator(
+                            v, authController.newPasswordController.text);
                       }),
                   SizedBox(
                     height: 50.h,
                   ),
                   //=====================Change password Button===============
-                  CustomButton(
-                    onTap: () async {
-                      authController.changePassword();
-                      // context.pop();
-                    },
-                    fillColor: AppColors.white50,
-                    title: AppStrings.changePassword,
+                  Card(
+                    elevation: 4,
+                    child: CustomButton(
+                      onTap: () async {
+                        authController.changePassword();
+                        // context.pop();
+                      },
+                      fillColor: AppColors.last,
+                      title: AppStrings.changePassword,
+                      textColor: AppColors.white,
+                    ),
                   )
                 ],
               ),
-            )),
+            ),
+          ),
+        ],
       ),
     );
   }

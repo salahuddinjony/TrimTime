@@ -308,7 +308,8 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     color: Colors.white.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                      color: Colors.white.withValues(alpha: 0.3),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.3),
                                       width: 2,
                                     ),
                                   ),

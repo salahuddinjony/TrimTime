@@ -1,3 +1,4 @@
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../../core/route_path.dart';
 import '../../../../../core/routes.dart';
 import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
@@ -406,7 +406,7 @@ class QueScreen<T> extends StatelessWidget {
                 const SizedBox(height: 4),
                 Flexible(
                   child: CustomText(
-                    text: "${customer.customerName ?? 'N/A'}",
+                    text: "${customer.customerName.toString().safeCap()}",
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
                     color: AppColors.gray500,
@@ -424,7 +424,7 @@ class QueScreen<T> extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: .04),
                           blurRadius: 2,
                           offset: const Offset(0, 1),
                         ),

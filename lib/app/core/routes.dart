@@ -1254,7 +1254,7 @@ class AppRouter {
           name: RoutePath.userProfileScreen,
           path: RoutePath.userProfileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const UserProfileScreen(),
+              child:  UserProfileScreen(),
               state: state,
               disableAnimation: true),
         ),

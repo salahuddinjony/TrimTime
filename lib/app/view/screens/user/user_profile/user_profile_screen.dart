@@ -18,7 +18,6 @@ import 'package:go_router/go_router.dart';
 import 'package:get/get.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
-
 import '../../../common_widgets/custom_menu_card/custom_menu_card.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -268,7 +267,6 @@ class UserProfileScreen extends StatelessWidget {
                     text: AppStrings.logOut,
                     icon: Assets.icons.logout.svg(),
                   ),
-
                   SizedBox(
                     height: 25.h,
                   )

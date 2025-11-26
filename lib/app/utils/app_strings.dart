@@ -54,9 +54,10 @@ class AppStrings {
   static const searchSaloons = "Search Saloons";
   static const seeAll = "see all";
   static const nearYou = "Near you";
+  static const topRated = "Top Rated";
   static const saveUpTO = "Save up to";
   static const feedBack = "Feed Back";
-  static const feed= "Feed";
+  static const feed= "All Feed";
   static const visitShop = "Visit Shop";
   static const view = " View";
   static const scanYourQrCode = " Scan your QR Code";

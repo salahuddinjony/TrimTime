@@ -1,3 +1,5 @@
+import 'package:barber_time/app/data/local/shared_prefs.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_apply_job.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_home_screen_data.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_job_history.dart';
@@ -20,12 +22,20 @@ class BarberHomeController extends GetxController
   var selectedFilter = "Nearby job".obs; // Now it's reactive
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getAllJobHistory();
+    final String role = await SharePrefsHelper.getString(AppConstants.role);
+
+    if (role != "CUSTOMER") {
+      initializeOninitFunctions();
+    }
     debugPrint("Barber Home Controller initialized");
-    getAllJobPost();
     getHomeFeeds();
+  }
+
+  void initializeOninitFunctions() {
+    getAllJobHistory();
+    getAllJobPost();
     fetchScheduleData(useDay: false); // Fetch all schedule data
   }
 }

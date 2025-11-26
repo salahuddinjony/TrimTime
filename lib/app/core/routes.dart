@@ -73,6 +73,7 @@ import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/res
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_screens/top_rated_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
 import 'package:barber_time/app/view/screens/user/user_bokking/choose_barber_screen.dart';
@@ -468,7 +469,16 @@ class AppRouter {
           name: RoutePath.nearYouShopScreen,
           path: RoutePath.nearYouShopScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const NearYouShopScreen(),
+            child: NearYouShopScreen(),
+            state: state,
+          ),
+        ),
+
+        GoRoute(
+          name: RoutePath.topRatedScreen,
+          path: RoutePath.topRatedScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: TopRatedScreen(),
             state: state,
           ),
         ),
@@ -602,7 +612,7 @@ class AppRouter {
           name: RoutePath.searchSaloonScreen,
           path: RoutePath.searchSaloonScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const SearchSaloonScreen(),
+            child: SearchSaloonScreen(),
             state: state,
           ),
         ),
@@ -1082,8 +1092,7 @@ class AppRouter {
                   userRole: userRole!,
                   controller: controller!,
                   barberId: barberId!,
-                  saloonOwnerId: saloonOwnerId?? '',
-
+                  saloonOwnerId: saloonOwnerId ?? '',
                 ),
                 state: state,
               );
@@ -1253,9 +1262,7 @@ class AppRouter {
           name: RoutePath.userProfileScreen,
           path: RoutePath.userProfileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child:  UserProfileScreen(),
-              state: state,
-              disableAnimation: true),
+              child: UserProfileScreen(), state: state, disableAnimation: true),
         ),
       ]);
 

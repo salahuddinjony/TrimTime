@@ -48,7 +48,7 @@ class _ChooseBarberScreenState extends State<ChooseBarberScreen> {
         backgroundColor: AppColors.white,
         appBar: const CustomAppBar(
           appBarBgColor: AppColors.searchScreenBg,
-          appBarContent: "Gentlemen’s..",
+          appBarContent: "Gentlemen’s..", 
           iconData: Icons.arrow_back,
         ),
         body: SingleChildScrollView(

@@ -44,8 +44,8 @@ class _CommonShopCardState extends State<CommonShopCard> {
       child: Stack(
         children: [
           _buildBackgroundImage(),
-          buildReport(),
-          _buildDiscountLabel(),
+          // buildReport(),
+          // _buildDiscountLabel(),
           _buildBottomDetails(),
         ],
       ),
@@ -66,7 +66,7 @@ class _CommonShopCardState extends State<CommonShopCard> {
   }
 
   /// Discount Label on Top Right
-  Widget _buildDiscountLabel() {
+  Widget buildDiscountLabel() {
     return Positioned(
         top: 10,
         right: 20,
@@ -167,18 +167,17 @@ void _showReportDialog(BuildContext context) {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
-
-        backgroundColor: AppColors.last,
+          backgroundColor: AppColors.last,
           title: GestureDetector(
-            onTap: (){
+            onTap: () {
               context.pop();
             },
             child: CustomText(
-                    text: "Report",
-                    fontSize: 20.sp,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
+              text: "Report",
+              fontSize: 20.sp,
+              color: AppColors.white,
+              fontWeight: FontWeight.w700,
+            ),
           ));
     },
   );

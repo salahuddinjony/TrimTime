@@ -40,7 +40,8 @@ class HomeScreen extends StatelessWidget {
     }
 
     if (userRole == null) {
-      debugPrint('HomeScreen: no role received via route extra; defaulting to CUSTOMER');
+      debugPrint(
+          'HomeScreen: no role received via route extra; defaulting to CUSTOMER');
       userRole = UserRole.user;
     }
 
@@ -77,8 +78,6 @@ class HomeScreen extends StatelessWidget {
                           },
                           title: "Bookings",
                           icon: Assets.icons.bookings.svg()),
-
-
                       CustomCard(
                           onTap: () {
                             AppRouter.route.pushNamed(RoutePath.myLoyality,
@@ -137,29 +136,63 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
 
-                  /// 📌 Horizontal Scroll for Shops
+                  /// 📌 Nerby  Scroll for Shops
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            onTap: (){
-                              context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
-                            },
-                            child: CommonShopCard(
-                              imageUrl: AppConstants.shop,
-                              title: "Barber Time ",
-                              rating: "5.0 ★ (169)",
-                              location: "Oldesloer Strasse 82",
-                              discount: "15%",
-                              onSaved: () => debugPrint("Saved Clicked!"),
+                  SizedBox(
+                    height: 220.h,
+                    child: Obx(
+                      () {
+                        if (homeController.fetchStatus.value.isLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.app,
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        } else if (homeController.fetchStatus.value.isError) {
+                          return Center(
+                            child: CustomText(
+                              text: "Error loading salons",
+                              color: AppColors.red,
+                            ),
+                          );
+                        } else if (homeController.nearbySaloons.isEmpty) {
+                          return Center(
+                            child: CustomText(
+                              text: "No salons found nearby",
+                              color: AppColors.black,
+                            ),
+                          );
+                        } else {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeController.nearbySaloons.length > 10
+                                ? 10
+                                : homeController.nearbySaloons.length,
+                            itemBuilder: (context, index) {
+                              final salon = homeController.nearbySaloons[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                        RoutePath.userBookingScreen,
+                                        extra: userRole);
+                                  },
+                                  child: CommonShopCard(
+                                    imageUrl: salon.shopLogo,
+                                    title: salon.shopName,
+                                    rating: "${salon.ratingCount} ★",
+                                    location: salon.shopAddress,
+                                    discount: salon.distance.toString(),
+                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                          );
+                        }
+                      },
                     ),
                   ),
 
@@ -169,33 +202,68 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Top Rated",
                     actionText: AppStrings.seeAll,
-                    onActionTap: () => AppRouter.route.pushNamed(
-                        RoutePath.nearYouShopScreen,
-                        extra: userRole),
+                    onActionTap: () => AppRouter.route
+                        .pushNamed(RoutePath.topRatedScreen, extra: userRole),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            onTap: (){
-                              context.pushNamed(RoutePath.userBookingScreen,extra: userRole);
-                            },
-                            child: CommonShopCard(
-                              imageUrl: AppConstants.shop,
-                              title: "Barber Time ",
-                              rating: "5.0 ★ (169)",
-                              location: "Oldesloer Strasse 82",
-                              discount: "15%",
-                              onSaved: () => debugPrint("Saved Clicked!"),
+                  SizedBox(
+                    height: 220.h,
+                    child: Obx(
+                      () {
+                        if (homeController.fetchStatus.value.isLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.app,
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        } else if (homeController.fetchStatus.value.isError) {
+                          return Center(
+                            child: CustomText(
+                              text: "Error loading salons",
+                              color: AppColors.red,
+                            ),
+                          );
+                        } else if (homeController.topRatedSaloons.isEmpty) {
+                          return Center(
+                            child: CustomText(
+                              text: "No top rated salons found",
+                              color: AppColors.black,
+                            ),
+                          );
+                        } else {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                homeController.topRatedSaloons.length > 10
+                                    ? 10
+                                    : homeController.topRatedSaloons.length,
+                            itemBuilder: (context, index) {
+                              final salon =
+                                  homeController.topRatedSaloons[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                        RoutePath.userBookingScreen,
+                                        extra: userRole);
+                                  },
+                                  child: CommonShopCard(
+                                    imageUrl: salon.shopLogo,
+                                    title: salon.shopName,
+                                    rating: "${salon.ratingCount} ★",
+                                    location: salon.shopAddress,
+                                    discount: salon.distance.toString(),
+                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                          );
+                        }
+                      },
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -204,40 +272,77 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Feed",
                     actionText: AppStrings.seeAll,
-                    onActionTap: () => AppRouter.route
-                        .pushNamed(RoutePath.feedAll, extra: userRole),
+                    onActionTap: () {
+                      AppRouter.route
+                          .pushNamed(RoutePath.feedAll, extra: userRole);
+                    },
                     actionColor: AppColors.secondary,
                   ),
-                  SizedBox(height: 12.h),
 
-                  /// 📝 List of Feeds
-                  Column(
-                    children: List.generate(4, (index) {
-                      final postUrl = index == 0
-                          ? AppConstants.demoImage // প্রথমটি image
-                          : "https://www.youtube.com/watch?v=vE4jYKyv_GM"; // YouTube ভিডিও URL
-
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: CustomFeedCard(
-                          userImageUrl: AppConstants.demoImage,
-                          userName: "Roger Hunt",
-                          userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                          postImageUrl: postUrl,
-                          postText: "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
-                          rating: "5.0 ★ (169)",
-                          onFavoritePressed: (isFavorite) {
-                            // Handle favorite button press
-                          },
-                          onVisitShopPressed: () => AppRouter.route.pushNamed(
-                            RoutePath.shopProfileScreen,
-                            extra: userRole,
-                          ),
-                        ),
-                      );
-                    }),
+                  SizedBox(
+                    height: 12.h,
                   ),
-
+                  Obx(() {
+                    final feeds = homeController.homeFeedsList;
+                    if (homeController.getFeedsStatus.value.isLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (feeds.isEmpty) {
+                      return Center(child: Text('No feeds available'));
+                    }
+                    return Column(
+                      children: feeds
+                          .take(feeds.length > 4 ? 4 : feeds.length)
+                          .map((feed) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: Column(
+                            children: [
+                              CustomFeedCard(
+                                isFavouriteFromApi: feed.isFavorite ?? false,
+                                isVisitShopButton: feed.saloonOwner != null,
+                                favoriteCount: feed.favoriteCount.toString(),
+                                userImageUrl:
+                                    feed.userImage ?? AppConstants.demoImage,
+                                userName: feed.userName,
+                                userAddress:
+                                    feed.saloonOwner?.shopAddress ?? '',
+                                postImageUrl: feed.images.isNotEmpty
+                                    ? feed.images.first
+                                    : AppConstants.demoImage,
+                                postText: feed.caption,
+                                rating: feed.saloonOwner != null
+                                    ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                    : "",
+                                onFavoritePressed: (isFavorite) {
+                                  homeController.toggleLikeFeed(
+                                    feedId: feed.id,
+                                    isUnlike: isFavorite == true,
+                                  );
+                                },
+                                onVisitShopPressed: () {
+                                  if (feed.saloonOwner != null) {
+                                    // controller.getSelonData(
+                                    //     userId:
+                                    //         feed.saloonOwner!.userId);
+                                    AppRouter.route.pushNamed(
+                                      RoutePath.shopProfileScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': feed.saloonOwner!.userId,
+                                        'controller': homeController,
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }),
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),

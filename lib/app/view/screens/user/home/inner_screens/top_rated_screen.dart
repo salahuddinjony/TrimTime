@@ -11,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get/get.dart';
 
-class NearYouShopScreen extends StatelessWidget {
-  NearYouShopScreen({super.key});
+class TopRatedScreen extends StatelessWidget {
+  TopRatedScreen({super.key});
 
   final UserHomeController homeController = Get.find<UserHomeController>();
   final TextEditingController _searchController = TextEditingController();
@@ -31,14 +31,14 @@ class NearYouShopScreen extends StatelessWidget {
     }
 
     // Initialize filteredSalons with all salons when the widget is first built
-    if (filteredSalons.isEmpty && homeController.nearbySaloons.isNotEmpty) {
-      filteredSalons.assignAll(homeController.nearbySaloons);
+    if (filteredSalons.isEmpty && homeController.topRatedSaloons.isNotEmpty) {
+      filteredSalons.assignAll(homeController.topRatedSaloons);
     }
 
     return Scaffold(
       backgroundColor: AppColors.searchScreenBg,
       appBar: const CustomAppBar(
-        appBarContent: AppStrings.nearYou,
+        appBarContent: AppStrings.topRated,
         appBarBgColor: AppColors.searchScreenBg,
         iconData: Icons.arrow_back,
       ),
@@ -54,10 +54,10 @@ class NearYouShopScreen extends StatelessWidget {
               onChanged: (value) {
                 final query = value.trim().toLowerCase();
                 if (query.isEmpty) {
-                  filteredSalons.assignAll(homeController.nearbySaloons);
+                  filteredSalons.assignAll(homeController.topRatedSaloons);
                 } else {
                   filteredSalons.assignAll(
-                    homeController.nearbySaloons.where((salon) {
+                    homeController.topRatedSaloons.where((salon) {
                       final name = salon.shopName.toLowerCase();
                       final address = salon.shopAddress.toLowerCase();
                       return name.contains(query) || address.contains(query);
@@ -72,14 +72,14 @@ class NearYouShopScreen extends StatelessWidget {
                 final salons = filteredSalons.isNotEmpty ||
                         _searchController.text.isNotEmpty
                     ? filteredSalons
-                    : homeController.nearbySaloons;
+                    : homeController.topRatedSaloons;
                 if (homeController.fetchStatus.value.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return RefreshIndicator(
                   onRefresh: () async {
-                    await homeController.fetchSelons(tag: tags.nearby);
-                    filteredSalons.assignAll(homeController.nearbySaloons);
+                    await homeController.fetchSelons(tag: tags.topRated);
+                    filteredSalons.assignAll(homeController.topRatedSaloons);
                   },
                   child: salons.isEmpty
                       ? ListView(

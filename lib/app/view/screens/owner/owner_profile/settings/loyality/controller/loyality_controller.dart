@@ -4,7 +4,6 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyali
 import 'package:get/get.dart';
 
 class LoyalityController extends GetxController {
-
   RxList<LoyalityItem> loyalityData = RxList<LoyalityItem>([]);
   Rx<RxStatus> loyalityStatus = Rx<RxStatus>(RxStatus.empty());
 
@@ -39,7 +38,4 @@ class LoyalityController extends GetxController {
       loyalityStatus.value = RxStatus.error(apiErrorMessage!);
     }
   }
-  
-
-
 }

@@ -22,7 +22,7 @@ class FeedAll extends StatelessWidget {
   Widget build(BuildContext context) {
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
-    
+
     if (extra is UserRole) {
       userRole = extra;
     } else if (extra is Map<String, dynamic>) {
@@ -46,11 +46,11 @@ class FeedAll extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Obx(() {
           final feeds = controller.homeFeedsList;
-          
+
           if (controller.getFeedsStatus.value.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          
+
           if (feeds.isEmpty) {
             return Center(
               child: Column(
@@ -82,7 +82,7 @@ class FeedAll extends StatelessWidget {
               ),
             );
           }
-          
+
           return SingleChildScrollView(
             child: Column(
               children: feeds.map((feed) {
@@ -115,6 +115,7 @@ class FeedAll extends StatelessWidget {
                           extra: {
                             'userRole': userRole,
                             'userId': feed.saloonOwner!.userId,
+                            'controller': controller,
                           },
                         );
                       }

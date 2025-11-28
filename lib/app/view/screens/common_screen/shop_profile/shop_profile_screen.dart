@@ -1,10 +1,13 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/common_msg_and_follow_button.dart';
+import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/custom_booking_button.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
+import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/services_card.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -764,193 +767,11 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                         (index) {
                                       final service =
                                           selonData!.services[index];
-                                      return Container(
-                                        width: 220,
-                                        margin: EdgeInsets.only(
-                                            right: 12.w, bottom: 8.h, top: 4.h),
-                                        padding: EdgeInsets.all(16.r),
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              AppColors.orange500
-                                                  .withValues(alpha: .1),
-                                              AppColors.last
-                                                  .withValues(alpha: .05),
-                                            ],
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          border: Border.all(
-                                            color: AppColors.orange500
-                                                .withValues(alpha: .3),
-                                            width: 1,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppColors.orange500
-                                                  .withValues(alpha: .1),
-                                              blurRadius: 8,
-                                              spreadRadius: 0,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: CustomText(
-                                                    text: service.serviceName,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors.black,
-                                                    maxLines: 2,
-                                                  ),
-                                                ),
-                                                if (service.isActive)
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 8.w,
-                                                            vertical: 4.h),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.green,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                    ),
-                                                    child: CustomText(
-                                                      text: "Active",
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 12.h),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.access_time,
-                                                  size: 16,
-                                                  color: AppColors.orange500,
-                                                ),
-                                                SizedBox(width: 6.w),
-                                                CustomText(
-                                                  text:
-                                                      "${service.duration} min",
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: AppColors.gray500,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 8.h),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.attach_money,
-                                                  size: 18,
-                                                  color: AppColors.orange500,
-                                                ),
-                                                Flexible(
-                                                  child: CustomText(
-                                                    text: "${service.price}",
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: AppColors.black,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // SizedBox(height: 12.h),
-                                            // GestureDetector(
-                                            //   onTap: () {
-                                            //     // Handle book service
-                                            //     showDialog(
-                                            //       context: context,
-                                            //       builder: (_) => AlertDialog(
-                                            //         title: const Text('Book Service'),
-                                            //         content: Text(
-                                            //           'Would you like to book "${service.serviceName}"?\n\nPrice: £${service.price}\nDuration: ${service.duration} min',
-                                            //         ),
-                                            //         actions: [
-                                            //           TextButton(
-                                            //             onPressed: () => Navigator.of(context).pop(),
-                                            //             child: const Text('Cancel'),
-                                            //           ),
-                                            //           TextButton(
-                                            //             onPressed: () {
-                                            //               Navigator.of(context).pop();
-                                            //               // Add booking logic here
-                                            //               ScaffoldMessenger.of(context).showSnackBar(
-                                            //                 SnackBar(
-                                            //                   content: Text('Booking "${service.serviceName}" confirmed!'),
-                                            //                   backgroundColor: Colors.green,
-                                            //                 ),
-                                            //               );
-                                            //             },
-                                            //             child: const Text('Book Now'),
-                                            //           ),
-                                            //         ],
-                                            //       ),
-                                            //     );
-                                            //   },
-                                            //   child: Container(
-                                            //     width: double.infinity,
-                                            //     padding: EdgeInsets.symmetric(
-                                            //       vertical: 10.h,
-                                            //     ),
-                                            //     decoration: BoxDecoration(
-                                            //       gradient: LinearGradient(
-                                            //         colors: [
-                                            //           AppColors.orange500,
-                                            //           AppColors.last,
-                                            //         ],
-                                            //         begin: Alignment.centerLeft,
-                                            //         end: Alignment.centerRight,
-                                            //       ),
-                                            //       borderRadius: BorderRadius.circular(8),
-                                            //       boxShadow: [
-                                            //         BoxShadow(
-                                            //           color: AppColors.orange500.withValues(alpha: .3),
-                                            //           blurRadius: 4,
-                                            //           offset: const Offset(0, 2),
-                                            //         ),
-                                            //       ],
-                                            //     ),
-                                            //     child: Row(
-                                            //       mainAxisAlignment: MainAxisAlignment.center,
-                                            //       children: [
-                                            //         Icon(
-                                            //           Icons.calendar_today,
-                                            //           size: 16,
-                                            //           color: Colors.white,
-                                            //         ),
-                                            //         SizedBox(width: 6.w),
-                                            //         CustomText(
-                                            //           text: "Book Now",
-                                            //           fontSize: 14,
-                                            //           fontWeight: FontWeight.w600,
-                                            //           color: Colors.white,
-                                            //         ),
-                                            //       ],
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
+                                      return ServicesCard(
+                                        serviceName: service.serviceName,
+                                        price: service.price,
+                                        duration: service.duration,
+                                        isActive: service.isActive,
                                       );
                                     }),
                                   ),
@@ -1013,6 +834,40 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //           title: AppStrings.addReview,
                       //         ),
                       //       ),
+                if(userRole == UserRole.user)...[
+                        const SizedBox(height: 20),
+                     isLoading
+                      ? Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        )
+                     : CustomBookingButton(
+                        onTap: () {
+                          debugPrint("Booking button tapped");
+                          controller.fetchSelonServices(
+                              userId: selonData!.userId);
+                          AppRouter.route.pushNamed(
+                                      RoutePath.seloonBookingScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': selonData!.userId,
+                                        'controller': controller,
+                                      },
+                                    );
+                          // Handle booking action
+                        },
+                      ),
+                ],
+
                       const SizedBox(height: 50),
                     ],
                   ),

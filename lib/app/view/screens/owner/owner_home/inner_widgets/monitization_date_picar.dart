@@ -1,12 +1,22 @@
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:get/get.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart'
+    show formatDate;
 
-class HorizontalDatePicker extends StatelessWidget {
-  final BarberOwnerHomeController controller;
-  const HorizontalDatePicker({super.key, required this.controller});
+class HorizontalDatePicker<T> extends StatelessWidget {
+  final dynamic controller;
+  final UserRole userRole;
+  final String? seloonId;
+  const HorizontalDatePicker(
+      {super.key,
+      required this.controller,
+      required this.userRole,
+      this.seloonId});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +28,38 @@ class HorizontalDatePicker extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  controller.goToPreviousDate();
+                  if (userRole == UserRole.user && seloonId != null) {
+                    debugPrint(
+                        "Fetching date: ${intl.DateFormat('yyyy-MM-dd').format(controller.selectedDate)} for seloonId: $seloonId");
+                    controller.getbarberWithDate(
+                        barberId: seloonId!,
+                        date: intl.DateFormat('yyyy-MM-dd')
+                            .format(controller.selectedDate));
+                  }
+                  controller.goToPreviousDate(
+                      isDontCalled: userRole == UserRole.owner ? false : true);
                 },
                 icon: const Icon(Icons.arrow_back_ios_new,
                     color: Colors.black54, size: 18),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
               Text(
-                '${controller.selectedDate.formatDate()}',
+                intl.DateFormat('yyyy-MM-dd').format(controller.selectedDate),
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               IconButton(
                 onPressed: () {
-                  controller.goToNextDate();
+                  if (userRole == UserRole.user && seloonId != null) {
+                    debugPrint(
+                        "Fetching date: ${intl.DateFormat('yyyy-MM-dd').format(controller.selectedDate)} for seloonId: $seloonId");
+                    controller.getbarberWithDate(
+                        barberId: seloonId!,
+                        date: intl.DateFormat('yyyy-MM-dd')
+                            .format(controller.selectedDate));
+                  }
+                  controller.goToNextDate(
+                      isDontCalled: userRole == UserRole.owner ? false : true);
                 },
                 icon: const Icon(Icons.arrow_forward_ios,
                     color: Colors.black54, size: 18),
@@ -53,8 +81,10 @@ class HorizontalDatePicker extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     controller.selectDate(index);
-                    controller.fetchDateWiseBookings(
-                        date: intl.DateFormat('yyyy-MM-dd').format(date));
+                    if (userRole == UserRole.owner) {
+                      controller.fetchDateWiseBookings(
+                          date: intl.DateFormat('yyyy-MM-dd').format(date));
+                    }
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 350),

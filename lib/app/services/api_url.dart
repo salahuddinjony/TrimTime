@@ -4,8 +4,10 @@ class ApiUrl {
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
+
 //deshboard data
   static const dashboardData = "$baseUrl/saloons/dashboard";
+
 
   ///================================= User Authentication url==========================
   static const login = "/auth/login";

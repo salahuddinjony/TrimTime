@@ -4,7 +4,7 @@ class AppStrings {
   ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Authentication💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
   static const signUp = "Sign up";
   static const customer = "Customer";
-  static const berber = "Berber";
+  static const berber = "Barber";
   static const owner = "Owner";
   static const password = "Password";
   static const barbersTime = "Barbers Time";
@@ -19,7 +19,7 @@ class AppStrings {
   static const getStarted = "Get Started";
   static const startWithSign = "Start with sign up or sign in";
   static const signIn = "Sign in";
-  static const welcomeBack = "Welcome \n Back";
+  static const welcomeBack = "Welcome Back!";
   static const email = "Email";
   static const messaging = "Messaging";
   static const enterYourEmail = "Enter your email";
@@ -54,9 +54,10 @@ class AppStrings {
   static const searchSaloons = "Search Saloons";
   static const seeAll = "see all";
   static const nearYou = "Near you";
+  static const topRated = "Top Rated";
   static const saveUpTO = "Save up to";
   static const feedBack = "Feed Back";
-  static const feed= "Feed";
+  static const feed= "All Feed";
   static const visitShop = "Visit Shop";
   static const view = " View";
   static const scanYourQrCode = " Scan your QR Code";
@@ -73,6 +74,7 @@ class AppStrings {
   static const  addFeed = "Add Feed";
   static const seeProfile = "See profile";
   static const cancel = "Cancel";
+  static const delete = "Delete";
   static const follow = "Follow ";
   static const following = "Following  ";
   static const totalFollowers = "Total Followers:";
@@ -160,7 +162,9 @@ class AppStrings {
   static const yourSHopUniqueQr  = "Your Shop’s Unique QR Code";
   static const print  = "Print";
   static const download  = "Download";
-
+  static const share  = "Share";
+  static const copyLink  = "Copy Link";
+  static const create = "Create";
   //Owner Home
   static const totalCustomer  = "Total Customer";
   static const totalBarber  = "Total Barber";
@@ -184,13 +188,17 @@ class AppStrings {
   static const youHaveComplete  = "You have completed the job.!";
   static const goToHome  = "Go to Home";
   static const typeSomething  = "Type something…";
-  static const loyaLity  = "loyalty ";
+  static const loyaLity  = "Loyalty ";
   static const addPhoto  = "Add Photo ";
   static const ongoing   = "Ongoing";
   static const completed   = "Completed  ";
-  static const rejected    = "Rejected  ";
+  static const reject    = "Reject";
+  static const rejected   = "Rejected";
   static const doYouWantToRejectYourRe    = "Do you want to reject your request?  ";
   static const businessProfile    = "Business Profile ";
-  static const jobPost    = "Jop post";
+  static const jobPost    = "Job post";
   static const addService    = "Add Service";
+  static const somethingWentWrong    = "Something went wrong."; 
+  static const noJobPostFound    = "No Job Post Found.";
+  static const pleaseFillAllFields    = "Please fill all fields.";
 }

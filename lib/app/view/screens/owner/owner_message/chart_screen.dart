@@ -61,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
       Scaffold(
     backgroundColor: AppColors.normalHover,
     appBar: const CustomAppBar(
-      appBarBgColor: AppColors.linearFirst,
+      appBarBgColor: AppColors.lasts,
       appBarContent: AppStrings.messaging,
       iconData: Icons.arrow_back,
     ),

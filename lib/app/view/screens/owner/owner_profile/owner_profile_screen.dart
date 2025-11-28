@@ -51,6 +51,29 @@ class ProfileScreen extends StatelessWidget {
       );
     }
     return Scaffold(
+      // Only show the floatingActionButton if the role is 'user'
+      // floatingActionButton: userRole == UserRole.user
+      //     ? IconButton(
+      //         onPressed: () {
+      //           AppRouter.route
+      //               .pushNamed(RoutePath.scannerScreen, extra: userRole);
+      //         },
+      //         icon: Container(
+      //           height: 85,
+      //           width: 85,
+      //           padding: EdgeInsets.all(12.r),
+      //           // You can adjust the padding as needed
+      //           decoration: const BoxDecoration(
+      //             shape: BoxShape.circle,
+      //             color: AppColors.navColor, // Custom color for the button
+      //           ),
+      //           child: Assets.images.bxScan
+      //               .image(color: AppColors.black), // Scanner icon
+      //         ),
+      //       )
+      //     : null,
+      // // Return null if the role is not 'user'
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavbar(
         currentIndex: 4,
         role: userRole,
@@ -89,7 +112,9 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //TOdo=====Header====
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   Center(child: Obx(() {
                     final data = ownerProfileController.profileDataList;
                     if (ownerProfileController.isLoading.value) {
@@ -122,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (data.isEmpty) {
+                    if (data.value?.isEmpty == true) {
                       return const Text('No profile data');
                     }
                     return Column(
@@ -130,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
                         Obx(() {
                           // Prefer controller's picked image (local path) when available.
                           final currentData =
-                              ownerProfileController.profileDataList.first;
+                              ownerProfileController.profileDataList.value!;
                           final imageUrl =
                               ownerProfileController.imagepath.value.isNotEmpty
                                   ? ownerProfileController.imagepath.value
@@ -149,14 +174,14 @@ class ProfileScreen extends StatelessWidget {
                         }),
                         CustomText(
                           top: 8,
-                          text: data.first.fullName.safeCap(),
+                          text: data.value!.fullName.safeCap(),
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                           color: AppColors.black,
                         ),
                         CustomText(
                           top: 8,
-                          text: data.first.email,
+                          text: data.value!.email,
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
                           color: AppColors.black,
@@ -173,7 +198,7 @@ class ProfileScreen extends StatelessWidget {
                       AppRouter.route.pushNamed(RoutePath.personalInfo, extra: {
                         'userRole': userRole,
                         'profileData':
-                            ownerProfileController.profileDataList.first,
+                            ownerProfileController.profileDataList.value!,
                         'controller': ownerProfileController
                       });
                     },
@@ -193,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: {
                                   'userRole': userRole,
                                   'profileData': ownerProfileController
-                                      .profileDataList.first,
+                                      .profileDataList.value!,
                                   'controller': ownerProfileController
                                 });
                           },
@@ -209,8 +234,12 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
+                            ownerProfileController.fetchBusinessProfiles();
                             AppRouter.route.pushNamed(RoutePath.businessProfile,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': ownerProfileController
+                                });
                           },
                           text: AppStrings.businessProfile,
                           icon: Assets.icons.business.svg(
@@ -253,7 +282,19 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.chatScreen,
+                            AppRouter.route.pushNamed(RoutePath.inboxScreen,
+                                extra: userRole);
+                          },
+                          text: AppStrings.chat,
+                          icon: Assets.images.chartSelected.image(),
+                        )
+                      : const SizedBox(),
+
+                  //chat=========
+                  userRole == UserRole.user
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.inboxScreen,
                                 extra: userRole);
                           },
                           text: AppStrings.chat,
@@ -264,16 +305,52 @@ class ProfileScreen extends StatelessWidget {
                   userRole == UserRole.owner
                       ? CustomMenuCard(
                           onTap: () {
+                            ownerProfileController.fetchHiredBarbers();
                             AppRouter.route.pushNamed(RoutePath.hiringBarber,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'isOwner': true,
+                                  'controller': ownerProfileController
+                                });
                           },
                           text: AppStrings.barber,
                           icon: Assets.images.berber
                               .image(height: 20, color: Colors.black),
                         )
                       : const SizedBox(),
-                  //=========
+
+                  //TOdo=====Payment====
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.ownerPayment,
+                                extra: userRole);
+                          },
+                          text: "Payment",
+                          icon: Assets.images.hugeiconsPayment02
+                              .image(height: 20, color: Colors.black),
+                        )
+                      : const SizedBox(),
+
                   //TOdo=====myFeed====
+                  // userRole == UserRole.user
+                  //     ? const SizedBox.shrink()
+                  //     :
+                  // booking
+                  userRole == UserRole.barber
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'isBarber': true
+                                });
+                          },
+                          text: "Booking",
+                          icon: Assets.images.booking
+                              .image(height: 15, color: Colors.black),
+                        )
+                      : const SizedBox.shrink(),
                   CustomMenuCard(
                     onTap: () {
                       AppRouter.route
@@ -281,6 +358,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                     text: AppStrings.myFeedBack,
                     icon: Assets.icons.myFeedBack.svg(
+                      height: 22,
                       colorFilter: const ColorFilter.mode(
                           AppColors.black, BlendMode.srcIn),
                     ),
@@ -332,11 +410,43 @@ class ProfileScreen extends StatelessWidget {
 
                   //TOdo=========
 
+                  // userRole == UserRole.barber
+                  //     ? CustomMenuCard(
+                  //         onTap: () {
+                  //           AppRouter.route.pushNamed(RoutePath.barberQueScreen,
+                  //               extra: userRole);
+                  //         },
+                  //         text: AppStrings.que,
+                  //         icon: Assets.icons.ques.svg(
+                  //           height: 16,
+                  //           colorFilter: const ColorFilter.mode(
+                  //               AppColors.gray500, BlendMode.srcIn),
+                  //         ),
+                  //       )
+                  //     : const SizedBox(),
                   userRole == UserRole.barber
                       ? CustomMenuCard(
-                          onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.barberQueScreen,
-                                extra: userRole);
+                          onTap: () async {
+                            final barberId = await SharePrefsHelper.getString(
+                                AppConstants.userId);
+                            final barBerOwnerId =
+                                await SharePrefsHelper.getString(
+                                    AppConstants.saloonOwnerId);
+                            debugPrint(
+                                "Navigating to Queue Screen for ${barBerOwnerId}");
+                            debugPrint("Barber ID: ${barberId}");
+                            ownerProfileController.fetchBarbersCustomerQue(
+                                barberId: barberId,
+                                saloonOwnerId: barBerOwnerId);
+                            AppRouter.route.pushNamed(
+                              RoutePath.queScreen,
+                              extra: {
+                                'userRole': userRole,
+                                'barberId': barberId,
+                                'controller': ownerProfileController,
+                                'saloonOwnerId': barBerOwnerId
+                              },
+                            );
                           },
                           text: AppStrings.que,
                           icon: Assets.icons.ques.svg(
@@ -353,15 +463,39 @@ class ProfileScreen extends StatelessWidget {
                       ? const SizedBox()
                       : CustomMenuCard(
                           onTap: () {
+                            ownerProfileController.fetchFollowerOrFollowingData(
+                                isFollowers: false);
                             AppRouter.route.pushNamed(RoutePath.followingScreen,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': ownerProfileController
+                                });
                           },
                           text: AppStrings.myFollowing,
                           icon: Assets.icons.flowing.svg(
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),
                           ),
-                        ),
+                        ), //TOdo=====following====
+
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            ownerProfileController.fetchFollowerOrFollowingData(
+                                isFollowers: true);
+                            AppRouter.route.pushNamed(RoutePath.followerScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': ownerProfileController
+                                });
+                          },
+                          text: "My Followers",
+                          icon: Assets.icons.flowing.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.black, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(),
 
                   //TOdo=========
 

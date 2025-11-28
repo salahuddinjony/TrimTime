@@ -6,6 +6,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_short_clipper/curved_short_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/onboarding/chose_auth/authenticator_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -18,38 +19,46 @@ class GetStartedScreen extends StatelessWidget {
     final userRole = GoRouterState.of(context).extra as UserRole?;
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: AppColors.linearFirst,
+        title: Text(
+          AuthenticatorNames.displayNameFromUserRole(userRole),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Column(
         children: [
           ClipPath(
             clipper: CurvedShortClipper(),
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height / 1.8,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
+                    Color(0xCCEEC9B4), // First color (with opacity)
+                    Color(0xFFE97D3F),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
               ),
               child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 120.h,
                     ),
-                     CustomText(
+                    CustomText(
                       text: AppStrings.getStarted,
                       fontWeight: FontWeight.w700,
                       fontSize: 24.sp,
                       color: AppColors.black,
                     ),
-                     CustomText(
+                    CustomText(
                       text: AppStrings.startWithSign,
                       fontWeight: FontWeight.w300,
                       fontSize: 20.sp,
@@ -61,7 +70,7 @@ class GetStartedScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),
             child: Column(
               children: [
                 //ToDo ==========✅✅ Sing In Button ✅✅==========

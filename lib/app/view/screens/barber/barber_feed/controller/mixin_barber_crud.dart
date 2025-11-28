@@ -8,6 +8,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/my_feed/model/f
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
 mixin BarberFeedCRUDMixin on GetxController {
@@ -17,7 +18,6 @@ mixin BarberFeedCRUDMixin on GetxController {
   /// the original network image. The UI should not show the original
   /// image after the user explicitly cleared it.
   var clearedInitialImage = false.obs;
-
 
   RxList<FeedItem> allFeeds = <FeedItem>[].obs;
   RxBool isLoadingFeeds = false.obs;
@@ -96,12 +96,22 @@ mixin BarberFeedCRUDMixin on GetxController {
 
   Future<bool> createFeed({
     required String caption,
+    PlatformFile? mediaFile,
   }) async {
     try {
-      if (caption.isEmpty || imagepath.value.isEmpty) {
+      // Use mediaFile if provided, otherwise use imagepath for backward compatibility
+      String filePath = '';
+      if (mediaFile != null && mediaFile.path != null) {
+        filePath = mediaFile.path!;
+      } else if (imagepath.value.isNotEmpty) {
+        filePath = imagepath.value;
+      }
+
+      if (caption.isEmpty || filePath.isEmpty) {
         EasyLoading.showInfo('Caption or image is required');
         return false;
       }
+      
       EasyLoading.show(status: 'Creating...');
 
       final body = <String, dynamic>{'caption': caption};
@@ -112,13 +122,14 @@ mixin BarberFeedCRUDMixin on GetxController {
           'bodyData': jsonEncode(body),
         },
         multipartBody: [
-          if (imagepath.value.isNotEmpty && !isNetworkImage.value)
+          if (filePath.isNotEmpty)
             MultipartBody(
               'images',
-              File(imagepath.value),
+              File(filePath),
             ),
         ],
       );
+      
       if (response.statusCode == 201) {
         EasyLoading.showSuccess('Feed created');
         toastMessage(message: 'Feed created successfully');
@@ -144,43 +155,50 @@ mixin BarberFeedCRUDMixin on GetxController {
   Future<bool> updateFeed({
     required String caption,
     required String feedId,
+    PlatformFile? mediaFile,
   }) async {
     try {
-      if ((caption.isEmpty) &&
-          (imagepath.value.isEmpty)) {
+      // Use mediaFile if provided, otherwise use imagepath for backward compatibility
+      String filePath = '';
+      bool shouldAttachFile = false;
+      
+      if (mediaFile != null && mediaFile.path != null) {
+        filePath = mediaFile.path!;
+        shouldAttachFile = true;
+      } else if (imagepath.value.isNotEmpty && !isNetworkImage.value) {
+        filePath = imagepath.value;
+        shouldAttachFile = true;
+      }
+
+      if (caption.isEmpty && !shouldAttachFile) {
         throw 'Caption or image is required';
       }
+      
       EasyLoading.show(status: 'Updating...');
       final body = <String, dynamic>{'caption': caption};
 
-    debugPrint("Update Feed Body: $body");
-    debugPrint("My api url: ${ApiUrl.updateFeed(id: feedId)}");
+      debugPrint("Update Feed Body: $body");
+      debugPrint("My api url: ${ApiUrl.updateFeed(id: feedId)}");
 
       final response = await ApiClient.patchMultipart(
         ApiUrl.updateFeed(id: feedId),
         {
           'bodyData': jsonEncode(body),
-          
         },
-         multipartBody: [
-            // Only attach the image file when the path is a local file.
-            // `isNetworkImage` is true when editing an existing feed and
-            // the image shown is from the network. Avoid creating a
-            // `File` with a network URL which causes a PathNotFoundException.
-            if (imagepath.value.isNotEmpty && !isNetworkImage.value)
-              MultipartBody(
-                'images',
-                File(imagepath.value),
-              ),
+        multipartBody: [
+          if (shouldAttachFile && filePath.isNotEmpty)
+            MultipartBody(
+              'images',
+              File(filePath),
+            ),
         ],
       );
 
       if (response.statusCode == 200) {
         EasyLoading.showSuccess('Feed updated');
-        await getAllFeeds(); 
+        await getAllFeeds();
         imagepath.value = '';
         return true;
-      
       } else {
         EasyLoading.showError('Failed to update feed');
         debugPrint(
@@ -203,10 +221,9 @@ mixin BarberFeedCRUDMixin on GetxController {
       final response = await ApiClient.deleteData(url);
 
       if (response.statusCode == 200) {
-        await getAllFeeds(); 
+        await getAllFeeds();
         EasyLoading.showSuccess('Feed deleted');
         toastMessage(message: 'Feed deleted successfully');
-        // Optionally, you can remove the feed from a local list if you have one
       } else {
         EasyLoading.showError('Failed to delete feed');
         debugPrint(

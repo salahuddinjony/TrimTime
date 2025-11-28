@@ -5,6 +5,7 @@ import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/models/favorite_feed_model.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +15,23 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class MyFavoriteScreen extends StatelessWidget {
-   MyFavoriteScreen({
+  MyFavoriteScreen({
     super.key,
   });
-    final InfoController infoController = Get.find<InfoController>();
+  final InfoController infoController = Get.find<InfoController>();
+    final BarberHomeController controller = Get.find<BarberHomeController>();
 
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -31,6 +40,7 @@ class MyFavoriteScreen extends StatelessWidget {
         body: const Center(child: Text('No user role received')),
       );
     }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,9 +60,53 @@ class MyFavoriteScreen extends StatelessWidget {
             );
           }
 
-          final favorites = infoController.favoriteItems;
-          final display = favorites.isEmpty ? _demoFavorites : favorites;
-
+          final display = infoController.favoriteItems;
+        
+          // Check if the list is empty
+          if (display.isEmpty) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                await infoController.fetchAllFavourite();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          'No Favorites Yet',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          'Start adding your favorite posts\nto see them here',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+        
           return RefreshIndicator(
             onRefresh: () async {
               await infoController.fetchAllFavourite();
@@ -66,64 +120,59 @@ class MyFavoriteScreen extends StatelessWidget {
           );
         }),
       ),
-
     );
   }
 
-  List<Widget> _buildFeedCards(UserRole? userRole, List<FavoriteFeedItem> items) {
-
+  List<Widget> _buildFeedCards(
+      UserRole? userRole, List<FavoriteFeedItem> items) {
     return items.map((item) {
       final owner = item.saloonOwner;
-      final image = item.images.isNotEmpty ? item.images.first : AppConstants.demoImage;
       final shopName = owner?.shopName ?? 'Unknown Shop';
       final ratingStr = owner?.avgRating != null
           ? '${owner!.avgRating!.toStringAsFixed(1)} * (${owner.ratingCount ?? 0})'
           : '0.0 * (0)';
 
-      return CustomFeedCard(
-        userImageUrl: item.profileImage ?? AppConstants.demoImage,
-        userName: item.userId.isNotEmpty ? item.userId : shopName,
-        userAddress: owner?.shopAddress ?? '',
-        postImageUrl: image,
-        postText: item.caption.isNotEmpty ? item.caption : '',
-        rating: ratingStr,
-        onFavoritePressed: () {
-          // Demo favorite pressed
-        },
-        onVisitShopPressed: () {
-          AppRouter.route.pushNamed(RoutePath.visitShop, extra: userRole);
-        },
+      return Padding(
+        padding: EdgeInsets.only(bottom: 12.h),
+        child: CustomFeedCard(
+          
+          isFavouriteFromApi: true, // Always true since this is favorites list
+          isVisitShopButton: item.saloonOwner != null,
+          isFromFav: true,
+          favoriteCount: "0", // Not available in favorite feed model
+          userImageUrl: item.profileImage ?? AppConstants.demoImage,
+          userName: shopName,
+          userAddress: item.saloonOwner?.shopAddress ?? '',
+          postImageUrl: item.images.isNotEmpty
+              ? item.images.first
+              : AppConstants.demoImage,
+          postText: item.caption,
+          rating: ratingStr,
+          onFavoritePressed: (isFavorite) async {
+             controller.toggleLikeFeed(
+              feedId: item.feedId, 
+              isUnlike: isFavorite == true,
+            );
+            // Refresh the favorites list after toggling
+            await infoController.fetchAllFavourite();
+          },
+          onVisitShopPressed: () {
+            if (item.saloonOwner != null) {
+              AppRouter.route.pushNamed(
+                RoutePath.shopProfileScreen,
+                extra: {
+                  'userRole': userRole,
+                  'userId': item.saloonOwner!.userId,
+                },
+              );
+            }
+          },
+        ),
       );
     }).toList();
   }
 
-  // Demo favorites to show when API returns empty.
-  List<FavoriteFeedItem> get _demoFavorites => [
-        FavoriteFeedItem(
-          id: '68a7073aaff8297056410356',
-          feedId: '68a7073aaff8297056410356',
-          caption: 'Fresh new haircut styles available this week! Bye',
-          images: [
-            'https://lerirides.nyc3.digitaloceanspaces.com/feed-images/1755776825516_man-9377284_1280.jpg'
-          ],
-          userId: 'John Updated',
-          profileImage: null,
-          saloonOwner: SaloonOwner(
-            userId: '689424ee19c117b142c8bf50',
-            shopName: 'Elite Saloon',
-            registration: 'REG123456',
-            shopAddress: '123 Main Street, Dhaka',
-            shopImages: [],
-            shopVideo: [],
-            shopLogo:
-                'https://lerirides.nyc3.digitaloceanspaces.com/saloon-logos/1754542797566_icon-6951393_1280.jpg',
-            avgRating: 4.5,
-            ratingCount: 2,
-          ),
-        ),
-      ];
 
-    
 }
 
 class _FavoriteShimmerCard extends StatelessWidget {
@@ -145,7 +194,8 @@ class _FavoriteShimmerCard extends StatelessWidget {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
                 ),
                 Expanded(
                   child: Column(
@@ -153,11 +203,17 @@ class _FavoriteShimmerCard extends StatelessWidget {
                     children: const [
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
-                        child: SizedBox(width: double.infinity, height: 12, child: ColoredBox(color: Colors.white)),
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: 12,
+                            child: ColoredBox(color: Colors.white)),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8.0, top: 6.0),
-                        child: SizedBox(width: 160, height: 12, child: ColoredBox(color: Colors.white)),
+                        child: SizedBox(
+                            width: 160,
+                            height: 12,
+                            child: ColoredBox(color: Colors.white)),
                       ),
                     ],
                   ),
@@ -169,11 +225,15 @@ class _FavoriteShimmerCard extends StatelessWidget {
             Container(
               height: 364,
               width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
             ),
             const SizedBox(height: 8),
             // Post text placeholder
-            const SizedBox(width: double.infinity, height: 14, child: ColoredBox(color: Colors.white)),
+            const SizedBox(
+                width: double.infinity,
+                height: 14,
+                child: ColoredBox(color: Colors.white)),
             const SizedBox(height: 10),
             // Bottom action row: favorite circle, rating, visit shop button
             Row(
@@ -182,17 +242,24 @@ class _FavoriteShimmerCard extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 10),
                   width: 40,
                   height: 40,
-                  decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                      color: AppColors.secondary, shape: BoxShape.circle),
                   child: const Icon(Icons.favorite_border, color: Colors.white),
                 ),
                 const SizedBox(width: 8),
-                const SizedBox(width: 80, height: 14, child: ColoredBox(color: Colors.white)),
+                const SizedBox(
+                    width: 80,
+                    height: 14,
+                    child: ColoredBox(color: Colors.white)),
                 const Spacer(),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   padding: const EdgeInsets.all(5),
                   decoration: const BoxDecoration(color: AppColors.black),
-                  child: const SizedBox(width: 80, height: 20, child: ColoredBox(color: Colors.white)),
+                  child: const SizedBox(
+                      width: 80,
+                      height: 20,
+                      child: ColoredBox(color: Colors.white)),
                 ),
               ],
             ),

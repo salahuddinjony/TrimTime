@@ -6,6 +6,7 @@ class AppColors {
   ///============================ Red Series ===============================
 
   static const Color gray500 = Color(0xff333333);
+  static const Color gray600 = Color(0xff2F2E2E);
   static const Color gray300 = Color(0xff777676);
   static const Color brown50 = Color(0xffF9F5F0);
   static const Color black = Color(0xff03080D);
@@ -30,14 +31,24 @@ class AppColors {
   static const Color orange700 = Color(0xff794A37);
   static const Color orange500 = Color(0xffAB684D);
   static const Color secondary = Color(0xffD17C51);
+  static const Color seconderDark = Color(0xff3C3C3C);
   static const Color gray800 = Color(0xff1D1C1C);
   static const Color bottomColor = Color(0xff472a1a);
   static const Color red = Color(0xff990505);
   static const Color linearFirst = Color(0xffEDC4AC);
   static const Color navColor = Color(0xffF4EBDC);
   static const Color first = Color(0xffEEC2A8);
+  static const Color firstS = Color(0xffEDBFA5);
+  static const Color lasts = Color(0xffE9854C);
   static const Color last = Color(0xffEA8A53);
   static const Color visit = Color(0xffCFE4B0);
+  static const Color orange300 = Color(0xffC79A88);
+  static const Color white600 = Color(0xffD1D1D1);
+  static const Color searchUserFillColor = Color(0xffEB9767);
+  static const Color searchScreenBg = Color(0xffEBA378);
+  static const Color bodyGrayMedium = Color(0xff969696);
+  static const Color feed = Color(0xffEA905D);
+  static const Color app = Color(0xffE98851);
 
 
 

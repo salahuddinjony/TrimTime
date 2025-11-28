@@ -24,9 +24,10 @@ class PaymentOption extends StatelessWidget {
     final userRole = GoRouterState.of(context).extra as UserRole?;
     debugPrint("Selected Roles============================${userRole?.name}");
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: const CustomAppBar(
         appBarContent: AppStrings.paymentOption,
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.searchScreenBg,
         iconData: Icons.arrow_back,
       ),
       body: SingleChildScrollView(
@@ -38,14 +39,15 @@ class PaymentOption extends StatelessWidget {
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 1.3,
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xCCEDC4AC), // First color (with opacity)
-                    Color(0xFFE9864E),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                color: AppColors.searchScreenBg
+                // gradient: LinearGradient(
+                //   colors: [
+                //     Color(0xCCEDC4AC), // First color (with opacity)
+                //     Color(0xFFE9864E),
+                //   ],
+                //   begin: Alignment.topLeft,
+                //   end: Alignment.bottomRight,
+                // ),
               ),
               child: Padding(
                 padding:
@@ -97,10 +99,14 @@ class PaymentOption extends StatelessWidget {
                     CustomButton(
                       onTap: () {
                         if (userRole == UserRole.owner) {
-                          AppRouter.route.pushNamed(RoutePath.uniqueQrCode,
+                          AppRouter.route.pushNamed(RoutePath.ownerQrCode,
                               extra: userRole);
                         } else if (userRole == UserRole.barber) {
                           AppRouter.route.pushNamed(RoutePath.barberHomeScreen,
+                              extra: userRole);
+                        }
+                        else if (userRole == UserRole.user) {
+                          AppRouter.route.pushNamed(RoutePath.homeScreen,
                               extra: userRole);
                         }
                       },

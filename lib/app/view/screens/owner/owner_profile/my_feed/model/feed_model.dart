@@ -46,6 +46,7 @@ class FeedItem {
   final String caption;
   final List<String> images;
   final int? favoriteCount;
+  final bool? isFavorite;
 
   FeedItem({
     required this.id,
@@ -56,6 +57,8 @@ class FeedItem {
     required this.caption,
     required this.images,
     this.favoriteCount,
+    this.isFavorite ,
+
   });
 
   factory FeedItem.fromJson(Map<String, dynamic>? json) {
@@ -73,6 +76,7 @@ class FeedItem {
       caption: json['caption']?.toString() ?? '',
       images: imgs,
       favoriteCount: json['favoriteCount'] is int ? json['favoriteCount'] as int : int.tryParse('${json['favoriteCount']}'),
+      isFavorite: json['isFavorite'] is bool ? json['isFavorite'] as bool : null,
     );
   }
 
@@ -85,6 +89,7 @@ class FeedItem {
         'caption': caption,
         'images': images,
         'favoriteCount': favoriteCount,
+        'isFavorite': isFavorite,
       };
 }
 

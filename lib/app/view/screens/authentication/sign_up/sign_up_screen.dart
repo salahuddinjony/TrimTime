@@ -132,7 +132,7 @@ class SignUpScreen extends StatelessWidget {
 
                       //ToDo ==========✅✅ alreadyHaveAnAccount✅✅==========
                       CustomRichText(
-                          firstText: AppStrings.alreadyHaveAnAccount,
+                          firstText: "${AppStrings.alreadyHaveAnAccount} ",
                           secondText: AppStrings.signIn,
                           onTapAction: () {
                             context.pop();

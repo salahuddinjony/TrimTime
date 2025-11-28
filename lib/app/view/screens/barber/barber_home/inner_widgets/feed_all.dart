@@ -5,17 +5,29 @@ import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class FeedAll extends StatelessWidget {
-  const FeedAll({
+  FeedAll({
     super.key,
   });
 
+  final BarberHomeController controller = Get.find<BarberHomeController>();
+
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
 
     debugPrint("===================${userRole?.name}");
     if (userRole == null) {
@@ -32,29 +44,88 @@ class FeedAll extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: List.generate(4, (index) {
-              return CustomFeedCard(
-                userImageUrl: AppConstants.demoImage,
-                userName: "Roger Hunt",
-                userAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                postImageUrl: AppConstants.demoImage,
-                postText:
-                    "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
-                rating: "5.0 * (169)",
-                onFavoritePressed: () {
-                },
-                onVisitShopPressed: () {
-                  AppRouter.route.pushNamed(
-                      RoutePath.visitShop,
-                      extra: userRole);
-                  // Handle visit shop button press
-                },
-              );
-            }),
-          ),
-        ),
+        child: Obx(() {
+          final feeds = controller.homeFeedsList;
+
+          if (controller.getFeedsStatus.value.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (feeds.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.feed_outlined,
+                    size: 80,
+                    color: Colors.grey[400],
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'No feeds available',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Check back later for new content',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: feeds.map((feed) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: CustomFeedCard(
+                    isFavouriteFromApi: feed.isFavorite ?? false,
+                    isVisitShopButton: feed.saloonOwner != null,
+                    favoriteCount: feed.favoriteCount.toString(),
+                    userImageUrl: feed.userImage ?? AppConstants.demoImage,
+                    userName: feed.userName,
+                    userAddress: feed.saloonOwner?.shopAddress ?? '',
+                    postImageUrl: feed.images.isNotEmpty
+                        ? feed.images.first
+                        : AppConstants.demoImage,
+                    postText: feed.caption,
+                    rating: feed.saloonOwner != null
+                        ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                        : "",
+                    onFavoritePressed: (isFavorite) {
+                      controller.toggleLikeFeed(
+                        feedId: feed.id,
+                        isUnlike: isFavorite == true,
+                      );
+                    },
+                    onVisitShopPressed: () {
+                      if (feed.saloonOwner != null) {
+                        AppRouter.route.pushNamed(
+                          RoutePath.shopProfileScreen,
+                          extra: {
+                            'userRole': userRole,
+                            'userId': feed.saloonOwner!.userId,
+                            'controller': controller,
+                          },
+                        );
+                      }
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+        }),
       ),
     );
   }

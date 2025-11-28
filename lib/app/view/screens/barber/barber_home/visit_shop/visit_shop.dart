@@ -1,3 +1,5 @@
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
@@ -12,8 +14,15 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class VisitShop extends StatelessWidget {
+class VisitShop extends StatefulWidget {
   const VisitShop({super.key});
+
+  @override
+  State<VisitShop> createState() => _VisitShopState();
+}
+
+class _VisitShopState extends State<VisitShop> {
+  bool isFollowing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +36,10 @@ class VisitShop extends StatelessWidget {
       );
     }
     return Scaffold(
-      backgroundColor: AppColors.linearFirst,
+      backgroundColor: AppColors.searchScreenBg,
       //==================✅✅Header✅✅===================
       appBar: const CustomAppBar(
-        appBarBgColor: AppColors.linearFirst,
+        appBarBgColor: AppColors.searchScreenBg,
         appBarContent: "Barber Profile",
         iconData: Icons.arrow_back,
       ),
@@ -72,7 +81,8 @@ class VisitShop extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _customButton(AppStrings.follow, Icons.person_add),
+                            _customButton(isFollowing ? "Unfollow" : "Follow",
+                                Icons.person_add),
                             const SizedBox(width: 10),
                             _iconButton(Assets.images.chartSelected.image(
                               color: Colors.white,
@@ -94,6 +104,26 @@ class VisitShop extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 15),
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: GestureDetector(
+                            onTap: (){
+                              _showInformationDialog(context);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(6.r),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(color: AppColors.black),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: CustomText(
+                                text: "more info",
+                                fontSize: 12.sp,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -163,32 +193,36 @@ class VisitShop extends StatelessWidget {
                         text: "Skills & Experience(5 years )",
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.black,
+                        color: AppColors.gray600,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Column(
                         children: List.generate(4, (index) {
-                          return const Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.black,
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 5,
-                                  text:
-                                      "Fades & Tapers –Clean low, mid, high, and skin fades",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.arrow_forward,
+                                    color: AppColors.white),
+                                SizedBox(
+                                  width: 20,
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: CustomText(
+                                    textAlign: TextAlign.start,
+                                    maxLines: 5,
+                                    text:
+                                        "Fades & Tapers –Clean low, mid, high, and skin fades",
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.gray600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         }),
                       ),
@@ -197,7 +231,7 @@ class VisitShop extends StatelessWidget {
                         text: 'Photo Gallery',
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.white50,
+                        color: AppColors.black,
                         bottom: 10,
                       ),
 
@@ -209,30 +243,30 @@ class VisitShop extends StatelessWidget {
                         height: 20,
                       ),
 
-
-                      userRole == UserRole.owner?
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 5,
-                              child: CustomButton(
-                                title: AppStrings.rejected,
-                                onTap: () {},
-                                fillColor: Colors.white,
-                              )),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                              flex: 5,
-                              child: CustomButton(
-                                onTap: () {},
-                                fillColor: AppColors.bottomColor,
-                                title: AppStrings.approve,
-                                textColor: Colors.white,
-                              )),
-                        ],
-                      ):const SizedBox(),
+                      userRole == UserRole.owner
+                          ? Row(
+                              children: [
+                                Expanded(
+                                    flex: 5,
+                                    child: CustomButton(
+                                      title: AppStrings.reject,
+                                      onTap: () {},
+                                      fillColor: Colors.white,
+                                    )),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                    flex: 5,
+                                    child: CustomButton(
+                                      onTap: () {},
+                                      fillColor: AppColors.bottomColor,
+                                      title: AppStrings.approve,
+                                      textColor: Colors.white,
+                                    )),
+                              ],
+                            )
+                          : const SizedBox(),
 
                       const SizedBox(
                         height: 50,
@@ -248,37 +282,173 @@ class VisitShop extends StatelessWidget {
     );
   }
 
-  //follow button and chart button
+  // Function to toggle Follow/Unfollow state
+  void _toggleFollow() {
+    setState(() {
+      isFollowing = !isFollowing; // Toggle the follow state
+    });
+  }
+
+  // Custom Follow/Unfollow button
   Widget _customButton(String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 14, color: Colors.white),
-          const SizedBox(width: 6),
-          CustomText(
-            text: text,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ],
+    return GestureDetector(
+      onTap: _toggleFollow, // Toggle follow state on tap
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 14, color: Colors.white),
+            const SizedBox(width: 6),
+            CustomText(
+              text: text,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _iconButton(Widget icon) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        AppRouter.route.pushNamed(
+          RoutePath.chatScreen,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: icon,
       ),
-      child: icon,
     );
   }
+}
+
+
+void _showInformationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: AppColors.white50,
+        title: CustomText(
+          text: "Information",
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w400,
+          color: AppColors.black,
+        ),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "James Tracy",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.cake,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "22-03-1998",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.email,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "James@gmail.com",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.phone,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "+44 26537 26347",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on,
+                  color: AppColors.orange500,
+                ),
+                SizedBox(width: 8),
+                CustomText(
+                  text: "Abu Dhabi",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
 }

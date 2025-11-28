@@ -46,16 +46,17 @@ class CommonHomeAppBar extends StatelessWidget {
       margin: EdgeInsets.only(
         top: 32.h,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+      padding:  EdgeInsets.symmetric(horizontal: 17.w, vertical: 20.h),
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.first, // start color
-            AppColors.last, // end color
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: AppColors.searchUserFillColor
+        // gradient: LinearGradient(
+        //   colors: [
+        //    AppColors.first, // start color
+        //     AppColors.last, // end color
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
       ),
       child: Column(
         children: [
@@ -118,7 +119,7 @@ class CommonHomeAppBar extends StatelessWidget {
                   onTap: onSearch,
                   readOnly: true,
                   fieldBorderColor: AppColors.black,
-                  fillColor: AppColors.linearFirst,
+                  fillColor: AppColors.searchUserFillColor        ,
                   hintText: AppStrings.searchSaloons,
                   suffixIcon: const Icon(Icons.search),
                 )
@@ -147,7 +148,7 @@ class CommonHomeAppBar extends StatelessWidget {
                       child: Container(
                           padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: CustomText(
@@ -165,7 +166,7 @@ class CommonHomeAppBar extends StatelessWidget {
                       child: Container(
                           padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: const Icon(Icons.calendar_month)),

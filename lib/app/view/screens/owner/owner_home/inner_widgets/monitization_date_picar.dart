@@ -1,12 +1,7 @@
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:get/get.dart';
-import 'package:barber_time/app/global/helper/extension/extension.dart'
-    show formatDate;
 
 class HorizontalDatePicker<T> extends StatelessWidget {
   final dynamic controller;
@@ -31,6 +26,7 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                   if (userRole == UserRole.user && seloonId != null) {
                     debugPrint(
                         "Fetching date: ${intl.DateFormat('yyyy-MM-dd').format(controller.selectedDate)} for seloonId: $seloonId");
+
                     controller.getbarberWithDate(
                         barberId: seloonId!,
                         date: intl.DateFormat('yyyy-MM-dd')
@@ -81,6 +77,12 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     controller.selectDate(index);
+                    if (userRole == UserRole.user && seloonId != null) {
+                      controller.getbarberWithDate(
+                          barberId: seloonId!,
+                          date: intl.DateFormat('yyyy-MM-dd')
+                              .format(controller.selectedDate));
+                    }
                     if (userRole == UserRole.owner) {
                       controller.fetchDateWiseBookings(
                           date: intl.DateFormat('yyyy-MM-dd').format(date));

@@ -76,6 +76,7 @@ dependencies:
   flutter_stripe: ^12.0.2
   dio: ^5.9.0
   socket_io_client: ^3.1.2
+  libphonenumber_plugin: ^0.3.3
 
 
 

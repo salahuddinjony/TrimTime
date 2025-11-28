@@ -527,7 +527,9 @@ class OwnerHomeScreen extends StatelessWidget {
                       ],
                     ),
 
-                    HorizontalDatePicker(controller: controller),
+                    HorizontalDatePicker(
+                      userRole: userRole,
+                      controller: controller),
                     SizedBox(
                       height: 10.h,
                     ),

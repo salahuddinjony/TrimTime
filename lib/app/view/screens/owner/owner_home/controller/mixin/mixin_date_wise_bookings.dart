@@ -24,18 +24,22 @@ mixin DateWiseBookingsMixin {
     }
   }
 
-  void goToNextDate() {
+  void goToNextDate({isDontCalled = false}) {
     if (selectedIndex.value < dates.length - 1) {
       selectedIndex.value++;
-      fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      if (!isDontCalled) {
+        fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      }
       scrollToSelectedDate(selectedIndex.value);
     }
   }
 
-  void goToPreviousDate() {
+  void goToPreviousDate({isDontCalled = false}) {
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
-      fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      if (!isDontCalled) {
+        fetchDateWiseBookings(date: selectedDate.formatDateApi());
+      }
       scrollToSelectedDate(selectedIndex.value);
     }
   }

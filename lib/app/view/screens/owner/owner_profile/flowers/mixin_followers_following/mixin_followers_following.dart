@@ -1,6 +1,6 @@
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
-import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_seloon_mng/mixin_selon_management.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/model/followers_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/model/following_model.dart';
 import 'package:get/get.dart';

@@ -4,8 +4,10 @@ class ApiUrl {
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
+
 //deshboard data
   static const dashboardData = "$baseUrl/saloons/dashboard";
+
 
   ///================================= User Authentication url==========================
   static const login = "/auth/login";
@@ -121,4 +123,28 @@ class ApiUrl {
 
   // selons
   static const fetchSelon = "$baseUrl/customers/all-saloons";
+
+
+  // selons services
+  static String getSelonServices({String? userId}) =>
+      "$baseUrl/customers/saloon-services/$userId";
+  // selons available barbers
+  static String getSelonAvailableBarbers({String? userId, String? serviceId}) {
+    String url = "$baseUrl/customers/saloon-available-barbers/$userId";
+    if (serviceId != null) {
+      url += "?serviceId=$serviceId";
+    }
+    return url;
+  }
+
+
+  // create booking for selon
+  static const createBookingForSelon = "/bookings";
+
+  //get free slots for selon barbers
+  static String getSelonBarberFreeSlots({required String barberId, required String saloonId, required String date}) =>
+      "$baseUrl/bookings/barbers/$saloonId/$barberId?date=$date";
+
+  static String getBarberDateWiseBookings({required String barberId, required String date}) =>
+      "$baseUrl//bookings/walking-in/barbers/$barberId/BOOKING?date=$date";
 }

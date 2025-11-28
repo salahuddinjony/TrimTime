@@ -21,7 +21,6 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 
 class AuthController extends GetxController with PasswordConstraintController {
 //for sign-in and sing-up
-
   final fullNameController = TextEditingController(text: "");
   final addressController = TextEditingController(text: "");
   final regNumberController = TextEditingController(text: "");

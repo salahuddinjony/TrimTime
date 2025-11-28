@@ -32,6 +32,7 @@ class OwnerRequestBooking extends StatelessWidget {
         child: Column(
           children: [
             HorizontalDatePicker(
+              userRole: userRole,
               controller: controller,
             ),
             Expanded(

@@ -6,7 +6,7 @@ import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
-import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_seloon_mng/mixin_selon_management.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/mixin/business_profile_mixin.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/customer/mixin/customer_management.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/mixin_followers_following/mixin_followers_following.dart';

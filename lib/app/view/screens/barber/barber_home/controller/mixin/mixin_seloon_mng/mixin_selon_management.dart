@@ -95,47 +95,7 @@ mixin MixinSelonManagement {
     }
     selectedServicesIds.refresh();
   }
-  Rx<RxStatus> createBookingStatus = Rx<RxStatus>(RxStatus.loading());
-  final TextEditingController bookingNotesController = TextEditingController();
 
-  Future<bool> createSelonBooking(
-      {required String userId,
-      required String bookingDate,
-      required String saloonOwnerId,
-      required String barberId}) async {
-    try {
-      final Map<String, dynamic> bookingData = {
-        "barberId": barberId,
-        "saloonOwnerId": saloonOwnerId,
-        "appointmentAt": DateTime.now().toIso8601String(),
-        "date": "2025-11-27",
-        "services": selectedServicesIds.toList(),
-        "notes": bookingNotesController.text,
-        "type": "BOOKING" // BOOKING QUEUE
-      };
-      createBookingStatus.value = RxStatus.loading();
-
-      final response = await ApiClient.postData(
-        ApiUrl.createBookingForSelon,
-        jsonEncode(bookingData),
-      );
-      if (response.statusCode == 200) {
-        createBookingStatus.value = RxStatus.success();
-        return true;
-      } else {
-        createBookingStatus.value = RxStatus.error(
-            "Failed to create booking: ${response.statusCode} - ${response.statusText}");
-        return false;
-      }
-    } catch (e) {
-      debugPrint("Error creating booking: ${e.toString()}");
-      createBookingStatus.value =
-          RxStatus.error("Error creating booking: ${e.toString()}");
-      return false;
-    } finally {
-      createBookingStatus.refresh();
-    }
-  }
 
   // get selons service list
   RxList<SaloonService> selonServicesList = <SaloonService>[].obs;

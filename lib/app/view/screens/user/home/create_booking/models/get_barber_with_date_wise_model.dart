@@ -64,6 +64,7 @@ class BarbersData {
 	final String shopLogo;
 	final List<Barber> barbers;
 	final String? status; // Optional: add status if present in API
+	final String? message; // Message when no barbers are available
 	// Add more fields if the API returns more
 
 	BarbersData({
@@ -71,9 +72,20 @@ class BarbersData {
 		required this.shopLogo,
 		required this.barbers,
 		this.status,
+		this.message,
 	});
 
 	factory BarbersData.fromJson(Map<String, dynamic> json) {
+		// Check if the data object contains only a message (no barbers case)
+		if (json.containsKey('message') && !json.containsKey('barbers')) {
+			return BarbersData(
+				isQueueEnabled: false,
+				shopLogo: '',
+				barbers: [],
+				message: json['message']?.toString(),
+			);
+		}
+		
 		return BarbersData(
 			isQueueEnabled: json['isQueueEnabled'] ?? false,
 			shopLogo: json['shopLogo'] ?? '',
@@ -81,6 +93,7 @@ class BarbersData {
 					.map((e) => Barber.fromJson(e as Map<String, dynamic>))
 					.toList(),
 			status: json['status'],
+			message: json['message'],
 		);
 	}
 
@@ -89,6 +102,7 @@ class BarbersData {
 				'shopLogo': shopLogo,
 				'barbers': barbers.map((e) => e.toJson()).toList(),
 				if (status != null) 'status': status,
+				if (message != null) 'message': message,
 			};
 }
 

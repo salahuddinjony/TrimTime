@@ -99,10 +99,15 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CustomCard(
+                        // here will be rate screen navigation
                           onTap: () {
                             AppRouter.route.pushNamed(
-                                RoutePath.shopProfileScreen,
-                                extra: userRole);
+                                RoutePath.rateScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  // 'userId': "",
+                                  // 'controller': homeController,
+                                });
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
@@ -174,9 +179,17 @@ class HomeScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 10),
                                 child: GestureDetector(
                                   onTap: () {
-                                    context.pushNamed(
-                                        RoutePath.userBookingScreen,
-                                        extra: userRole);
+                                      AppRouter.route.pushNamed(
+                                      RoutePath.shopProfileScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': salon.userId,
+                                        'controller': homeController,
+                                      },
+                                    );
+                                    // context.pushNamed(
+                                    //     RoutePath.userBookingScreen,
+                                    //     extra: userRole);
                                   },
                                   child: CommonShopCard(
                                     imageUrl: salon.shopLogo,

@@ -70,6 +70,8 @@ import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dar
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/reschedule_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
+import 'package:barber_time/app/view/screens/user/home/create_booking/seloon_booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
@@ -220,6 +222,26 @@ class AppRouter {
                   userRole: userRole!,
                   controller: controller!,
                   userId: customerId ?? '',
+                ),
+                state: state,
+                transitionType: TransitionType.detailsScreen,
+              );
+            }),
+
+            GoRoute(
+            name: RoutePath.seloonBookingScreen,
+            path: RoutePath.seloonBookingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final userId = extra['userId'] as String?;
+              final controller = extra['controller'] as UserHomeController?;
+
+              return _buildPageWithAnimation(
+                child: SeloonBookingScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                  userId: userId ?? '',
                 ),
                 state: state,
                 transitionType: TransitionType.detailsScreen,

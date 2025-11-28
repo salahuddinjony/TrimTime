@@ -30,7 +30,7 @@ mixin MixinNonRegisteredBookings {
         "date": DateTime.now().formatDateApi(),
         "services": services,
         // "barberId": barberId,
-        "bookingType": "QUEUE",
+        "type": "QUEUE",
         "notes": notes
         // "appointmentAt": appointmentAt,
       };

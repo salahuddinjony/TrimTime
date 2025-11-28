@@ -15,9 +15,18 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Path.svg
+  SvgGenImage get path => const SvgGenImage('assets/icons/Path.svg');
+
+  /// File path: assets/icons/add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
+
   /// File path: assets/icons/add_service.svg
   SvgGenImage get addService =>
       const SvgGenImage('assets/icons/add_service.svg');
+
+  /// File path: assets/icons/block.svg
+  SvgGenImage get block => const SvgGenImage('assets/icons/block.svg');
 
   /// File path: assets/icons/bookings.svg
   SvgGenImage get bookings => const SvgGenImage('assets/icons/bookings.svg');
@@ -122,44 +131,57 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        addService,
-        bookings,
-        business,
-        camera,
-        chevronRight,
-        contact,
-        date,
-        delete,
-        edit,
-        eye,
-        eyeOff,
-        faq,
-        flowing,
-        gender,
-        job,
-        key,
-        liveLocation,
-        location,
-        logout,
-        loyality,
-        loyalitys,
-        mapview,
-        myFeedBack,
-        notification,
-        personalInfo,
-        phone,
-        privacy,
-        ques,
-        rate,
-        reviews,
-        settings,
-        terms,
-        tips
-      ];
+    path,
+    add,
+    addService,
+    block,
+    bookings,
+    business,
+    camera,
+    chevronRight,
+    contact,
+    date,
+    delete,
+    edit,
+    eye,
+    eyeOff,
+    faq,
+    flowing,
+    gender,
+    job,
+    key,
+    liveLocation,
+    location,
+    logout,
+    loyality,
+    loyalitys,
+    mapview,
+    myFeedBack,
+    notification,
+    personalInfo,
+    phone,
+    privacy,
+    ques,
+    rate,
+    reviews,
+    settings,
+    terms,
+    tips,
+  ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/ais.png
+  AssetGenImage get ais => const AssetGenImage('assets/images/ais.png');
+
+  /// File path: assets/images/al-removebg-preview.png
+  AssetGenImage get alRemovebgPreview =>
+      const AssetGenImage('assets/images/al-removebg-preview.png');
+
+  /// File path: assets/images/al.png
+  AssetGenImage get al => const AssetGenImage('assets/images/al.png');
 
   /// File path: assets/images/apple.png
   AssetGenImage get apple => const AssetGenImage('assets/images/apple.png');
@@ -173,6 +195,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/booking.png
   AssetGenImage get booking => const AssetGenImage('assets/images/booking.png');
+
+  /// File path: assets/images/bx_scan.png
+  AssetGenImage get bxScan => const AssetGenImage('assets/images/bx_scan.png');
 
   /// File path: assets/images/camera.png
   AssetGenImage get camera => const AssetGenImage('assets/images/camera.png');
@@ -195,6 +220,13 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/diamond.png
   AssetGenImage get diamond => const AssetGenImage('assets/images/diamond.png');
+
+  /// File path: assets/images/download_icon.png
+  AssetGenImage get downloadIcon =>
+      const AssetGenImage('assets/images/download_icon.png');
+
+  /// File path: assets/images/dumy.png
+  AssetGenImage get dumy => const AssetGenImage('assets/images/dumy.png');
 
   /// File path: assets/images/email.png
   AssetGenImage get email => const AssetGenImage('assets/images/email.png');
@@ -225,6 +257,9 @@ class $AssetsImagesGen {
   AssetGenImage get historyUnselected =>
       const AssetGenImage('assets/images/history_unselected.png');
 
+  /// File path: assets/images/home.png
+  AssetGenImage get home => const AssetGenImage('assets/images/home.png');
+
   /// File path: assets/images/home_selected.png
   AssetGenImage get homeSelected =>
       const AssetGenImage('assets/images/home_selected.png');
@@ -233,12 +268,24 @@ class $AssetsImagesGen {
   AssetGenImage get homeUnselected =>
       const AssetGenImage('assets/images/home_unselected.png');
 
-  /// File path: assets/images/logo.png
+  /// File path: assets/images/hugeicons_payment-02.png
+  AssetGenImage get hugeiconsPayment02 =>
+      const AssetGenImage('assets/images/hugeicons_payment-02.png');
+
+  /// File path: assets/images/hugeicons_tips.png
+  AssetGenImage get hugeiconsTips =>
+      const AssetGenImage('assets/images/hugeicons_tips.png');
+
+  /// File path: assets/images/logo.svg
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
   /// File path: assets/images/my_booking.png
   AssetGenImage get myBooking =>
       const AssetGenImage('assets/images/my_booking.png');
+
+  /// File path: assets/images/onboard3.png
+  AssetGenImage get onboard3 =>
+      const AssetGenImage('assets/images/onboard3.png');
 
   /// File path: assets/images/owner.png
   AssetGenImage get owner => const AssetGenImage('assets/images/owner.png');
@@ -290,6 +337,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/stripe.png
   AssetGenImage get stripe => const AssetGenImage('assets/images/stripe.png');
 
+  /// File path: assets/images/time.png
+  AssetGenImage get time => const AssetGenImage('assets/images/time.png');
+
   /// File path: assets/images/total_barber.png
   AssetGenImage get totalBarber =>
       const AssetGenImage('assets/images/total_barber.png');
@@ -310,48 +360,59 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        apple,
-        barberRequest,
-        berber,
-        booking,
-        camera,
-        chartSelected,
-        chartUnselected,
-        customer,
-        dashboard,
-        diamond,
-        email,
-        facebook,
-        gold,
-        google,
-        hiringSelected,
-        hiringUnselected,
-        historySelected,
-        historyUnselected,
-        homeSelected,
-        homeUnselected,
-        logo,
-        myBooking,
-        owner,
-        pending,
-        profileSelected,
-        profileUnselected,
-        queSelected,
-        queUnselected,
-        right,
-        savedSelected,
-        savedUnselected,
-        scanner,
-        scannerImage,
-        signInLogo,
-        silver,
-        stripe,
-        totalBarber,
-        totalCustomer,
-        upload,
-        waiting,
-        withdrawMoney
-      ];
+    ais,
+    alRemovebgPreview,
+    al,
+    apple,
+    barberRequest,
+    berber,
+    booking,
+    bxScan,
+    camera,
+    chartSelected,
+    chartUnselected,
+    customer,
+    dashboard,
+    diamond,
+    downloadIcon,
+    dumy,
+    email,
+    facebook,
+    gold,
+    google,
+    hiringSelected,
+    hiringUnselected,
+    historySelected,
+    historyUnselected,
+    home,
+    homeSelected,
+    homeUnselected,
+    hugeiconsPayment02,
+    hugeiconsTips,
+    logo,
+    myBooking,
+    onboard3,
+    owner,
+    pending,
+    profileSelected,
+    profileUnselected,
+    queSelected,
+    queUnselected,
+    right,
+    savedSelected,
+    savedUnselected,
+    scanner,
+    scannerImage,
+    signInLogo,
+    silver,
+    stripe,
+    time,
+    totalBarber,
+    totalCustomer,
+    upload,
+    waiting,
+    withdrawMoney,
+  ];
 }
 
 class Assets {
@@ -362,11 +423,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -426,15 +483,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
@@ -443,17 +493,11 @@ class AssetGenImage {
 }
 
 class SvgGenImage {
-  const SvgGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = false;
+  const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
+    : _isVecFormat = false;
 
-  const SvgGenImage.vec(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = true;
+  const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
+    : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;
@@ -507,7 +551,8 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter: colorFilter ??
+      colorFilter:
+          colorFilter ??
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,

@@ -8,6 +8,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/custom_menu_card/custom_menu_card.dart';
@@ -61,89 +62,128 @@ class Settings extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //=====loyaLity====
-                userRole == UserRole.owner?
-                CustomMenuCard(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.myLoyality,
-                    );
-                  },
-                  isContainerCard: true,
-                  text: AppStrings.loyaLity,
-                  icon: Assets.icons.location.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
-                  ),
-                ):const SizedBox(),//=====faq====
-                CustomMenuCard(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.faqsScreen,extra: userRole
-                    );
-                  },
-                  isContainerCard: true,
-                  text: AppStrings.faq,
-                  icon: Assets.icons.faq.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
-                  ),
-                ), //=====termsAndConditions====
-                CustomMenuCard(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.termsScreen,extra: userRole
-                    );
-                  },
-                  isContainerCard: true,
-                  text: AppStrings.termsAndConditions,
-                  icon: Assets.icons.terms.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //=====loyaLity====
+                  userRole == UserRole.owner
+                      ? CustomMenuCard(
+                          onTap: () {
+                            AppRouter.route.pushNamed(RoutePath.loyalityScreen,
+                                extra: userRole);
+                          },
+                          isContainerCard: true,
+                          text: AppStrings.loyaLity,
+                          icon: Assets.icons.loyality.svg(
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.normalHover, BlendMode.srcIn),
+                          ),
+                        )
+                      : const SizedBox(), //=====faq====
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route
+                          .pushNamed(RoutePath.faqsScreen, extra: userRole);
+                    },
+                    isContainerCard: true,
+                    text: AppStrings.faq,
+                    icon: Assets.icons.faq.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.normalHover, BlendMode.srcIn),
+                    ),
+                  ), //=====termsAndConditions====
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route
+                          .pushNamed(RoutePath.termsScreen, extra: userRole);
+                    },
+                    isContainerCard: true,
+                    text: AppStrings.termsAndConditions,
+                    icon: Assets.icons.terms.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.normalHover, BlendMode.srcIn),
+                    ),
+                  ), //=====privacyPolicy====
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(RoutePath.privacyPolicyScreen,
+                          extra: userRole);
+                    },
+                    isContainerCard: true,
+                    text: AppStrings.privacyPolicy,
+                    icon: Assets.icons.privacy.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.normalHover, BlendMode.srcIn),
+                    ),
+                  ), //
 
-                  ),
-                ), //=====privacyPolicy====
-                CustomMenuCard(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.privacyPolicyScreen,extra: userRole
-                    );
-                  },
-                  isContainerCard: true,
-                  text: AppStrings.privacyPolicy,
-                  icon: Assets.icons.privacy.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+                  // //blocking
+                  // userRole == UserRole.owner
+                  //     ?
+                  // CustomMenuCard(
+                  //   onTap: () {
+                  //     AppRouter.route.pushNamed(
+                  //       RoutePath.blockingScreen,extra: userRole
+                  //     );
+                  //   },
+                  //   isContainerCard: true,
+                  //   text: "Blocking",
+                  //   icon: Assets.icons.block.svg(
+                  //     colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
 
-                  ),
-                ), //=====changePassword====
-                CustomMenuCard(
-                  onTap: () {
-                    AppRouter.route.pushNamed(
-                      RoutePath.changePasswordScreen,extra: userRole
-                    );
-                  },
-                  isContainerCard: true,
-                  text: AppStrings.changePassword,
-                  icon: Assets.icons.key.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+                  //   ),
+                  // ):const SizedBox(),//
 
-                  ),
-                ),
-                //=====deleteAccount====
-                CustomMenuCard(
-                  onTap: () {
-                    GlobalAlert().showDeleteDialog(context, AppStrings.areYouSureYouWantToDelete);
-                  },
-                  isArrow: true,
-                  isContainerCard: true,
-                  text: AppStrings.deleteAccount,
-                  icon: Assets.icons.delete.svg(
-                    colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
+                  // // blocking
+                  // userRole == UserRole.barber
+                  //     ?
+                  // CustomMenuCard(
+                  //   onTap: () {
+                  //     AppRouter.route.pushNamed(
+                  //       RoutePath.blockingScreen,extra: userRole
+                  //     );
+                  //   },
+                  //   isContainerCard: true,
+                  //   text: "Blocking",
+                  //   icon: Assets.icons.block.svg(
+                  //     colorFilter: const ColorFilter.mode(AppColors.normalHover, BlendMode.srcIn),
 
+                  //   ),
+                  // ):const SizedBox(),//
+
+                  // =====changePassword====
+                  CustomMenuCard(
+                    onTap: () {
+                      AppRouter.route.pushNamed(RoutePath.changePasswordScreen,
+                          extra: userRole);
+                    },
+                    isContainerCard: true,
+                    text: AppStrings.changePassword,
+                    icon: Assets.icons.key.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.normalHover, BlendMode.srcIn),
+                    ),
                   ),
-                ),
-              ],
+                  //=====deleteAccount====
+                  CustomMenuCard(
+                    onTap: () {
+                      GlobalAlert().showDeleteDialog(
+                          context, AppStrings.areYouSureYouWantToDelete);
+                    },
+                    isArrow: true,
+                    isContainerCard: true,
+                    text: AppStrings.deleteAccount,
+                    icon: Assets.icons.delete.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.normalHover, BlendMode.srcIn),
+                    ),
+                  ),
+
+                  SizedBox(height: 40.h),
+                ],
+              ),
             ),
           ),
         ),

@@ -61,8 +61,9 @@ class CustomMessageCard extends StatelessWidget {
                     maxLines: maxLines,
                     text: message,
                     fontSize: 12.sp,
-                    fontWeight: FontWeight.w300,
-                    color: AppColors.white50,
+
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.container,
                   ),
                 ],
               ),

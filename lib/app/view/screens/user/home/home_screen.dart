@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/bottom_navbar.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
@@ -10,12 +9,15 @@ import 'package:barber_time/app/view/common_widgets/common_home_app_bar/common_h
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_card/custom_card.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -38,12 +40,13 @@ class HomeScreen extends StatelessWidget {
     }
 
     if (userRole == null) {
-      debugPrint('HomeScreen: no role received via route extra; defaulting to CUSTOMER');
+      debugPrint(
+          'HomeScreen: no role received via route extra; defaulting to CUSTOMER');
       userRole = UserRole.user;
     }
 
     return Scaffold(
-      bottomNavigationBar: BottomNavbar(currentIndex: 0, role: userRole),
+      bottomNavigationBar: CustomNavBar(currentIndex: 0, role: userRole),
       body: Column(
         children: [
           /// 🏡 Common Home AppBar
@@ -97,15 +100,15 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.shopProfileScreen,
+                            AppRouter.route.pushNamed(
+                                RoutePath.shopProfileScreen,
                                 extra: userRole);
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.tipsScreen,
-                                extra: userRole);
+                            _showTipDialog(context);
                           },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
@@ -133,24 +136,63 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
 
-                  /// 📌 Horizontal Scroll for Shops
+                  /// 📌 Nerby  Scroll for Shops
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: CommonShopCard(
-                            imageUrl: AppConstants.shop,
-                            title: "Barber Time ",
-                            rating: "5.0 ★ (169)",
-                            location: "Oldesloer Strasse 82",
-                            discount: "15%",
-                            onSaved: () => debugPrint("Saved Clicked!"),
-                          ),
-                        );
-                      }),
+                  SizedBox(
+                    height: 220.h,
+                    child: Obx(
+                      () {
+                        if (homeController.fetchStatus.value.isLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.app,
+                            ),
+                          );
+                        } else if (homeController.fetchStatus.value.isError) {
+                          return Center(
+                            child: CustomText(
+                              text: "Error loading salons",
+                              color: AppColors.red,
+                            ),
+                          );
+                        } else if (homeController.nearbySaloons.isEmpty) {
+                          return Center(
+                            child: CustomText(
+                              text: "No salons found nearby",
+                              color: AppColors.black,
+                            ),
+                          );
+                        } else {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeController.nearbySaloons.length > 10
+                                ? 10
+                                : homeController.nearbySaloons.length,
+                            itemBuilder: (context, index) {
+                              final salon = homeController.nearbySaloons[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                        RoutePath.userBookingScreen,
+                                        extra: userRole);
+                                  },
+                                  child: CommonShopCard(
+                                    imageUrl: salon.shopLogo,
+                                    title: salon.shopName,
+                                    rating: "${salon.ratingCount} ★",
+                                    location: salon.shopAddress,
+                                    discount: salon.distance.toString(),
+                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                          );
+                        }
+                      },
                     ),
                   ),
 
@@ -160,28 +202,68 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Top Rated",
                     actionText: AppStrings.seeAll,
-                    onActionTap: () => AppRouter.route.pushNamed(
-                        RoutePath.nearYouShopScreen,
-                        extra: userRole),
+                    onActionTap: () => AppRouter.route
+                        .pushNamed(RoutePath.topRatedScreen, extra: userRole),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: CommonShopCard(
-                            imageUrl: AppConstants.shop,
-                            title: "Barber Time ",
-                            rating: "5.0 ★ (169)",
-                            location: "Oldesloer Strasse 82",
-                            discount: "15%",
-                            onSaved: () => debugPrint("Saved Clicked!"),
-                          ),
-                        );
-                      }),
+                  SizedBox(
+                    height: 220.h,
+                    child: Obx(
+                      () {
+                        if (homeController.fetchStatus.value.isLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.app,
+                            ),
+                          );
+                        } else if (homeController.fetchStatus.value.isError) {
+                          return Center(
+                            child: CustomText(
+                              text: "Error loading salons",
+                              color: AppColors.red,
+                            ),
+                          );
+                        } else if (homeController.topRatedSaloons.isEmpty) {
+                          return Center(
+                            child: CustomText(
+                              text: "No top rated salons found",
+                              color: AppColors.black,
+                            ),
+                          );
+                        } else {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                homeController.topRatedSaloons.length > 10
+                                    ? 10
+                                    : homeController.topRatedSaloons.length,
+                            itemBuilder: (context, index) {
+                              final salon =
+                                  homeController.topRatedSaloons[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                        RoutePath.userBookingScreen,
+                                        extra: userRole);
+                                  },
+                                  child: CommonShopCard(
+                                    imageUrl: salon.shopLogo,
+                                    title: salon.shopName,
+                                    rating: "${salon.ratingCount} ★",
+                                    location: salon.shopAddress,
+                                    discount: salon.distance.toString(),
+                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                          );
+                        }
+                      },
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -190,38 +272,163 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Feed",
                     actionText: AppStrings.seeAll,
-                    onActionTap: () => AppRouter.route
-                        .pushNamed(RoutePath.feedAll, extra: userRole),
+                    onActionTap: () {
+                      AppRouter.route
+                          .pushNamed(RoutePath.feedAll, extra: userRole);
+                    },
                     actionColor: AppColors.secondary,
                   ),
-                  SizedBox(height: 12.h),
 
-                  /// 📝 List of Feeds
-                  Column(
-                    children: List.generate(4, (index) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: CustomFeedCard(
-                          userImageUrl: AppConstants.demoImage,
-                          userName: "Roger Hunt",
-                          userAddress:
-                              "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-                          postImageUrl: AppConstants.demoImage,
-                          postText:
-                              "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence! #BarberLife #StayFresh",
-                          rating: "5.0 ★ (169)",
-                          onFavoritePressed: () {},
-                          onVisitShopPressed: () => AppRouter.route
-                              .pushNamed(RoutePath.visitShop, extra: userRole),
-                        ),
-                      );
-                    }),
+                  SizedBox(
+                    height: 12.h,
                   ),
+                  Obx(() {
+                    final feeds = homeController.homeFeedsList;
+                    if (homeController.getFeedsStatus.value.isLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (feeds.isEmpty) {
+                      return Center(child: Text('No feeds available'));
+                    }
+                    return Column(
+                      children: feeds
+                          .take(feeds.length > 4 ? 4 : feeds.length)
+                          .map((feed) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: Column(
+                            children: [
+                              CustomFeedCard(
+                                isFavouriteFromApi: feed.isFavorite ?? false,
+                                isVisitShopButton: feed.saloonOwner != null,
+                                favoriteCount: feed.favoriteCount.toString(),
+                                userImageUrl:
+                                    feed.userImage ?? AppConstants.demoImage,
+                                userName: feed.userName,
+                                userAddress:
+                                    feed.saloonOwner?.shopAddress ?? '',
+                                postImageUrl: feed.images.isNotEmpty
+                                    ? feed.images.first
+                                    : AppConstants.demoImage,
+                                postText: feed.caption,
+                                rating: feed.saloonOwner != null
+                                    ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                    : "",
+                                onFavoritePressed: (isFavorite) {
+                                  homeController.toggleLikeFeed(
+                                    feedId: feed.id,
+                                    isUnlike: isFavorite == true,
+                                  );
+                                },
+                                onVisitShopPressed: () {
+                                  if (feed.saloonOwner != null) {
+                                    // controller.getSelonData(
+                                    //     userId:
+                                    //         feed.saloonOwner!.userId);
+                                    AppRouter.route.pushNamed(
+                                      RoutePath.shopProfileScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': feed.saloonOwner!.userId,
+                                        'controller': homeController,
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }),
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Function to show the Tip dialog
+  void _showTipDialog(BuildContext context) {
+    final userRole = GoRouter.of(context).state.extra as UserRole?;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: AppColors.white,
+          title: Column(
+            children: [
+              const Icon(
+                Icons.attach_money,
+                color: Colors.orange,
+                size: 40,
+              ),
+              const Text(
+                "Tip",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              CustomText(
+                maxLines: 2,
+                text: "Would you like to leave this or barber a tip?",
+                fontWeight: FontWeight.w400,
+                color: AppColors.black,
+                fontSize: 15.sp,
+              )
+            ],
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Yes button
+              _buildRadioButton("Yes", context, () {
+                AppRouter.route
+                    .pushNamed(RoutePath.tipsScreen, extra: userRole);
+              }),
+              const SizedBox(width: 20),
+              // No button
+              _buildRadioButton("No", context, () {
+                context.pop();
+              }),
+            ],
+          ),
+          actions: <Widget>[
+            // Close button
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Helper method to create radio-like buttons for Yes/No selection
+  Widget _buildRadioButton(
+      String label, BuildContext context, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.orange, width: 1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(color: Colors.orange, fontSize: 16),
+        ),
       ),
     );
   }

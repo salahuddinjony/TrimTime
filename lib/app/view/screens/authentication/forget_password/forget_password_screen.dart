@@ -21,100 +21,121 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouterState.of(context).extra as UserRole?;
+     final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map) {
+      try {
+        userRole = extra['userRole'] as UserRole?;
+      } catch (_) {
+        userRole = null;
+      }
+    }
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
-
-        ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-        appBar: CustomAppBar(
-          appBarBgColor: AppColors.linearFirst,
-          appBarContent: AppStrings.forgotPassword,
-          iconData: Icons.arrow_back,
-          onTap: () {
-            context.pop(); // Navigate back
-          },
-        ),
-        body: Column(
-          children: [
-            ClipPath(
-              clipper: CurvedShortClipper(),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 2,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xCCEDC4AC), // First color (with opacity)
-                      Color(0xFFE9864E),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+      ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡VerifyCode Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+      appBar: CustomAppBar(
+        appBarBgColor: AppColors.linearFirst,
+        appBarContent: AppStrings.forgotPassword,
+        iconData: Icons.arrow_back,
+        onTap: () {
+          context.pop(); // Navigate back
+        },
+      ),
+      body: Column(
+        children: [
+          ClipPath(
+            clipper: CurvedShortClipper(),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 2,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xCCEDC4AC), // First color (with opacity)
+                    Color(0xFFE9864E),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Form(
-                      key: formKey,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+              ),
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡Header💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-                            CustomText(
-                              textAlign: TextAlign.center,
-                              top: 15.h,
-                              maxLines: 5,
-                              text: AppStrings.enterYourEmailANdWe,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                              color: AppColors.black,
-                            ),
-                            SizedBox(
-                              height: 60.h,
-                            ),
+                          CustomText(
+                            textAlign: TextAlign.center,
+                            top: 15.h,
+                            maxLines: 5,
+                            text: AppStrings.enterYourEmailANdWe,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.sp,
+                            color: AppColors.black,
+                          ),
+                          SizedBox(
+                            height: 60.h,
+                          ),
+                          CustomText(
+                            textAlign: TextAlign.center,
+                            maxLines: 5,
+                            text: "Forgot Password?",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22.sp,
+                            color: AppColors.gray500,
+                          ),
+                          SizedBox(
+                            height: 17.h,
+                          ),
 
-                            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-                            CustomFromCard(
-                                hinText: AppStrings.enterYourEmail,
-                                title: AppStrings.email,
-                                controller: authController.emailController,
-                                validator: (v) {
-                                  return null;
-                                }),
-                            SizedBox(
-                              height: 100.h,
-                            ),
-                          ],
-                        ),
+                          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡emailField💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+                          CustomFromCard(
+                              hinText: AppStrings.enterYourEmail,
+                              title: AppStrings.email,
+                              controller: authController.emailController,
+                              validator: (v) {
+                                if (v == null || v.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!GetUtils.isEmail(v)) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              }),
+                          SizedBox(
+                            height: 100.h,
+                          ),
+                        ],
                       ),
-                    )),
-              ),
+                    ),
+                  )),
             ),
+          ),
 
-            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡sendCode Button💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomButton(
-                isRadius: false,
-                textColor: AppColors.white50,
-                width: MediaQuery.of(context).size.width,
-                onTap: () {
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: CustomButton(
+              isRadius: false,
+              textColor: AppColors.white50,
+              width: MediaQuery.of(context).size.width,
+              onTap: () {
+                if (formKey.currentState!.validate()) {
                   authController.forgetPassword();
-                  // AppRouter.route.pushNamed(
-                  //   RoutePath.otpScreen,
-                  //   extra: {
-                  //     'isForget': true,
-                  //     'userRole':
-                  //         userRole?.name, // ✅ Convert UserRole to string
-                  //   },
-                  // );
-                },
-                title: AppStrings.sendCode,
-                fillColor: AppColors.black,
-              ),
+                }
+              },
+              title: AppStrings.sendCode,
+              fillColor: AppColors.black,
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

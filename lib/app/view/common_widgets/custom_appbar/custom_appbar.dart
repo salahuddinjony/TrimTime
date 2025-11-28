@@ -11,7 +11,9 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String? appBarContent;
   final IconData? iconData;
   final bool isIcon;
+  final bool add;
   final VoidCallback? onTap;
+  final VoidCallback? onTapAdd;
 
   const CustomAppBar({
     this.appBarHeight = 64,
@@ -21,7 +23,9 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     super.key,
     this.iconData,
     this.isIcon = false,
-    this.onTap, // Default to false
+    this.onTap,
+    this.add = false,
+    this.onTapAdd, // Default to false
   });
 
   @override
@@ -37,24 +41,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       backgroundColor: widget.appBarBgColor,
       automaticallyImplyLeading: false,
+      centerTitle: true,
       title: Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: Row(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            if (widget.iconData != null)
-              IconButton(
-                icon: Icon(widget.iconData),
-                color: AppColors.black,
-                onPressed: () {
-                  if (widget.onTap != null) {
-                    widget.onTap!();
-                  } else {
-                    context.pop();
-                  }
-                },
-              ),
+            // Centered Title
             if (widget.appBarContent != null)
-              Expanded(
+              Center(
                 child: CustomText(
                   text: widget.appBarContent!,
                   textAlign: TextAlign.center,
@@ -63,12 +58,50 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   color: AppColors.black,
                 ),
               ),
+            // Leading Icon (left)
+            if (widget.iconData != null)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  icon: Icon(widget.iconData),
+                  color: AppColors.black,
+                  onPressed: () {
+                    if (widget.onTap != null) {
+                      widget.onTap!();
+                    } else {
+                      context.pop();
+                    }
+                  },
+                ),
+              ),
+            // Edit Icon (right)
             if (widget.isIcon)
-              GestureDetector(
-                onTap: widget.onTap,
-                child: Assets.icons.edit.svg(
-                  colorFilter:
-                      const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: widget.onTap,
+                  child: Assets.icons.edit.svg(
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.black, BlendMode.srcIn),
+                  ),
+                ),
+              ),
+            // Add Icon (right, after edit icon)
+            if (widget.add)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: widget.isIcon ? 40.0 : 0.0),
+                  child: GestureDetector(
+                    onTap: widget.onTapAdd,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.add, color: AppColors.orange700),
+                    ),
+                  ),
                 ),
               ),
           ],

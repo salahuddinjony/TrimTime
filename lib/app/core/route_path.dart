@@ -1,7 +1,4 @@
-
-
-
-class RoutePath{
+class RoutePath {
   static const String basePath = '/';
 
   static const String splashScreen = 'splashScreen';
@@ -21,7 +18,11 @@ class RoutePath{
   static const String subscriptionPlan = 'SubscriptionPlan';
   static const String paymentOption = 'PaymentOption';
   static const String uniqueQrCode = 'UniqueQrCode';
-  
+  static const String totalCustomerScreen = 'TotalCustomerScreen';
+  static const String totalBarber = 'TotalBarber';
+  static const String hiringPost = 'HiringPost';
+  static const String barberRequest = 'BarberRequest';
+
   //===================User Section ===================
   static const String homeScreen = 'homeScreen';
   static const String queScreen = 'QueScreen';
@@ -29,14 +30,17 @@ class RoutePath{
   static const String savedScreen = 'SavedScreen';
   static const String searchSaloonScreen = 'SearchSaloonScreen';
   static const String berberTimes = 'BerberTimes';
-  static const String liveLocation = 'LiveLocation';
   static const String myLoyality = 'MyLoyality';
+  static const String loyalityScreen = 'LoyalityScreen';
   static const String ownerQue = 'OwnerQue';
   static const String tipsScreen = 'TipsScreen';
   static const String mapViewScreen = 'MapViewScreen';
   static const String bookingScreen = 'BookingScreen';
   static const String bookingDetailsScreen = 'BookingDetailsScreen';
-
+  static const String userProfileScreen = 'UserProfileScreen';
+  static const String pixMatch = 'PixMatch';
+  static const String blockingScreen = 'BlockingScreen';
+  static const String followerScreen = 'FollowerScreen';
 
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';
@@ -55,13 +59,22 @@ class RoutePath{
   static const String myFeed = 'MyFeed';
   static const String followingScreen = 'FollowingScreen';
   static const String professionalProfile = 'ProfessionalProfile';
+  static const String customerProfileScreen = 'CustomerProfileScreen';
   static const String myFavoriteScreen = 'MyFavoriteScreen';
   static const String rateScreen = 'RateScreen';
   static const String createJobPost = 'CreateJobPost';
   static const String hiringBarber = 'HiringBarber';
   static const String recentRequestScreen = 'RecentRequestScreen';
   static const String nearYouShopScreen = 'NearYouShopScreen';
+  static const String topRatedScreen = 'TopRatedScreen';
   static const String businessProfileEdit = 'BusinessProfileEdit';
+  static const String ownerQrCode = 'OwnerQrCode';
+  static const String ownerPayment = 'OwnerPayment';
+  static const String hiringBarberPayment = 'HiringBarberPayment';
+  static const String invoicePaymentScreen = 'InvoicePaymentScreen';
+  static const String ownerPaymentOption = 'OwnerPaymentOption';
+  static const String barberAddedScreen = 'BarberAddedScreen';
+  static const String showAllBarber = 'ShowAllBarber';
 
   //===================Barber Section ===================
   static const String barberHomeScreen = 'BarberHomeScreen';
@@ -78,5 +91,11 @@ class RoutePath{
   static const String scheduleScreen = 'ScheduleScreen';
   static const String myLoyalityRewards = 'MyLoyalityRewards';
   static const String shopProfileScreen = 'ShopProfileScreen';
-
+  static const String rescheduleScreen = 'RescheduleScreen';
+  static const String userBookingScreen = 'UserBookingScreen';
+  static const String chooseBarberScreen = 'ChooseBarberScreen';
+  static const String summeryScreen = 'SummeryScreen';
+  static const String ownerRequestBooking = 'OwnerRequestBooking';
+  static const String barberPersonalProfile = 'BarberPersonalProfile';
+  static const String barberEditProfile = 'BarberEditProfile';
 }

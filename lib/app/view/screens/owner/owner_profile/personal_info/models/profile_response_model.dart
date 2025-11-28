@@ -15,12 +15,17 @@ class ProfileResponse {
   });
 
   factory ProfileResponse.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return ProfileResponse(success: false, statusCode: 0, message: '', data: null);
+    if (json == null)
+      return ProfileResponse(
+          success: false, statusCode: 0, message: '', data: null);
     return ProfileResponse(
       success: json['success'] == true,
-      statusCode: json['statusCode'] ?? (json['status'] is int ? json['status'] : 0),
+      statusCode:
+          json['statusCode'] ?? (json['status'] is int ? json['status'] : 0),
       message: json['message'] ?? '',
-      data: json['data'] != null ? ProfileData.fromJson(json['data'] as Map<String, dynamic>) : null,
+      data: json['data'] != null
+          ? ProfileData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -50,7 +55,7 @@ class ProfileData {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  ProfileData( {
+  ProfileData({
     required this.id,
     required this.fullName,
     required this.email,
@@ -109,21 +114,22 @@ class ProfileData {
       return null;
     }
 
-    if (json == null) return ProfileData(
-      id: '',
-      gender: '',
-      fullName: '',
-      email: '',
-      role: '',
-      dateOfBirth: null,
-      phoneNumber: null,
-      address: null,
-      followerCount: 0,
-      followingCount: 0,
-      image: null,
-      createdAt: null,
-      updatedAt: null,
-    );
+    if (json == null)
+      return ProfileData(
+        id: '',
+        gender: '',
+        fullName: '',
+        email: '',
+        role: '',
+        dateOfBirth: null,
+        phoneNumber: null,
+        address: null,
+        followerCount: 0,
+        followingCount: 0,
+        image: null,
+        createdAt: null,
+        updatedAt: null,
+      );
 
     return ProfileData(
       id: json['_id'] ?? json['id'] ?? '',
@@ -132,15 +138,22 @@ class ProfileData {
       gender: json['gender'] ?? '',
       role: json['role'] ?? '',
       dateOfBirth: parseDate(json['dateOfBirth']),
-      phoneNumber: json['phoneNumber'] != null ? json['phoneNumber'].toString() : null,
+      phoneNumber:
+          json['phoneNumber'] != null ? json['phoneNumber'].toString() : null,
       address: json['address'] != null ? json['address'].toString() : null,
-      followerCount: json['followerCount'] is int ? json['followerCount'] : int.tryParse('${json['followerCount'] ?? 0}') ?? 0,
-      followingCount: json['followingCount'] is int ? json['followingCount'] : int.tryParse('${json['followingCount'] ?? 0}') ?? 0,
+      followerCount: json['followerCount'] is int
+          ? json['followerCount']
+          : int.tryParse('${json['followerCount'] ?? 0}') ?? 0,
+      followingCount: json['followingCount'] is int
+          ? json['followingCount']
+          : int.tryParse('${json['followingCount'] ?? 0}') ?? 0,
       image: json['image'] != null ? json['image'].toString() : null,
       createdAt: parseDate(json['createdAt']),
       updatedAt: parseDate(json['updatedAt']),
     );
   }
+
+  get isEmpty => null;
 
   Map<String, dynamic> toJson() => {
         'id': id,

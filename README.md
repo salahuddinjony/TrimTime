@@ -1,52 +1,79 @@
-# barber_time
 
-A new Flutter project.
+# Overview
 
-## Getting Started
+Barber Time is a modern, feature-rich mobile application designed for barbershops, salon owners, barbers, and customers. The app streamlines appointment booking, queue management, and customer engagement, while providing a seamless experience for all user roles.
 
-# context.push(RoutePath.signInScreen); // new Screen Navigation
+**Key Points:**
 
-# context.go(RoutePath.signInScreen); // befor all route remove
+- 📅 Easy appointment booking for customers and barbers
+- ⏳ Real-time queue management for walk-in clients
+- 🏆 Loyalty rewards system to encourage repeat business
+- 👤 Role-based access for Customers, Barbers, and Owners
+- 🎥 Video upload and sharing after each haircut
+- 📸 Camera integration for live video and profile content
+- 📊 Business dashboard for owners with analytics and feedback
+- 🎨 Customizable profile colors and themes
+- ⭐ Feedback and review system for service quality
+- 🤖 AI-powered assistant (Ask Rey) for smart suggestions
+- 🔔 Push notifications for bookings, offers, and updates
+- 💳 Secure payment and tip tracking
+- 🌐 Social features: follow, feed, and sharing
 
-# context.pushNamed(RoutePath.signInScreen); new screen best prectice
+Barber Time helps businesses grow and customers stay connected, all in one app.
 
-# context.pop(); ...// that means back button
+## Project Versions
 
-# context.replace(RoutePath.signInScreen);
+- **Dart SDK:** >=3.0.0 <4.0.0
+- **Flutter SDK:** 3.10.x or later
+- **Android minSdkVersion:** 21
+- **iOS Deployment Target:** 12.0+
+- **State Management:** GetX ^4.x
+- **Navigation:** go_router ^10.x
+- **UI:** flutter_screenutil, shimmer, cached_network_image
+- **Other:** See `pubspec.yaml` for a full list of dependencies and their versions.
 
-# and  context.replaceNamed(RoutePath.signInScreen);//এটি বর্তমান স্ক্রিন remove করে নতুন স্ক্রিন লোড করে।
+# Barber Time App
 
-# that means jei screen ta te thakbo sei screen ta muse ager screen e jabe
+## Features
 
+- User authentication and role-based access (Customer, Barber, Owner)
+- Book appointments with barbers and salons
+- Queue management for walk-in customers
+- Loyalty rewards system for customers
+- Profile management for users, barbers, and owners
+- Video upload and sharing after haircut (customer can record and post)
+- Camera integration for live video and profile content
+- Owner/business dashboard with analytics and feedback
+- Customizable profile colors and themes
+- Feedback and review system
+- AI-powered assistant (Ask Rey)
+- Notifications for bookings, offers, and updates
+- Secure payment and tip tracking
+- Social features: follow, feed, and sharing
 
-*/যদি ব্যাক বাটন প্রেস করার আগে চেক করতে চান, যে ব্যাক নেওয়া সম্ভব কিনা।
-if (context.canPop()) {
-context.pop();
-} else {
-debugPrint("==========================No back screen available");
-}
-/*
+## Requirements
 
-# context.pushReplacement(RoutePath.signInScreen); // remove before 1 screen
+- Dart SDK: >=3.0.0 <4.0.0
+- Flutter SDK: 3.10.x or later
 
-# ✅ নতুন স্ক্রিনে যেতে → push() বা pushNamed()
-✅ আগের সব স্ক্রিন মুছে নতুন স্ক্রিন লোড করতে → go()
-✅ শুধুমাত্র বর্তমান স্ক্রিন মুছে নতুন স্ক্রিন লোড করতে → replace()
-✅ ব্যাক বাটনের মতো কাজ করতে → pop()
-✅ ব্যাক করা সম্ভব কিনা চেক করতে → canPop()
-✅ সকল স্ক্রিন মুছে প্রথম স্ক্রিনে নিতে → popUntil((route) => route.isFirst);
-✅ লগইন বা অনবোর্ডিং শেষ করে হোম স্ক্রিনে পাঠাতে → pushReplacement()
+## Installation
 
+1. Clone the repository:
+	
+2. Install dependencies:
+	```sh
+	flutter pub get
+	```
+3. For iOS:
+	```sh
+	cd ios
+	pod install
+	cd ..
+	```
+4. Run the app:
+	```sh
+	flutter run
+	```
 
+Branch: `final_dev`
 
-//
-
- # Phone Number Verification
-# Push Notification
-# Messaging
-# Apple Login
-# Facebook login
-# google login
-# Scanner
-# location
- 

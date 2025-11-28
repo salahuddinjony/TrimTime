@@ -1,4 +1,5 @@
 import 'package:barber_time/app/global/helper/extension/extension.dart';
+import 'package:barber_time/app/utils/enums/transition_type.dart';
 import 'package:barber_time/app/view/screens/authentication/forget_password/forget_password_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/otp/otp_screen.dart';
 import 'package:barber_time/app/view/screens/authentication/owner/owner_shop_details/owner_shop_details.dart';
@@ -15,6 +16,7 @@ import 'package:barber_time/app/view/screens/barber/barber_history/barber_histor
 import 'package:barber_time/app/view/screens/barber/barber_home/barber_home_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/feed_all.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/inner_widgets/job_post_all.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/models/barber_booking/barber_booking_model.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/schedule_screen.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
@@ -28,13 +30,18 @@ import 'package:barber_time/app/view/screens/onboarding/chose_auth/chose_auth_sc
 import 'package:barber_time/app/view/screens/onboarding/chose_role/chose_role_screen.dart';
 import 'package:barber_time/app/view/screens/onboarding/get_started/get_started_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/owner_hiring_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/booking_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/recent_request_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/total_customer_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/owner_home_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/chart_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_message/inbox_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/barber/barber.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/business_profile_edit/business_profile_edit.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/business_profile/show_all_barber/show_all_barber.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/flowers/customer/customer_profile_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/following/following_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/create_job_post.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/job_post.dart';
@@ -52,23 +59,45 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/professional_pr
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/rate_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/change_password/change_password_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/faqs_screen.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyality/loyality_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/privacy_policy_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/settings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/terms_screen.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/owner_que.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
-import 'package:barber_time/app/view/screens/user/berber_time/live_location/live_location.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
+import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/reschedule_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/inner_screens/top_rated_screen.dart';
 import 'package:barber_time/app/view/screens/user/saved/saved_screen.dart';
 import 'package:barber_time/app/view/screens/user/scanner/scanner_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/choose_barber_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/summery_screen.dart';
+import 'package:barber_time/app/view/screens/user/user_bokking/user_booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import '../view/screens/authentication/sign_up/owner_qr_code.dart';
+import '../view/screens/owner/owner_home/inner_widgets/barber_request.dart';
+import '../view/screens/owner/owner_home/inner_widgets/hiring_post.dart'
+    show HiringPost;
+import '../view/screens/owner/owner_home/inner_widgets/total_barber.dart'
+    show TotalBarber;
+import '../view/screens/owner/owner_profile/business_profile/barber_added/barber_added_screen.dart';
+import '../view/screens/owner/owner_profile/flowers/follower_screen.dart';
+import '../view/screens/owner/owner_profile/owner_payment/hiring_barber/hiring_barber.dart';
+import '../view/screens/owner/owner_profile/owner_payment/invoice_payment/invoice_payment_screen.dart';
+import '../view/screens/owner/owner_profile/owner_payment/owner_payment.dart';
+import '../view/screens/owner/owner_profile/owner_payment/owner_payment_option/owner_payment_option.dart';
+import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_edit_profile.dart';
+import '../view/screens/owner/owner_profile/personal_info/barber_profile/barber_personal_profile.dart';
+import '../view/screens/owner/owner_profile/pixmatch/pix_match.dart';
+import '../view/screens/owner/owner_profile/settings/blocking/blocking_screen.dart';
+import '../view/screens/user/user_profile/user_profile_screen.dart';
 import 'route_path.dart';
 
 class AppRouter {
@@ -150,34 +179,52 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.liveLocation,
-          path: RoutePath.liveLocation.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const LiveLocation(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.professionalProfile,
+            path: RoutePath.professionalProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData?;
+              final controller = extra['controller'] as OwnerProfileController?;
+              final barberId = extra['barberId'] as String?;
+              final isForActionButton = extra['isForActionButton'] as bool?;
+              final onActionApprove = extra['onActionApprove'] as VoidCallback?;
+              final onActionReject = extra['onActionReject'] as VoidCallback?;
 
-        ///=======================  =======================
+              return _buildPageWithAnimation(
+                  child: ProfessionalProfile(
+                    userRole: userRole,
+                    data: profileData,
+                    controller: controller,
+                    barberId: barberId,
+                    isForActionButton: isForActionButton ?? false,
+                    onActionApprove: onActionApprove,
+                    onActionReject: onActionReject,
+                  ),
+                  state: state,
+                  transitionType: TransitionType.detailsScreen);
+            }),
+
+        // ======================= Customer Profile =======================
         GoRoute(
-          name: RoutePath.professionalProfile,
-          path: RoutePath.professionalProfile.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map <String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.customerProfileScreen,
+            path: RoutePath.customerProfileScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final customerId = extra['customerId'] as String?;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: ProfessionalProfile(
-                userRole: userRole,
-                data: profileData,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: CustomerProfileScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                  userId: customerId ?? '',
+                ),
+                state: state,
+                transitionType: TransitionType.detailsScreen,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -191,13 +238,21 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.followingScreen,
-          path: RoutePath.followingScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const FollowingScreen(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.followingScreen,
+            path: RoutePath.followingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: FollowingScreen(
+                  userRole: userRole,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= ForgetPasswordScreen Route =======================
         GoRoute(
@@ -233,13 +288,18 @@ class AppRouter {
 
         ///======================= OtpScreen Route =======================
         GoRoute(
-          name: RoutePath.resetPasswordScreen,
-          path: RoutePath.resetPasswordScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: ResetPasswordScreen(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.resetPasswordScreen,
+            path: RoutePath.resetPasswordScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final email = extra['email'] as String?;
+              final userRole = extra['userRole'] as UserRole?;
+              return _buildPageWithAnimation(
+                child: ResetPasswordScreen(
+                    email: email ?? '', userRole: userRole!),
+                state: state,
+              );
+            }),
 
         ///======================= OtpScreen Route =======================
         GoRoute(
@@ -259,7 +319,47 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: OwnerHomeScreen(),
             state: state,
-            // disableAnimation: true,
+            disableAnimation: true,
+          ),
+        ),
+
+        ///=======================barberPersonalProfile =======================
+        GoRoute(
+          name: RoutePath.barberPersonalProfile,
+          path: RoutePath.barberPersonalProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberPersonalProfile(),
+            state: state,
+          ),
+        ),
+
+        ///=======================PixMatch =======================
+        GoRoute(
+          name: RoutePath.pixMatch,
+          path: RoutePath.pixMatch.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const PixMatch(),
+            state: state,
+          ),
+        ),
+
+        ///=======================Blocking =======================
+        GoRoute(
+          name: RoutePath.blockingScreen,
+          path: RoutePath.blockingScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BlockingScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================barberPersonalProfile =======================
+        GoRoute(
+          name: RoutePath.barberEditProfile,
+          path: RoutePath.barberEditProfile.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberEditProfile(),
+            state: state,
           ),
         ),
 
@@ -312,7 +412,7 @@ class AppRouter {
           name: RoutePath.profileScreen,
           path: RoutePath.profileScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  ProfileScreen(),
+            child: ProfileScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -328,13 +428,21 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.bookingScreen,
-          path: RoutePath.bookingScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const BookingScreen(),
-              state: state,
-              disableAnimation: true),
-        ),
+            name: RoutePath.bookingScreen,
+            path: RoutePath.bookingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final isBarber = extra['isBarber'] as bool? ?? false;
+
+              return _buildPageWithAnimation(
+                child: BookingScreen(
+                  userRole: userRole!,
+                  isBarber: isBarber,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -361,17 +469,129 @@ class AppRouter {
           name: RoutePath.nearYouShopScreen,
           path: RoutePath.nearYouShopScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const NearYouShopScreen(),
+            child: NearYouShopScreen(),
+            state: state,
+          ),
+        ),
+
+        GoRoute(
+          name: RoutePath.topRatedScreen,
+          path: RoutePath.topRatedScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: TopRatedScreen(),
             state: state,
           ),
         ),
 
         ///=======================HiringBarber  =======================
         GoRoute(
-          name: RoutePath.hiringBarber,
-          path: RoutePath.hiringBarber.addBasePath,
+            name: RoutePath.hiringBarber,
+            path: RoutePath.hiringBarber.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final isOwner = extra['isOwner'] as bool?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: HiringBarber(
+                  userRole: userRole!,
+                  isOwner: isOwner ?? false,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
+
+        ///=======================FollowerScreen  =======================
+        GoRoute(
+            name: RoutePath.followerScreen,
+            path: RoutePath.followerScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: FollowerScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
+
+        ///=======================OwnerPayment  =======================
+        GoRoute(
+          name: RoutePath.ownerPayment,
+          path: RoutePath.ownerPayment.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const HiringBarber(),
+            child: const OwnerPayment(),
+            state: state,
+          ),
+        ),
+
+        ///=======================HiringBarberPayment  =======================
+        GoRoute(
+          name: RoutePath.hiringBarberPayment,
+          path: RoutePath.hiringBarberPayment.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const HiringBarberPayment(),
+            state: state,
+          ),
+        ),
+
+        ///=======================InvoicePaymentScreen  =======================
+        GoRoute(
+          name: RoutePath.invoicePaymentScreen,
+          path: RoutePath.invoicePaymentScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const InvoicePaymentScreen(),
+            state: state,
+          ),
+        ),
+
+        ///=======================BarberAddedScreen  =======================
+        GoRoute(
+            name: RoutePath.barberAddedScreen,
+            path: RoutePath.barberAddedScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: BarberAddedScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
+        // show all barber
+        GoRoute(
+            name: RoutePath.showAllBarber,
+            path: RoutePath.showAllBarber.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: ShowAllBarber(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
+
+        ///=======================OwnerPaymentOption  =======================
+        GoRoute(
+          name: RoutePath.ownerPaymentOption,
+          path: RoutePath.ownerPaymentOption.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: OwnerPaymentOption(),
             state: state,
           ),
         ),
@@ -383,6 +603,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const VisitShop(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -391,40 +612,65 @@ class AppRouter {
           name: RoutePath.searchSaloonScreen,
           path: RoutePath.searchSaloonScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const SearchSaloonScreen(),
+            child: SearchSaloonScreen(),
             state: state,
           ),
         ),
 
         ///=======================VisitShop  =======================
         GoRoute(
-          name: RoutePath.businessProfile,
-          path: RoutePath.businessProfile.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BusinessProfile(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.businessProfile,
+            path: RoutePath.businessProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: BusinessProfile(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.businessProfileEdit,
-          path: RoutePath.businessProfileEdit.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BusinessProfileEdit(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.businessProfileEdit,
+            path: RoutePath.businessProfileEdit.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: BusinessProfileEdit(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.bookingDetailsScreen,
-          path: RoutePath.bookingDetailsScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const BookingDetailsScreen(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.bookingDetailsScreen,
+            path: RoutePath.bookingDetailsScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final bookingData = extra['bookingData'] as BarberBookingData?;
+
+              return _buildPageWithAnimation(
+                child: BookingDetailsScreen(
+                  userRole: userRole!,
+                  bookingData: bookingData!,
+                ),
+                state: state,
+                transitionType: TransitionType.detailsScreen,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -433,6 +679,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const TipsScreen(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -448,72 +695,76 @@ class AppRouter {
 
         ///=======================editProfessionalProfile  =======================
         GoRoute(
-          name: RoutePath.editProfessionalProfile,
-          path: RoutePath.editProfessionalProfile.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
+            name: RoutePath.editProfessionalProfile,
+            path: RoutePath.editProfessionalProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
 
-            // Try to resolve professional data from several possible shapes:
-            // - a BarberProfile under 'professionalData'
-            // - a List<BarberProfile> under 'professionalData' (take first)
-            // - legacy 'data' which is a ProfileData (create a minimal BarberProfile)
-            dynamic profExtra = extra['professionalData'] ?? extra['data'];
-            BarberProfile? professionalData;
+              // Try to resolve professional data from several possible shapes:
+              // - a BarberProfile under 'professionalData'
+              // - a List<BarberProfile> under 'professionalData' (take first)
+              // - legacy 'data' which is a ProfileData (create a minimal BarberProfile)
+              dynamic profExtra = extra['professionalData'] ?? extra['data'];
+              BarberProfile? professionalData;
 
-            if (profExtra is BarberProfile) {
-              professionalData = profExtra;
-            } else if (profExtra is List && profExtra.isNotEmpty && profExtra.first is BarberProfile) {
-              professionalData = profExtra.first as BarberProfile;
-            } else if (profExtra is ProfileData) {
-              // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
-              professionalData = BarberProfile(
-                id: profExtra.id,
-                userId: profExtra.id,
-                saloonOwnerId: profExtra.id,
-                currentWorkDes: null,
-                bio: null,
-                portfolio: <String>[],
-                isAvailable: false,
-                experienceYears: null,
-                skills: <String>[],
-                followerCount: profExtra.followerCount,
-                followingCount: profExtra.followingCount,
-                ratingCount: 0,
-                avgRating: 0.0,
-                createdAt: null,
-                updatedAt: null,
-              );
-            }
-
-            final controller = extra['controller'] as OwnerProfileController?;
-
-            return _buildPageWithAnimation(
-              child: EditProfessionalProfile(
-                userRole: userRole!,
-                professionalData: professionalData ?? BarberProfile(
-                  id: '',
-                  userId: '',
-                  saloonOwnerId: '',
-                  currentWorkDes: '',
+              if (profExtra is BarberProfile) {
+                professionalData = profExtra;
+              } else if (profExtra is List &&
+                  profExtra.isNotEmpty &&
+                  profExtra.first is BarberProfile) {
+                professionalData = profExtra.first as BarberProfile;
+              } else if (profExtra is ProfileData) {
+                // Create a minimal BarberProfile from ProfileData so the edit screen can still open.
+                professionalData = BarberProfile(
+                  isMe: false,
+                  id: profExtra.id,
+                  userId: profExtra.id,
+                  saloonOwnerId: profExtra.id,
+                  currentWorkDes: null,
                   bio: null,
                   portfolio: <String>[],
                   isAvailable: false,
-                  experienceYears: '',
+                  experienceYears: null,
                   skills: <String>[],
-                  followerCount: 0,
-                  followingCount: 0,
+                  followerCount: profExtra.followerCount,
+                  followingCount: profExtra.followingCount,
                   ratingCount: 0,
                   avgRating: 0.0,
                   createdAt: null,
                   updatedAt: null,
+                );
+              }
+
+              final controller = extra['controller'] as OwnerProfileController?;
+
+              return _buildPageWithAnimation(
+                child: EditProfessionalProfile(
+                  userRole: userRole!,
+                  professionalData: professionalData ??
+                      BarberProfile(
+                        isMe: false,
+                        id: '',
+                        userId: '',
+                        saloonOwnerId: '',
+                        currentWorkDes: '',
+                        bio: null,
+                        portfolio: <String>[],
+                        isAvailable: false,
+                        experienceYears: '',
+                        skills: <String>[],
+                        followerCount: 0,
+                        followingCount: 0,
+                        ratingCount: 0,
+                        avgRating: 0.0,
+                        createdAt: null,
+                        updatedAt: null,
+                      ),
+                  controller: controller!,
                 ),
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+                state: state,
+              );
+            }),
 
         ///=======================  =======================
         GoRoute(
@@ -533,6 +784,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const NotificationScreen(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -600,55 +852,53 @@ class AppRouter {
 
         ///=======================PersonalInfo  =======================
         GoRoute(
-          name: RoutePath.personalInfo,
-          path: RoutePath.personalInfo.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.personalInfo,
+            path: RoutePath.personalInfo.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: PersonalInfo(
-                userRole: userRole,
-                data: profileData,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: PersonalInfo(
+                  userRole: userRole,
+                  data: profileData,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================PersonalInfo  =======================
         GoRoute(
           name: RoutePath.feedAll,
           path: RoutePath.feedAll.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const FeedAll(),
+            child: FeedAll(),
             state: state,
           ),
         ),
 
         ///=======================EditOwnerProfile  =======================
         GoRoute(
-          name: RoutePath.editOwnerProfile,
-          path: RoutePath.editOwnerProfile.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final profileData = extra['profileData'] as ProfileData;
-            final controller = extra['controller'] as OwnerProfileController?;
+            name: RoutePath.editOwnerProfile,
+            path: RoutePath.editOwnerProfile.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final profileData = extra['profileData'] as ProfileData;
+              final controller = extra['controller'] as OwnerProfileController?;
 
-            return _buildPageWithAnimation(
-              child: EditOwnerProfile(
-                userRole: userRole!,
-                data: profileData,
-                controller: controller!,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: EditOwnerProfile(
+                  userRole: userRole!,
+                  data: profileData,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================Settings  =======================
         GoRoute(
@@ -705,7 +955,7 @@ class AppRouter {
           name: RoutePath.jobPost,
           path: RoutePath.jobPost.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const JobPost(),
+            child: JobPost(),
             state: state,
           ),
         ),
@@ -737,6 +987,7 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const ScheduleScreen(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
@@ -760,26 +1011,92 @@ class AppRouter {
           ),
         ),
 
+        ///=======================OwnerQrCode =======================
+        GoRoute(
+          name: RoutePath.ownerQrCode,
+          path: RoutePath.ownerQrCode.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const OwnerQrCode(),
+            state: state,
+          ),
+        ),
+
         ///=======================UniqueQrCode =======================
         GoRoute(
           name: RoutePath.uniqueQrCode,
           path: RoutePath.uniqueQrCode.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: UniqueQrCode(),
+            child: const UniqueQrCode(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================totalScreen =======================
+        GoRoute(
+          name: RoutePath.totalCustomerScreen,
+          path: RoutePath.totalCustomerScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TotalCustomerScreen(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================TotalBarber =======================
+        GoRoute(
+          name: RoutePath.totalBarber,
+          path: RoutePath.totalBarber.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const TotalBarber(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================hiringPost =======================
+        GoRoute(
+          name: RoutePath.hiringPost,
+          path: RoutePath.hiringPost.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const HiringPost(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
+          ),
+        ),
+
+        ///=======================barberRequest =======================
+        GoRoute(
+          name: RoutePath.barberRequest,
+          path: RoutePath.barberRequest.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const BarberRequest(),
+            state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.queScreen,
-          path: RoutePath.queScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const QueScreen(),
-            state: state,
-            disableAnimation: true,
-          ),
-        ),
+            name: RoutePath.queScreen,
+            path: RoutePath.queScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
+              final barberId = extra['barberId'] as String?;
+              final saloonOwnerId = extra['saloonOwnerId'] as String?;
+
+              return _buildPageWithAnimation(
+                child: QueScreen(
+                  userRole: userRole!,
+                  controller: controller!,
+                  barberId: barberId!,
+                  saloonOwnerId: saloonOwnerId ?? '',
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(
@@ -796,7 +1113,17 @@ class AppRouter {
           name: RoutePath.ownerQue,
           path: RoutePath.ownerQue.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const OwnerQue(), state: state, disableAnimation: true),
+              child: OwnerQue(), state: state, disableAnimation: true),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.loyalityScreen,
+          path: RoutePath.loyalityScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: LoyalityScreen(),
+            state: state,
+          ),
         ),
 
         ///======================= =======================
@@ -838,24 +1165,113 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPageWithAnimation(
             child: const MyLoyalityRewards(),
             state: state,
+            transitionType: TransitionType.detailsScreen,
           ),
         ),
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.shopProfileScreen,
-          path: RoutePath.shopProfileScreen.addBasePath,
+            name: RoutePath.shopProfileScreen,
+            path: RoutePath.shopProfileScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userId = extra['userId'] as String?;
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
+
+              return _buildPageWithAnimation(
+                child: ShopProfileScreen(
+                  userId: userId ?? '',
+                  userRole: userRole!,
+                  controller: controller,
+                  isShowOwnerInfo: extra['isShowOwnerInfo'] as bool? ?? false,
+                ),
+                state: state,
+              );
+            }),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.rescheduleScreen,
+          path: RoutePath.rescheduleScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ShopProfileScreen(),
+            child: const RescheduleScreen(),
             state: state,
+            transitionType: TransitionType
+                .detailsScreen, // Custom transition type for detail screens
           ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.userBookingScreen,
+          path: RoutePath.userBookingScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const UserBookingScreen(),
+            state: state,
+            transitionType: TransitionType
+                .detailsScreen, // Custom transition type for detail screens
+          ),
+        ),
+
+        ///=======================ownerRequestBooking =======================
+        GoRoute(
+            name: RoutePath.ownerRequestBooking,
+            path: RoutePath.ownerRequestBooking.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller =
+                  extra['controller'] as BarberOwnerHomeController?;
+
+              return _buildPageWithAnimation(
+                child: OwnerRequestBooking(
+                  userRole: userRole!,
+                  controller: controller!,
+                ),
+                state: state,
+              );
+            }),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.chooseBarberScreen,
+          path: RoutePath.chooseBarberScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const ChooseBarberScreen(),
+            state: state,
+            // transitionType: TransitionType
+            //     .detailsScreen,
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.summeryScreen,
+          path: RoutePath.summeryScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+            child: const SummeryScreen(),
+            state: state,
+            // transitionType: TransitionType
+            //     .detailsScreen, // Custom transition type for detail screens
+          ),
+        ),
+
+        ///======================= =======================
+        GoRoute(
+          name: RoutePath.userProfileScreen,
+          path: RoutePath.userProfileScreen.addBasePath,
+          pageBuilder: (context, state) => _buildPageWithAnimation(
+              child: UserProfileScreen(), state: state, disableAnimation: true),
         ),
       ]);
 
-  static CustomTransitionPage _buildPageWithAnimation(
-      {required Widget child,
-      required GoRouterState state,
-      bool disableAnimation = false}) {
+  static CustomTransitionPage _buildPageWithAnimation({
+    required Widget child,
+    required GoRouterState state,
+    bool disableAnimation = false,
+    TransitionType transitionType = TransitionType.defaultTransition,
+  }) {
     if (disableAnimation) {
       return CustomTransitionPage(
         key: state.pageKey,
@@ -863,23 +1279,45 @@ class AppRouter {
         transitionDuration: Duration.zero, // Disable animation
         transitionsBuilder: (_, __, ___, child) => child, // No transition
       );
-    } else {
+    }
+
+    // Custom transition for Details Screen (center open animation)
+    if (transitionType == TransitionType.detailsScreen) {
       return CustomTransitionPage(
         key: state.pageKey,
         child: child,
         transitionDuration: const Duration(milliseconds: 600),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          var tween = Tween(begin: begin, end: end);
-          var offsetAnimation = animation.drive(tween);
-          return SlideTransition(
-            position: offsetAnimation,
+          // Center Open Animation
+          var curve = Curves.easeOut; // Smooth opening
+          var tween = Tween(begin: 0.0, end: 1.0); // Scale transition
+          var scaleAnimation =
+              animation.drive(tween.chain(CurveTween(curve: curve)));
+
+          return ScaleTransition(
+            scale: scaleAnimation,
             child: child,
           );
         },
       );
     }
+
+    // Default Slide Transition (right to left)
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: child,
+      transitionDuration: const Duration(milliseconds: 600),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0); // Slide from right
+        const end = Offset.zero;
+        var tween = Tween(begin: begin, end: end);
+        var offsetAnimation = animation.drive(tween);
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
   }
 
   static GoRouter get route => initRoute;

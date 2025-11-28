@@ -1,21 +1,18 @@
+import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTabBar extends StatefulWidget {
-  const CustomTabBar({super.key});
+class CustomTabBar extends StatelessWidget {
+  final ValueChanged<bool> onTabSelected;
+  final bool isUpcomingSelected; // Track the selected tab
 
-  @override
-  _CustomTabBarState createState() => _CustomTabBarState();
-}
-
-class _CustomTabBarState extends State<CustomTabBar> {
-  bool isUpcomingSelected = true;
+  const CustomTabBar({super.key, required this.onTabSelected, required this.isUpcomingSelected});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 45,
       width: double.infinity,
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(25),
@@ -26,13 +23,11 @@ class _CustomTabBarState extends State<CustomTabBar> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  isUpcomingSelected = true;
-                });
+                onTabSelected(true); // Notify the parent screen that "Upcoming" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: isUpcomingSelected ? Colors.orange : Colors.transparent,
+                  color: isUpcomingSelected ? AppColors.secondary : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,
@@ -50,13 +45,11 @@ class _CustomTabBarState extends State<CustomTabBar> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  isUpcomingSelected = false;
-                });
+                onTabSelected(false); // Notify the parent screen that "Previous" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: !isUpcomingSelected ? Colors.orange : Colors.transparent,
+                  color: !isUpcomingSelected ?AppColors.secondary  : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,
@@ -75,3 +68,4 @@ class _CustomTabBarState extends State<CustomTabBar> {
     );
   }
 }
+

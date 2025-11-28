@@ -10,10 +10,3 @@ void main() async {
   DeviceUtils.lockDevicePortrait();
   runApp(const MyApp());
 }
-
-
-
-
-
-
-

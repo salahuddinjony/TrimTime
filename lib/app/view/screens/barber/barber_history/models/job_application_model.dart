@@ -78,8 +78,8 @@ class JobApplication {
     return JobApplication(
       id: map['id'] as String? ?? '',
       status: map['status'] as String? ?? '',
-      createdAt: parseDate(map['createdAt'] ?? map['created_at']),
-      updatedAt: parseDate(map['updatedAt'] ?? map['updated_at']),
+      createdAt: parseDate(map['createdAt']),
+      updatedAt: parseDate(map['updatedAt']),
       barber: map['barber'] != null
           ? Barber.fromMap(map['barber'] as Map<String, dynamic>)
           : Barber.empty(),
@@ -150,6 +150,10 @@ class JobPost {
   final DateTime? endDate;
   final DateTime? datePosted;
   final String shopName;
+  final String? shopAddress;
+  final double? shopAverageRating;
+  final double? saloonOwnerAvgRating;
+  final int? saloonOwnerRatingCount;
 
   JobPost({
     required this.id,
@@ -159,6 +163,10 @@ class JobPost {
     required this.endDate,
     required this.datePosted,
     required this.shopName,
+    required this.shopAddress,
+    required this.shopAverageRating,
+    this.saloonOwnerAvgRating,
+    this.saloonOwnerRatingCount,
   });
 
   factory JobPost.fromMap(Map<String, dynamic> map) {
@@ -182,12 +190,17 @@ class JobPost {
     return JobPost(
       id: map['id'] as String? ?? '',
       description: map['description'] as String? ?? '',
-      hourlyRate: toDouble(map['hourlyRate'] ?? map['hourly_rate']),
-      startDate: parseDate(map['startDate'] ?? map['start_date']),
-      endDate: parseDate(map['endDate'] ?? map['end_date']),
-      datePosted: parseDate(map['datePosted'] ?? map['date_posted']),
-      shopName:
-          map['shopName'] as String? ?? (map['shop_name'] as String? ?? ''),
+      hourlyRate: toDouble(map['hourlyRate']),
+      startDate: parseDate(map['startDate']),
+      endDate: parseDate(map['endDate']),
+      datePosted: parseDate(map['datePosted']),
+      shopName: map['shopName'] as String? ?? '',
+      shopAverageRating: toDouble(map['shopAverageRating']),
+      shopAddress: map['shopAddress'] as String?,
+      saloonOwnerAvgRating: toDouble(map['saloonOwnerAvgRating']),
+      saloonOwnerRatingCount: map['saloonOwnerRatingCount'] is int
+          ? map['saloonOwnerRatingCount'] as int
+          : int.tryParse(map['saloonOwnerRatingCount']?.toString() ?? ''),
     );
   }
 
@@ -200,6 +213,10 @@ class JobPost {
       'endDate': endDate?.toIso8601String(),
       'datePosted': datePosted?.toIso8601String(),
       'shopName': shopName,
+      'shopAddress': shopAddress,
+      'shopAverageRating': shopAverageRating,
+      'saloonOwnerAvgRating': saloonOwnerAvgRating,
+      'saloonOwnerRatingCount': saloonOwnerRatingCount,
     };
   }
 
@@ -210,7 +227,11 @@ class JobPost {
       startDate: null,
       endDate: null,
       datePosted: null,
-      shopName: '');
+      shopName: '',
+      shopAverageRating: null,
+      shopAddress: null,
+      saloonOwnerAvgRating: null,
+      saloonOwnerRatingCount: null);
 }
 
 class Meta {

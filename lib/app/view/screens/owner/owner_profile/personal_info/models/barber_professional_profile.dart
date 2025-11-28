@@ -30,6 +30,7 @@ class BarberProfileResponse {
 
 class BarberProfile {
   final String id;
+  final bool isMe;
   final String userId;
   final String saloonOwnerId;
   final String? currentWorkDes;
@@ -44,10 +45,14 @@ class BarberProfile {
   final double avgRating;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final BarberUser? user;
+  bool isFollowing;
+  final String? image;
 
   BarberProfile({
     required this.id,
     required this.userId,
+    required this.isMe,
     required this.saloonOwnerId,
     this.currentWorkDes,
     this.bio,
@@ -61,12 +66,16 @@ class BarberProfile {
     required this.avgRating,
     this.createdAt,
     this.updatedAt,
+    this.user,
+    this.isFollowing = false,
+    this.image,
   });
 
   factory BarberProfile.fromJson(Map<String, dynamic> json) {
     return BarberProfile(
       id: json['id'] as String,
       userId: json['userId'] as String,
+      isMe: json['isMe'] as bool? ?? false,
       saloonOwnerId: json['saloonOwnerId'] as String,
       currentWorkDes: json['currentWorkDes'] as String?,
       bio: json['bio'] as String?,
@@ -90,6 +99,11 @@ class BarberProfile {
       updatedAt: json['updatedAt'] != null
           ? DateTime.tryParse(json['updatedAt'] as String)
           : null,
+      user: json['user'] != null
+          ? BarberUser.fromJson(json['user'] as Map<String, dynamic>)
+          : null,
+      isFollowing: json['isFollowing'] as bool? ?? false,
+      image: json['image'] as String?,
     );
   }
 
@@ -99,6 +113,7 @@ class BarberProfile {
         'saloonOwnerId': saloonOwnerId,
         'currentWorkDes': currentWorkDes,
         'bio': bio,
+        'isMe': isMe,
         'portfolio': portfolio,
         'isAvailable': isAvailable,
         'experienceYears': experienceYears,
@@ -109,5 +124,38 @@ class BarberProfile {
         'avgRating': avgRating,
         'createdAt': createdAt?.toUtc().toIso8601String(),
         'updatedAt': updatedAt?.toUtc().toIso8601String(),
+        'user': user?.toJson(),
+        'isFollowing': isFollowing,
+        'image': image,
+      };
+}
+
+class BarberUser {
+  final String fullName;
+  final String email;
+  final String phoneNumber;
+  final String? image;
+
+  BarberUser({
+    required this.fullName,
+    required this.email,
+    required this.phoneNumber,
+    this.image,
+  });
+
+  factory BarberUser.fromJson(Map<String, dynamic> json) {
+    return BarberUser(
+      fullName: json['fullName'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      phoneNumber: json['phoneNumber'] as String? ?? '',
+      image: json['image'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'fullName': fullName,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'image': image,
       };
 }

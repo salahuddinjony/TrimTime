@@ -7,10 +7,12 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 
 import 'package:barber_time/app/view/common_widgets/custom_container_button/custom_container_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/onboarding/chose_auth/authenticator_names.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
 
 class ChoseAuthScreen extends StatelessWidget {
   const ChoseAuthScreen({super.key});
@@ -18,8 +20,13 @@ class ChoseAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userRole = GoRouterState.of(context).extra as UserRole?;
-    debugPrint("Selected Role============================${userRole?.name}");
+    debugPrint("Selected Role============================>${userRole?.name ?? "No Role"}");
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: Text(AuthenticatorNames.displayNameFromUserRole(userRole), style: TextStyle(fontWeight: FontWeight.bold),),
+      ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
         child: SingleChildScrollView(

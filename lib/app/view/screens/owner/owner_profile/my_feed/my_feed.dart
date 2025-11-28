@@ -33,9 +33,10 @@ class MyFeed extends StatelessWidget {
       );
     }
     return Scaffold(
+      // backgroundColor: AppColors.feed,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.linearFirst,
+        backgroundColor: AppColors.feed,
         title: const Text(AppStrings.myFeedBack),
       ),
       body: Padding(
@@ -51,8 +52,7 @@ class MyFeed extends StatelessWidget {
             );
           }
 
-          final feeds = feedController.allFeeds;
-          final display = feeds.isEmpty ? _demoFeed : feeds;
+          final display = feedController.allFeeds;
 
           return RefreshIndicator(
             onRefresh: () async => await feedController.getAllFeeds(),
@@ -114,30 +114,7 @@ class MyFeed extends StatelessWidget {
   }
 }
 
-List<FeedItem> get _demoFeed => [
-      FeedItem(
-        id: '68a70729aff8297056410355',
-        userId: '689424ee19c117b142c8bf50',
-        userName: 'John Updated',
-        userImage: null,
-        saloonOwner: SaloonOwner(
-          userId: '689424ee19c117b142c8bf50',
-          shopName: 'Elite Saloon',
-          shopAddress: '123 Main Street, Dhaka',
-          shopImages: [],
-          shopVideo: [],
-          shopLogo:
-              'https://lerirides.nyc3.digitaloceanspaces.com/saloon-logos/1754542797566_icon-6951393_1280.jpg',
-          avgRating: 4.5,
-          ratingCount: 2,
-        ),
-        caption: 'Fresh new haircut styles available this week!',
-        images: [
-          'https://lerirides.nyc3.digitaloceanspaces.com/feed-images/1755776807812_man-9377284_1280.jpg'
-        ],
-        favoriteCount: 5,
-      ),
-    ];
+
 
 class _MyFeedCard extends StatelessWidget {
   final FeedItem item;

@@ -1,18 +1,26 @@
+import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/following_card/following_card.dart';
+import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
+
+import '../../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 
 class FollowingScreen extends StatelessWidget {
-  const FollowingScreen({
-    super.key,
-  });
+  final UserRole userRole;
+  final OwnerProfileController? controller;
+  const FollowingScreen({super.key, required this.userRole, this.controller});
 
   @override
   Widget build(BuildContext context) {
+      // controller?.fetchFollowerOrFollowingData(
+      //                           isFollowers: false);
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
     if (extra is UserRole) {
@@ -25,7 +33,7 @@ class FollowingScreen extends StatelessWidget {
       }
     }
 
-    debugPrint("===================${userRole?.name}");
+    debugPrint("===================[36m${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
@@ -39,30 +47,140 @@ class FollowingScreen extends StatelessWidget {
         backgroundColor: AppColors.linearFirst,
         title: const Text(AppStrings.myFollowing),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: ListView(
-          children: [
-            FollowingCard(
-              imageUrl: AppConstants.demoImage, // Replace with actual image URL
-              name: "Christian Ronaldo", // Example name
-              status: "Unfollow", // Button text can be "Follow" or "Unfollow"
-              onUnfollowPressed: () {
-                // Handle unfollow action here
-                debugPrint("Unfollowed Christian Ronaldo");
-              },
+      body: ClipPath(
+        clipper: CurvedBannerClipper(),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 1.2,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xCCEDC4AC),
+                Color(0xFFE9874E),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            FollowingCard(
-              imageUrl: AppConstants.demoImage, // Replace with actual image URL
-              name: "Lionel Messi", // Example name
-              status: "Unfollow", // Button text can be "Follow" or "Unfollow"
-              onUnfollowPressed: () {
-                // Handle unfollow action here
-                debugPrint("Unfollowed Lionel Messi");
-              },
-            ),
-            // Add more FollowingCard widgets as needed
-          ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Obx(() {
+              final followingList = controller?.followingList;
+              if (controller?.followingStatus.value.isLoading ?? true) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (followingList?.isEmpty ?? true) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await controller?.fetchFollowerOrFollowingData(
+                      isFollowers: false,
+                      needLoader: true,
+                    );
+                  },
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: const [
+                      SizedBox(height: 200),
+                      Center(child: Text('No following found.')),
+                    ],
+                  ),
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await controller?.fetchFollowerOrFollowingData(
+                    isFollowers: false,
+                    needLoader: true,
+                  );
+                },
+                child: ListView.builder(
+                  itemCount: followingList!.length,
+                  itemBuilder: (context, index) {
+                    final user = followingList[index];
+                    return GestureDetector(
+                      onTap: () {
+                     final Id = user.followingId;
+                    final followerRole = user.followingRole;
+
+
+                    if(Id.isEmpty || userRole == null) {
+                      debugPrint("Invalid barber ID or user role");
+                      return;
+                    }
+
+                    if(followerRole.isNotEmpty &&
+                        followerRole == "CUSTOMER") {
+                      debugPrint("Customer ${user.followingName} clicked");
+                      debugPrint("Customer ID: $Id");
+                     AppRouter.route.pushNamed(
+                      RoutePath.customerProfileScreen,
+                      extra: {
+                        'userRole': userRole,
+                        'customerId': Id, 
+                        'controller': controller,
+                      },
+                    );
+                      return;
+                    }
+                    if (followerRole.isNotEmpty &&
+                      followerRole == "SALOON_OWNER") {
+                      AppRouter.route.pushNamed(
+                        RoutePath.shopProfileScreen,
+                        extra: {
+                          'userRole': userRole,
+                          'userId': user.followingId,
+                          'controller': controller,
+                          'isShowOwnerInfo': true,
+                        },
+                      );
+                      return;
+                    }
+
+                  if(followerRole.isNotEmpty &&
+                      followerRole == "BARBER") {
+                     debugPrint("Barber ${user.followingName} clicked");
+                    debugPrint("Barber ID: $Id");
+                    AppRouter.route.pushNamed(
+                      RoutePath.professionalProfile,
+                      extra: {
+                        'userRole': userRole,
+                        'barberId': Id,
+                        'isForActionButton': false,
+                      },
+                    );
+                    return;
+                  }
+                        // Handle card tap if needed
+                      },
+                      child: FollowingCard(
+                        imageUrl: user.followingImage,
+                        name: user.followingName,
+                        status: 'Unfollow',
+                        email: user.followingEmail,
+                        onUnfollowPressed: () async {
+                          controller?.followingList.removeAt(index);
+                          final result = await controller?.toggleFollow(
+                              userId: user.followingId,
+                              isfollowUnfollow: false);
+
+                          if (result == true) {
+                            controller?.followingList.refresh();
+                            controller?.fetchFollowerOrFollowingData(
+                                isFollowers: false, needLoader: false);
+                          } else {
+                            controller?.followingList.insert(index, user);
+                            controller?.followingList.refresh();
+                            toastMessage(
+                                message:
+                                    "Failed to unfollow ${user.followingName}");
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );

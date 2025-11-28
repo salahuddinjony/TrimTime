@@ -1,20 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomFeedCard extends StatelessWidget {
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+class CustomFeedCard extends StatefulWidget {
   final String userImageUrl;
   final String userName;
   final String userAddress;
-  final String postImageUrl;
+  final String postImageUrl; // YouTube URL or Image URL
   final String postText;
   final String rating;
-  final VoidCallback onFavoritePressed;
+  final ValueChanged<bool> onFavoritePressed;
   final VoidCallback onVisitShopPressed;
-  final bool? isVisitSHopButton;
+  final bool? isVisitShopButton;
+  final String? favoriteCount;
+  final bool? isYouTubeVideo;
+  final bool? isFavouriteFromApi;
+  final bool? isFromFav;
 
   const CustomFeedCard({
     super.key,
@@ -25,8 +31,55 @@ class CustomFeedCard extends StatelessWidget {
     required this.postText,
     required this.rating,
     required this.onFavoritePressed,
-    required this.onVisitShopPressed, this.isVisitSHopButton = false,
+    required this.onVisitShopPressed,
+    this.isVisitShopButton = false,
+    this.favoriteCount,
+    this.isYouTubeVideo = false,
+    this.isFavouriteFromApi,
+    this.isFromFav = false,
   });
+
+  @override
+  _CustomFeedCardState createState() => _CustomFeedCardState();
+}
+
+class _CustomFeedCardState extends State<CustomFeedCard> {
+  late YoutubePlayerController _youtubeController;
+  bool isYouTubeVideo = false;
+  bool isFavorite = false;
+  int favoriteCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Check if postImageUrl is a YouTube video link
+    isYouTubeVideo = widget.postImageUrl.contains("youtube.com") ||
+        widget.postImageUrl.contains("youtu.be");
+
+    if (isYouTubeVideo) {
+      final videoId = YoutubePlayer.convertUrlToId(widget.postImageUrl);
+      _youtubeController = YoutubePlayerController(
+        initialVideoId: videoId ?? '',
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
+    }
+
+    // Initialize favorite state and count from widget
+    isFavorite = widget.isFavouriteFromApi ?? false;
+    favoriteCount = int.tryParse(widget.favoriteCount ?? "0") ?? 0;
+  }
+
+  @override
+  void dispose() {
+    if (isYouTubeVideo) {
+      _youtubeController.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +88,12 @@ class CustomFeedCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // User Info Row
+          // ...existing code...
           Row(
             children: [
               CustomNetworkImage(
                 boxShape: BoxShape.circle,
-                imageUrl: userImageUrl,
+                imageUrl: widget.userImageUrl,
                 height: 48,
                 width: 48,
               ),
@@ -50,14 +103,14 @@ class CustomFeedCard extends StatelessWidget {
                   children: [
                     CustomText(
                       left: 8,
-                      text: userName,
+                      text: widget.userName,
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
                       color: AppColors.black,
                     ),
                     CustomText(
                       left: 8,
-                      text: userAddress,
+                      text: widget.userAddress,
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
                       color: AppColors.black,
@@ -67,28 +120,36 @@ class CustomFeedCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          // Post Image
-          CustomNetworkImage(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            imageUrl: postImageUrl,
-            height: 364,
-            width: double.infinity,
-          ),
-          const CustomText(
+          SizedBox(height: 10.h),
+
+          // Show YouTube Video Player or Image
+          isYouTubeVideo
+              ? YoutubePlayer(
+                  controller: _youtubeController,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: AppColors.secondary,
+                  onReady: () {
+                    // YouTube player ready
+                  },
+                )
+              : CustomNetworkImage(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  imageUrl: widget.postImageUrl,
+                  height: 364,
+                  width: double.infinity,
+                ),
+
+          // Post Text
+          CustomText(
             textAlign: TextAlign.start,
             maxLines: 2,
             top: 8,
-            text:
-            "Fresh Cut, Fresh Start! 🔥💈 Kickstart your day with confidence!#BarberLife #StayFresh",
+            text: widget.postText,
             fontWeight: FontWeight.w500,
             fontSize: 14,
             color: AppColors.black,
           ),
-          isVisitSHopButton == true?
-              const SizedBox():
+
           Row(
             children: [
               // Favorite Button
@@ -97,45 +158,73 @@ class CustomFeedCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                     color: AppColors.secondary, shape: BoxShape.circle),
                 child: IconButton(
-                  onPressed: onFavoritePressed,
-                  icon: const Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
+                  onPressed: _toggleFavorite,
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.white,
                   ),
                 ),
               ),
-              CustomText(
-                textAlign: TextAlign.start,
-                left: 8,
-                text: rating,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: AppColors.black,
-              ),
+              const SizedBox(width: 8),
+              if (widget.isFromFav == false) ...[
+                Row(
+                  children: [
+                    Icon(Icons.favorite, color: Colors.red, size: 18),
+                    SizedBox(width: 2.w),
+                    Text(favoriteCount.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                CustomText(
+                  textAlign: TextAlign.start,
+                  left: 8,
+                  text: widget.rating,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: AppColors.black,
+                ),
+              ],
               const Spacer(),
               // Visit Shop Button
-              GestureDetector(
-                onTap: onVisitShopPressed,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  padding: const EdgeInsets.all(5),
-                  decoration: const BoxDecoration(
-                    color: AppColors.black,
-                  ),
-                  child: const CustomText(
-                    textAlign: TextAlign.start,
-                    left: 8,
-                    text: AppStrings.visitShop,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppColors.white50,
+              if (widget.isVisitShopButton != null &&
+                  widget.isVisitShopButton!) ...[
+                GestureDetector(
+                  onTap: widget.onVisitShopPressed,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
+                      color: AppColors.black,
+                    ),
+                    child: const CustomText(
+                      textAlign: TextAlign.start,
+                      left: 8,
+                      text: AppStrings.visitShop,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: AppColors.white50,
+                    ),
                   ),
                 ),
-              ),
+              ]
             ],
           ),
         ],
       ),
     );
+  }
+
+// Toggle favorite state
+  void _toggleFavorite() {
+    setState(() {
+      if (isFavorite) {
+        isFavorite = false;
+        if (favoriteCount > 0) favoriteCount--;
+      } else {
+        isFavorite = true;
+        favoriteCount++;
+      }
+    });
+    widget.onFavoritePressed(isFavorite);
   }
 }

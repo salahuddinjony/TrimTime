@@ -864,6 +864,9 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                         'userRole': userRole,
                                         'userId': selonData!.userId,
                                         'controller': controller,
+                                        'seloonName': selonData.shopName,
+                                        'seloonImage': selonData.shopLogo,
+                                        'seloonAddress': selonData.shopAddress,
                                       },
                                     );
 

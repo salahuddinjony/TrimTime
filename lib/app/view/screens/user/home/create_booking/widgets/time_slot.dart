@@ -9,12 +9,12 @@ Widget timeSlotCard({
   required bool isSelected,
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
     decoration: BoxDecoration(
       color: isSelected ? AppColors.secondary : Colors.transparent,
       borderRadius: BorderRadius.circular(12.r),
       border: Border.all(
-        color: isSelected ? AppColors.secondary : AppColors.white,
+        color: isSelected ? AppColors.searchScreenBg : AppColors.white,
         width: isSelected ? 2 : 1,
       ),
       boxShadow: isSelected
@@ -40,26 +40,26 @@ Widget timeSlotCard({
         // Start Time
         CustomText(
           text: startTime,
-          fontSize: 15.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           color: isSelected ? AppColors.white : AppColors.black,
         ),
-        SizedBox(width: 8.w), 
+   
         // Separator Icon
         Icon(
           Icons.arrow_downward,
           size: 16.sp,
           color: isSelected ? AppColors.white : AppColors.gray300,
         ),
-        SizedBox(width: 8.w),
+      
         // End Time
         CustomText(
           text: endTime,
-          fontSize: 15.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           color: isSelected ? AppColors.white : AppColors.black,
         ),
-        SizedBox(width: 12.w),
+        SizedBox(height: 5.h),
         // Check Icon (only show when selected)
         if (isSelected)
           Container(
@@ -71,7 +71,7 @@ Widget timeSlotCard({
             child: Icon(
               Icons.check,
               color: AppColors.secondary,
-              size: 14.sp,
+              size: 12.sp,
             ),
           ),
       ],

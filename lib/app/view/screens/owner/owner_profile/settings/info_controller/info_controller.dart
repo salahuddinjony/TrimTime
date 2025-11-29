@@ -1,19 +1,19 @@
 import 'dart:convert';
-
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/barber/barber_feed/controller/mixin_barber_crud.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/models/favorite_feed_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/models/review_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/models/faq_model.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_all_my_fav.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/models/privacy_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/models/terms_model.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/model/barber_queue_capacity_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class InfoController extends GetxController with BarberFeedCRUDMixin {
+class InfoController extends GetxController
+    with BarberFeedCRUDMixin, MixinGetAllMyFav {
   var selectedIndex = Rx<int?>(null);
 
 // Toggle the selected FAQ item
@@ -25,11 +25,9 @@ class InfoController extends GetxController with BarberFeedCRUDMixin {
   final RxList<TermItem> terms = <TermItem>[].obs;
   final RxList<PrivacyItem> privacyPolicy = <PrivacyItem>[].obs;
   final RxList<ReviewData> barberReviews = <ReviewData>[].obs;
-  final RxList<FavoriteFeedItem> favoriteItems = <FavoriteFeedItem>[].obs;
   final RxList<BarberQueueCapacityData> barberQueueCapacity =
       <BarberQueueCapacityData>[].obs;
 
-  final RxBool isLoading = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -130,31 +128,6 @@ class InfoController extends GetxController with BarberFeedCRUDMixin {
     } catch (e) {
       debugPrint("Error fetching reviews: ${e.toString()}");
       toastMessage(message: 'Failed to load reviews');
-    } finally {
-      isLoading.value = false;
-      refresh();
-    }
-  }
-
-  Future<void> fetchAllFavourite() async {
-    try {
-      isLoading.value = true;
-      final response = await ApiClient.getData(ApiUrl.getMyAllFavourites);
-
-      if (response.statusCode == 200) {
-        final body =
-            response.body is String ? jsonDecode(response.body) : response.body;
-        final resp =
-            FavoriteFeedResponse.fromJson(body as Map<String, dynamic>);
-        favoriteItems.value = resp.data?.data ?? [];
-        debugPrint("Favorite items length: ${favoriteItems.length}");
-        debugPrint("Favorite Items Data: ${favoriteItems}");
-      } else {
-        toastMessage(
-            message: response.statusText ?? 'Failed to load favorites');
-      }
-    } catch (e) {
-      toastMessage(message: 'Failed to load favorites');
     } finally {
       isLoading.value = false;
       refresh();

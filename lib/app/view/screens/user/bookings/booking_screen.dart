@@ -83,18 +83,16 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final extra = GoRouter.of(context).state.extra;
+       final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
+
     if (extra is UserRole) {
       userRole = extra;
-    } else if (extra is Map) {
-      try {
-        userRole = extra['userRole'] as UserRole?;
-      } catch (_) {
-        userRole = null;
-      }
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
     }
 
+    debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),

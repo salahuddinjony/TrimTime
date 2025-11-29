@@ -224,7 +224,10 @@ class UserProfileScreen extends StatelessWidget {
                       ? CustomMenuCard(
                           onTap: () {
                             AppRouter.route.pushNamed(RoutePath.bookingScreen,
-                                extra: userRole);
+                                extra: {
+                                  'userRole': userRole,
+                                  'isBarber': false,
+                                });
                           },
                           text: "My Booking",
                           icon: Assets.images.myBooking.image(),

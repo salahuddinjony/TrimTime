@@ -31,6 +31,16 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                         barberId: seloonId!,
                         date: intl.DateFormat('yyyy-MM-dd')
                             .format(controller.selectedDate));
+
+                    if (controller.selectedBarberId.value.isNotEmpty) {
+                      debugPrint(
+                          "Selected Barber Id: ${controller.selectedBarberId}");
+                      controller.getFreeSlots(
+                          barberId: controller.selectedBarberId.value,
+                          saloonId: seloonId!,
+                          date: intl.DateFormat('yyyy-MM-dd')
+                              .format(controller.selectedDate));
+                    }
                   }
                   controller.goToPreviousDate(
                       isDontCalled: userRole == UserRole.owner ? false : true);
@@ -53,6 +63,16 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                         barberId: seloonId!,
                         date: intl.DateFormat('yyyy-MM-dd')
                             .format(controller.selectedDate));
+
+                    if (controller.selectedBarberId.value.isNotEmpty) {
+                      debugPrint(
+                          "Selected Barber Id: ${controller.selectedBarberId}");
+                      controller.getFreeSlots(
+                          barberId: controller.selectedBarberId.value,
+                          saloonId: seloonId!,
+                          date: intl.DateFormat('yyyy-MM-dd')
+                              .format(controller.selectedDate));
+                    }
                   }
                   controller.goToNextDate(
                       isDontCalled: userRole == UserRole.owner ? false : true);
@@ -82,6 +102,16 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                           barberId: seloonId!,
                           date: intl.DateFormat('yyyy-MM-dd')
                               .format(controller.selectedDate));
+
+                      if (controller.selectedBarberId.value.isNotEmpty) {
+                        debugPrint(
+                            "Selected Barber Id: ${controller.selectedBarberId}");
+                        controller.getFreeSlots(
+                            barberId: controller.selectedBarberId.value,
+                            saloonId: seloonId!,
+                            date: intl.DateFormat('yyyy-MM-dd')
+                                .format(controller.selectedDate));
+                      }
                     }
                     if (userRole == UserRole.owner) {
                       controller.fetchDateWiseBookings(
@@ -99,7 +129,9 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                           isSelected ? Color(0xFFD27B50) : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                       border: isSelected
-                          ? (userRole == UserRole.user) ? Border.all(color: Colors.orangeAccent,width: 2) : null
+                          ? (userRole == UserRole.user)
+                              ? Border.all(color: Colors.orangeAccent, width: 2)
+                              : null
                           : Border.all(color: Colors.grey.shade300, width: 1),
                     ),
                     child: Column(

@@ -52,10 +52,10 @@ class HomeScreen extends StatelessWidget {
           /// 🏡 Common Home AppBar
           CommonHomeAppBar(
             isSearch: true,
-            onSearch: () => AppRouter.route
-                .pushNamed(RoutePath.searchSaloonScreen, extra:{
-                  'userRole': userRole,
-                }),
+            onSearch: () =>
+                AppRouter.route.pushNamed(RoutePath.searchSaloonScreen, extra: {
+              'userRole': userRole,
+            }),
             scaffoldKey: scaffoldKey,
             name: "Customer",
             image: AppConstants.demoImage,
@@ -74,11 +74,10 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.nearYouShopScreen,
-                                extra:{
-                                  'userRole': userRole,
-                                });
+                            AppRouter.route
+                                .pushNamed(RoutePath.nearYouShopScreen, extra: {
+                              'userRole': userRole,
+                            });
                           },
                           title: "Bookings",
                           icon: Assets.icons.bookings.svg()),
@@ -103,15 +102,14 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CustomCard(
-                        // here will be rate screen navigation
+                          // here will be rate screen navigation
                           onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.rateScreen,
-                                extra: {
-                                  'userRole': userRole,
-                                  // 'userId': "",
-                                  // 'controller': homeController,
-                                });
+                            AppRouter.route
+                                .pushNamed(RoutePath.rateScreen, extra: {
+                              'userRole': userRole,
+                              // 'userId': "",
+                              // 'controller': homeController,
+                            });
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
@@ -138,11 +136,10 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: AppStrings.nearYou,
                     actionText: AppStrings.seeAll,
-                    onActionTap: () => AppRouter.route.pushNamed(
-                        RoutePath.nearYouShopScreen,
-                       extra: {
-                           'userRole': userRole,
-                          }),
+                    onActionTap: () => AppRouter.route
+                        .pushNamed(RoutePath.nearYouShopScreen, extra: {
+                      'userRole': userRole,
+                    }),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
@@ -185,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 10),
                                 child: GestureDetector(
                                   onTap: () {
-                                      AppRouter.route.pushNamed(
+                                    AppRouter.route.pushNamed(
                                       RoutePath.shopProfileScreen,
                                       extra: {
                                         'userRole': userRole,
@@ -222,10 +219,9 @@ class HomeScreen extends StatelessWidget {
                     title: "Top Rated",
                     actionText: AppStrings.seeAll,
                     onActionTap: () => AppRouter.route
-                        .pushNamed(
-                          RoutePath.topRatedScreen, extra: {
-                           'userRole': userRole,
-                          }),
+                        .pushNamed(RoutePath.topRatedScreen, extra: {
+                      'userRole': userRole,
+                    }),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
@@ -270,7 +266,7 @@ class HomeScreen extends StatelessWidget {
                                     // context.pushNamed(
                                     //     RoutePath.userBookingScreen,
                                     //     extra: userRole);
-                                       AppRouter.route.pushNamed(
+                                    AppRouter.route.pushNamed(
                                       RoutePath.shopProfileScreen,
                                       extra: {
                                         'userRole': userRole,

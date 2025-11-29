@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -10,7 +11,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchSaloonScreen extends StatelessWidget {
-  SearchSaloonScreen({super.key});
+  final UserRole userRole;
+  SearchSaloonScreen({super.key, required this.userRole});
   static final UserHomeController homeController =
       Get.put(UserHomeController(), permanent: true);
   static final TextEditingController _searchController =
@@ -18,7 +20,22 @@ class SearchSaloonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+        final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
+
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
+
+    debugPrint("===================${userRole?.name}");
+    if (userRole == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('No user role received')),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -133,9 +150,17 @@ class SearchSaloonScreen extends StatelessWidget {
                                     debugPrint(
                                         "Salon Clicked: ${salon.shopName}");
                                     // Do NOT clear search text or results here
-                                    context.pushNamed(
-                                        RoutePath.userBookingScreen,
-                                        extra: userRole);
+                                    // context.pushNamed(
+                                    //     RoutePath.userBookingScreen,
+                                    //     extra: userRole);
+                                        AppRouter.route.pushNamed(
+                                      RoutePath.shopProfileScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': salon.userId,
+                                        'controller': homeController,
+                                      },
+                                    );
                                   },
                                   child: CommonShopCard(
                                     imageUrl: salon.shopLogo,

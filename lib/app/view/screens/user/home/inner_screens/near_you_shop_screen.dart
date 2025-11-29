@@ -1,4 +1,5 @@
 import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -12,7 +13,9 @@ import 'package:go_router/go_router.dart';
 import 'package:get/get.dart';
 
 class NearYouShopScreen extends StatelessWidget {
-  NearYouShopScreen({super.key});
+  final UserRole userRole;
+
+  NearYouShopScreen({super.key, required this.userRole});
 
   final UserHomeController homeController = Get.find<UserHomeController>();
   final TextEditingController _searchController = TextEditingController();
@@ -21,8 +24,16 @@ class NearYouShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRole;
 
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRole = extra['userRole'] as UserRole?;
+    }
+
+    debugPrint("===================${userRole?.name}");
     if (userRole == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
@@ -102,28 +113,29 @@ class NearYouShopScreen extends StatelessWidget {
                             final salon = salons[index];
                             return GestureDetector(
                               onTap: () {
-                                context.pushNamed(RoutePath.userBookingScreen,
-                                    extra: userRole);
+                                // context.pushNamed(RoutePath.userBookingScreen,
+                                //     extra: userRole);
+                                debugPrint(
+                                    "Salon Clicked  : ${salon.shopName}");
+                                AppRouter.route.pushNamed(
+                                  RoutePath.shopProfileScreen,
+                                  extra: {
+                                    'userRole': userRole,
+                                    'userId': salon.userId,
+                                    'controller': homeController,
+                                  },
+                                );
                               },
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    debugPrint(
-                                        "Salon Clicked: ${salon.shopName}");
-                                    context.pushNamed(
-                                        RoutePath.userBookingScreen,
-                                        extra: userRole);
-                                  },
-                                  child: CommonShopCard(
-                                    imageUrl: salon.shopLogo,
-                                    title: salon.shopName,
-                                    rating: "${salon.ratingCount} ★",
-                                    location: salon.shopAddress,
-                                    discount: salon.distance.toString(),
-                                    onSaved: () => debugPrint("Saved Clicked!"),
-                                  ),
+                                child: CommonShopCard(
+                                  imageUrl: salon.shopLogo,
+                                  title: salon.shopName,
+                                  rating: "${salon.ratingCount} ★",
+                                  location: salon.shopAddress,
+                                  discount: salon.distance.toString(),
+                                  onSaved: () => debugPrint("Saved Clicked!"),
                                 ),
                               ),
                             );

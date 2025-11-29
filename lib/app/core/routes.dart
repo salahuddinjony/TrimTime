@@ -497,19 +497,31 @@ class AppRouter {
         GoRoute(
           name: RoutePath.nearYouShopScreen,
           path: RoutePath.nearYouShopScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: NearYouShopScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            return _buildPageWithAnimation(
+              child: NearYouShopScreen(
+                userRole: userRole!
+              ),
+              state: state,
+            );
+          }
         ),
 
         GoRoute(
           name: RoutePath.topRatedScreen,
           path: RoutePath.topRatedScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: TopRatedScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            return _buildPageWithAnimation(
+              child: TopRatedScreen(
+                userRole: userRole!
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================HiringBarber  =======================
@@ -640,10 +652,16 @@ class AppRouter {
         GoRoute(
           name: RoutePath.searchSaloonScreen,
           path: RoutePath.searchSaloonScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: SearchSaloonScreen(),
-            state: state,
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            return _buildPageWithAnimation(
+              child: SearchSaloonScreen(
+                userRole: userRole!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================VisitShop  =======================
@@ -1232,16 +1250,16 @@ class AppRouter {
         ),
 
         ///======================= =======================
-        GoRoute(
-          name: RoutePath.userBookingScreen,
-          path: RoutePath.userBookingScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const UserBookingScreen(),
-            state: state,
-            transitionType: TransitionType
-                .detailsScreen, // Custom transition type for detail screens
-          ),
-        ),
+        // GoRoute(
+        //   name: RoutePath.userBookingScreen,
+        //   path: RoutePath.userBookingScreen.addBasePath,
+        //   pageBuilder: (context, state) => _buildPageWithAnimation(
+        //     child: const UserBookingScreen(),
+        //     state: state,
+        //     transitionType: TransitionType
+        //         .detailsScreen, // Custom transition type for detail screens
+        //   ),
+        // ),
 
         ///=======================ownerRequestBooking =======================
         GoRoute(
@@ -1263,16 +1281,16 @@ class AppRouter {
             }),
 
         ///======================= =======================
-        GoRoute(
-          name: RoutePath.chooseBarberScreen,
-          path: RoutePath.chooseBarberScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const ChooseBarberScreen(),
-            state: state,
-            // transitionType: TransitionType
-            //     .detailsScreen,
-          ),
-        ),
+        // GoRoute(
+        //   name: RoutePath.chooseBarberScreen,
+        //   path: RoutePath.chooseBarberScreen.addBasePath,
+        //   pageBuilder: (context, state) => _buildPageWithAnimation(
+        //     child: const ChooseBarberScreen(),
+        //     state: state,
+        //     // transitionType: TransitionType
+        //     //     .detailsScreen,
+        //   ),
+        // ),
 
         ///======================= =======================
         GoRoute(

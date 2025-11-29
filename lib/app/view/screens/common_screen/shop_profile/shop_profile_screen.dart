@@ -16,6 +16,7 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -853,6 +854,8 @@ class ShopProfileScreen<T> extends StatelessWidget {
                      : CustomBookingButton(
                         onTap: () {
                           debugPrint("Booking button tapped");
+
+                          // fetch selon services
                           controller.fetchSelonServices(
                               userId: selonData!.userId);
                           AppRouter.route.pushNamed(
@@ -861,11 +864,19 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                         'userRole': userRole,
                                         'userId': selonData!.userId,
                                         'controller': controller,
+                                        'seloonName': selonData.shopName,
+                                        'seloonImage': selonData.shopLogo,
+                                        'seloonAddress': selonData.shopAddress,
                                       },
                                     );
-                          // Handle booking action
-                        },
-                      ),
+
+                        // get barber with date 
+                            controller.getbarberWithDate(
+                        barberId: selonData!.userId,
+                        date: intl.DateFormat('yyyy-MM-dd')
+                            .format(controller.selectedDate));
+                            },
+                          ),
                 ],
 
                       const SizedBox(height: 50),

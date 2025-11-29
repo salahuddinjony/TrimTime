@@ -236,12 +236,19 @@ class AppRouter {
               final userRole = extra['userRole'] as UserRole?;
               final userId = extra['userId'] as String?;
               final controller = extra['controller'] as UserHomeController?;
+              final seloonName = extra['seloonName'] as String?;
+              final seloonImage = extra['seloonImage'] as String?;
+              final seloonAddress = extra['seloonAddress'] as String?;
+
 
               return _buildPageWithAnimation(
                 child: SeloonBookingScreen(
                   userRole: userRole!,
                   controller: controller!,
                   userId: userId ?? '',
+                  seloonName: seloonName!,
+                  seloonImage: seloonImage!,
+                  seloonAddress: seloonAddress!,
                 ),
                 state: state,
                 transitionType: TransitionType.detailsScreen,
@@ -1271,12 +1278,28 @@ class AppRouter {
         GoRoute(
           name: RoutePath.summeryScreen,
           path: RoutePath.summeryScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const SummeryScreen(),
-            state: state,
-            // transitionType: TransitionType
-            //     .detailsScreen, // Custom transition type for detail screens
-          ),
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            final userRole = extra?['userRole'] as UserRole?;
+            final seloonOwnerId= extra?['seloonOwnerId'] as String?;
+            final controller = extra?['controller'];
+             final seloonName = extra?['seloonName'] as String?;
+              final seloonImage = extra?['seloonImage'] as String?;
+              final seloonAddress = extra?['seloonAddress'] as String?;
+            return _buildPageWithAnimation(
+              child: SummeryScreen(
+                userRole: userRole!,
+                seloonOwnerId: seloonOwnerId!,
+                controller: controller,
+                seloonName: seloonName!,
+                seloonImage: seloonImage!,
+                seloonAddress: seloonAddress!,
+              ),
+              state: state,
+              // transitionType: TransitionType
+              //     .detailsScreen,
+            );
+          }
         ),
 
         ///======================= =======================

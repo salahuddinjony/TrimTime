@@ -1,35 +1,46 @@
-import 'package:barber_time/app/core/route_path.dart';
+import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
+import 'package:barber_time/app/view/screens/user/home/create_booking/models/get_barber_with_date_wise_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../utils/enums/user_role.dart';
-import '../../../common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
+class SummeryScreen extends StatelessWidget {
+  final UserRole userRole;
+  final String seloonOwnerId;
+  final UserHomeController controller;
+  final String seloonName;
+  final String seloonImage;
+  final String seloonAddress;
 
-class SummeryScreen extends StatefulWidget {
-  const SummeryScreen({super.key});
-
-  @override
-  _SummaryScreenState createState() => _SummaryScreenState();
-}
-
-class _SummaryScreenState extends State<SummeryScreen> {
-  List<Map<String, dynamic>> selectedServices = [
-    {'service': 'Deep Massage - 45 Minutes', 'price': 50.0},
-    {'service': 'Deep Massage - 45 Minutes', 'price': 50.0},
-  ];
-
+  const SummeryScreen(
+      {super.key,
+      required this.userRole,
+      required this.seloonOwnerId,
+      required this.controller, required this.seloonName, required this.seloonImage, required this.seloonAddress});
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
+      final selectedBarberId = controller.selectedBarberId.value ?? '';
+    final extra = GoRouter.of(context).state.extra;
+    UserRole? userRoleLocal = userRole;
 
-    if (userRole == null) {
+    if (extra is UserRole) {
+      userRoleLocal = extra;
+    } else if (extra is Map<String, dynamic>) {
+      userRoleLocal = extra['userRole'] as UserRole?;
+    }
+
+    debugPrint("==================={userRoleLocal?.name}");
+    if (userRoleLocal == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
         body: const Center(child: Text('No user role received')),
@@ -74,7 +85,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                 CustomNetworkImage(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.r)),
-                                    imageUrl: AppConstants.demoImage,
+                                    imageUrl: seloonImage,
                                     height: 53,
                                     width: 53),
                                 SizedBox(width: 10.w),
@@ -82,13 +93,13 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                      text: "Serenity Saloon",
+                                      text: seloonName,
                                       fontSize: 18.sp,
                                       color: AppColors.black,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     CustomText(
-                                      text: "Chev 36 St, London",
+                                      text: seloonAddress,
                                       fontSize: 16.sp,
                                       color: AppColors.white,
                                       fontWeight: FontWeight.w400,
@@ -109,14 +120,36 @@ class _SummaryScreenState extends State<SummeryScreen> {
                               children: [
                                 CustomNetworkImage(
                                     boxShape: BoxShape.circle,
-                                    imageUrl: AppConstants.demoImage,
+                                    imageUrl: controller.barberDatewiseBookings.value!.barbers
+                                              .firstWhere(
+                                                (barber) => barber.barberId.toString() == selectedBarberId,
+                                                orElse: () => Barber(
+                                                  barberId: '',
+                                                  name: 'Barber Name',
+                                                  image: '',
+                                                  status: '',
+                                                  totalQueueLength: 0,
+                                                  schedule: BarberSchedule(start: '', end: ''),
+                                                ),
+                                              ).image,
                                     height: 53,
                                     width: 53),
                                 SizedBox(width: 10.w),
                                 Column(
                                   children: [
                                     CustomText(
-                                      text: "Talha",
+                                      text: controller.barberDatewiseBookings.value!.barbers
+                                              .firstWhere(
+                                                (barber) => barber.barberId.toString() == selectedBarberId,
+                                                orElse: () => Barber(
+                                                  barberId: '',
+                                                  name: 'Barber Name',
+                                                  image: '',
+                                                  status: '',
+                                                  totalQueueLength: 0,
+                                                  schedule: BarberSchedule(start: '', end: ''),
+                                                ),
+                                              ).name,
                                       fontSize: 18.sp,
                                       color: AppColors.black,
                                       fontWeight: FontWeight.w500,
@@ -124,9 +157,20 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                     Row(
                                       children: [
                                         CustomText(
-                                          text: "5.0 *",
-                                          fontSize: 18.sp,
-                                          color: AppColors.white,
+                                          text: controller.barberDatewiseBookings.value!.barbers
+                                              .firstWhere(
+                                                (barber) => barber.barberId.toString() == selectedBarberId,
+                                                orElse: () => Barber(
+                                                  barberId: '',
+                                                  name: 'Barber Name',
+                                                  image: '',
+                                                  status: '',
+                                                  totalQueueLength: 0,
+                                                  schedule: BarberSchedule(start: '', end: ''),
+                                                ),
+                                              ).status.toString(),
+                                          fontSize: 12.sp,
+                                          color: AppColors.normalHover,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ],
@@ -150,13 +194,18 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                     color: Colors.white),
                                 SizedBox(width: 10.w),
                                 Text(
-                                  'Sat 7 Oct 2023',
-                                  style: TextStyle(fontSize: 16.sp),
+                                  '${controller.selectedDate.formatDate()}',
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700),
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '11:00 - 11:45 pm',
-                                  style: TextStyle(fontSize: 16.sp),
+                                  '${controller.selectedTimeSlot.value} - '
+                                  '${controller.endTimeSlot(controller.selectedTimeSlot.value)}',
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700),
                                 ),
                               ],
                             ),
@@ -169,41 +218,46 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                   fontSize: 18.sp, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10.h),
-                            ListView.builder(
-                              itemCount: selectedServices.length,
+                            ListView.separated(
+                              itemCount: controller.selectedServices.length,
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
+                                final service =
+                                    controller.selectedServices[index];
                                 return Row(
                                   children: [
                                     const Icon(Icons.check_circle,
-                                        color: AppColors.last),
+                                        color: AppColors.white),
                                     SizedBox(width: 10.w),
                                     Text(
-                                      selectedServices[index]['service'],
+                                      service.name,
                                       style: TextStyle(fontSize: 14.sp),
                                     ),
                                     const Spacer(),
                                     Text(
-                                      '£ ${selectedServices[index]['price']}',
+                                      '£ ${service.price}',
                                       style: TextStyle(fontSize: 14.sp),
                                     ),
                                   ],
                                 );
                               },
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(height: 10.h),
                             ),
                             SizedBox(height: 20.h),
                             // Selected Services
                             Row(
                               children: [
                                 Text(
-                                  'Service Charge',
+                                  'Service Charge ( 5% Of ${controller.getTotalCostOfSelectedServices()})',
                                   style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '0.50 ',
+                                 '£ ${controller.serviceChargeCost().toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                   ),
@@ -216,7 +270,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                             // ),
                             // const Spacer(),
                             // Text(
-                            //   '£ ${selectedServices[index]['price']}',
+                            //   '£{selectedServices[index]['price']}',
                             //   style: TextStyle(fontSize: 14.sp),
                             // ),
                             SizedBox(height: 20.h),
@@ -234,7 +288,7 @@ class _SummaryScreenState extends State<SummeryScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '£100.00',
+                                  '£ ${controller.grandTotalCost().toStringAsFixed(2)}',
                                   style: TextStyle(fontSize: 16.sp),
                                 ),
                               ],
@@ -250,13 +304,23 @@ class _SummaryScreenState extends State<SummeryScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: CustomButton(
-                  onTap: () {
+                  onTap: () async {
                     // Using GoRouter for pushing a route
-                    context.pushNamed(RoutePath.paymentOption, extra: userRole);
+                    final result = await controller.createSelonBooking(
+                        saloonOwnerId: seloonOwnerId);
+                    if (result) {
+                      controller.seletedBarberFreeSlots.clear();
+                      controller.seletedBarberFreeSlots.refresh();
+                      controller.clearControllers();
+                        // Navigate back to the previous two screens after successful booking
+                        AppRouter.route.pop();
+                        AppRouter.route.pop();
+                      
+                    }
+                    // context.pushNamed(RoutePath.paymentOption, extra: userRoleLocal);
                   },
-                  textColor: Colors.white,
-                  fillColor: Colors.black,
-                  title: "Select Payment",
+                
+                  title: "Payment",
                 ),
               ),
               SizedBox(height: 50.h),

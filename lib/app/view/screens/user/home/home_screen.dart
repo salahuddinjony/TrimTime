@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                   /// 📌 Nerby  Scroll for Shops
 
                   SizedBox(
-                    height: 220.h,
+                    height: 232.h,
                     child: Obx(
                       () {
                         if (homeController.fetchStatus.value.isLoading) {
@@ -221,7 +221,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   SizedBox(
-                    height: 220.h,
+                    height: 232.h,
                     child: Obx(
                       () {
                         if (homeController.fetchStatus.value.isLoading) {

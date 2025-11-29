@@ -53,7 +53,7 @@ class ServicesCard extends StatelessWidget {
               ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.orange500.withValues(alpha: .3),
+          color:isSelected ? AppColors.white : Colors.transparent,
           width: 1,
         ),
         boxShadow: [

@@ -144,6 +144,7 @@ class ApiUrl {
   //get free slots for selon barbers
   static String getSelonBarberFreeSlots({required String barberId, required String saloonId, required String date}) =>
       "$baseUrl/bookings/barbers/$saloonId/$barberId?date=$date";
+      
 
   static String getBarberDateWiseBookings({required String barberId, required String date}) =>
       "$baseUrl//bookings/walking-in/barbers/$barberId/BOOKING?date=$date";

@@ -3,7 +3,7 @@ import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/models/selected_barber_free_slots_model.dart';
 import 'package:get/get.dart';
 
-mixin MixinSelectedBarberFreeSlot{
+mixin MixinSelectedBarberFreeSlot {
   RxList<TimeSlot> seletedBarberFreeSlots = <TimeSlot>[].obs;
   Rx<RxStatus> selectedBarberFreeSlotsStatus = Rx<RxStatus>(RxStatus.empty());
 
@@ -16,9 +16,6 @@ mixin MixinSelectedBarberFreeSlot{
       final response = await ApiClient.getData(
         ApiUrl.getSelonBarberFreeSlots(
             barberId: barberId, saloonId: saloonId, date: date),
-        query: {
-          'date': date,
-        },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.body;

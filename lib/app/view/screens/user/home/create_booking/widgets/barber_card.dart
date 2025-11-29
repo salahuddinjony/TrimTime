@@ -17,7 +17,7 @@ Widget barberTile(
         color: isSelected ? AppColors.secondary : Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: isSelected ? AppColors.searchScreenBg : Colors.grey,
+          color: isSelected ? AppColors.secondary : Colors.grey,
           width: 2,
         ),
         boxShadow: isSelected

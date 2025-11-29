@@ -835,49 +835,54 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //           title: AppStrings.addReview,
                       //         ),
                       //       ),
-                if(userRole == UserRole.user)...[
+
+                      // Booking Button Section
+                      if (userRole == UserRole.user && !isShowOwnerInfo) ...[
                         const SizedBox(height: 20),
-                     isLoading
-                      ? Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          width: double.infinity,
-                          height: 48,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        )
-                     : CustomBookingButton(
-                        onTap: () {
-                          debugPrint("Booking button tapped");
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 48.h,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              )
+                            : CustomBookingButton(
+                                onTap: () {
+                                  debugPrint("Booking button tapped");
 
-                          // fetch selon services
-                          controller.fetchSelonServices(
-                              userId: selonData!.userId);
-                          AppRouter.route.pushNamed(
-                                      RoutePath.seloonBookingScreen,
-                                      extra: {
-                                        'userRole': userRole,
-                                        'userId': selonData!.userId,
-                                        'controller': controller,
-                                        'seloonName': selonData.shopName,
-                                        'seloonImage': selonData.shopLogo,
-                                        'seloonAddress': selonData.shopAddress,
-                                      },
-                                    );
+                                  controller.clearSeloonBookingFields();
 
-                        // get barber with date 
-                            controller.getbarberWithDate(
-                        barberId: selonData!.userId,
-                        date: intl.DateFormat('yyyy-MM-dd')
-                            .format(controller.selectedDate));
-                            },
-                          ),
-                ],
+                                  // fetch selon services
+                                  controller.fetchSelonServices(
+                                      userId: selonData!.userId);
+                                  AppRouter.route.pushNamed(
+                                    RoutePath.seloonBookingScreen,
+                                    extra: {
+                                      'userRole': userRole,
+                                      'userId': selonData!.userId,
+                                      'controller': controller,
+                                      'seloonName': selonData.shopName,
+                                      'seloonImage': selonData.shopLogo,
+                                      'seloonAddress': selonData.shopAddress,
+                                    },
+                                  );
+
+                                  // get barber with date
+                                  controller.getbarberWithDate(
+                                      barberId: selonData!.userId,
+                                      date: intl.DateFormat('yyyy-MM-dd')
+                                          .format(controller.selectedDate));
+                                },
+                              ),
+                      ],
 
                       const SizedBox(height: 50),
                     ],

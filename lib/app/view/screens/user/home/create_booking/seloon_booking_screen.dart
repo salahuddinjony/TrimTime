@@ -164,8 +164,8 @@ class SeloonBookingScreen extends StatelessWidget {
                             ? SizedBox(
                                 height:
                                     controller.selectedBarberId.value.isNotEmpty
-                                        ? 110.h
-                                        : 95,
+                                        ? 115.h 
+                                        : 95.h,
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),

@@ -1189,7 +1189,7 @@ class AppRouter {
           name: RoutePath.savedScreen,
           path: RoutePath.savedScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const SavedScreen(),
+            child:  SavedScreen(),
             state: state,
             disableAnimation: true,
           ),

@@ -230,7 +230,9 @@ class ScannerController extends GetxController {
           // debugPrint('stop scanner called before navigation');
           // debugPrint('Navigating to UserBookingScreen with role: $userRole');
           // Get.delete<ScannerController>(force: true);
-          context.pushNamed(RoutePath.userBookingScreen, extra: userRole);
+          context.pushNamed(RoutePath.topRatedScreen, extra: {
+            'userRole': userRole,
+          });
         }
       } else {
         print('❌ Verification failed: ${response.statusCode}');

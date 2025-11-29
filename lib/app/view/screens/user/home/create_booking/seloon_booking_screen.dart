@@ -1,3 +1,4 @@
+import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/custom_booking_button.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,12 +23,15 @@ class SeloonBookingScreen extends StatelessWidget {
   final String userId;
   final UserRole userRole;
   final UserHomeController controller;
+  final String seloonName;
+  final String seloonImage;
+  final String seloonAddress;
 
   SeloonBookingScreen(
       {super.key,
       required this.userId,
       required this.userRole,
-      required this.controller});
+      required this.controller, required this.seloonName, required this.seloonImage, required this.seloonAddress});
 
   @override
   Widget build(BuildContext context) {
@@ -250,8 +255,8 @@ class SeloonBookingScreen extends StatelessWidget {
                               : SizedBox(
                                   height: controller
                                           .selectedTimeSlotId.value.isNotEmpty
-                                      ? 110.h
-                                      : 90.h,
+                                      ? 95.h
+                                      : 70.h,
                                   child: ListView.separated(
                                     itemCount: freeSlots.length,
                                     shrinkWrap: true,
@@ -303,16 +308,30 @@ class SeloonBookingScreen extends StatelessWidget {
                   CustomBookingButton(
                     text: "Confirm Booking",
                     onTap: () async {
-                      if (controller.isAllFilled()) {
-                        final result = await controller.createSelonBooking(
-                            saloonOwnerId: userId);
-                        if (result) {
-                          controller.seletedBarberFreeSlots.clear();
-                          controller.seletedBarberFreeSlots.refresh();
-                          controller.clearControllers();
-                          AppRouter.route.pop();
-                        }
-                      }
+                        // Using GoRouter for pushing a route
+                  if(controller.isAllFilled())  context.pushNamed(
+                      RoutePath.summeryScreen,
+                      extra: {
+                        'seloonOwnerId': userId,
+                        'userRole': userRole,
+                        'controller': controller,
+                        'seloonName': seloonName,
+                        'seloonImage': seloonImage,
+                        'seloonAddress': seloonAddress,
+                      },
+                      );
+
+
+                      // if (controller.isAllFilled()) {
+                      //   final result = await controller.createSelonBooking(
+                      //       saloonOwnerId: userId);
+                      //   if (result) {
+                      //     controller.seletedBarberFreeSlots.clear();
+                      //     controller.seletedBarberFreeSlots.refresh();
+                      //     controller.clearControllers();
+                      //     AppRouter.route.pop();
+                      //   }
+                      // }
                     },
                   ),
                   SizedBox(height: 30.h),

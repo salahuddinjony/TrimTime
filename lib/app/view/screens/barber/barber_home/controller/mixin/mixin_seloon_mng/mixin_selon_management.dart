@@ -85,17 +85,41 @@ mixin MixinSelonManagement {
 
   // create booking for selon
   RxList<String> selectedServicesIds = <String>[].obs;
+  RxList<SaloonService> selectedServices = <SaloonService>[].obs;
 
+// Calculate total cost of selected services
+  String getTotalCostOfSelectedServices() {
+    double total = 0.0;
+    for (var service in selectedServices) {
+      total += service.price.toDouble();
+    }
+    return total.toStringAsFixed(2);
+  }
+
+  double serviceChargeCost() {
+    double charge = 5; // in perecentage
+    double total = 0.0 + double.parse(getTotalCostOfSelectedServices());
+
+    return total * (charge / 100);
+  }
+
+  double grandTotalCost() {
+    double total = 0.0 + double.parse(getTotalCostOfSelectedServices());
+    total += serviceChargeCost();
+    return total;
+  }
 
   void addOrRemoveServiceId(String serviceId) {
     if (selectedServicesIds.contains(serviceId)) {
+      selectedServices.removeWhere((service) => service.id == serviceId);
       selectedServicesIds.remove(serviceId);
     } else {
       selectedServicesIds.add(serviceId);
+      selectedServices.add(
+          selonServicesList.firstWhere((service) => service.id == serviceId));
     }
     selectedServicesIds.refresh();
   }
-
 
   // get selons service list
   RxList<SaloonService> selonServicesList = <SaloonService>[].obs;

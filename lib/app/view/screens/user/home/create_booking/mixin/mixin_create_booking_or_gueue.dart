@@ -16,30 +16,79 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
   RxString selectedTimeSlot = ''.obs;
   RxString selectedTimeSlotId = ''.obs;
 
+  String endTimeSlot(String startTime) {
+    try {
+      // Remove spaces and handle AM/PM
+      String cleaned = startTime.replaceAll(' ', '');
+      RegExp regex = RegExp(r'^(\d{1,2}):(\d{2})(AM|PM)?$', caseSensitive: false);
+      final match = regex.firstMatch(cleaned);
+      int hour, minute;
+      if (match != null) {
+        hour = int.parse(match.group(1)!);
+        minute = int.parse(match.group(2)!);
+        String? period = match.group(3)?.toUpperCase();
+        if (period != null) {
+          if (period == 'PM' && hour != 12) hour += 12;
+          if (period == 'AM' && hour == 12) hour = 0;
+        }
+      } else {
+        // fallback: try to parse as HH:mm
+        final parts = cleaned.split(':');
+        hour = int.parse(parts[0]);
+        minute = int.parse(parts[1]);
+      }
+
+      minute += 45; // Adding 45 minutes
+      if (minute >= 60) {
+        minute -= 60;
+        hour += 1;
+      }
+      if (hour >= 24) {
+        hour -= 24;
+      }
+
+      String period = hour >= 12 ? 'PM' : 'AM';
+      int displayHour = hour % 12 == 0 ? 12 : hour % 12;
+
+      final endHourStr = displayHour.toString().padLeft(2, '0');
+      final endMinuteStr = minute.toString().padLeft(2, '0');
+
+      return '$endHourStr:$endMinuteStr $period';
+    } catch (e) {
+      debugPrint('Error calculating end time: $e, input: $startTime');
+      return startTime; // Return start time in case of error
+    }
+  }
+  
   bool isAllFilled() {
-    if (selectedBarberId.value.isNotEmpty &&
-        selectedTimeSlot.value.isNotEmpty &&
-        selectedServicesIds.isNotEmpty &&
-        selectedDate.formatDateApi().isNotEmpty) {
-      debugPrint("All fields are filled");
-      debugPrint("Selected barber id: ${selectedBarberId.value}");
-      debugPrint("Selected time slot: ${selectedTimeSlot.value}");
-      debugPrint("Selected services ids: ${selectedServicesIds.toList()}");
-      debugPrint("Selected time slot id: ${selectedTimeSlotId.value}");
-      debugPrint("Selected date: ${ selectedDate.formatDateApi()}");
-      debugPrint("Selected booking notes: ${bookingNotesController.text}");
-      return true;
-    } else {
-      EasyLoading.showInfo("Please fill all the fields");
-       debugPrint("All fields are not filled");
-      debugPrint("Selected barber id: ${selectedBarberId.value}");
-      debugPrint("Selected time slot: ${selectedTimeSlot.value}");
-      debugPrint("Selected services ids: ${selectedServicesIds.toList()}");
-      debugPrint("Selected time slot id: ${selectedTimeSlotId.value}");
-      debugPrint("Selected date: ${ selectedDate.formatDateApi()}");
-      debugPrint("Selected booking notes: ${bookingNotesController.text}");
+    if (selectedBarberId.value.isEmpty) {
+      EasyLoading.showInfo("Please select a barber");
+      debugPrint("Barber not selected");
       return false;
     }
+    if (selectedTimeSlot.value.isEmpty) {
+      EasyLoading.showInfo("Please select a time slot");
+      debugPrint("Time slot not selected");
+      return false;
+    }
+    if (selectedServicesIds.isEmpty) {
+      EasyLoading.showInfo("Please select at least one service");
+      debugPrint("No services selected");
+      return false;
+    }
+    if (selectedDate.formatDateApi().isEmpty) {
+      EasyLoading.showInfo("Please select a date");
+      debugPrint("Date not selected");
+      return false;
+    }
+    debugPrint("All fields are filled");
+    debugPrint("Selected barber id: ${selectedBarberId.value}");
+    debugPrint("Selected time slot: ${selectedTimeSlot.value}");
+    debugPrint("Selected services ids: ${selectedServicesIds.toList()}");
+    debugPrint("Selected time slot id: ${selectedTimeSlotId.value}");
+    debugPrint("Selected date: ${selectedDate.formatDateApi()}");
+    debugPrint("Selected booking notes: ${bookingNotesController.text}");
+    return true;
   }
   clearControllers(){
     selectedBarberId.value = '';

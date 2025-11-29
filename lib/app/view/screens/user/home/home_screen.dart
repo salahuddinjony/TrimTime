@@ -53,7 +53,9 @@ class HomeScreen extends StatelessWidget {
           CommonHomeAppBar(
             isSearch: true,
             onSearch: () => AppRouter.route
-                .pushNamed(RoutePath.searchSaloonScreen, extra: userRole),
+                .pushNamed(RoutePath.searchSaloonScreen, extra:{
+                  'userRole': userRole,
+                }),
             scaffoldKey: scaffoldKey,
             name: "Customer",
             image: AppConstants.demoImage,
@@ -74,7 +76,9 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             AppRouter.route.pushNamed(
                                 RoutePath.nearYouShopScreen,
-                                extra: userRole);
+                                extra:{
+                                  'userRole': userRole,
+                                });
                           },
                           title: "Bookings",
                           icon: Assets.icons.bookings.svg()),
@@ -136,7 +140,9 @@ class HomeScreen extends StatelessWidget {
                     actionText: AppStrings.seeAll,
                     onActionTap: () => AppRouter.route.pushNamed(
                         RoutePath.nearYouShopScreen,
-                        extra: userRole),
+                       extra: {
+                           'userRole': userRole,
+                          }),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
@@ -216,7 +222,10 @@ class HomeScreen extends StatelessWidget {
                     title: "Top Rated",
                     actionText: AppStrings.seeAll,
                     onActionTap: () => AppRouter.route
-                        .pushNamed(RoutePath.topRatedScreen, extra: userRole),
+                        .pushNamed(
+                          RoutePath.topRatedScreen, extra: {
+                           'userRole': userRole,
+                          }),
                     actionColor: AppColors.secondary,
                   ),
                   SizedBox(height: 12.h),
@@ -258,9 +267,17 @@ class HomeScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 10),
                                 child: GestureDetector(
                                   onTap: () {
-                                    context.pushNamed(
-                                        RoutePath.userBookingScreen,
-                                        extra: userRole);
+                                    // context.pushNamed(
+                                    //     RoutePath.userBookingScreen,
+                                    //     extra: userRole);
+                                       AppRouter.route.pushNamed(
+                                      RoutePath.shopProfileScreen,
+                                      extra: {
+                                        'userRole': userRole,
+                                        'userId': salon.userId,
+                                        'controller': homeController,
+                                      },
+                                    );
                                   },
                                   child: CommonShopCard(
                                     imageUrl: salon.shopLogo,

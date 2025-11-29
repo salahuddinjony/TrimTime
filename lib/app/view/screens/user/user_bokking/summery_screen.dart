@@ -1,7 +1,6 @@
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
@@ -26,10 +25,13 @@ class SummeryScreen extends StatelessWidget {
       {super.key,
       required this.userRole,
       required this.seloonOwnerId,
-      required this.controller, required this.seloonName, required this.seloonImage, required this.seloonAddress});
+      required this.controller,
+      required this.seloonName,
+      required this.seloonImage,
+      required this.seloonAddress});
   @override
   Widget build(BuildContext context) {
-      final selectedBarberId = controller.selectedBarberId.value ?? '';
+    final selectedBarberId = controller.selectedBarberId.value ?? '';
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRoleLocal = userRole;
 
@@ -120,36 +122,46 @@ class SummeryScreen extends StatelessWidget {
                               children: [
                                 CustomNetworkImage(
                                     boxShape: BoxShape.circle,
-                                    imageUrl: controller.barberDatewiseBookings.value!.barbers
-                                              .firstWhere(
-                                                (barber) => barber.barberId.toString() == selectedBarberId,
-                                                orElse: () => Barber(
-                                                  barberId: '',
-                                                  name: 'Barber Name',
-                                                  image: '',
-                                                  status: '',
-                                                  totalQueueLength: 0,
-                                                  schedule: BarberSchedule(start: '', end: ''),
-                                                ),
-                                              ).image,
+                                    imageUrl: controller
+                                        .barberDatewiseBookings.value!.barbers
+                                        .firstWhere(
+                                          (barber) =>
+                                              barber.barberId.toString() ==
+                                              selectedBarberId,
+                                          orElse: () => Barber(
+                                            barberId: '',
+                                            name: 'Barber Name',
+                                            image: '',
+                                            status: '',
+                                            totalQueueLength: 0,
+                                            schedule: BarberSchedule(
+                                                start: '', end: ''),
+                                          ),
+                                        )
+                                        .image,
                                     height: 53,
                                     width: 53),
                                 SizedBox(width: 10.w),
                                 Column(
                                   children: [
                                     CustomText(
-                                      text: controller.barberDatewiseBookings.value!.barbers
-                                              .firstWhere(
-                                                (barber) => barber.barberId.toString() == selectedBarberId,
-                                                orElse: () => Barber(
-                                                  barberId: '',
-                                                  name: 'Barber Name',
-                                                  image: '',
-                                                  status: '',
-                                                  totalQueueLength: 0,
-                                                  schedule: BarberSchedule(start: '', end: ''),
-                                                ),
-                                              ).name,
+                                      text: controller
+                                          .barberDatewiseBookings.value!.barbers
+                                          .firstWhere(
+                                            (barber) =>
+                                                barber.barberId.toString() ==
+                                                selectedBarberId,
+                                            orElse: () => Barber(
+                                              barberId: '',
+                                              name: 'Barber Name',
+                                              image: '',
+                                              status: '',
+                                              totalQueueLength: 0,
+                                              schedule: BarberSchedule(
+                                                  start: '', end: ''),
+                                            ),
+                                          )
+                                          .name,
                                       fontSize: 18.sp,
                                       color: AppColors.black,
                                       fontWeight: FontWeight.w500,
@@ -157,18 +169,27 @@ class SummeryScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         CustomText(
-                                          text: controller.barberDatewiseBookings.value!.barbers
+                                          text: controller
+                                              .barberDatewiseBookings
+                                              .value!
+                                              .barbers
                                               .firstWhere(
-                                                (barber) => barber.barberId.toString() == selectedBarberId,
+                                                (barber) =>
+                                                    barber.barberId
+                                                        .toString() ==
+                                                    selectedBarberId,
                                                 orElse: () => Barber(
                                                   barberId: '',
                                                   name: 'Barber Name',
                                                   image: '',
                                                   status: '',
                                                   totalQueueLength: 0,
-                                                  schedule: BarberSchedule(start: '', end: ''),
+                                                  schedule: BarberSchedule(
+                                                      start: '', end: ''),
                                                 ),
-                                              ).status.toString(),
+                                              )
+                                              .status
+                                              .toString(),
                                           fontSize: 12.sp,
                                           color: AppColors.normalHover,
                                           fontWeight: FontWeight.w600,
@@ -257,7 +278,7 @@ class SummeryScreen extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 Text(
-                                 '£ ${controller.serviceChargeCost().toStringAsFixed(2)}',
+                                  '£ ${controller.serviceChargeCost().toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                   ),
@@ -312,14 +333,12 @@ class SummeryScreen extends StatelessWidget {
                       controller.seletedBarberFreeSlots.clear();
                       controller.seletedBarberFreeSlots.refresh();
                       controller.clearControllers();
-                        // Navigate back to the previous two screens after successful booking
-                        AppRouter.route.pop();
-                        AppRouter.route.pop();
-                      
+                      // Navigate back to the previous two screens after successful booking
+                      AppRouter.route.pop();
+                      AppRouter.route.pop();
                     }
                     // context.pushNamed(RoutePath.paymentOption, extra: userRoleLocal);
                   },
-                
                   title: "Payment",
                 ),
               ),

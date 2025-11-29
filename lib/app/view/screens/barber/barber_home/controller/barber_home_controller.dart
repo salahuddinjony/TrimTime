@@ -7,6 +7,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_schedule_management.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_seloon_mng/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_all_my_fav.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class BarberHomeController extends GetxController
         MixinFeedsManagement,
         MixinSelonManagement,
         ScheduleManagementMixin,
-        BookingManagementMixin {
+        BookingManagementMixin,MixinGetAllMyFav{
   var selectedFilter = "Nearby job".obs; // Now it's reactive
 
   @override

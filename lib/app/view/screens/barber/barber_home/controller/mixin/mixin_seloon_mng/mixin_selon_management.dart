@@ -110,16 +110,21 @@ mixin MixinSelonManagement {
   }
 
   void addOrRemoveServiceId(String serviceId) {
+
     if (selectedServicesIds.contains(serviceId)) {
-      selectedServices.removeWhere((service) => service.id == serviceId);
-      selectedServicesIds.remove(serviceId);
+      if (selectedServicesIds.length > 1) {
+        selectedServices.removeWhere((service) => service.id == serviceId);
+        selectedServicesIds.remove(serviceId);
+      }
     } else {
       selectedServicesIds.add(serviceId);
       selectedServices.add(
           selonServicesList.firstWhere((service) => service.id == serviceId));
     }
+    
     selectedServicesIds.refresh();
   }
+
 
   // get selons service list
   RxList<SaloonService> selonServicesList = <SaloonService>[].obs;
@@ -140,12 +145,14 @@ mixin MixinSelonManagement {
         selonServicesList.value = servicesData;
         getSelonServicesStatus.value = RxStatus.success();
       } else {
+        selonServicesList.clear(); // Clear the list on error
         getSelonServicesStatus.value = RxStatus.error(
             "Failed to fetch selon services: ${response.statusCode} - ${response.statusText}");
       }
 
       debugPrint("Selon services fetched successfully");
     } catch (e) {
+      selonServicesList.clear(); // Clear the list on error
       debugPrint("Error fetching selon services: ${e.toString()}");
       getSelonServicesStatus.value =
           RxStatus.error("Error fetching selon services: ${e.toString()}");

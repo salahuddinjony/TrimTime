@@ -99,8 +99,8 @@ class HorizontalDatePicker<T> extends StatelessWidget {
                           isSelected ? Color(0xFFD27B50) : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                       border: isSelected
-                          ? null
-                          : Border.all(color: Colors.grey.shade300),
+                          ? (userRole == UserRole.user) ? Border.all(color: Colors.orangeAccent,width: 2) : null
+                          : Border.all(color: Colors.grey.shade300, width: 1),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

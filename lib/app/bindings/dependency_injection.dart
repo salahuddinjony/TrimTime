@@ -15,6 +15,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/settings/loyali
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/splash/controller/splash_controller.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
+import 'package:barber_time/app/view/screens/user/saved/controller/saved_controller.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection extends Bindings {
@@ -38,6 +39,7 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => BarberOwnerHomeController(), fenix: true);
     Get.lazyPut(() => QueController(), fenix: true);
     Get.lazyPut(() => LoyalityController(), fenix: true);
+    Get.lazyPut(() => SavedController(), fenix: true);
 
 
   }

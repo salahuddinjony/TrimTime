@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 class BookingScreen extends StatefulWidget {
   final UserRole userRole;
@@ -60,26 +60,7 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
-  // Format date time for display
-  String formatDateTime(DateTime dateTime) {
-    return DateFormat('EEE dd MMM yyyy \'at\' hh:mm a').format(dateTime);
-  }
 
-  // Get status badge color
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'CONFIRMED':
-        return Colors.green;
-      case 'PENDING':
-        return Colors.orange;
-      case 'COMPLETED':
-        return Colors.blue;
-      case 'CANCELLED':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,13 +180,14 @@ class _BookingScreenState extends State<BookingScreen> {
                               extra: {
                                 'userRole': userRole,
                                 'bookingData': booking,
+                                'controller': barberHomeController,
                               },
                             );
                           }
                         },
                         imageUrl: booking.userImage ?? AppConstants.shop,
                         title: booking.userFullName,
-                        dateTime: formatDateTime(booking.startDateTime),
+                        dateTime: booking.startDateTime.formatDateApi(),
                         location: booking.userEmail,
                         price: "£${booking.totalPrice.toStringAsFixed(2)}",
                         // Status Badge
@@ -215,7 +197,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
-                            color: getStatusColor(booking.status),
+                            color:barberHomeController.getStatusColor(booking.status),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(

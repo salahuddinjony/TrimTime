@@ -69,9 +69,11 @@ import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart'
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
+import 'package:barber_time/app/view/screens/user/bookings/customer_booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/reschedule_screen/reschedule_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/seloon_booking_screen.dart';
+import 'package:barber_time/app/view/screens/user/home/customer_review/customer_review_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/home_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/near_you_shop_screen.dart';
 import 'package:barber_time/app/view/screens/user/home/inner_screens/tips_screen.dart';
@@ -228,7 +230,7 @@ class AppRouter {
               );
             }),
 
-            GoRoute(
+        GoRoute(
             name: RoutePath.seloonBookingScreen,
             path: RoutePath.seloonBookingScreen.addBasePath,
             pageBuilder: (context, state) {
@@ -239,7 +241,6 @@ class AppRouter {
               final seloonName = extra['seloonName'] as String?;
               final seloonImage = extra['seloonImage'] as String?;
               final seloonAddress = extra['seloonAddress'] as String?;
-
 
               return _buildPageWithAnimation(
                 child: SeloonBookingScreen(
@@ -495,34 +496,28 @@ class AppRouter {
 
         ///=======================CreateJobPost  =======================
         GoRoute(
-          name: RoutePath.nearYouShopScreen,
-          path: RoutePath.nearYouShopScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            return _buildPageWithAnimation(
-              child: NearYouShopScreen(
-                userRole: userRole!
-              ),
-              state: state,
-            );
-          }
-        ),
+            name: RoutePath.nearYouShopScreen,
+            path: RoutePath.nearYouShopScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              return _buildPageWithAnimation(
+                child: NearYouShopScreen(userRole: userRole!),
+                state: state,
+              );
+            }),
 
         GoRoute(
-          name: RoutePath.topRatedScreen,
-          path: RoutePath.topRatedScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            return _buildPageWithAnimation(
-              child: TopRatedScreen(
-                userRole: userRole!
-              ),
-              state: state,
-            );
-          }
-        ),
+            name: RoutePath.topRatedScreen,
+            path: RoutePath.topRatedScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              return _buildPageWithAnimation(
+                child: TopRatedScreen(userRole: userRole!),
+                state: state,
+              );
+            }),
 
         ///=======================HiringBarber  =======================
         GoRoute(
@@ -650,19 +645,18 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.searchSaloonScreen,
-          path: RoutePath.searchSaloonScreen.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            return _buildPageWithAnimation(
-              child: SearchSaloonScreen(
-                userRole: userRole!,
-              ),
-              state: state,
-            );
-          }
-        ),
+            name: RoutePath.searchSaloonScreen,
+            path: RoutePath.searchSaloonScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              return _buildPageWithAnimation(
+                child: SearchSaloonScreen(
+                  userRole: userRole!,
+                ),
+                state: state,
+              );
+            }),
 
         ///=======================VisitShop  =======================
         GoRoute(
@@ -707,12 +701,14 @@ class AppRouter {
             pageBuilder: (context, state) {
               final extra = state.extra as Map<String, dynamic>? ?? {};
               final userRole = extra['userRole'] as UserRole?;
-              final bookingData = extra['bookingData'] as BarberBookingData?;
+              final bookingData = extra['bookingData'];
+              final controller = extra['controller'];
 
               return _buildPageWithAnimation(
                 child: BookingDetailsScreen(
                   userRole: userRole!,
                   bookingData: bookingData!,
+                  controller: controller,
                 ),
                 state: state,
                 transitionType: TransitionType.detailsScreen,
@@ -1189,7 +1185,7 @@ class AppRouter {
           name: RoutePath.savedScreen,
           path: RoutePath.savedScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-            child:  SavedScreen(),
+            child: SavedScreen(),
             state: state,
             disableAnimation: true,
           ),
@@ -1232,6 +1228,21 @@ class AppRouter {
                   userRole: userRole!,
                   controller: controller,
                   isShowOwnerInfo: extra['isShowOwnerInfo'] as bool? ?? false,
+                ),
+                state: state,
+              );
+            }),
+            GoRoute(
+            name: RoutePath.customerReviewScreen,
+            path: RoutePath.customerReviewScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
+              return _buildPageWithAnimation(
+                child: CustomerReviewScreen(
+                  userRole: userRole!,
+                  controller: controller,
                 ),
                 state: state,
               );
@@ -1279,6 +1290,21 @@ class AppRouter {
                 state: state,
               );
             }),
+          // Customer booking screen
+        GoRoute(
+            name: RoutePath.customerBookingScreen,
+            path: RoutePath.customerBookingScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+
+              return _buildPageWithAnimation(
+                child: CustomerBookingScreen(
+                  userRole: userRole!,
+                ),
+                state: state,
+              );
+        }),
 
         ///======================= =======================
         // GoRoute(
@@ -1294,31 +1320,30 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.summeryScreen,
-          path: RoutePath.summeryScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>?;
-            final userRole = extra?['userRole'] as UserRole?;
-            final seloonOwnerId= extra?['seloonOwnerId'] as String?;
-            final controller = extra?['controller'];
-             final seloonName = extra?['seloonName'] as String?;
+            name: RoutePath.summeryScreen,
+            path: RoutePath.summeryScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>?;
+              final userRole = extra?['userRole'] as UserRole?;
+              final seloonOwnerId = extra?['seloonOwnerId'] as String?;
+              final controller = extra?['controller'];
+              final seloonName = extra?['seloonName'] as String?;
               final seloonImage = extra?['seloonImage'] as String?;
               final seloonAddress = extra?['seloonAddress'] as String?;
-            return _buildPageWithAnimation(
-              child: SummeryScreen(
-                userRole: userRole!,
-                seloonOwnerId: seloonOwnerId!,
-                controller: controller,
-                seloonName: seloonName!,
-                seloonImage: seloonImage!,
-                seloonAddress: seloonAddress!,
-              ),
-              state: state,
-              // transitionType: TransitionType
-              //     .detailsScreen,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: SummeryScreen(
+                  userRole: userRole!,
+                  seloonOwnerId: seloonOwnerId!,
+                  controller: controller,
+                  seloonName: seloonName!,
+                  seloonImage: seloonImage!,
+                  seloonAddress: seloonAddress!,
+                ),
+                state: state,
+                // transitionType: TransitionType
+                //     .detailsScreen,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(

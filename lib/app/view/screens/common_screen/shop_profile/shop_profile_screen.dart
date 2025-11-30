@@ -5,8 +5,10 @@ import 'package:barber_time/app/view/common_widgets/common_profile_card/common_f
 import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/custom_booking_button.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
+import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
+import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/rating_dialog.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/services_card.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -785,7 +787,8 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //         child: Container(
                       //           width: 120,
                       //           height: 24,
-                      //           margin: const EdgeInsets.symmetric(vertical: 10),
+                      //           margin:
+                      //               const EdgeInsets.symmetric(vertical: 10),
                       //           color: Colors.white,
                       //         ),
                       //       )
@@ -819,7 +822,8 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //         child: Container(
                       //           width: MediaQuery.of(context).size.width / 2,
                       //           height: 40,
-                      //           margin: const EdgeInsets.symmetric(vertical: 10),
+                      //           margin:
+                      //               const EdgeInsets.symmetric(vertical: 10),
                       //           color: Colors.white,
                       //         ),
                       //       )
@@ -830,7 +834,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //           borderColor: Colors.white,
                       //           textColor: Colors.white,
                       //           onTap: () {
-                      //             _showRatingDialog(context);
+                      //             RatingDialog.showRatingDialog<T>(context, controller: controller);
                       //           },
                       //           title: AppStrings.addReview,
                       //         ),
@@ -1000,101 +1004,6 @@ class ShopProfileScreen<T> extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showRatingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          backgroundColor: Colors.orange.shade50,
-          title: Column(
-            children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.orange,
-                size: 40,
-              ),
-              const Text(
-                "Give rating out of 5!",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 10.h),
-              RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemSize: 30,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  print("Rating: $rating");
-                },
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  print("Add picture clicked");
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add,
-                      size: 30,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-              TextField(
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: 'Write your feedback',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  contentPadding: const EdgeInsets.all(10),
-                ),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                print("Rating submitted");
-              },
-              child: const Text('Submit'),
             ),
           ],
         );

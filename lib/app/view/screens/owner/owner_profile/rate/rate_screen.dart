@@ -62,7 +62,7 @@ class RateScreen extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xCCEDC4AC), // First color (with opacity)
+                Color.fromARGB(204, 237, 172, 172), // First color (with opacity)
                 Color(0xFFE9874E),
               ],
               begin: Alignment.topLeft,

@@ -148,4 +148,12 @@ class ApiUrl {
 
   static String getBarberDateWiseBookings({required String barberId, required String date}) =>
       "$baseUrl//bookings/walking-in/barbers/$barberId/BOOKING?date=$date";
+
+  static const getFavouriteShops = "$baseUrl/customers/favorite-saloons";
+  static const getCustomerBookings = "$baseUrl/bookings/customers";
+  static const barberGiveRating = "/reviews";
+  static const userGiveRating = "/reviews";
+  static const getCustomerReviews = "$baseUrl/reviews/not-provided-reviews";
+  static  cancelBooking({required String bookingId}) => "$baseUrl/bookings/cancel/$bookingId";
+  static const rescheduleBooking = "$baseUrl/bookings/reschedule";
 }

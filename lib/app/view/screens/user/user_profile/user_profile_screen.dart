@@ -12,6 +12,7 @@ import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart
 import 'package:barber_time/app/view/common_widgets/permission_button/permission_button.dart';
 import 'package:barber_time/app/view/common_widgets/user_nav_bar/user_nav_bar.dart'
     show CustomNavBar;
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -223,10 +224,12 @@ class UserProfileScreen extends StatelessWidget {
                   userRole == UserRole.user
                       ? CustomMenuCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.bookingScreen,
+                            Get.find<UserHomeController>()
+                                .fetchCustomerBookings();
+                            AppRouter.route.pushNamed(
+                                RoutePath.customerBookingScreen,
                                 extra: {
                                   'userRole': userRole,
-                                  'isBarber': false,
                                 });
                           },
                           text: "My Booking",

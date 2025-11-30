@@ -36,11 +36,14 @@ class RoutePath {
   static const String tipsScreen = 'TipsScreen';
   static const String mapViewScreen = 'MapViewScreen';
   static const String bookingScreen = 'BookingScreen';
+  static const String customerBookingScreen = 'CustomerBookingScreen';
   static const String bookingDetailsScreen = 'BookingDetailsScreen';
   static const String userProfileScreen = 'UserProfileScreen';
   static const String pixMatch = 'PixMatch';
   static const String blockingScreen = 'BlockingScreen';
   static const String followerScreen = 'FollowerScreen';
+  static const String customerReviewScreen = 'CustomerReviewScreen';
+  
 
   //===================Owner Section ===================
   static const String ownerHomeScreen = 'OwnerHomeScreen';

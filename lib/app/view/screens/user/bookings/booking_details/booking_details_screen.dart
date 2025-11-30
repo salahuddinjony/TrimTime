@@ -1,5 +1,6 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
@@ -7,13 +8,13 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/barber_booking/barber_booking_model.dart';
-import 'package:barber_time/app/view/screens/user/bookings/widget/booking_cancel.dart';
+import 'package:barber_time/app/view/screens/user/bookings/models/customer_bookins_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Helper to format date/time
 String formatDateTime(DateTime dateTime) {
-  return "${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year} at ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+  return "${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}";
 }
 
 // Helper to get duration text
@@ -26,14 +27,87 @@ String durationText(BarberBookingData data) {
   return "-";
 }
 
-class BookingDetailsScreen extends StatelessWidget {
+class BookingDetailsScreen<T> extends StatelessWidget {
+  Color getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return Colors.orange;
+      case 'confirmed':
+        return Colors.blue;
+      case 'completed':
+        return Colors.green;
+      case 'cancelled':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
   final UserRole? userRole;
-  final BarberBookingData bookingData;
+  final dynamic bookingData; // Accepts BarberBookingData or CustomerBooking
+  final T? controller;
   const BookingDetailsScreen(
-      {super.key, this.userRole, required this.bookingData});
+      {super.key, this.userRole, required this.bookingData, this.controller});
 
   @override
   Widget build(BuildContext context) {
+    // Map CustomerBooking to a compatible structure if needed
+    final isCustomerBooking = bookingData is CustomerBooking;
+
+    // Common fields
+    final String imageUrl = isCustomerBooking
+        ? (bookingData.customerImage?.isNotEmpty == true
+            ? bookingData.customerImage
+            : AppConstants.shop)
+        : (bookingData.userImage ?? AppConstants.shop);
+    final String userFullName =
+        isCustomerBooking ? bookingData.customerName : bookingData.userFullName;
+    final String userEmail =
+        isCustomerBooking ? bookingData.customerEmail : bookingData.userEmail;
+    final String userPhoneNumber = isCustomerBooking
+        ? bookingData.customerContact
+        : bookingData.userPhoneNumber;
+    final double totalPrice = isCustomerBooking
+        ? (bookingData.totalPrice is int
+            ? (bookingData.totalPrice as int).toDouble()
+            : (bookingData.totalPrice as double))
+        : (bookingData.totalPrice is int
+            ? (bookingData.totalPrice as int).toDouble()
+            : (bookingData.totalPrice as double));
+    final String status =
+        isCustomerBooking ? bookingData.status : bookingData.status;
+    final DateTime createdAt =
+        isCustomerBooking ? bookingData.date : bookingData.createdAt;
+    final DateTime startDateTime =
+        isCustomerBooking ? bookingData.date : bookingData.startDateTime;
+
+    // Services
+    final List<Map<String, dynamic>> services = isCustomerBooking
+        ? List.generate(
+            bookingData.serviceNames.length,
+            (i) => {
+              'serviceName': bookingData.serviceNames[i],
+              'duration': bookingData.serviceDurations.length > i
+                  ? bookingData.serviceDurations[i]
+                  : 0,
+              'price': null, // No price per service in CustomerBooking
+            },
+          )
+        : (bookingData.bookedServices is List<BookedService>
+            ? (bookingData.bookedServices as List<BookedService>)
+                .map((s) => {
+                      'serviceName': s.serviceName,
+                      'duration': s.duration,
+                      'price': s.price,
+                    })
+                .toList()
+            : (bookingData.bookedServices is List
+                ? (bookingData.bookedServices as List)
+                    .map((s) =>
+                        s is Map<String, dynamic> ? s : <String, dynamic>{})
+                    .toList()
+                : []));
+
     return Scaffold(
       backgroundColor: AppColors.white50,
       appBar: const CustomAppBar(
@@ -48,15 +122,56 @@ class BookingDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomNetworkImage(
-                imageUrl: bookingData.userImage ?? AppConstants.shop,
+                imageUrl: imageUrl,
                 borderRadius: BorderRadius.circular(10.r),
-                height: 174.h,
+                height: 200.h,
                 width: double.infinity,
               ),
               SizedBox(height: 10.h),
-              // Modern booking info card
-              BookingInfoCard(bookingData: bookingData),
-              // Modern, professional info card widget
+              BookingInfoCard(
+                userFullName: userFullName.safeCap(),
+                userEmail: userEmail,
+                userPhoneNumber: userPhoneNumber,
+                startDateTime: startDateTime,
+                services: services,
+              ),
+              // Status badge moved above Selected services
+              Row(
+                children: [
+                  CustomText(
+                    text: "Status",
+                    fontSize: 14.sp,
+                    color: AppColors.gray500,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  SizedBox(width: 10.w),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                    decoration: BoxDecoration(
+                      color: getStatusColor(status),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  CustomText(
+                    text: "Created at: ${formatDateTime(createdAt)}",
+                    fontSize: 14.sp,
+                    color: AppColors.gray500,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
 
               CustomText(
                 text: "Selected services",
@@ -64,24 +179,25 @@ class BookingDetailsScreen extends StatelessWidget {
                 fontSize: 20.sp,
                 color: AppColors.black,
               ),
-              ...bookingData.bookedServices.map((service) => Column(
+              ...services.map((service) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
                         top: 10,
                         text:
-                            "${service.serviceName} - ${service.duration} Minutes",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.sp,
-                        color: AppColors.black,
-                      ),
-                      CustomText(
-                        top: 2,
-                        text: "£ ${service.price}",
+                            "${service['serviceName']} - ${service['duration']} Minutes",
                         fontWeight: FontWeight.w500,
                         fontSize: 16.sp,
-                        color: AppColors.gray500,
+                        color: AppColors.black,
                       ),
+                      if (service['price'] != null)
+                        CustomText(
+                          top: 2,
+                          text: "£ ${service['price']}",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          color: AppColors.gray500,
+                        ),
                     ],
                   )),
               const Divider(),
@@ -89,42 +205,51 @@ class BookingDetailsScreen extends StatelessWidget {
                 children: [
                   CustomText(
                     top: 10,
-                    text: "Total: £${bookingData.totalPrice}",
+                    text: "Total: £$totalPrice",
                     fontWeight: FontWeight.w500,
                     fontSize: 18.sp,
                     color: AppColors.black,
                     right: 10,
                   ),
-                  if (userRole != UserRole.barber) ...[
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          showCancelBookingDialog(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10.r),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.r)),
-                              border: Border.all(color: AppColors.black)),
-                          child: CustomText(
-                            text: "Cancel Booking",
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.red,
-                          ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              if (userRole != UserRole.barber &&
+                  (status.toLowerCase() != "cancelled" &&
+                      status.toLowerCase() != "completed")) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showCancelBookingDialog(context, controller,
+                            bookingId:
+                                isCustomerBooking ? bookingData.bookingId : "");
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10.r),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.r)),
+                            border: Border.all(color: AppColors.black)),
+                        child: CustomText(
+                          text: "Cancel Booking",
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.red,
                         ),
                       ),
                     ),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 20.w),
                     GestureDetector(
                       onTap: () {
                         AppRouter.route.pushNamed(RoutePath.rescheduleScreen,
                             extra: userRole);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10.r),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.r, horizontal: 20.r),
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius:
@@ -138,25 +263,36 @@ class BookingDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ]
-                ],
-              ),
-              SizedBox(height: 10.h),
-              CustomText(
-                text: "Booking ID: ${bookingData.bookingId}",
-                fontSize: 12.sp,
-                color: AppColors.gray500,
-              ),
-              CustomText(
-                text: "Status: ${bookingData.status}",
-                fontSize: 12.sp,
-                color: AppColors.gray500,
-              ),
-              CustomText(
-                text: "Created at: ${formatDateTime(bookingData.createdAt)}",
-                fontSize: 12.sp,
-                color: AppColors.gray500,
-              ),
+                  ],
+                )
+              ],
+              SizedBox(height: 30.h),
+              // Row(
+              //   children: [
+              //     Container(
+              //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              //       decoration: BoxDecoration(
+              //         color: getStatusColor(status),
+              //         borderRadius: BorderRadius.circular(8),
+              //       ),
+              //       child: Text(
+              //         status,
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           fontSize: 12.sp,
+              //           fontWeight: FontWeight.bold,
+              //           letterSpacing: 0.5,
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: 10.w),
+              //     CustomText(
+              //       text: "Status",
+              //       fontSize: 12.sp,
+              //       color: AppColors.gray500,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -164,7 +300,8 @@ class BookingDetailsScreen extends StatelessWidget {
     );
   }
 
-  void showCancelBookingDialog(BuildContext context) {
+  void showCancelBookingDialog(BuildContext context, T? controller,
+      {required String bookingId}) {
     showDialog(
       context: context,
       barrierDismissible: false, // Prevent dismissing by tapping outside
@@ -189,8 +326,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               ),
               onPressed: () {
-                // Handle cancel action
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text(
                 'Cancel',
@@ -204,9 +340,14 @@ class BookingDetailsScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               ),
-              onPressed: () {
-                bookingCancel(context);
-                print('Booking canceled');
+              onPressed: () async {
+                debugPrint('Cancel booking confirmed');
+                final success = await (controller as dynamic)
+                    .cancelBooking(bookingId: bookingId);
+                if (success) {
+                  Navigator.of(context).pop(); // Close the dialog
+                }
+                Navigator.of(context).pop();
               },
               child: const Text(
                 'Confirm',
@@ -222,12 +363,27 @@ class BookingDetailsScreen extends StatelessWidget {
 
 // Modern, professional info card widget
 class BookingInfoCard extends StatelessWidget {
-  final BarberBookingData bookingData;
-  const BookingInfoCard({Key? key, required this.bookingData})
-      : super(key: key);
+  final String userFullName;
+  final String userEmail;
+  final String userPhoneNumber;
+  final DateTime startDateTime;
+  final List<Map<String, dynamic>> services;
+  const BookingInfoCard({
+    Key? key,
+    required this.userFullName,
+    required this.userEmail,
+    required this.userPhoneNumber,
+    required this.startDateTime,
+    required this.services,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int totalMinutes = 0;
+    if (services.isNotEmpty) {
+      totalMinutes = services.fold<int>(
+          0, (sum, s) => sum + ((s['duration'] ?? 0) as int));
+    }
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.h),
       padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
@@ -241,7 +397,7 @@ class BookingInfoCard extends StatelessWidget {
             offset: Offset(0, 4),
           ),
         ],
-        border: Border.all(color: AppColors.gray500.withValues(alpha: .08)),
+        border: Border.all(color: AppColors.gray500.withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -250,7 +406,7 @@ class BookingInfoCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
             decoration: BoxDecoration(
-              color: AppColors.secondary.withValues(alpha: .08),
+              color: AppColors.secondary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Column(
@@ -260,7 +416,7 @@ class BookingInfoCard extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: AppColors.secondary.withValues(alpha: .18),
+                        color: AppColors.secondary.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.all(6),
@@ -269,7 +425,7 @@ class BookingInfoCard extends StatelessWidget {
                     ),
                     SizedBox(width: 10.w),
                     Text(
-                      formatDateTime(bookingData.startDateTime),
+                      formatDateTime(startDateTime),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 17.sp,
@@ -280,7 +436,7 @@ class BookingInfoCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  durationText(bookingData),
+                  totalMinutes > 0 ? "$totalMinutes min duration" : "-",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15.sp,
@@ -294,7 +450,7 @@ class BookingInfoCard extends StatelessWidget {
           SizedBox(height: 18.h),
           // Name centered and bold
           Text(
-            bookingData.userFullName,
+            userFullName,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16.sp,
@@ -309,7 +465,7 @@ class BookingInfoCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.secondary.withValues(alpha: .12),
+                  color: AppColors.secondary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: EdgeInsets.all(6),
@@ -318,7 +474,7 @@ class BookingInfoCard extends StatelessWidget {
               SizedBox(width: 12),
               Flexible(
                 child: Text(
-                  bookingData.userEmail,
+                  userEmail,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15.sp,
@@ -333,7 +489,7 @@ class BookingInfoCard extends StatelessWidget {
           SizedBox(height: 10.h),
           // Phone plain
           Text(
-            bookingData.userPhoneNumber,
+            userPhoneNumber,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 15.sp,

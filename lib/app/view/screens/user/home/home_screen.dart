@@ -74,10 +74,12 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            AppRouter.route
-                                .pushNamed(RoutePath.nearYouShopScreen, extra: {
-                              'userRole': userRole,
-                            });
+                            homeController.fetchCustomerBookings();
+                            AppRouter.route.pushNamed(
+                                RoutePath.customerBookingScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                });
                           },
                           title: "Bookings",
                           icon: Assets.icons.bookings.svg()),
@@ -104,12 +106,13 @@ class HomeScreen extends StatelessWidget {
                       CustomCard(
                           // here will be rate screen navigation
                           onTap: () {
-                            AppRouter.route
-                                .pushNamed(RoutePath.rateScreen, extra: {
-                              'userRole': userRole,
-                              // 'userId': "",
-                              // 'controller': homeController,
-                            });
+                            homeController.fetchCustomerReviews();
+                            AppRouter.route.pushNamed(
+                                RoutePath.customerReviewScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'controller': homeController,
+                                });
                           },
                           title: "Review",
                           icon: Assets.icons.reviews.svg()),
@@ -338,7 +341,7 @@ class HomeScreen extends StatelessWidget {
                                     : AppConstants.demoImage,
                                 postText: feed.caption,
                                 rating: feed.saloonOwner != null
-                                    ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
+                                    ? "${feed.saloonOwner!.avgRating?.toStringAsFixed(1)} ★ (${feed.saloonOwner!.ratingCount})"
                                     : "",
                                 onFavoritePressed: (isFavorite) {
                                   homeController.toggleLikeFeed(

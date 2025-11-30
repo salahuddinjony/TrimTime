@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+// ignore: must_be_immutable
 class CommonShopCard extends StatefulWidget {
   final String imageUrl;
   final String title;
@@ -13,8 +14,9 @@ class CommonShopCard extends StatefulWidget {
   final String location;
   final String discount;
   final VoidCallback onSaved;
+  bool isSaved;
 
-  const CommonShopCard({
+  CommonShopCard({
     super.key,
     required this.imageUrl,
     required this.title,
@@ -22,6 +24,7 @@ class CommonShopCard extends StatefulWidget {
     required this.location,
     required this.discount,
     required this.onSaved,
+    this.isSaved = false,
   });
 
   @override
@@ -30,7 +33,7 @@ class CommonShopCard extends StatefulWidget {
 
 class _CommonShopCardState extends State<CommonShopCard> {
   // Boolean to track the save state
-  bool isSaved = false;
+  // bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +143,7 @@ class _CommonShopCardState extends State<CommonShopCard> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          isSaved = !isSaved; // Toggle the save state
+          widget.isSaved = !widget.isSaved; // Toggle the save state
         });
         widget.onSaved(); // Call the onSaved callback passed by the parent
       },
@@ -152,7 +155,7 @@ class _CommonShopCardState extends State<CommonShopCard> {
           ),
           child: Icon(
             Icons.favorite,
-            color: isSaved ? Colors.red : Colors.white,
+            color: widget.isSaved ? Colors.red : Colors.white,
             size: 15,
           )),
     );

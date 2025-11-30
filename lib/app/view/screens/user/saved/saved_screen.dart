@@ -1,7 +1,6 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
@@ -23,6 +22,8 @@ class SavedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.fetchAllFavourite();
+    controller.fetchFavoriteShops();
+
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
     if (extra is UserRole) {
@@ -72,30 +73,110 @@ class SavedScreen extends StatelessWidget {
               child: TabBarView(
                 children: [
                   /// 👉 Favorite Shop ListView
-                  ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            AppRouter.route.pushNamed(
-                                RoutePath.shopProfileScreen,
-                                extra: userRole);
-                          },
-                          child: CommonShopCard(
-                            imageUrl: AppConstants.shop,
-                            title: "Barber Time ",
-                            rating: "5.0 ★ (169)",
-                            location: "Oldesloer Strasse 82",
-                            discount: "15%",
-                            onSaved: () => debugPrint("Saved Clicked!"),
-                          ),
+                  Obx(() {
+                    if (controller.favoriteShopsStatus.value.isLoading) {
+                      return ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: const FavoriteShimmerCard(),
                         ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 15),
+                        itemCount: 3,
                       );
-                    },
-                  ),
+                    }
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        await controller.fetchFavoriteShops();
+                      },
+                      child: controller.favoriteShops.isEmpty
+                          ? SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height - 200,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.favorite_border,
+                                          size: 80,
+                                          color: Colors.grey[400],
+                                        ),
+                                        SizedBox(height: 16.h),
+                                        Text(
+                                          'No Favorite Shops Yet',
+                                          style: TextStyle(
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.secondary,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Text(
+                                          'Start adding your favorite shops\nto see them here',
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: Colors.grey[600],
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemCount: controller.favoriteShops.length,
+                              itemBuilder: (context, index) {
+                                final shop = controller.favoriteShops[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AppRouter.route.pushNamed(
+                                          RoutePath.shopProfileScreen,
+                                          extra: {
+                                            'userRole': userRole,
+                                            'userId': shop.userId,
+                                            'controller': controller,
+                                          });
+                                    },
+                                    child: CommonShopCard(
+                                      imageUrl: shop.shopLogo,
+                                      title: shop.shopName,
+                                      isSaved: true,
+                                      rating:
+                                          "${shop.ratingCount.toString()}(${shop.avgRating.toString()})",
+                                      location: shop.shopAddress,
+                                      discount: "",
+                                      onSaved: () async {
+                                      controller.favoriteShops.removeAt(index);
+                                      // final result= await controller.toggleFavoriteShop(
+                                      //       shop.userId);
+
+                                      // if(!result){
+                                      //    controller.favoriteShops.insert(index, shop);
+                                      // }
+                                          
+                                      }
+                                         
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    );
+                  }),
 
                   /// 👉 Feed Column/
                   Obx(() {

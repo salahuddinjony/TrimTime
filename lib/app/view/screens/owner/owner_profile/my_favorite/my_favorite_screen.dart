@@ -1,17 +1,11 @@
-import 'package:barber_time/app/core/route_path.dart';
-import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/widgets/fav_card_widgets.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/widgets/favorite_shimmer_card.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/my_favorite/models/favorite_feed_model.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -21,14 +15,13 @@ class MyFavoriteScreen extends StatelessWidget {
     super.key,
   });
   final InfoController infoController = Get.find<InfoController>();
-    final BarberHomeController controller = Get.find<BarberHomeController>();
-
+  final BarberHomeController controller = Get.find<BarberHomeController>();
 
   @override
   Widget build(BuildContext context) {
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
-    
+
     if (extra is UserRole) {
       userRole = extra;
     } else if (extra is Map<String, dynamic>) {
@@ -63,7 +56,7 @@ class MyFavoriteScreen extends StatelessWidget {
           }
 
           final display = infoController.favoriteItems;
-        
+
           // Check if the list is empty
           if (display.isEmpty) {
             return RefreshIndicator(
@@ -108,7 +101,7 @@ class MyFavoriteScreen extends StatelessWidget {
               ),
             );
           }
-        
+
           return RefreshIndicator(
             onRefresh: () async {
               await infoController.fetchAllFavourite();
@@ -116,7 +109,7 @@ class MyFavoriteScreen extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
-                children: buildFeedCards(userRole, display,controller ),
+                children: buildFeedCards(userRole, display, controller),
               ),
             ),
           );
@@ -137,7 +130,7 @@ class MyFavoriteScreen extends StatelessWidget {
   //     return Padding(
   //       padding: EdgeInsets.only(bottom: 12.h),
   //       child: CustomFeedCard(
-          
+
   //         isFavouriteFromApi: true, // Always true since this is favorites list
   //         isVisitShopButton: item.saloonOwner != null,
   //         isFromFav: true,
@@ -152,7 +145,7 @@ class MyFavoriteScreen extends StatelessWidget {
   //         rating: ratingStr,
   //         onFavoritePressed: (isFavorite) async {
   //            controller.toggleLikeFeed(
-  //             feedId: item.feedId, 
+  //             feedId: item.feedId,
   //             isUnlike: isFavorite == true,
   //           );
   //           // Refresh the favorites list after toggling
@@ -174,8 +167,4 @@ class MyFavoriteScreen extends StatelessWidget {
   //     );
   //   }).toList();
   // }
-
-
 }
-
-

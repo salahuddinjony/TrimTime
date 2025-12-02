@@ -49,7 +49,8 @@ class _BookingScreenState extends State<BookingScreen> {
       // Upcoming: CONFIRMED and PENDING status
       return barberHomeController.bookings
           .where((booking) =>
-              (booking.status == 'CONFIRMED' || booking.status == 'PENDING') && booking.bookingType != 'QUEUE')
+              (booking.status == 'CONFIRMED' || booking.status == 'PENDING') &&
+              booking.bookingType != 'QUEUE')
           .toList();
     } else {
       // Previous: COMPLETED and CANCELLED status
@@ -60,11 +61,9 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-       final extra = GoRouter.of(context).state.extra;
+    final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
 
     if (extra is UserRole) {
@@ -197,7 +196,8 @@ class _BookingScreenState extends State<BookingScreen> {
                             vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
-                            color:barberHomeController.getStatusColor(booking.status),
+                            color: barberHomeController
+                                .getStatusColor(booking.status),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(

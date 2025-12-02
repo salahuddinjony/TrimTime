@@ -375,44 +375,46 @@ class BookingDetailsScreen<T> extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-            TextButton(
-              style: TextButton.styleFrom(
-              backgroundColor: Colors.black,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              minimumSize: Size(0, 0),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
-            SizedBox(width: 10),
-            // Confirm Button
-            TextButton(
-              style: TextButton.styleFrom(
-              backgroundColor: AppColors.secondary,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              minimumSize: Size(0, 0),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              onPressed: () async {
-              debugPrint('Cancel booking confirmed');
-              final success = await (controller as dynamic)
-                .cancelBooking(bookingId: bookingId);
-              if (success) {
-                Navigator.of(context).pop(); // Close the dialog
-              }
-              Navigator.of(context).pop();
-              },
-              child: const Text(
-              'Confirm',
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    minimumSize: Size(0, 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ),
+                SizedBox(width: 10),
+                // Confirm Button
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppColors.secondary,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    minimumSize: Size(0, 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () async {
+                    debugPrint('Cancel booking confirmed');
+                    final success = await (controller as dynamic)
+                        .cancelBooking(bookingId: bookingId);
+                    if (success) {
+                      Navigator.of(context).pop(); // Close the dialog
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Confirm',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ),
               ],
             )
           ],

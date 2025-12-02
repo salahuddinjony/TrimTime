@@ -74,6 +74,18 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
   }
 
   @override
+  void didUpdateWidget(CustomFeedCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update favorite state when widget receives new data
+    if (oldWidget.isFavouriteFromApi != widget.isFavouriteFromApi) {
+      isFavorite = widget.isFavouriteFromApi ?? false;
+    }
+    if (oldWidget.favoriteCount != widget.favoriteCount) {
+      favoriteCount = int.tryParse(widget.favoriteCount ?? "0") ?? 0;
+    }
+  }
+
+  @override
   void dispose() {
     if (isYouTubeVideo) {
       _youtubeController.dispose();

@@ -12,13 +12,24 @@ class FollowersResponse {
 	});
 
 	factory FollowersResponse.fromJson(Map<String, dynamic> json) {
+		// Handle case where data is a Map with message instead of a List
+		List<Follower> followers = [];
+		final dataField = json['data'];
+		
+		if (dataField is List) {
+			followers = dataField
+					.map((e) => Follower.fromJson(e as Map<String, dynamic>))
+					.toList();
+		} else if (dataField is Map && dataField.containsKey('message')) {
+			// API returns {"message": "No follower found"} when empty
+			followers = [];
+		}
+		
 		return FollowersResponse(
 			success: json['success'] ?? false,
 			statusCode: json['statusCode'] ?? 0,
 			message: json['message'] ?? '',
-			data: (json['data'] as List<dynamic>? ?? [])
-					.map((e) => Follower.fromJson(e as Map<String, dynamic>))
-					.toList(),
+			data: followers,
 		);
 	}
 }

@@ -156,4 +156,5 @@ class ApiUrl {
   static const getCustomerReviews = "$baseUrl/reviews/not-provided-reviews";
   static  cancelBooking({required String bookingId}) => "$baseUrl/bookings/cancel/$bookingId";
   static const rescheduleBooking = "$baseUrl/bookings/reschedule";
+  static const toggleFavoriteSalon = "/customers/favorite-saloons";
 }

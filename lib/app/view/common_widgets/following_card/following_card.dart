@@ -3,12 +3,13 @@ import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FollowingCard extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String? email;
-  final String status; 
+  final String status;
   final VoidCallback onUnfollowPressed;
   final bool? isFollower;
 
@@ -18,18 +19,23 @@ class FollowingCard extends StatelessWidget {
     required this.name,
     required this.status,
     this.email,
-    required this.onUnfollowPressed, this.isFollower = true,
+    required this.onUnfollowPressed,
+    this.isFollower = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8,),
+      padding: EdgeInsets.symmetric(vertical: 8.r),
       child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: const BoxDecoration(
+        padding:
+            isFollower == true ? EdgeInsets.all(15.r) : EdgeInsets.all(25.r),
+        decoration: BoxDecoration(
           color: AppColors.linearFirst,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
+          border: Border.all(
+              color: isFollower == true ? AppColors.white : AppColors.gray500,
+              width: 1),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,10 +45,10 @@ class FollowingCard extends StatelessWidget {
             CustomNetworkImage(
               boxShape: BoxShape.circle,
               imageUrl: imageUrl, // Dynamic Image URL
-              height: 45,
-              width: 45,
+              height: isFollower == true ? 45.r : 50.r,
+              width: isFollower == true ? 45.r : 50.r,
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.r),
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -62,30 +68,34 @@ class FollowingCard extends StatelessWidget {
                       Icon(Icons.email, size: 12, color: AppColors.gray500),
                       const SizedBox(width: 4),
                       CustomText(
-                        text: email ?? 'N/A', // You can pass a different subtitle if needed
+                        text: email ??
+                            'N/A', // You can pass a different subtitle if needed
                         fontWeight: FontWeight.w300,
                         fontSize: 11,
                         color: AppColors.black,
                       ),
                       const Spacer(),
                       // Unfollow Button
-                      isFollower == true?
-                      GestureDetector(
-                        onTap: onUnfollowPressed, // Trigger unfollow action
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: AppColors.white50,
-                            border: Border.all(color: AppColors.gray500),
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                          ),
-                          child: CustomText(
-                            text: status, // 'Follow' or 'Unfollow'
-                            fontSize: 15,
-                            color: AppColors.black,
-                          ),
-                        ),
-                      ):const SizedBox()
+                      isFollower == true
+                          ? GestureDetector(
+                              onTap:
+                                  onUnfollowPressed, // Trigger unfollow action
+                              child: Container(
+                                padding: EdgeInsets.all(6.r),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white50,
+                                  border: Border.all(color: AppColors.gray500),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.r)),
+                                ),
+                                child: CustomText(
+                                  text: status, // 'Follow' or 'Unfollow'
+                                  fontSize: 14.sp,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            )
+                          : const SizedBox()
                     ],
                   ),
                 ],

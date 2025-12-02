@@ -54,6 +54,13 @@ class ReviewData {
   final String saloonAddress;
   final String saloonLogo;
   final String bookingId;
+  final String barberName;
+  final String barberImage;
+  final String customerName;
+  final String customerImage;
+  final DateTime? appointmentAt;
+  final DateTime? date;
+  final List<String> images;
   final DateTime? createdAt;
 
   ReviewData({
@@ -67,15 +74,46 @@ class ReviewData {
     required this.saloonAddress,
     required this.saloonLogo,
     required this.bookingId,
+    required this.barberName,
+    required this.barberImage,
+    required this.customerName,
+    required this.customerImage,
+    required this.appointmentAt,
+    required this.date,
+    required this.images,
     required this.createdAt,
   });
 
   factory ReviewData.fromJson(Map<String, dynamic>? json) {
     json ??= {};
 
-    DateTime? parsedDate;
+    DateTime? parsedCreatedAt;
     try {
       final raw = json['createdAt'];
+      if (raw is String && raw.isNotEmpty) {
+        parsedCreatedAt = DateTime.tryParse(raw);
+      } else if (raw is int) {
+        parsedCreatedAt = DateTime.fromMillisecondsSinceEpoch(raw);
+      }
+    } catch (_) {
+      parsedCreatedAt = null;
+    }
+
+    DateTime? parsedAppointmentAt;
+    try {
+      final raw = json['appointmentAt'];
+      if (raw is String && raw.isNotEmpty) {
+        parsedAppointmentAt = DateTime.tryParse(raw);
+      } else if (raw is int) {
+        parsedAppointmentAt = DateTime.fromMillisecondsSinceEpoch(raw);
+      }
+    } catch (_) {
+      parsedAppointmentAt = null;
+    }
+
+    DateTime? parsedDate;
+    try {
+      final raw = json['date'];
       if (raw is String && raw.isNotEmpty) {
         parsedDate = DateTime.tryParse(raw);
       } else if (raw is int) {
@@ -83,6 +121,15 @@ class ReviewData {
       }
     } catch (_) {
       parsedDate = null;
+    }
+
+    List<String> parsedImages = [];
+    final rawImages = json['images'];
+    if (rawImages is List) {
+      parsedImages = rawImages
+          .map((e) => e?.toString() ?? '')
+          .where((e) => e.isNotEmpty)
+          .toList();
     }
 
     return ReviewData(
@@ -98,7 +145,14 @@ class ReviewData {
       saloonAddress: json['saloonAddress']?.toString() ?? '',
       saloonLogo: json['saloonLogo']?.toString() ?? '',
       bookingId: json['bookingId']?.toString() ?? '',
-      createdAt: parsedDate,
+      barberName: json['barberName']?.toString() ?? '',
+      barberImage: json['barberImage']?.toString() ?? '',
+      customerName: json['customerName']?.toString() ?? '',
+      customerImage: json['customerImage']?.toString() ?? '',
+      appointmentAt: parsedAppointmentAt,
+      date: parsedDate,
+      images: parsedImages,
+      createdAt: parsedCreatedAt,
     );
   }
 
@@ -113,6 +167,13 @@ class ReviewData {
         'saloonAddress': saloonAddress,
         'saloonLogo': saloonLogo,
         'bookingId': bookingId,
+        'barberName': barberName,
+        'barberImage': barberImage,
+        'customerName': customerName,
+        'customerImage': customerImage,
+        'appointmentAt': appointmentAt?.toIso8601String(),
+        'date': date?.toIso8601String(),
+        'images': images,
         'createdAt': createdAt?.toIso8601String(),
       };
 }

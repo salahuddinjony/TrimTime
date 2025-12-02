@@ -202,6 +202,24 @@ class UserProfileScreen extends StatelessWidget {
                                 AppColors.black, BlendMode.srcIn),
                           ),
                         ),
+                  userRole == UserRole.barber
+                      ? const SizedBox()
+                      :CustomMenuCard(
+                    onTap: () {
+                      ownerProfileController.fetchFollowerOrFollowingData(
+                          isFollowers: true);
+                      AppRouter.route.pushNamed(RoutePath.followerScreen,
+                          extra: {
+                            'userRole': userRole,
+                            'controller': ownerProfileController
+                          });
+                    },
+                    text: "My Followers",
+                    icon: Assets.icons.flowing.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
+                  ),
 
                   //TOdo=========
 

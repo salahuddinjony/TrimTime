@@ -79,6 +79,7 @@ class HomeScreen extends StatelessWidget {
                                 RoutePath.customerBookingScreen,
                                 extra: {
                                   'userRole': userRole,
+                                  'bookingType': 'Booking', 
                                 });
                           },
                           title: "Bookings",
@@ -92,8 +93,15 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.loyalitys.svg()),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.scannerScreen,
-                                extra: userRole);
+                            // AppRouter.route.pushNamed(RoutePath.scannerScreen,
+                            //     extra: userRole);
+                               homeController.fetchCustomerBookings();
+                            AppRouter.route.pushNamed(
+                                RoutePath.customerBookingScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'bookingType': 'queue', 
+                                });
                           },
                           title: "Queue",
                           icon: Assets.icons.ques.svg()),
@@ -203,7 +211,15 @@ class HomeScreen extends StatelessWidget {
                                     rating: "${salon.ratingCount} ★",
                                     location: salon.shopAddress,
                                     discount: salon.distance.toString(),
-                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                    isSaved: salon.isFavorite,
+                                    onSaved: () {
+                                      homeController.toggleFavoriteSalon(
+                                        tag: tags.nearby,
+                                        salonId: salon.userId,
+                                        isFavorite: salon.isFavorite,
+                                        index: index,
+                                      );
+                                    },
                                   ),
                                 ),
                               );
@@ -284,7 +300,15 @@ class HomeScreen extends StatelessWidget {
                                     rating: "${salon.ratingCount} ★",
                                     location: salon.shopAddress,
                                     discount: salon.distance.toString(),
-                                    onSaved: () => debugPrint("Saved Clicked!"),
+                                    isSaved: salon.isFavorite,
+                                    onSaved: () {
+                                      homeController.toggleFavoriteSalon(
+                                        tag: tags.topRated,
+                                        salonId: salon.userId,
+                                        isFavorite: salon.isFavorite,
+                                        index: index,
+                                      );
+                                    },
                                   ),
                                 ),
                               );
@@ -301,10 +325,12 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Feed",
                     actionText: AppStrings.seeAll,
-                    onActionTap: () {
-                      AppRouter.route
-                          .pushNamed(RoutePath.feedAll, extra: userRole);
-                    },
+                      onActionTap: () {
+                        AppRouter.route.pushNamed(RoutePath.feedAll, extra: {
+                          'userRole': userRole,
+                          'controller': homeController,
+                        });
+                      },
                     actionColor: AppColors.secondary,
                   ),
 
@@ -322,51 +348,56 @@ class HomeScreen extends StatelessWidget {
                     return Column(
                       children: feeds
                           .take(feeds.length > 4 ? 4 : feeds.length)
-                          .map((feed) {
+                          .toList()
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                        final index = entry.key;
+                        final feed = entry.value;
                         return Padding(
                           padding: EdgeInsets.only(bottom: 12.h),
-                          child: Column(
-                            children: [
-                              CustomFeedCard(
-                                isFavouriteFromApi: feed.isFavorite ?? false,
-                                isVisitShopButton: feed.saloonOwner != null,
-                                favoriteCount: feed.favoriteCount.toString(),
-                                userImageUrl:
-                                    feed.userImage ?? AppConstants.demoImage,
-                                userName: feed.userName,
-                                userAddress:
-                                    feed.saloonOwner?.shopAddress ?? '',
-                                postImageUrl: feed.images.isNotEmpty
-                                    ? feed.images.first
-                                    : AppConstants.demoImage,
-                                postText: feed.caption,
-                                rating: feed.saloonOwner != null
-                                    ? "${feed.saloonOwner!.avgRating?.toStringAsFixed(1)} ★ (${feed.saloonOwner!.ratingCount})"
-                                    : "",
-                                onFavoritePressed: (isFavorite) {
-                                  homeController.toggleLikeFeed(
-                                    feedId: feed.id,
-                                    isUnlike: isFavorite == true,
+                          child: Obx(() {
+                            // Access feed directly from controller to ensure reactivity
+                            final currentFeed = homeController.homeFeedsList[index];
+                            return CustomFeedCard(
+                              isFavouriteFromApi: currentFeed.isFavorite ?? false,
+                              isVisitShopButton: feed.saloonOwner != null,
+                              favoriteCount: currentFeed.favoriteCount.toString(),
+                              userImageUrl:
+                                  feed.userImage ?? AppConstants.demoImage,
+                              userName: feed.userName,
+                              userAddress:
+                                  feed.saloonOwner?.shopAddress ?? '',
+                              postImageUrl: feed.images.isNotEmpty
+                                  ? feed.images.first
+                                  : AppConstants.demoImage,
+                              postText: feed.caption,
+                              rating: feed.saloonOwner != null
+                                  ? "${feed.saloonOwner!.avgRating?.toStringAsFixed(1)} ★ (${feed.saloonOwner!.ratingCount})"
+                                  : "",
+                              onFavoritePressed: (isFavorite) {
+                                homeController.toggleLikeFeed(
+                                  feedId: feed.id,
+                                  isUnlike: isFavorite == true,
+                                );
+                              },
+                              onVisitShopPressed: () {
+                                if (feed.saloonOwner != null) {
+                                  // controller.getSelonData(
+                                  //     userId:
+                                  //         feed.saloonOwner!.userId);
+                                  AppRouter.route.pushNamed(
+                                    RoutePath.shopProfileScreen,
+                                    extra: {
+                                      'userRole': userRole,
+                                      'userId': feed.saloonOwner!.userId,
+                                      'controller': homeController,
+                                    },
                                   );
-                                },
-                                onVisitShopPressed: () {
-                                  if (feed.saloonOwner != null) {
-                                    // controller.getSelonData(
-                                    //     userId:
-                                    //         feed.saloonOwner!.userId);
-                                    AppRouter.route.pushNamed(
-                                      RoutePath.shopProfileScreen,
-                                      extra: {
-                                        'userRole': userRole,
-                                        'userId': feed.saloonOwner!.userId,
-                                        'controller': homeController,
-                                      },
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
+                                }
+                              },
+                            );
+                          }),
                         );
                       }).toList(),
                     );

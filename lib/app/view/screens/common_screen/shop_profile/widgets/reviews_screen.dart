@@ -6,48 +6,42 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/widgets/review_card.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/rate/widgets/review_shimmer_card.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/info_controller.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class RateScreen extends StatelessWidget {
-  RateScreen({
-    super.key,
-  });
-
-  final InfoController infoController = Get.find<InfoController>();
+class ReviewsScreen<T> extends StatelessWidget {
+  final UserRole userRole;
+  final T controller;
+  final String userId;
+  final String salonName;
+  const ReviewsScreen(
+      {super.key,
+      required this.userRole,
+      required this.controller,
+      required this.userId,
+      required this.salonName});
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (!infoController.isLoading.value && infoController.barberReviews.isEmpty) {
-    //     infoController.getBarberReviews();
-    //   }
-    // });
+    final dynamic controller = this.controller;
+    // final UserHomeController controller = this.controller as UserHomeController;
+
     final extra = GoRouter.of(context).state.extra;
+    // Determine user role whether passed directly or inside an extra map.
     UserRole? userRole;
     if (extra is UserRole) {
       userRole = extra;
-    } else if (extra is Map) {
-      try {
-        userRole = extra['userRole'] as UserRole?;
-      } catch (_) {
-        userRole = null;
-      }
-    }
-
-    debugPrint("===================${userRole?.name}");
-    if (userRole == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: const Center(child: Text('No user role received')),
-      );
+    } else if (extra is Map && extra['userRole'] is UserRole) {
+      userRole = extra['userRole'] as UserRole;
+    } else {
+      userRole = null;
     }
     return Scaffold(
       ///============================ Header ===============================
-      appBar: const CustomAppBar(
-        appBarContent: AppStrings.ratings,
+      appBar: CustomAppBar(
+        appBarContent: salonName,
         iconData: Icons.arrow_back,
         appBarBgColor: AppColors.linearFirst,
       ),
@@ -71,8 +65,8 @@ class RateScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Obx(() {
-              final reviews = infoController.barberReviews;
-              final isLoadingReviews = infoController.isLoadingReviews.value;
+              final reviews = controller.barberReviews;
+              final isLoadingReviews = controller.isLoadingReviews.value;
 
               // Show shimmer while loading reviews
               if (isLoadingReviews) {
@@ -117,7 +111,8 @@ class RateScreen extends StatelessWidget {
               }
 
               return RefreshIndicator(
-                onRefresh: () async => await infoController.getBarberReviews(),
+                onRefresh: () async =>
+                    await controller.getBarberReviews(userId: userId),
                 child: ListView.separated(
                   padding: const EdgeInsets.only(top: 2, bottom: 10),
                   itemCount: reviews.length,

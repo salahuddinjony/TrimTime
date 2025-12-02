@@ -87,28 +87,26 @@ class FollowerScreen extends StatelessWidget {
                     final Id = user.followerId;
                     final followerRole = user.followerRole;
 
-
-                    if(Id.isEmpty || userRole == null) {
+                    if (Id.isEmpty || userRole == null) {
                       debugPrint("Invalid barber ID or user role");
                       return;
                     }
 
-                    if(followerRole.isNotEmpty &&
-                        followerRole == "CUSTOMER") {
+                    if (followerRole.isNotEmpty && followerRole == "CUSTOMER") {
                       debugPrint("Customer ${user.followerName} clicked");
                       debugPrint("Customer ID: $Id");
-                     AppRouter.route.pushNamed(
-                      RoutePath.customerProfileScreen,
-                      extra: {
-                        'userRole': userRole,
-                        'customerId': Id, 
-                        'controller': controller,
-                      },
-                    );
+                      AppRouter.route.pushNamed(
+                        RoutePath.customerProfileScreen,
+                        extra: {
+                          'userRole': userRole,
+                          'customerId': Id,
+                          'controller': controller,
+                        },
+                      );
                       return;
                     }
                     if (followerRole.isNotEmpty &&
-                      followerRole == "SALOON_OWNER") {
+                        followerRole == "SALOON_OWNER") {
                       AppRouter.route.pushNamed(
                         RoutePath.shopProfileScreen,
                         extra: {
@@ -121,20 +119,19 @@ class FollowerScreen extends StatelessWidget {
                       return;
                     }
 
-                  if(followerRole.isNotEmpty &&
-                      followerRole == "BARBER") {
-                     debugPrint("Barber ${user.followerName} clicked");
-                    debugPrint("Barber ID: $Id");
-                    AppRouter.route.pushNamed(
-                      RoutePath.professionalProfile,
-                      extra: {
-                        'userRole': userRole,
-                        'barberId': Id,
-                        'isForActionButton': false,
-                      },
-                    );
-                    return;
-                  }
+                    if (followerRole.isNotEmpty && followerRole == "BARBER") {
+                      debugPrint("Barber ${user.followerName} clicked");
+                      debugPrint("Barber ID: $Id");
+                      AppRouter.route.pushNamed(
+                        RoutePath.professionalProfile,
+                        extra: {
+                          'userRole': userRole,
+                          'barberId': Id,
+                          'isForActionButton': false,
+                        },
+                      );
+                      return;
+                    }
                   },
                   child: FollowingCard(
                     isFollower: false,

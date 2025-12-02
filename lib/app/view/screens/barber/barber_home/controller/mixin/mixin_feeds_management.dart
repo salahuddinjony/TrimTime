@@ -43,21 +43,71 @@ mixin MixinFeedsManagement {
   //fav a feed
   Future<bool> toggleLikeFeed({required String feedId, required bool isUnlike}) async {
     try {
-      final response = isUnlike == false ? await ApiClient.deleteData(
-        'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId', 
-      ) : await ApiClient.postData(
-        ApiUrl.likeFeed,
-        jsonEncode({"feedId": feedId}),
-      );
-      if (response.statusCode == 200) {
-        debugPrint("Feed liked successfully");
-        return true;
+      // Find the feed in the list
+      final feedIndex = homeFeedsList.indexWhere((feed) => feed.id == feedId);
+      
+      if (feedIndex != -1) {
+        // Optimistically update UI immediately
+        final oldIsFavorite = homeFeedsList[feedIndex].isFavorite;
+        final oldFavoriteCount = homeFeedsList[feedIndex].favoriteCount ?? 0;
+        
+        homeFeedsList[feedIndex].isFavorite = isUnlike;
+        homeFeedsList[feedIndex].favoriteCount = isUnlike 
+            ? (oldFavoriteCount + 1) 
+            : (oldFavoriteCount > 0 ? oldFavoriteCount - 1 : 0);
+        homeFeedsList.refresh();
+        
+        // Make API call
+        final response = isUnlike == false ? await ApiClient.deleteData(
+          'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId', 
+        ) : await ApiClient.postData(
+          ApiUrl.likeFeed,
+          jsonEncode({"feedId": feedId}),
+        );
+        
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          debugPrint("Feed liked successfully");
+          return true;
+        } else {
+          // Revert changes on failure
+          if (feedIndex != -1 && feedIndex < homeFeedsList.length) {
+            homeFeedsList[feedIndex].isFavorite = oldIsFavorite;
+            homeFeedsList[feedIndex].favoriteCount = oldFavoriteCount;
+            homeFeedsList.refresh();
+          }
+          debugPrint(
+              "Failed to like feed: ${response.statusCode} - ${response.statusText}");
+          return false;
+        }
       } else {
-        debugPrint(
-            "Failed to like feed: ${response.statusCode} - ${response.statusText}");
-        return false;
+        // Feed not found in list, just make API call
+        final response = isUnlike == false ? await ApiClient.deleteData(
+          'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId', 
+        ) : await ApiClient.postData(
+          ApiUrl.likeFeed,
+          jsonEncode({"feedId": feedId}),
+        );
+        
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          debugPrint("Feed liked successfully");
+          return true;
+        } else {
+          debugPrint(
+              "Failed to like feed: ${response.statusCode} - ${response.statusText}");
+          return false;
+        }
       }
     } catch (e) {
+      // Revert changes on error
+      final feedIndex = homeFeedsList.indexWhere((feed) => feed.id == feedId);
+      if (feedIndex != -1) {
+        homeFeedsList[feedIndex].isFavorite = !isUnlike;
+        final currentCount = homeFeedsList[feedIndex].favoriteCount ?? 0;
+        homeFeedsList[feedIndex].favoriteCount = isUnlike 
+            ? (currentCount > 0 ? currentCount - 1 : 0)
+            : (currentCount + 1);
+        homeFeedsList.refresh();
+      }
       debugPrint("Error liking feed: ${e.toString()}");
       return false;
     }

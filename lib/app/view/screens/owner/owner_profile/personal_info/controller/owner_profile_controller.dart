@@ -16,6 +16,7 @@ import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/c
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/mixin/mixin_owner_profile_image_update.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/barber_professional_profile.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/models/profile_response_model.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_revires.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_get_barber_with_date_time/mixin_get_barber_with_date_time.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_non_registered_bookings/mixin_non_registered_bookings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/mixin/mixin_get_services.dart';
@@ -37,7 +38,7 @@ class OwnerProfileController extends GetxController
         MixinGetServices,
         GetBarberWithDateTimeMixin,
         MixinNonRegisteredBookings,
-        QueManagementMixin {
+        QueManagementMixin, MixinGetReviews {
   var selectedValue = ''.obs;
 
   void updateSelection(String value, TextEditingController controller) {

@@ -1,4 +1,5 @@
 import 'package:barber_time/app/utils/enums/mixin_user_info_from_storage.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_revires.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_barber_job_history.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
@@ -18,7 +19,7 @@ class BarberOwnerHomeController extends GetxController
         JobApplicationManageMixin,
         DashboardDataMixin,
         DateWiseBookingsMixin,
-        UserInfoFromStorage {
+        UserInfoFromStorage, MixinGetReviews {
   @override
   void onInit() {
     super.onInit();

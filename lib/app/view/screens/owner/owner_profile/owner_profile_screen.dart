@@ -270,7 +270,7 @@ class ProfileScreen extends StatelessWidget {
                             AppRouter.route.pushNamed(RoutePath.rateScreen,
                                 extra: userRole);
                           },
-                          text: AppStrings.rating,
+                          text: AppStrings.ratings,
                           icon: Assets.icons.rate.svg(
                             colorFilter: const ColorFilter.mode(
                                 AppColors.black, BlendMode.srcIn),
@@ -459,45 +459,80 @@ class ProfileScreen extends StatelessWidget {
 
                   //TOdo=====following====
 
-                  userRole == UserRole.barber
-                      ? const SizedBox()
-                      : CustomMenuCard(
-                          onTap: () {
-                            ownerProfileController.fetchFollowerOrFollowingData(
-                                isFollowers: false);
-                            AppRouter.route.pushNamed(RoutePath.followingScreen,
-                                extra: {
-                                  'userRole': userRole,
-                                  'controller': ownerProfileController
-                                });
-                          },
-                          text: AppStrings.myFollowing,
-                          icon: Assets.icons.flowing.svg(
-                            colorFilter: const ColorFilter.mode(
-                                AppColors.black, BlendMode.srcIn),
-                          ),
-                        ), //TOdo=====following====
+                  // userRole == UserRole.barber
+                  //     ? const SizedBox()
+                  //     : CustomMenuCard(
+                  //         onTap: () {
+                  //           ownerProfileController.fetchFollowerOrFollowingData(
+                  //               isFollowers: false);
+                  //           AppRouter.route.pushNamed(RoutePath.followingScreen,
+                  //               extra: {
+                  //                 'userRole': userRole,
+                  //                 'controller': ownerProfileController
+                  //               });
+                  //         },
+                  //         text: AppStrings.myFollowing,
+                  //         icon: Assets.icons.flowing.svg(
+                  //           colorFilter: const ColorFilter.mode(
+                  //               AppColors.black, BlendMode.srcIn),
+                  //         ),
+                  //       ), //TOdo=====following====
 
-                  userRole == UserRole.owner
-                      ? CustomMenuCard(
-                          onTap: () {
-                            ownerProfileController.fetchFollowerOrFollowingData(
-                                isFollowers: true);
-                            AppRouter.route.pushNamed(RoutePath.followerScreen,
-                                extra: {
-                                  'userRole': userRole,
-                                  'controller': ownerProfileController
-                                });
-                          },
-                          text: "My Followers",
-                          icon: Assets.icons.flowing.svg(
-                            colorFilter: const ColorFilter.mode(
-                                AppColors.black, BlendMode.srcIn),
-                          ),
-                        )
-                      : const SizedBox(),
+                  // userRole == UserRole.owner
+                  //     ? CustomMenuCard(
+                  //         onTap: () {
+                  //           ownerProfileController.fetchFollowerOrFollowingData(
+                  //               isFollowers: true);
+                  //           AppRouter.route.pushNamed(RoutePath.followerScreen,
+                  //               extra: {
+                  //                 'userRole': userRole,
+                  //                 'controller': ownerProfileController
+                  //               });
+                  //         },
+                  //         text: "My Followers",
+                  //         icon: Assets.icons.flowing.svg(
+                  //           colorFilter: const ColorFilter.mode(
+                  //               AppColors.black, BlendMode.srcIn),
+                  //         ),
+                  //       )
+                  //     : const SizedBox(),
 
-                  //TOdo=========
+                  //make all visible the followers and following =========
+
+                  CustomMenuCard(
+                    onTap: () {
+                      ownerProfileController.fetchFollowerOrFollowingData(
+                          isFollowers: false);
+                      AppRouter.route.pushNamed(RoutePath.followingScreen,
+                          extra: {
+                            'userRole': userRole,
+                            'controller': ownerProfileController
+                          });
+                    },
+                    text: AppStrings.myFollowing,
+                    icon: Assets.icons.flowing.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
+                  ),
+                  //TOdo=====following====
+
+                  CustomMenuCard(
+                    onTap: () {
+                      ownerProfileController.fetchFollowerOrFollowingData(
+                          isFollowers: true);
+                      AppRouter.route.pushNamed(RoutePath.followerScreen,
+                          extra: {
+                            'userRole': userRole,
+                            'controller': ownerProfileController
+                          });
+                    },
+                    text: "My Followers",
+                    icon: Assets.icons.flowing.svg(
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.black, BlendMode.srcIn),
+                    ),
+                  ),
 
                   userRole == UserRole.user
                       ? CustomMenuCard(

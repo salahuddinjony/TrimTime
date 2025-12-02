@@ -120,6 +120,7 @@ class CustomerReviewScreen extends StatelessWidget {
                     final salon = SelonList[index];
                     return GestureDetector(
                       onTap: () {
+                        controller.clearFirelds();
                         RatingDialog.showRatingDialog(
                           context,
                           userRole: userRole,
@@ -130,14 +131,26 @@ class CustomerReviewScreen extends StatelessWidget {
                         );
                         // Handle card tap if needed
                       },
-                      child: CommonShopCard(
-                        imageUrl: salon.saloonLogo,
-                        title: salon.saloonName,
-                        rating: "${salon.ratingCount} ★",
-                        location: salon.saloonAddress,
-                        discount: '',
-                        onSaved: () => debugPrint("Saved Clicked!"),
-                      ),
+                      child: Obx(() {
+                        // Access salon directly from controller to ensure reactivity
+                        final currentSalon =
+                            controller.customerReviewsList[index];
+                        return CommonShopCard(
+                          imageUrl: currentSalon.saloonLogo,
+                          title: currentSalon.saloonName,
+                          rating: "${currentSalon.ratingCount} ★",
+                          location: currentSalon.saloonAddress,
+                          discount: '',
+                          isSaved: currentSalon.isFavorite,
+                          onSaved: () {
+                            controller.toggleCustomerReviewFavorite(
+                              salonId: currentSalon.userId,
+                              isFavorite: currentSalon.isFavorite,
+                              index: index,
+                            );
+                          },
+                        );
+                      }),
                     );
                   },
                 ),

@@ -45,8 +45,8 @@ class FeedItem {
   final SaloonOwner? saloonOwner;
   final String caption;
   final List<String> images;
-  final int? favoriteCount;
-  final bool? isFavorite;
+  int? favoriteCount;
+  bool? isFavorite;
 
   FeedItem({
     required this.id,

@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                                 RoutePath.customerBookingScreen,
                                 extra: {
                                   'userRole': userRole,
-                                  'bookingType': 'Booking', 
+                                  'bookingType': 'Booking',
                                 });
                           },
                           title: "Bookings",
@@ -95,12 +95,12 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             // AppRouter.route.pushNamed(RoutePath.scannerScreen,
                             //     extra: userRole);
-                               homeController.fetchCustomerBookings();
+                            homeController.fetchCustomerBookings();
                             AppRouter.route.pushNamed(
                                 RoutePath.customerBookingScreen,
                                 extra: {
                                   'userRole': userRole,
-                                  'bookingType': 'queue', 
+                                  'bookingType': 'queue',
                                 });
                           },
                           title: "Queue",
@@ -325,12 +325,12 @@ class HomeScreen extends StatelessWidget {
                   CustomTitle(
                     title: "Feed",
                     actionText: AppStrings.seeAll,
-                      onActionTap: () {
-                        AppRouter.route.pushNamed(RoutePath.feedAll, extra: {
-                          'userRole': userRole,
-                          'controller': homeController,
-                        });
-                      },
+                    onActionTap: () {
+                      AppRouter.route.pushNamed(RoutePath.feedAll, extra: {
+                        'userRole': userRole,
+                        'controller': homeController,
+                      });
+                    },
                     actionColor: AppColors.secondary,
                   ),
 
@@ -358,16 +358,18 @@ class HomeScreen extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 12.h),
                           child: Obx(() {
                             // Access feed directly from controller to ensure reactivity
-                            final currentFeed = homeController.homeFeedsList[index];
+                            final currentFeed =
+                                homeController.homeFeedsList[index];
                             return CustomFeedCard(
-                              isFavouriteFromApi: currentFeed.isFavorite ?? false,
+                              isFavouriteFromApi:
+                                  currentFeed.isFavorite ?? false,
                               isVisitShopButton: feed.saloonOwner != null,
-                              favoriteCount: currentFeed.favoriteCount.toString(),
+                              favoriteCount:
+                                  currentFeed.favoriteCount.toString(),
                               userImageUrl:
                                   feed.userImage ?? AppConstants.demoImage,
                               userName: feed.userName,
-                              userAddress:
-                                  feed.saloonOwner?.shopAddress ?? '',
+                              userAddress: feed.saloonOwner?.shopAddress ?? '',
                               postImageUrl: feed.images.isNotEmpty
                                   ? feed.images.first
                                   : AppConstants.demoImage,

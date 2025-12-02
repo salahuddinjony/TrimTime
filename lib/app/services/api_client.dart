@@ -22,10 +22,11 @@ class ApiClient extends GetxService {
   static String bearerToken = "";
 
   ///================================================================Helper Methods============================///
-  
+
   /// Print a visual separator for better readability
   static void printSeparator([String title = '']) {
-    const separator = '═════════════════════════════════════════════════════════════';
+    const separator =
+        '═════════════════════════════════════════════════════════════';
     if (title.isEmpty) {
       debugPrint(separator);
     } else {
@@ -39,9 +40,9 @@ class ApiClient extends GetxService {
       if (label.isNotEmpty) {
         debugPrint('\n🔹 $label:');
       }
-      
+
       dynamic jsonObject = input;
-      
+
       // If input is a string, try to parse it as JSON
       if (input is String) {
         try {
@@ -52,7 +53,7 @@ class ApiClient extends GetxService {
           return;
         }
       }
-      
+
       const encoder = JsonEncoder.withIndent('  ');
       final pretty = encoder.convert(jsonObject);
       printWrapped(pretty);
@@ -82,11 +83,11 @@ class ApiClient extends GetxService {
     printSeparator();
     debugPrint('📍 Method: $method');
     debugPrint('📍 URL: $uri');
-    
+
     if (headers != null) {
       printPrettyJson(headers, label: '📋 Headers');
     }
-    
+
     if (body != null) {
       printPrettyJson(body, label: '📦 Body');
     }
@@ -125,7 +126,7 @@ class ApiClient extends GetxService {
     if (query != null) {
       baseUri = baseUri.replace(queryParameters: query);
     }
-    
+
     try {
       printRequest(
         method: 'GET',
@@ -139,14 +140,15 @@ class ApiClient extends GetxService {
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
-      
+
       return handleResponse(response, baseUri.toString());
     } catch (e) {
       debugPrint('❌ ERROR: ${e.toString()}');
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
-/// formdata  patch method 
+
+  /// formdata  patch method
   static Future<Response> patchFormData(
     String uri,
     Map<String, dynamic> body, {
@@ -189,6 +191,7 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
   ///================================================================Patch Method============================///
   static Future<Response> patchData(
     String uri,
@@ -202,7 +205,7 @@ class ApiClient extends GetxService {
       'Content-Type': 'application/json',
       'Authorization': '$bearerToken'
     };
-    
+
     try {
       printRequest(
         method: 'PATCH',
@@ -218,7 +221,7 @@ class ApiClient extends GetxService {
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
-      
+
       return handleResponse(response, uri);
     } catch (e) {
       debugPrint('❌ ERROR: ${e.toString()}');
@@ -235,7 +238,7 @@ class ApiClient extends GetxService {
       'Content-Type': 'application/json',
       'Authorization': '$bearerToken'
     };
-    
+
     try {
       printRequest(
         method: 'POST',
@@ -251,7 +254,7 @@ class ApiClient extends GetxService {
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
-      
+
       return handleResponse(response, uri);
     } catch (e) {
       debugPrint('❌ ERROR: ${e.toString()}');
@@ -299,7 +302,7 @@ class ApiClient extends GetxService {
         for (var element in multipartBody) {
           var mimeType =
               lookupMimeType(element.file.path) ?? 'application/octet-stream';
-          
+
           var multipartImg = await http.MultipartFile.fromPath(
             element.key,
             element.file.path,
@@ -312,7 +315,7 @@ class ApiClient extends GetxService {
       request.headers.addAll(mainHeaders);
       http.StreamedResponse response = await request.send();
       final content = await response.stream.bytesToString();
-      
+
       printResponse(
         statusCode: response.statusCode,
         uri: uri,
@@ -381,7 +384,7 @@ class ApiClient extends GetxService {
       request.headers.addAll(mainHeaders);
       http.StreamedResponse response = await request.send();
       final content = await response.stream.bytesToString();
-      
+
       printResponse(
         statusCode: response.statusCode,
         uri: uri,
@@ -450,7 +453,7 @@ class ApiClient extends GetxService {
       request.headers.addAll(mainHeaders);
       http.StreamedResponse response = await request.send();
       final content = await response.stream.bytesToString();
-      
+
       printResponse(
         statusCode: response.statusCode,
         uri: uri,
@@ -476,7 +479,7 @@ class ApiClient extends GetxService {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': '$bearerToken'
     };
-    
+
     try {
       final usedHeaders = Map<String, String>.from(mainHeaders);
       if (headers != null) {
@@ -517,7 +520,7 @@ class ApiClient extends GetxService {
             headers: usedHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
-      
+
       return handleResponse(response, uri);
     } catch (e) {
       debugPrint('❌ ERROR: ${e.toString()}');
@@ -535,7 +538,7 @@ class ApiClient extends GetxService {
       'Content-Type': 'application/json',
       'Authorization': '$bearerToken',
     };
-    
+
     try {
       printRequest(
         method: 'DELETE',
@@ -549,7 +552,7 @@ class ApiClient extends GetxService {
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
-      
+
       return handleResponse(response, uri);
     } catch (e) {
       debugPrint('❌ ERROR: ${e.toString()}');
@@ -564,7 +567,7 @@ class ApiClient extends GetxService {
     } catch (e) {
       body = response.body;
     }
-    
+
     Response response0 = Response(
       body: body,
       bodyString: response.body.toString(),

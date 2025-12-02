@@ -19,7 +19,8 @@ class BarberOwnerHomeController extends GetxController
         JobApplicationManageMixin,
         DashboardDataMixin,
         DateWiseBookingsMixin,
-        UserInfoFromStorage, MixinGetReviews {
+        UserInfoFromStorage,
+        MixinGetReviews {
   @override
   void onInit() {
     super.onInit();

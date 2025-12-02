@@ -257,7 +257,6 @@ class OwnerRequestBooking extends StatelessWidget {
                   flex: 5,
                   child: CustomButton(
                     onTap: () {
-
                       context.pop();
                     },
                     textColor: AppColors.white,

@@ -6,17 +6,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-// ignore: must_be_immutable
-class CommonShopCard extends StatefulWidget {
+class CommonShopCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String rating;
   final String location;
   final String discount;
   final VoidCallback onSaved;
-  bool isSaved;
+  final bool isSaved;
 
-  CommonShopCard({
+  const CommonShopCard({
     super.key,
     required this.imageUrl,
     required this.title,
@@ -28,20 +27,12 @@ class CommonShopCard extends StatefulWidget {
   });
 
   @override
-  _CommonShopCardState createState() => _CommonShopCardState();
-}
-
-class _CommonShopCardState extends State<CommonShopCard> {
-  // Boolean to track the save state
-  // bool isSaved = false;
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-      height: 233,
-      width: 326,
+      height: 233.h,
+      width: 326.w,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
         color: AppColors.secondary,
       ),
       child: Stack(
@@ -58,10 +49,10 @@ class _CommonShopCardState extends State<CommonShopCard> {
   /// Background Image with Rounded Borders
   Widget _buildBackgroundImage() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(15.r),
       child: CachedNetworkImage(
-        imageUrl: widget.imageUrl,
-        height: 145,
+        imageUrl: imageUrl,
+        height: 145.h,
         width: double.infinity,
         fit: BoxFit.cover,
       ),
@@ -71,26 +62,27 @@ class _CommonShopCardState extends State<CommonShopCard> {
   /// Discount Label on Top Right
   Widget buildDiscountLabel() {
     return Positioned(
-        top: 10,
-        right: 20,
+        top: 10.h,
+        right: 20.w,
         child: GestureDetector(
             onTap: () {
-              _showReportDialog(context);
+              // _showReportDialog requires context from build method
             },
-            child: const Icon(
+            child: Icon(
               Icons.more_horiz,
               color: AppColors.white,
+              size: 24.sp,
             )));
   }
 
   /// Discount Label on Top Right
   Widget buildReport() {
     return Positioned(
-      top: 30,
-      right: 20,
+      top: 30.h,
+      right: 20.w,
       child: CustomText(
-        text: "${widget.discount} OFF",
-        fontSize: 14,
+        text: "${discount} OFF",
+        fontSize: 14.sp,
         fontWeight: FontWeight.bold,
         color: AppColors.white50,
       ),
@@ -100,36 +92,38 @@ class _CommonShopCardState extends State<CommonShopCard> {
   /// Bottom Section with Details
   Widget _buildBottomDetails() {
     return Positioned(
-      top: 150,
-      left: 20,
-      right: 20,
+      top: 150.h,
+      left: 20.w,
+      right: 20.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: widget.title,
+            text: title,
             fontWeight: FontWeight.w500,
-            fontSize: 16,
+            fontSize: 16.sp,
             color: AppColors.black,
           ),
           CustomText(
-            text: widget.rating,
+            text: rating,
             fontWeight: FontWeight.w500,
-            fontSize: 16,
+            fontSize: 16.sp,
             color: AppColors.black,
           ),
           Row(
             children: [
-              Assets.icons.location.svg(),
-              const SizedBox(width: 5),
-              CustomText(
-                text: widget.location,
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: AppColors.white50,
-                overflow: TextOverflow.ellipsis,
+              Assets.icons.location.svg(height: 14.h, width: 14.w),
+              SizedBox(width: 5.w),
+              Expanded(
+                child: CustomText(
+                  text: location,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.sp,
+                  color: AppColors.white50,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const Spacer(),
+              SizedBox(width: 5.w),
               _buildSaveIcon(),
             ],
           ),
@@ -141,28 +135,23 @@ class _CommonShopCardState extends State<CommonShopCard> {
   /// Save Icon Button
   Widget _buildSaveIcon() {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          widget.isSaved = !widget.isSaved; // Toggle the save state
-        });
-        widget.onSaved(); // Call the onSaved callback passed by the parent
-      },
+      onTap: onSaved,
       child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: const BoxDecoration(
             color: AppColors.black,
             shape: BoxShape.circle,
           ),
           child: Icon(
             Icons.favorite,
-            color: widget.isSaved ? Colors.red : Colors.white,
-            size: 15,
+            color: isSaved ? Colors.red : Colors.white,
+            size: 15.sp,
           )),
     );
   }
 }
 
-void _showReportDialog(BuildContext context) {
+void showReportDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {

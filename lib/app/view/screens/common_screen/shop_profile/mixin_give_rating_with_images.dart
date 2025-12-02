@@ -13,6 +13,12 @@ mixin GiveRatingWithImagesMixin on SelectMultipleImagesMixin {
   RxDouble rating = 0.0.obs;
   Rx<RxStatus> giveRatingStatus = Rx<RxStatus>(RxStatus.empty());
 
+  void clearFirelds() {
+    reviewController.clear();
+    rating.value = 0.0;
+    imagePaths.clear();
+  } 
+
   Future<bool> giveRating({
     required String saloonOwnerId,
     required String bookingId,

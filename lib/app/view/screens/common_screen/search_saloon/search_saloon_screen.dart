@@ -20,7 +20,7 @@ class SearchSaloonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final extra = GoRouter.of(context).state.extra;
+    final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
 
     if (extra is UserRole) {
@@ -153,7 +153,7 @@ class SearchSaloonScreen extends StatelessWidget {
                                     // context.pushNamed(
                                     //     RoutePath.userBookingScreen,
                                     //     extra: userRole);
-                                        AppRouter.route.pushNamed(
+                                    AppRouter.route.pushNamed(
                                       RoutePath.shopProfileScreen,
                                       extra: {
                                         'userRole': userRole,
@@ -162,14 +162,27 @@ class SearchSaloonScreen extends StatelessWidget {
                                       },
                                     );
                                   },
-                                  child: CommonShopCard(
-                                    imageUrl: salon.shopLogo,
-                                    title: salon.shopName,
-                                    rating: "${salon.ratingCount} ★",
-                                    location: salon.shopAddress,
-                                    discount: salon.distance.toString(),
-                                    onSaved: () => debugPrint("Saved Clicked!"),
-                                  ),
+                                  child: Obx(() {
+                                    // Access the list directly inside Obx to ensure reactivity
+                                    final currentSalon =
+                                        homeController.searchesSaloons[index];
+                                    return CommonShopCard(
+                                      imageUrl: salon.shopLogo,
+                                      title: salon.shopName,
+                                      rating: "${salon.ratingCount} ★",
+                                      location: salon.shopAddress,
+                                      discount: salon.distance.toString(),
+                                      isSaved: currentSalon.isFavorite,
+                                      onSaved: () {
+                                        homeController.toggleFavoriteSalon(
+                                          tag: tags.searches,
+                                          salonId: salon.userId,
+                                          isFavorite: currentSalon.isFavorite,
+                                          index: index,
+                                        );
+                                      },
+                                    );
+                                  }),
                                 ),
                               );
                             },

@@ -177,7 +177,6 @@ class AppStrings {
   static const recentRequest  = "Recent Request";
   static const  chat  = "Chat";
   static const service  = "Service";
-  static const rating  = " Rating: ";
   static const ratings  = " Rating";
   static const description  = "Description ";
   static const viewOnMap  = "View on Map ";

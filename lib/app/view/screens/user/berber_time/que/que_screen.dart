@@ -482,7 +482,7 @@ class QueScreen<T> extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: -70,
+              bottom: -35.h,
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
@@ -508,7 +508,7 @@ class QueScreen<T> extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 80),
+         SizedBox(height: 50.h),
         Text(
           barberName,
           style: TextStyle(
@@ -517,7 +517,7 @@ class QueScreen<T> extends StatelessWidget {
             color: AppColors.gray500,
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         GestureDetector(
           onTap: onProfileTap,
           child: Container(

@@ -6,6 +6,8 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed_card.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
+import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,17 +18,30 @@ class FeedAll extends StatelessWidget {
     super.key,
   });
 
-  final BarberHomeController controller = Get.find<BarberHomeController>();
-
   @override
   Widget build(BuildContext context) {
     final extra = GoRouter.of(context).state.extra;
     UserRole? userRole;
+    dynamic controller;
 
     if (extra is UserRole) {
       userRole = extra;
     } else if (extra is Map<String, dynamic>) {
       userRole = extra['userRole'] as UserRole?;
+      controller = extra['controller'];
+    }
+
+    // If no controller passed, try to find based on user role
+    if (controller == null) {
+      try {
+        if (userRole == UserRole.barber) {
+          controller = Get.find<BarberHomeController>();
+        } else {
+          controller = Get.find<BarberOwnerHomeController>();
+        }
+      } catch (e) {
+        debugPrint("Error finding controller: $e");
+      }
     }
 
     debugPrint("===================${userRole?.name}");
@@ -34,6 +49,13 @@ class FeedAll extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
         body: const Center(child: Text('No user role received')),
+      );
+    }
+
+    if (controller == null || controller is! MixinFeedsManagement) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('Controller not found')),
       );
     }
     return Scaffold(
@@ -85,42 +107,47 @@ class FeedAll extends StatelessWidget {
 
           return SingleChildScrollView(
             child: Column(
-              children: feeds.map((feed) {
+              children: feeds.asMap().entries.map<Widget>((entry) {
+                final index = entry.key;
                 return Padding(
                   padding: EdgeInsets.only(bottom: 12.h),
-                  child: CustomFeedCard(
-                    isFavouriteFromApi: feed.isFavorite ?? false,
-                    isVisitShopButton: feed.saloonOwner != null,
-                    favoriteCount: feed.favoriteCount.toString(),
-                    userImageUrl: feed.userImage ?? AppConstants.demoImage,
-                    userName: feed.userName,
-                    userAddress: feed.saloonOwner?.shopAddress ?? '',
-                    postImageUrl: feed.images.isNotEmpty
-                        ? feed.images.first
-                        : AppConstants.demoImage,
-                    postText: feed.caption,
-                    rating: feed.saloonOwner != null
-                        ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
-                        : "",
-                    onFavoritePressed: (isFavorite) {
-                      controller.toggleLikeFeed(
-                        feedId: feed.id,
-                        isUnlike: isFavorite == true,
-                      );
-                    },
-                    onVisitShopPressed: () {
-                      if (feed.saloonOwner != null) {
-                        AppRouter.route.pushNamed(
-                          RoutePath.shopProfileScreen,
-                          extra: {
-                            'userRole': userRole,
-                            'userId': feed.saloonOwner!.userId,
-                            'controller': controller,
-                          },
+                  child: Obx(() {
+                    final feedController = controller as MixinFeedsManagement;
+                    final currentFeed = feedController.homeFeedsList[index];
+                    return CustomFeedCard(
+                      isFavouriteFromApi: currentFeed.isFavorite ?? false,
+                      isVisitShopButton: currentFeed.saloonOwner != null,
+                      favoriteCount: currentFeed.favoriteCount.toString(),
+                      userImageUrl: currentFeed.userImage ?? AppConstants.demoImage,
+                      userName: currentFeed.userName,
+                      userAddress: currentFeed.saloonOwner?.shopAddress ?? '',
+                      postImageUrl: currentFeed.images.isNotEmpty
+                          ? currentFeed.images.first
+                          : AppConstants.demoImage,
+                      postText: currentFeed.caption,
+                      rating: currentFeed.saloonOwner != null
+                          ? "${currentFeed.saloonOwner!.avgRating?.toStringAsFixed(1)} ★ (${currentFeed.saloonOwner!.ratingCount.toString()})"
+                          : "",
+                      onFavoritePressed: (isFavorite) {
+                        feedController.toggleLikeFeed(
+                          feedId: currentFeed.id,
+                          isUnlike: isFavorite == true,
                         );
-                      }
-                    },
-                  ),
+                      },
+                      onVisitShopPressed: () {
+                        if (currentFeed.saloonOwner != null) {
+                          AppRouter.route.pushNamed(
+                            RoutePath.shopProfileScreen,
+                            extra: {
+                              'userRole': userRole,
+                              'userId': currentFeed.saloonOwner!.userId,
+                              'controller': controller,
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }),
                 );
               }).toList(),
             ),

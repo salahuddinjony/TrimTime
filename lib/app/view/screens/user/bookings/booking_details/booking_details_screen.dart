@@ -9,8 +9,10 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/barber_booking/barber_booking_model.dart';
 import 'package:barber_time/app/view/screens/user/bookings/models/customer_bookins_model.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart' as intl;
 
 // Helper to format date/time
 String formatDateTime(DateTime dateTime) {
@@ -46,8 +48,13 @@ class BookingDetailsScreen<T> extends StatelessWidget {
   final UserRole? userRole;
   final dynamic bookingData; // Accepts BarberBookingData or CustomerBooking
   final T? controller;
+  final String? bookingType;
   const BookingDetailsScreen(
-      {super.key, this.userRole, required this.bookingData, this.controller});
+      {super.key,
+      this.userRole,
+      required this.bookingData,
+      this.controller,
+      this.bookingType});
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +117,10 @@ class BookingDetailsScreen<T> extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.white50,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         iconData: Icons.arrow_back,
-        appBarContent: "Booking Details",
+        appBarContent:
+            "${isCustomerBooking ? bookingType?.safeCap() ?? "Booking" : 'Booking'} Details",
         appBarBgColor: AppColors.white,
       ),
       body: Padding(
@@ -214,9 +222,10 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              if (userRole != UserRole.barber &&
+              if (userRole == UserRole.user &&
                   (status.toLowerCase() != "cancelled" &&
-                      status.toLowerCase() != "completed")) ...[
+                      status.toLowerCase() != "completed" &&
+                      status.toLowerCase() != "confirmed")) ...[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -227,7 +236,10 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                                 isCustomerBooking ? bookingData.bookingId : "");
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10.r),
+                        padding: bookingType?.toLowerCase() != 'booking'
+                            ? EdgeInsets.symmetric(
+                                vertical: 13.r, horizontal: 30.r)
+                            : EdgeInsets.all(10.r),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius:
@@ -235,34 +247,75 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                             border: Border.all(color: AppColors.black)),
                         child: CustomText(
                           text: "Cancel Booking",
-                          fontSize: 14.sp,
+                          fontSize: bookingType?.toLowerCase() != 'booking'
+                              ? 16.sp
+                              : 14.sp,
                           fontWeight: FontWeight.w700,
                           color: Colors.red,
                         ),
                       ),
                     ),
-                    SizedBox(width: 20.w),
-                    GestureDetector(
-                      onTap: () {
-                        AppRouter.route.pushNamed(RoutePath.rescheduleScreen,
-                            extra: userRole);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.r, horizontal: 20.r),
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.r)),
-                            border: Border.all(color: AppColors.black)),
-                        child: CustomText(
-                          text: "Reschedule",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.white50,
+                    if (bookingType?.toLowerCase() == 'booking') ...[
+                      SizedBox(width: 20.w),
+                      GestureDetector(
+                        onTap: () {
+                          debugPrint("Reschedule tapped");
+                          debugPrint(
+                              "Passing userId: ${isCustomerBooking ? bookingData.saloonOwnerId + "sealoon" : bookingData.userId}");
+
+                          // Extract service names and durations
+                          List<String> serviceNamesList = [];
+                          List<int> serviceDurationsList = [];
+
+                          if (isCustomerBooking) {
+                            serviceNamesList = bookingData.serviceNames;
+                            serviceDurationsList = bookingData.serviceDurations;
+
+                            //
+                            // get barber with date
+                            (controller as dynamic)?.getbarberWithDate(
+                                barberId: bookingData.saloonOwnerId,
+                                date: intl.DateFormat('yyyy-MM-dd').format(
+                                    (controller as dynamic).selectedDate));
+                          } else {
+                            // For BarberBookingData
+                            if (bookingData.bookedServices != null) {
+                              for (var service in bookingData.bookedServices) {
+                                serviceNamesList.add(service.serviceName);
+                                serviceDurationsList.add(service.duration);
+                              }
+                            }
+                          }
+
+                          AppRouter.route
+                              .pushNamed(RoutePath.rescheduleScreen, extra: {
+                            'bookingId': bookingData.bookingId,
+                            'userRole': userRole,
+                            'controller': controller,
+                            'userId': isCustomerBooking
+                                ? bookingData.saloonOwnerId
+                                : bookingData.userId,
+                            'serviceNames': serviceNamesList,
+                            'serviceDurations': serviceDurationsList,
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.r, horizontal: 20.r),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.r)),
+                              border: Border.all(color: AppColors.black)),
+                          child: CustomText(
+                            text: "Reschedule",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.white50,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ],
                 )
               ],
@@ -312,48 +365,56 @@ class BookingDetailsScreen<T> extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           title: CustomText(
-            text: "Are you sure want \n to cancel the booking?",
+            text: "Are you sure want \n to cancel this?",
             maxLines: 2,
             fontSize: 16.sp,
             color: AppColors.black,
           ),
           actions: <Widget>[
             // Cancel Button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              backgroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              minimumSize: Size(0, 0),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+              Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.white),
+              'Cancel',
+              style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
+            SizedBox(width: 10),
             // Confirm Button
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: AppColors.secondary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              backgroundColor: AppColors.secondary,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              minimumSize: Size(0, 0),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               onPressed: () async {
-                debugPrint('Cancel booking confirmed');
-                final success = await (controller as dynamic)
-                    .cancelBooking(bookingId: bookingId);
-                if (success) {
-                  Navigator.of(context).pop(); // Close the dialog
-                }
-                Navigator.of(context).pop();
+              debugPrint('Cancel booking confirmed');
+              final success = await (controller as dynamic)
+                .cancelBooking(bookingId: bookingId);
+              if (success) {
+                Navigator.of(context).pop(); // Close the dialog
+              }
+              Navigator.of(context).pop();
               },
               child: const Text(
-                'Confirm',
-                style: TextStyle(color: Colors.white),
+              'Confirm',
+              style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
+              ],
+            )
           ],
         );
       },

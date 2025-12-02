@@ -9,8 +9,10 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
@@ -159,8 +161,14 @@ class BerberTimes extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                AppRouter.route.pushNamed(RoutePath.queScreen,
-                                    extra: [userRole, "IsQue"]);
+                                //need to modify and connect this part with que controller
+                                AppRouter.route
+                                    .pushNamed(RoutePath.queScreen, extra: {
+                                  'userRole': userRole,
+                                  'barberId': 'barber_$index',
+                                  'controller': Get.find<QueController>(),
+                                  'saloonOwnerId': 'saloon_owner_1',
+                                });
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,

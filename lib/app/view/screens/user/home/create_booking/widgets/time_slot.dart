@@ -44,14 +44,14 @@ Widget timeSlotCard({
           fontWeight: FontWeight.w600,
           color: isSelected ? AppColors.white : AppColors.black,
         ),
-   
+
         // Separator Icon
         Icon(
           Icons.arrow_downward,
           size: 16.sp,
           color: isSelected ? AppColors.white : AppColors.gray300,
         ),
-      
+
         // End Time
         CustomText(
           text: endTime,

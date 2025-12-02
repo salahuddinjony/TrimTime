@@ -542,21 +542,21 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                 CommonProfileTotalCard(
                                   title: AppStrings.ratings,
                                   value: selonData != null
-                                      ? "${selonData.ratingCount}"
+                                      ? "${selonData.ratingCount.toString().padLeft(2, '0')}"
                                       : "0",
                                 ),
                                 const SizedBox(width: 8),
                                 CommonProfileTotalCard(
                                   title: AppStrings.following,
                                   value: selonData != null
-                                      ? "${selonData.followingCount}"
+                                      ? "${selonData.followingCount.toString().padLeft(2, '0')}"
                                       : "0",
                                 ),
                                 const SizedBox(width: 8),
                                 CommonProfileTotalCard(
                                   title: "Follower",
                                   value: selonData != null
-                                      ? "${selonData.followerCount}"
+                                      ? "${selonData.followerCount.toString().padLeft(2, '0')}"
                                       : "0",
                                 ),
                               ],

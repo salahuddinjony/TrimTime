@@ -7,10 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 mixin MixinFeedsManagement {
-
   //Get Feeds
- Rx<RxStatus> getFeedsStatus = Rx<RxStatus>(RxStatus.loading());
- RxList<FeedItem> homeFeedsList = RxList<FeedItem>();
+  Rx<RxStatus> getFeedsStatus = Rx<RxStatus>(RxStatus.loading());
+  RxList<FeedItem> homeFeedsList = RxList<FeedItem>();
 
   Future<void> getHomeFeeds() async {
     try {
@@ -29,42 +28,45 @@ mixin MixinFeedsManagement {
         getFeedsStatus.value = RxStatus.error(
             "Failed to fetch feeds: ${response.statusCode} - ${response.statusText}");
       }
-     
+
       debugPrint("Feeds fetched successfully");
     } catch (e) {
       debugPrint("Error fetching feeds: ${e.toString()}");
       getFeedsStatus.value =
           RxStatus.error("Error fetching feeds: ${e.toString()}");
-    }finally {
+    } finally {
       getFeedsStatus.refresh();
     }
   }
 
   //fav a feed
-  Future<bool> toggleLikeFeed({required String feedId, required bool isUnlike}) async {
+  Future<bool> toggleLikeFeed(
+      {required String feedId, required bool isUnlike}) async {
     try {
       // Find the feed in the list
       final feedIndex = homeFeedsList.indexWhere((feed) => feed.id == feedId);
-      
+
       if (feedIndex != -1) {
         // Optimistically update UI immediately
         final oldIsFavorite = homeFeedsList[feedIndex].isFavorite;
         final oldFavoriteCount = homeFeedsList[feedIndex].favoriteCount ?? 0;
-        
+
         homeFeedsList[feedIndex].isFavorite = isUnlike;
-        homeFeedsList[feedIndex].favoriteCount = isUnlike 
-            ? (oldFavoriteCount + 1) 
+        homeFeedsList[feedIndex].favoriteCount = isUnlike
+            ? (oldFavoriteCount + 1)
             : (oldFavoriteCount > 0 ? oldFavoriteCount - 1 : 0);
         homeFeedsList.refresh();
-        
+
         // Make API call
-        final response = isUnlike == false ? await ApiClient.deleteData(
-          'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId', 
-        ) : await ApiClient.postData(
-          ApiUrl.likeFeed,
-          jsonEncode({"feedId": feedId}),
-        );
-        
+        final response = isUnlike == false
+            ? await ApiClient.deleteData(
+                'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId',
+              )
+            : await ApiClient.postData(
+                ApiUrl.likeFeed,
+                jsonEncode({"feedId": feedId}),
+              );
+
         if (response.statusCode == 200 || response.statusCode == 201) {
           debugPrint("Feed liked successfully");
           return true;
@@ -81,13 +83,15 @@ mixin MixinFeedsManagement {
         }
       } else {
         // Feed not found in list, just make API call
-        final response = isUnlike == false ? await ApiClient.deleteData(
-          'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId', 
-        ) : await ApiClient.postData(
-          ApiUrl.likeFeed,
-          jsonEncode({"feedId": feedId}),
-        );
-        
+        final response = isUnlike == false
+            ? await ApiClient.deleteData(
+                'https://barber-shift-app-4n3k.vercel.app/api/v1${ApiUrl.likeFeed}/$feedId',
+              )
+            : await ApiClient.postData(
+                ApiUrl.likeFeed,
+                jsonEncode({"feedId": feedId}),
+              );
+
         if (response.statusCode == 200 || response.statusCode == 201) {
           debugPrint("Feed liked successfully");
           return true;
@@ -103,7 +107,7 @@ mixin MixinFeedsManagement {
       if (feedIndex != -1) {
         homeFeedsList[feedIndex].isFavorite = !isUnlike;
         final currentCount = homeFeedsList[feedIndex].favoriteCount ?? 0;
-        homeFeedsList[feedIndex].favoriteCount = isUnlike 
+        homeFeedsList[feedIndex].favoriteCount = isUnlike
             ? (currentCount > 0 ? currentCount - 1 : 0)
             : (currentCount + 1);
         homeFeedsList.refresh();

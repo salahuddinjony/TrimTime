@@ -4,13 +4,13 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/custom_booking_button.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
-import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/services_card.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/monitization_date_picar.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/barber_card.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/time_slot.dart';
-import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/time_picker_dialog.dart' as custom;
+import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/time_picker_dialog.dart'
+    as custom;
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
@@ -34,7 +34,10 @@ class SeloonBookingScreen extends StatelessWidget {
       {super.key,
       required this.userId,
       required this.userRole,
-      required this.controller, required this.seloonName, required this.seloonImage, required this.seloonAddress});
+      required this.controller,
+      required this.seloonName,
+      required this.seloonImage,
+      required this.seloonAddress});
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +170,7 @@ class SeloonBookingScreen extends StatelessWidget {
                             ? SizedBox(
                                 height:
                                     controller.selectedBarberId.value.isNotEmpty
-                                        ? 115.h 
+                                        ? 115.h
                                         : 95.h,
                                 child: ListView.separated(
                                   shrinkWrap: true,
@@ -270,48 +273,70 @@ class SeloonBookingScreen extends StatelessWidget {
                                       return GestureDetector(
                                         onTap: () {
                                           // Check if services are selected
-                                          if (controller.selectedServicesIds.isEmpty) {
-                                            EasyLoading.showInfo("Please select at least one service");
+                                          if (controller
+                                              .selectedServicesIds.isEmpty) {
+                                            EasyLoading.showInfo(
+                                                "Please select at least one service");
                                             // showCustomSnackBar("Please select at least one service", isError: true);
                                             // toastMessage(message: "Please select at least one service first");
                                             return;
                                           }
 
                                           // Calculate total duration
-                                          final totalDuration = controller.getTotalDurationOfSelectedServices();
+                                          final totalDuration = controller
+                                              .getTotalDurationOfSelectedServices();
 
                                           // Show time picker bottom sheet
                                           showModalBottomSheet(
                                             context: context,
                                             isScrollControlled: true,
                                             backgroundColor: Colors.transparent,
-                                            builder: (context) => custom.TimePickerDialog(
+                                            builder: (context) =>
+                                                custom.TimePickerDialog(
                                               slotStartTime: slot.start,
                                               slotEndTime: slot.end,
-                                              totalServiceDuration: totalDuration,
-                                              initialSelectedTime: controller.selectedTimeSlotId.value == slot.hashCode.toString()
-                                                  ? controller.selectedTimeSlot.value
+                                              totalServiceDuration:
+                                                  totalDuration,
+                                              initialSelectedTime: controller
+                                                          .selectedTimeSlotId
+                                                          .value ==
+                                                      slot.hashCode.toString()
+                                                  ? controller
+                                                      .selectedTimeSlot.value
                                                   : null,
                                               onTimeSelected: (selectedTime) {
-                                                debugPrint("Custom time selected: $selectedTime");
-                                                controller.selectedTimeSlot.value = selectedTime;
-                                                controller.selectedTimeSlotId.value = slot.hashCode.toString();
+                                                debugPrint(
+                                                    "Custom time selected: $selectedTime");
+                                                controller.selectedTimeSlot
+                                                    .value = selectedTime;
+                                                controller.selectedTimeSlotId
+                                                        .value =
+                                                    slot.hashCode.toString();
                                               },
                                             ),
                                           );
                                         },
                                         child: Obx(() {
-                                          final isSelected = controller.selectedTimeSlotId.value == slot.hashCode.toString();
+                                          final isSelected = controller
+                                                  .selectedTimeSlotId.value ==
+                                              slot.hashCode.toString();
                                           // Show custom time if selected, otherwise show slot times
-                                          final displayStartTime = isSelected && controller.selectedTimeSlot.value.isNotEmpty
-                                              ? controller.selectedTimeSlot.value
+                                          final displayStartTime = isSelected &&
+                                                  controller.selectedTimeSlot
+                                                      .value.isNotEmpty
+                                              ? controller
+                                                  .selectedTimeSlot.value
                                               : slot.start;
-                                          
+
                                           // Calculate end time based on selected start time and service duration
-                                          final displayEndTime = isSelected && controller.selectedTimeSlot.value.isNotEmpty
-                                              ? controller.endTimeSlot(controller.selectedTimeSlot.value)
+                                          final displayEndTime = isSelected &&
+                                                  controller.selectedTimeSlot
+                                                      .value.isNotEmpty
+                                              ? controller.endTimeSlot(
+                                                  controller
+                                                      .selectedTimeSlot.value)
                                               : slot.end;
-                                          
+
                                           return timeSlotCard(
                                             startTime: displayStartTime,
                                             endTime: displayEndTime,
@@ -321,7 +346,7 @@ class SeloonBookingScreen extends StatelessWidget {
                                       );
                                     },
                                     separatorBuilder: (context, index) =>
-                                        SizedBox(height: 10.h),
+                                        SizedBox(width: 10.h),
                                   ),
                                 );
                     },
@@ -344,19 +369,19 @@ class SeloonBookingScreen extends StatelessWidget {
                   CustomBookingButton(
                     text: "Confirm Booking",
                     onTap: () async {
-                        // Using GoRouter for pushing a route
-                  if(controller.isAllFilled())  context.pushNamed(
-                      RoutePath.summeryScreen,
-                      extra: {
-                        'seloonOwnerId': userId,
-                        'userRole': userRole,
-                        'controller': controller,
-                        'seloonName': seloonName,
-                        'seloonImage': seloonImage,
-                        'seloonAddress': seloonAddress,
-                      },
-                      );
-
+                      // Using GoRouter for pushing a route
+                      if (controller.isAllFilled())
+                        context.pushNamed(
+                          RoutePath.summeryScreen,
+                          extra: {
+                            'seloonOwnerId': userId,
+                            'userRole': userRole,
+                            'controller': controller,
+                            'seloonName': seloonName,
+                            'seloonImage': seloonImage,
+                            'seloonAddress': seloonAddress,
+                          },
+                        );
 
                       // if (controller.isAllFilled()) {
                       //   final result = await controller.createSelonBooking(

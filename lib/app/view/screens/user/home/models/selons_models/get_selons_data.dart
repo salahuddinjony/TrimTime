@@ -41,6 +41,7 @@ class Saloon {
 	final double avgRating;
 	final num distance;
 	final int queue;
+  bool isFavorite;
 
 	Saloon({
 		required this.id,
@@ -57,6 +58,7 @@ class Saloon {
 		required this.avgRating,
 		required this.distance,
 		required this.queue,
+    this.isFavorite = false,
 	});
 
 	factory Saloon.fromJson(Map<String, dynamic> json) {
@@ -75,6 +77,7 @@ class Saloon {
 			avgRating: (json['avgRating'] as num?)?.toDouble() ?? 0.0,
 			distance: json['distance'] ?? 0,
 			queue: json['queue'] ?? 0,
+      isFavorite: json['isFavorite'] ?? false,
 		);
 	}
 }

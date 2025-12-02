@@ -111,6 +111,9 @@ class NearYouShopScreen extends StatelessWidget {
                           itemCount: salons.length,
                           itemBuilder: (context, index) {
                             final salon = salons[index];
+                            // Find the actual index in the main nearbySaloons list
+                            final actualIndex = homeController.nearbySaloons
+                                .indexWhere((s) => s.userId == salon.userId);
                             return GestureDetector(
                               onTap: () {
                                 // context.pushNamed(RoutePath.userBookingScreen,
@@ -129,14 +132,28 @@ class NearYouShopScreen extends StatelessWidget {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
-                                child: CommonShopCard(
-                                  imageUrl: salon.shopLogo,
-                                  title: salon.shopName,
-                                  rating: "${salon.ratingCount} ★",
-                                  location: salon.shopAddress,
-                                  discount: salon.distance.toString(),
-                                  onSaved: () => debugPrint("Saved Clicked!"),
-                                ),
+                                child: Obx(() {
+                                  // Access the list directly inside Obx to ensure reactivity
+                                  final currentSalon = actualIndex != -1
+                                      ? homeController.nearbySaloons[actualIndex]
+                                      : salon;
+                                  return CommonShopCard(
+                                    imageUrl: salon.shopLogo,
+                                    title: salon.shopName,
+                                    rating: "${salon.ratingCount} ★",
+                                    location: salon.shopAddress,
+                                    discount: salon.distance.toString(),
+                                    isSaved: currentSalon.isFavorite,
+                                    onSaved: () {
+                                      homeController.toggleFavoriteSalon(
+                                        tag: tags.nearby,
+                                        salonId: salon.userId,
+                                        isFavorite: currentSalon.isFavorite,
+                                        index: actualIndex,
+                                      );
+                                    },
+                                  );
+                                }),
                               ),
                             );
                           },

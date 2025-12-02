@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
@@ -112,8 +114,9 @@ mixin BookingManagementMixin {
         "appointmentAt": timeSlot,
         "date": newDateTime.formatDateApi()
       };
+      final apiClient = ApiClient();
       final response =
-          await ApiClient.patchData(ApiUrl.rescheduleBooking, payload);
+          await apiClient.putData(ApiUrl.rescheduleBooking, jsonEncode(payload));
       if (response.statusCode == 200 ||
           response.statusCode == 204 ||
           response.statusCode == 201) {

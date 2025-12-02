@@ -3,9 +3,9 @@ import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/barber/barber_feed/controller/mixin_barber_crud.dart';
-import 'package:barber_time/app/view/screens/owner/owner_profile/rate/models/review_response_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/models/faq_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_all_my_fav.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_revires.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/privacy_policy/models/privacy_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/terms/models/terms_model.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/model/barber_queue_capacity_model.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class InfoController extends GetxController
-    with BarberFeedCRUDMixin, MixinGetAllMyFav {
+    with BarberFeedCRUDMixin, MixinGetAllMyFav, MixinGetReviews {
   var selectedIndex = Rx<int?>(null);
 
 // Toggle the selected FAQ item
@@ -24,7 +24,7 @@ class InfoController extends GetxController
   final RxList<FaqItem> faqs = <FaqItem>[].obs;
   final RxList<TermItem> terms = <TermItem>[].obs;
   final RxList<PrivacyItem> privacyPolicy = <PrivacyItem>[].obs;
-  final RxList<ReviewData> barberReviews = <ReviewData>[].obs;
+
   final RxList<BarberQueueCapacityData> barberQueueCapacity =
       <BarberQueueCapacityData>[].obs;
 
@@ -102,32 +102,6 @@ class InfoController extends GetxController
     } catch (e) {
       debugPrint("Error fetching privacy policy: ${e.toString()}");
       toastMessage(message: 'Failed to load privacy policy');
-    } finally {
-      isLoading.value = false;
-      refresh();
-    }
-  }
-
-  Future<void> getBarberReviews() async {
-    try {
-      isLoading.value = true;
-      final response = await ApiClient.getData(ApiUrl.getBarberReviews);
-
-      if (response.statusCode == 200) {
-        final body =
-            response.body is String ? jsonDecode(response.body) : response.body;
-        final resp = ReviewResponse.fromJson(body as Map<String, dynamic>);
-        barberReviews.value = resp.data;
-        debugPrint("Barber Reviews data length: ${barberReviews.length}");
-        debugPrint("Barber Reviews Data: ${barberReviews}");
-      } else {
-        debugPrint(
-            "Failed to load reviews: ${response.statusCode} - ${response.statusText}");
-        toastMessage(message: response.statusText ?? 'Failed to load reviews');
-      }
-    } catch (e) {
-      debugPrint("Error fetching reviews: ${e.toString()}");
-      toastMessage(message: 'Failed to load reviews');
     } finally {
       isLoading.value = false;
       refresh();

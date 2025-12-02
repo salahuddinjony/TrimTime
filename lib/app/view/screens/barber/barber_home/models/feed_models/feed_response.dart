@@ -30,7 +30,8 @@ class FeedItem {
   final String? userImage;
   final String caption;
   final List<String> images;
-  final int favoriteCount;
+  int favoriteCount;
+  bool? isFavorite;
   final SaloonOwner? saloonOwner;
 
   FeedItem({
@@ -41,6 +42,7 @@ class FeedItem {
     required this.caption,
     required this.images,
     required this.favoriteCount,
+    this.isFavorite,
     required this.saloonOwner,
   });
 
@@ -53,6 +55,7 @@ class FeedItem {
       caption: json['caption'] ?? '',
       images: (json['images'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
       favoriteCount: json['favoriteCount'] ?? 0,
+      isFavorite: json['isFavorite'],
       saloonOwner: json['saloonOwner'] != null ? SaloonOwner.fromJson(json['saloonOwner']) : null,
     );
   }

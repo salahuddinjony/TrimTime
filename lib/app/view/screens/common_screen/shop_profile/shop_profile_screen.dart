@@ -18,6 +18,7 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,13 +90,20 @@ class ShopProfileScreen<T> extends StatelessWidget {
               AppRouter.route.pop();
             },
           ),
-          body: ClipPath(
-            clipper: CurvedBannerClipper(),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: AppColors.searchScreenBg,
+          body: Stack(
+            children: [
+              // Curved banner background
+              ClipPath(
+                clipper: CurvedBannerClipper(),
+                child: Container(
+                  height: 600.h,
+                  decoration: const BoxDecoration(
+                    color: AppColors.searchScreenBg,
+                  ),
+                ),
               ),
-              child: SingleChildScrollView(
+              // Content on top
+              SingleChildScrollView(
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -448,48 +456,65 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       if (selonData != null &&
                           selonData.ratingCount > 0 &&
                           !isLoading)
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 16.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12.w, vertical: 6.h),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.orange500.withValues(alpha: .15),
-                                  AppColors.last.withValues(alpha: .1),
+                        GestureDetector(
+                          onTap: () {
+                            controller.getBarberReviews(
+                                userId: selonData.userId);
+                            context.pushNamed(
+                              RoutePath.reviewsScreen,
+                              extra: {
+                                'userRole': userRole,
+                                'userId': selonData.userId,
+                                'controller': controller,
+                                'salonName': selonData.shopName,
+                              },
+                            );
+                            debugPrint("Rating badge clicked");
+                          },
+                          child: Center(
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 16.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w, vertical: 6.h),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.orange500.withValues(alpha: .15),
+                                    AppColors.last.withValues(alpha: .1),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color:
+                                      AppColors.orange500.withValues(alpha: .3),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  CustomText(
+                                    text:
+                                        selonData.avgRating.toStringAsFixed(1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.black,
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  CustomText(
+                                    text:
+                                        "(${selonData.ratingCount} ${selonData.ratingCount == 1 ? 'review' : 'reviews'})",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.gray500,
+                                  ),
                                 ],
                               ),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color:
-                                    AppColors.orange500.withValues(alpha: .3),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 6.w),
-                                CustomText(
-                                  text: selonData.avgRating.toStringAsFixed(1),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.black,
-                                ),
-                                SizedBox(width: 6.w),
-                                CustomText(
-                                  text:
-                                      "(${selonData.ratingCount} ${selonData.ratingCount == 1 ? 'review' : 'reviews'})",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.gray500,
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -841,7 +866,10 @@ class ShopProfileScreen<T> extends StatelessWidget {
                       //       ),
 
                       // Booking Button Section
-                      if (userRole == UserRole.user && !isShowOwnerInfo) ...[
+                      if (userRole == UserRole.user &&
+                          !isShowOwnerInfo &&
+                          selonData?.services.isNotEmpty == true &&
+                          selonData?.barbers.isNotEmpty == true) ...[
                         const SizedBox(height: 20),
                         isLoading
                             ? Shimmer.fromColors(
@@ -867,6 +895,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                   // fetch selon services
                                   controller.fetchSelonServices(
                                       userId: selonData!.userId);
+
                                   AppRouter.route.pushNamed(
                                     RoutePath.seloonBookingScreen,
                                     extra: {
@@ -893,7 +922,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         );
       }),

@@ -151,26 +151,71 @@ class SavedScreen extends StatelessWidget {
                                             'controller': controller,
                                           });
                                     },
-                                    child: CommonShopCard(
-                                      imageUrl: shop.shopLogo,
-                                      title: shop.shopName,
-                                      isSaved: true,
-                                      rating:
-                                          "${shop.ratingCount.toString()}(${shop.avgRating.toString()})",
-                                      location: shop.shopAddress,
-                                      discount: "",
-                                      onSaved: () async {
-                                      controller.favoriteShops.removeAt(index);
-                                      // final result= await controller.toggleFavoriteShop(
-                                      //       shop.userId);
+                                    child: Obx(() {
+                                      // Check if this shop is still favorited in any of the main lists
+                                      var isFavorited = true;
+                                      final nearbyIndex =
+                                          controller.nearbySaloons.indexWhere(
+                                              (s) => s.userId == shop.userId);
+                                      final topRatedIndex =
+                                          controller.topRatedSaloons.indexWhere(
+                                              (s) => s.userId == shop.userId);
+                                      final searchIndex =
+                                          controller.searchesSaloons.indexWhere(
+                                              (s) => s.userId == shop.userId);
 
-                                      // if(!result){
-                                      //    controller.favoriteShops.insert(index, shop);
-                                      // }
-                                          
+                                      // Check if it exists in any list and get its favorite status
+                                      if (nearbyIndex != -1) {
+                                        isFavorited = controller
+                                            .nearbySaloons[nearbyIndex]
+                                            .isFavorite;
+                                      } else if (topRatedIndex != -1) {
+                                        isFavorited = controller
+                                            .topRatedSaloons[topRatedIndex]
+                                            .isFavorite;
+                                      } else if (searchIndex != -1) {
+                                        isFavorited = controller
+                                            .searchesSaloons[searchIndex]
+                                            .isFavorite;
                                       }
-                                         
-                                    ),
+
+                                      return CommonShopCard(
+                                        imageUrl: shop.shopLogo,
+                                        title: shop.shopName,
+                                        isSaved: isFavorited,
+                                        rating:
+                                            "${shop.ratingCount.toString()}(${shop.avgRating.toStringAsFixed(1)})",
+                                        location: shop.shopAddress,
+                                        discount: "",
+                                        onSaved: () {
+                                          // Use the first available index for the API call
+                                          final tagToUse = nearbyIndex != -1
+                                              ? tags.nearby
+                                              : (topRatedIndex != -1
+                                                  ? tags.topRated
+                                                  : tags.searches);
+                                          final indexToUse = nearbyIndex != -1
+                                              ? nearbyIndex
+                                              : (topRatedIndex != -1
+                                                  ? topRatedIndex
+                                                  : searchIndex);
+
+                                          controller.toggleFavoriteSalon(
+                                            tag: tagToUse,
+                                            salonId: shop.userId,
+                                            isFavorite: isFavorited,
+                                            index: indexToUse,
+                                          );
+
+                                          // If unfavorited, remove from favorites list locally
+                                          if (isFavorited) {
+                                            controller.favoriteShops
+                                                .removeWhere((s) =>
+                                                    s.userId == shop.userId);
+                                          }
+                                        },
+                                      );
+                                    }),
                                   ),
                                 );
                               },

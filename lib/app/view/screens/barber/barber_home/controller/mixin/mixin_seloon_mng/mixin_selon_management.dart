@@ -109,6 +109,15 @@ mixin MixinSelonManagement {
     return total;
   }
 
+  // Calculate total duration of selected services in minutes
+  int getTotalDurationOfSelectedServices() {
+    int totalDuration = 0;
+    for (var service in selectedServices) {
+      totalDuration += service.duration;
+    }
+    return totalDuration;
+  }
+
   void addOrRemoveServiceId(String serviceId) {
 
     if (selectedServicesIds.contains(serviceId)) {

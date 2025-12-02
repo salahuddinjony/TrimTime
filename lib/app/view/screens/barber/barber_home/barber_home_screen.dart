@@ -314,8 +314,10 @@ class BarberHomeScreen extends StatelessWidget {
                         title: "Feed",
                         actionText: AppStrings.seeAll,
                         onActionTap: () {
-                          AppRouter.route
-                              .pushNamed(RoutePath.feedAll, extra: userRole);
+                          AppRouter.route.pushNamed(RoutePath.feedAll, extra: {
+                            'userRole': userRole,
+                            'controller': controller,
+                          });
                         },
                         actionColor: AppColors.secondary,
                       ),
@@ -334,51 +336,63 @@ class BarberHomeScreen extends StatelessWidget {
                         return Column(
                           children: feeds
                               .take(feeds.length > 4 ? 4 : feeds.length)
-                              .map((feed) {
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((entry) {
+                            final index = entry.key;
                             return Padding(
                               padding: EdgeInsets.only(bottom: 12.h),
                               child: Column(
                                 children: [
-                                  CustomFeedCard(
-                                    isFavouriteFromApi:
-                                        feed.isFavorite ?? false,
-                                    isVisitShopButton: feed.saloonOwner != null,
-                                    favoriteCount:
-                                        feed.favoriteCount.toString(),
-                                    userImageUrl: feed.userImage ??
-                                        AppConstants.demoImage,
-                                    userName: feed.userName,
-                                    userAddress:
-                                        feed.saloonOwner?.shopAddress ?? '',
-                                    postImageUrl: feed.images.isNotEmpty
-                                        ? feed.images.first
-                                        : AppConstants.demoImage,
-                                    postText: feed.caption,
-                                    rating: feed.saloonOwner != null
-                                        ? "${feed.saloonOwner!.avgRating} ★ (${feed.saloonOwner!.ratingCount})"
-                                        : "",
-                                    onFavoritePressed: (isFavorite) {
-                                      controller.toggleLikeFeed(
-                                        feedId: feed.id,
-                                        isUnlike: isFavorite == true,
-                                      );
-                                    },
-                                    onVisitShopPressed: () {
-                                      if (feed.saloonOwner != null) {
-                                        // controller.getSelonData(
-                                        //     userId:
-                                        //         feed.saloonOwner!.userId);
-                                        AppRouter.route.pushNamed(
-                                          RoutePath.shopProfileScreen,
-                                          extra: {
-                                            'userRole': userRole,
-                                            'userId': feed.saloonOwner!.userId,
-                                            'controller': controller,
-                                          },
+                                  Obx(() {
+                                    final currentFeed =
+                                        controller.homeFeedsList[index];
+                                    return CustomFeedCard(
+                                      isFavouriteFromApi:
+                                          currentFeed.isFavorite ?? false,
+                                      isVisitShopButton:
+                                          currentFeed.saloonOwner != null,
+                                      favoriteCount:
+                                          currentFeed.favoriteCount.toString(),
+                                      userImageUrl: currentFeed.userImage ??
+                                          AppConstants.demoImage,
+                                      userName: currentFeed.userName,
+                                      userAddress: currentFeed
+                                              .saloonOwner?.shopAddress ??
+                                          '',
+                                      postImageUrl:
+                                          currentFeed.images.isNotEmpty
+                                              ? currentFeed.images.first
+                                              : AppConstants.demoImage,
+                                      postText: currentFeed.caption,
+                                      rating: currentFeed.saloonOwner != null
+                                          ? "${currentFeed.saloonOwner!.avgRating?.toStringAsFixed(1)} ★ (${currentFeed.saloonOwner!.ratingCount.toString()})"
+                                          : "",
+                                      onFavoritePressed: (isFavorite) {
+                                        controller.toggleLikeFeed(
+                                          feedId: currentFeed.id,
+                                          isUnlike: isFavorite == true,
                                         );
-                                      }
-                                    },
-                                  ),
+                                      },
+                                      onVisitShopPressed: () {
+                                        if (currentFeed.saloonOwner != null) {
+                                          // controller.getSelonData(
+                                          //     userId:
+                                          //         currentFeed.saloonOwner!.userId);
+                                          AppRouter.route.pushNamed(
+                                            RoutePath.shopProfileScreen,
+                                            extra: {
+                                              'userRole': userRole,
+                                              'userId': currentFeed
+                                                  .saloonOwner!.userId,
+                                              'controller': controller,
+                                            },
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }),
                                 ],
                               ),
                             );

@@ -38,10 +38,13 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
         minute = int.parse(parts[1]);
       }
 
-      minute += 45; // Adding 45 minutes
+      // Get total duration of selected services
+      int totalDuration = getTotalDurationOfSelectedServices();
+      
+      minute += totalDuration; // Adding total service duration
       if (minute >= 60) {
-        minute -= 60;
-        hour += 1;
+        hour += minute ~/ 60;
+        minute = minute % 60;
       }
       if (hour >= 24) {
         hour -= 24;

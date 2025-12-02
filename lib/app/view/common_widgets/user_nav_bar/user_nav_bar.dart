@@ -175,9 +175,9 @@ class _CustomNavBarState extends State<CustomNavBar>
                   children: [
                     _buildFABOption(
                       iconWidget: Assets.images.camera.image(
-                        width: 30.w,
-                        height: 30.h,color: AppColors.black
-                      ), // Your custom image
+                          width: 30.w,
+                          height: 30.h,
+                          color: AppColors.black), // Your custom image
                       onTap: () {
                         AppRouter.route.pushNamed(RoutePath.pixMatch,
                             extra: UserRole.user);

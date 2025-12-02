@@ -20,7 +20,9 @@ class BarberHomeController extends GetxController
         MixinFeedsManagement,
         MixinSelonManagement,
         ScheduleManagementMixin,
-        BookingManagementMixin,MixinGetAllMyFav, MixinGetReviews{
+        BookingManagementMixin,
+        MixinGetAllMyFav,
+        MixinGetReviews {
   var selectedFilter = "Nearby job".obs; // Now it's reactive
 
   @override

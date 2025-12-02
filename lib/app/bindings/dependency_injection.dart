@@ -1,4 +1,3 @@
-
 import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/global/controller/bottom_nav_controller/bottom_nav_color.dart';
 import 'package:barber_time/app/global/controller/general_controller/general_controller.dart';
@@ -40,7 +39,5 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => QueController(), fenix: true);
     Get.lazyPut(() => LoyalityController(), fenix: true);
     Get.lazyPut(() => SavedController(), fenix: true);
-
-
   }
 }

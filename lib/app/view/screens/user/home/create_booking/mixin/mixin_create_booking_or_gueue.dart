@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
+mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin {
   Rx<RxStatus> createBookingStatus = Rx<RxStatus>(RxStatus.loading());
   final TextEditingController bookingNotesController = TextEditingController();
   RxString selectedBarberId = ''.obs;
@@ -20,7 +20,8 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
     try {
       // Remove spaces and handle AM/PM
       String cleaned = startTime.replaceAll(' ', '');
-      RegExp regex = RegExp(r'^(\d{1,2}):(\d{2})(AM|PM)?$', caseSensitive: false);
+      RegExp regex =
+          RegExp(r'^(\d{1,2}):(\d{2})(AM|PM)?$', caseSensitive: false);
       final match = regex.firstMatch(cleaned);
       int hour, minute;
       if (match != null) {
@@ -40,7 +41,7 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
 
       // Get total duration of selected services
       int totalDuration = getTotalDurationOfSelectedServices();
-      
+
       minute += totalDuration; // Adding total service duration
       if (minute >= 60) {
         hour += minute ~/ 60;
@@ -62,7 +63,7 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
       return startTime; // Return start time in case of error
     }
   }
-  
+
   bool isAllFilled() {
     if (selectedBarberId.value.isEmpty) {
       EasyLoading.showInfo("Please select a barber");
@@ -93,7 +94,8 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
     debugPrint("Selected booking notes: ${bookingNotesController.text}");
     return true;
   }
-  clearControllers(){
+
+  clearControllers() {
     selectedBarberId.value = '';
     selectedTimeSlot.value = '';
     selectedTimeSlotId.value = '';
@@ -109,7 +111,7 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin{
         "barberId": selectedBarberId.value,
         "saloonOwnerId": saloonOwnerId,
         "appointmentAt": selectedTimeSlot.value,
-        "date":  selectedDate.formatDateApi(),
+        "date": selectedDate.formatDateApi(),
         "services": selectedServicesIds.toList(),
         "notes": bookingNotesController.text,
         "type": "BOOKING" // BOOKING QUEUE

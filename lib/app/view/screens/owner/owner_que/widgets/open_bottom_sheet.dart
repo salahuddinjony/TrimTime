@@ -2,15 +2,14 @@ import 'package:barber_time/app/global/helper/validators/validators.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/widgets/select_show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class OpenBottomSheet {
-  static void showChooseBarberBottomSheet(BuildContext context,
-      {required QueController controller}) {
+  static void showChooseBarberBottomSheet<T>(BuildContext context,
+      {required T controller}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -63,7 +62,8 @@ class OpenBottomSheet {
                           isColor: true,
                           hintText: "Name",
                           prefixIcon: const Icon(Icons.person),
-                          textEditingController: controller.nameController,
+                          textEditingController:
+                              (controller as dynamic).nameController,
                           validator: Validators.nameValidator,
                         ),
                         const SizedBox(height: 18),
@@ -73,10 +73,10 @@ class OpenBottomSheet {
                           isColor: true,
                           hintText: "Email Address",
                           prefixIcon: const Icon(Icons.email),
-                          textEditingController: controller.emailController,
+                          textEditingController:
+                              (controller as dynamic).emailController,
                           validator: Validators.emailValidator,
                           keyboardType: TextInputType.emailAddress,
-                          
                         ),
                         const SizedBox(height: 18),
 
@@ -98,7 +98,9 @@ class OpenBottomSheet {
                         Obx(() {
                           return GestureDetector(
                             onTap: () {
-                              if (controller.servicesList.isEmpty) {
+                              if ((controller as dynamic)
+                                  .servicesList
+                                  .isEmpty) {
                                 EasyLoading.showInfo(
                                     "Please select time first");
                                 return;
@@ -106,9 +108,11 @@ class OpenBottomSheet {
                               selectShowDialog.showMultiSelectDialog(
                                 context,
                                 title: "Select Services",
-                                controller: controller,
+                                controller: controller as dynamic,
                                 onSave: () async {
-                                  if (controller.services.isEmpty) {
+                                  if ((controller as dynamic)
+                                      .services
+                                      .isEmpty) {
                                     EasyLoading.showInfo(
                                         "There are no services available");
                                     return;
@@ -116,7 +120,9 @@ class OpenBottomSheet {
 
                                   // After selecting services, clear barber list and selected barber
                                   // controller.barberList.clear();
-                                  controller.selectedBarbderId.value = '';
+                                  (controller as dynamic)
+                                      .selectedBarbderId
+                                      .value = '';
 
                                   Navigator.pop(context);
                                   // await controller.getBarber();
@@ -130,7 +136,7 @@ class OpenBottomSheet {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 14),
                               decoration: BoxDecoration(
-                                color: controller.services.isEmpty
+                                color: (controller as dynamic).services.isEmpty
                                     ? Colors.grey.shade300
                                     : Colors.white,
                                 borderRadius: BorderRadius.circular(12),
@@ -142,32 +148,43 @@ class OpenBottomSheet {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      controller.servicesSelected.isEmpty
+                                      (controller as dynamic)
+                                              .servicesSelected
+                                              .isEmpty
                                           ? "Select Services"
-                                          : controller.servicesSelected.length >
-                                                  2
-                                              ? "${controller.servicesSelected.length} services selected"
-                                              : controller.services
-                                                  .where((service) => controller
+                                          : (controller as dynamic)
                                                       .servicesSelected
-                                                      .contains(service.id))
+                                                      .length >
+                                                  2
+                                              ? "${(controller as dynamic).servicesSelected.length} services selected"
+                                              : ((controller as dynamic)
+                                                      .services as List)
+                                                  .where((service) =>
+                                                      (controller as dynamic)
+                                                          .servicesSelected
+                                                          .contains(service.id))
                                                   .map(
                                                       (service) => service.name)
                                                   .join(", "),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        color: controller.services.isEmpty
+                                        color: (controller as dynamic)
+                                                .services
+                                                .isEmpty
                                             ? Colors.grey.shade400
                                             : Colors.black,
                                       ),
                                     ),
                                   ),
-                                  controller.getServicesStatus.value.isLoading
+                                  (controller as dynamic)
+                                          .getServicesStatus
+                                          .value
+                                          .isLoading
                                       ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
+                                          height: 20,
+                                          width: 20,
                                           child: CircularProgressIndicator())
-                                      : controller.services.isEmpty
+                                      : (controller as dynamic).services.isEmpty
                                           ? const SizedBox.shrink()
                                           : const Icon(Icons.arrow_drop_down),
                                 ],
@@ -304,7 +321,8 @@ class OpenBottomSheet {
                         CustomTextField(
                           hintText: "Notes",
                           prefixIcon: const Icon(Icons.note),
-                          textEditingController: controller.notesController,
+                          textEditingController:
+                              (controller as dynamic).notesController,
                           isColor: true,
                         ),
 
@@ -313,14 +331,14 @@ class OpenBottomSheet {
                         // Save
                         CustomButton(
                           onTap: () async {
-                            if (!controller.isAllFiledFilled()) {
+                            if (!(controller as dynamic).isAllFiledFilled()) {
                               EasyLoading.showInfo(
                                   "Please fill all the fields");
                               return;
                             }
                             debugPrint("Saving Queue");
-                            final result =
-                                await controller.registerCustomerQue();
+                            final result = await (controller as dynamic)
+                                .registerCustomerQue();
                             if (result) {
                               Navigator.pop(context); // Close bottom sheet
                             }

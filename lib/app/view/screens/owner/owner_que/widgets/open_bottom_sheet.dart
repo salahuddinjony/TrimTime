@@ -181,9 +181,12 @@ class OpenBottomSheet {
                                           .value
                                           .isLoading
                                       ? const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: CircularProgressIndicator())
+                                          height: 15,
+                                          width: 15,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                            color: AppColors.black,
+                                          ),)
                                       : (controller as dynamic).services.isEmpty
                                           ? const SizedBox.shrink()
                                           : const Icon(Icons.arrow_drop_down),

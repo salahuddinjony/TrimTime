@@ -9,7 +9,6 @@ import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/widgets/open_bottom_sheet.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
@@ -154,7 +153,8 @@ class BerberTimes extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(14),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.08),
+                                      color:
+                                          Colors.black.withValues(alpha: .08),
                                       blurRadius: 6,
                                       offset: const Offset(0, 2),
                                     ),
@@ -221,12 +221,13 @@ class BerberTimes extends StatelessWidget {
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: AppColors.gray500.withOpacity(0.2),
+                                  color:
+                                      AppColors.gray500.withValues(alpha: 0.2),
                                   width: 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Colors.black.withValues(alpha: 0.05),
                                     blurRadius: 4,
                                     offset: const Offset(0, 2),
                                   ),
@@ -261,13 +262,15 @@ class BerberTimes extends StatelessWidget {
                                     text: "(${salonData.ratingCount})",
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
-                                    color: AppColors.gray500.withOpacity(0.7),
+                                    color: AppColors.gray500
+                                        .withValues(alpha: 0.7),
                                   ),
                                   const SizedBox(width: 4),
                                   Icon(
                                     Icons.arrow_forward_ios,
                                     size: 12,
-                                    color: AppColors.gray500.withOpacity(0.5),
+                                    color: AppColors.gray500
+                                        .withValues(alpha: 0.5),
                                   ),
                                 ],
                               ),

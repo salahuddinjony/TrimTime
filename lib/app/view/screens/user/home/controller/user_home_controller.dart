@@ -6,6 +6,10 @@ import 'package:barber_time/app/view/screens/common_screen/shop_profile/mixin_se
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/mixin/mixin_date_wise_bookings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_all_my_fav.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/info_controller/mixin/mixin_get_revires.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_get_barber_with_date_time/mixin_get_barber_with_date_time.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_non_registered_bookings/mixin_non_registered_bookings.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/mixin/mixin_get_services.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/queue_management/mixin_que_management.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/mixin/mixin_get_salons.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixin_create_booking_or_gueue.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixin_get_barber_datewise.dart';
@@ -31,7 +35,11 @@ class UserHomeController extends GetxController
         SelectMultipleImagesMixin,
         GiveRatingWithImagesMixin,
         MixinGetCustomerReview,
-        MixinGetReviews {
+        MixinGetReviews,
+        MixinGetServices,
+        GetBarberWithDateTimeMixin,
+        MixinNonRegisteredBookings,
+        QueManagementMixin {
   @override
   void onInit() {
     super.onInit();

@@ -153,7 +153,8 @@ class OwnerQue extends StatelessWidget {
                             );
                           },
                         );
-                      } else if (controller.queList.isEmpty) {
+                      } else if (controller.queList.value?.barbers.isEmpty ??
+                          true) {
                         return ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
                           children: const [
@@ -172,9 +173,11 @@ class OwnerQue extends StatelessWidget {
                         );
                       } else {
                         return ListView.builder(
-                          itemCount: controller.queList.length,
+                          itemCount:
+                              controller.queList.value?.barbers.length ?? 0,
                           itemBuilder: (context, index) {
-                            QueBarber barber = controller.queList[index];
+                            QueBarber barber =
+                                controller.queList.value!.barbers[index];
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Row(
@@ -329,7 +332,7 @@ class OwnerQue extends StatelessWidget {
                   onTap: () {
                     controller.getServices();
 
-                    OpenBottomSheet.showChooseBarberBottomSheet(
+                    OpenBottomSheet.showChooseBarberBottomSheet<QueController>(
                       context,
                       controller: controller,
                     );

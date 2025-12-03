@@ -68,6 +68,7 @@ import 'package:barber_time/app/view/screens/owner/owner_que/owner_que.dart';
 import 'package:barber_time/app/view/screens/splash/splash_screen.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/berber_times.dart';
 import 'package:barber_time/app/view/screens/user/berber_time/que/que_screen.dart';
+import 'package:barber_time/app/view/screens/user/berber_time/user_que_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_details/booking_details_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/booking_screen.dart';
 import 'package:barber_time/app/view/screens/user/bookings/customer_booking_screen.dart';
@@ -451,10 +452,27 @@ class AppRouter {
 
         ///=======================  =======================
         GoRoute(
-          name: RoutePath.berberTimes,
-          path: RoutePath.berberTimes.addBasePath,
+            name: RoutePath.berberTimes,
+            path: RoutePath.berberTimes.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'] as UserHomeController?;
+              return _buildPageWithAnimation(
+                child: BerberTimes(
+                  userRole: userRole ?? UserRole.user, 
+                  controller: controller),
+                state: state,
+                disableAnimation: true,
+              );
+            }),
+        GoRoute(
+          name: RoutePath.userQueScreen,
+          path: RoutePath.userQueScreen.addBasePath,
           pageBuilder: (context, state) => _buildPageWithAnimation(
-              child: const BerberTimes(), state: state, disableAnimation: true),
+              child: const UserQueScreen(),
+              state: state,
+              disableAnimation: true),
         ),
 
         ///=======================  =======================
@@ -711,7 +729,7 @@ class AppRouter {
                   userRole: userRole!,
                   bookingData: bookingData!,
                   controller: controller,
-                  bookingType: bookingType ?? '' ,
+                  bookingType: bookingType ?? '',
                 ),
                 state: state,
                 transitionType: TransitionType.detailsScreen,
@@ -1275,29 +1293,28 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.rescheduleScreen,
-          path: RoutePath.rescheduleScreen.addBasePath,
-          pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'];
-            final userId = extra['userId'] as String?;
-            final bookingId = extra['bookingId'] as String?;
-            final serviceNames = extra['serviceNames'] as List<String>?;
-            final serviceDurations = extra['serviceDurations'] as List<int>?;
-            return _buildPageWithAnimation(
-              child: RescheduleScreen(
-                userRole: userRole!,
-                userId: userId!,
-                bookingId: bookingId!,
-                controller: controller,
-                serviceNames: serviceNames,
-                serviceDurations: serviceDurations,
-              ),
-              state: state,
-            );
-          }
-        ),
+            name: RoutePath.rescheduleScreen,
+            path: RoutePath.rescheduleScreen.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
+              final userId = extra['userId'] as String?;
+              final bookingId = extra['bookingId'] as String?;
+              final serviceNames = extra['serviceNames'] as List<String>?;
+              final serviceDurations = extra['serviceDurations'] as List<int>?;
+              return _buildPageWithAnimation(
+                child: RescheduleScreen(
+                  userRole: userRole!,
+                  userId: userId!,
+                  bookingId: bookingId!,
+                  controller: controller,
+                  serviceNames: serviceNames,
+                  serviceDurations: serviceDurations,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         // GoRoute(

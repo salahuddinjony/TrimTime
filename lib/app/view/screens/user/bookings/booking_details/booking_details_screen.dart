@@ -9,7 +9,6 @@ import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/barber_booking/barber_booking_model.dart';
 import 'package:barber_time/app/view/screens/user/bookings/models/customer_bookins_model.dart';
-import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart' as intl;

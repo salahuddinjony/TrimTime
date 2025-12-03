@@ -4,13 +4,15 @@ import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
+import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_seloon_mng/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class ScannerController extends GetxController {
+class ScannerController extends GetxController with MixinSelonManagement{
   // Observable for scanned data
   final Rx<String> scannedData = ''.obs;
 
@@ -218,10 +220,12 @@ class ScannerController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('✅ QR Code verified successfully');
+        final seloonId= rawQrData.split('-').first;
+        final controller = Get.find<UserHomeController>();
+         controller.fetchQueList(ownerId:seloonId);
 
         // Navigate immediately without success message
         if (context.mounted) {
-          await stopScanner();
 
           //***********/ there have a , when navigate to other scanner screen,
           //********** the camera still working to scan but camera not show on the screen, will fix it later
@@ -230,9 +234,14 @@ class ScannerController extends GetxController {
           // debugPrint('stop scanner called before navigation');
           // debugPrint('Navigating to UserBookingScreen with role: $userRole');
           // Get.delete<ScannerController>(force: true);
-          context.pushNamed(RoutePath.topRatedScreen, extra: {
+          context.pushNamed(RoutePath.berberTimes, 
+          extra: {
             'userRole': userRole,
+            'controller': controller,
           });
+           // Stop scanner immediately before any further processing
+        await stopScanner();
+          await stopScanner();
         }
       } else {
         print('❌ Verification failed: ${response.statusCode}');

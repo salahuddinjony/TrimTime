@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -6,6 +7,7 @@ import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
+import 'package:barber_time/app/view/screens/owner/owner_que/widgets/open_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +63,7 @@ class QueScreen<T> extends StatelessWidget {
         await controller!.fetchBarbersCustomerQue(
           barberId: barberId,
           saloonOwnerId: ownerId,
+          isToday: true,
         );
       }
     }
@@ -211,6 +214,34 @@ class QueScreen<T> extends StatelessWidget {
                                   )
                                 : buildCustomerGrid(data!.bookings),
                         SizedBox(height: 20.h),
+                        if (userRole == UserRole.user && !loading) ...[
+                          Center(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                debugPrint("Add to Queue button pressed");
+                                controller?.getServices();
+
+                                OpenBottomSheet.showChooseBarberBottomSheet<T>(
+                                  context,
+                                  controller: controller!,
+                                );
+                              },
+                              icon: const Icon(Icons.queue),
+                              label: const Text('Add to Queue'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.black,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 24.w,
+                                  vertical: 12.h,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -377,43 +408,112 @@ class QueScreen<T> extends StatelessWidget {
       itemCount: bookings.length,
       itemBuilder: (context, index) {
         var customer = bookings[index];
+        final shouldBlur = userRole == UserRole.user;
+
         return LayoutBuilder(
           builder: (context, constraints) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                customer.customerImage != null &&
-                        customer.customerImage!.isNotEmpty
-                    ? CircleAvatar(
-                        radius: 26, // slightly smaller
-                        backgroundImage:
-                            CachedNetworkImageProvider(customer.customerImage!),
-                      )
-                    : Container(
-                        height: 48,
-                        width: 48,
+                // Customer Image with conditional blur and privacy overlay
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipOval(
+                      child: ImageFiltered(
+                        imageFilter: shouldBlur
+                            ? ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0)
+                            : ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0),
+                        child: customer.customerImage != null &&
+                                customer.customerImage!.isNotEmpty
+                            ? CircleAvatar(
+                                radius: 26,
+                                backgroundImage: CachedNetworkImageProvider(
+                                    customer.customerImage!),
+                              )
+                            : Container(
+                                height: 48,
+                                width: 48,
+                                decoration: BoxDecoration(
+                                  color: generateColor(index),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  generateIcon(index),
+                                  size: 28,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                    if (shouldBlur)
+                      Container(
+                        height: 52,
+                        width: 52,
                         decoration: BoxDecoration(
-                          color: generateColor(index),
                           shape: BoxShape.circle,
+                          color: Colors.black.withValues(alpha: 0.15),
                         ),
                         child: Icon(
-                          generateIcon(index),
-                          size: 28,
-                          color: Colors.white,
+                          Icons.lock_outline,
+                          size: 20,
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
-                const SizedBox(height: 4),
-                Flexible(
-                  child: CustomText(
-                    text: "${customer.customerName.toString().safeCap()}",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                    color: AppColors.gray500,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  ],
                 ),
+                const SizedBox(height: 4),
+                // Customer Name with conditional blur and privacy overlay
+                Flexible(
+                  child: shouldBlur
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.lock_outline,
+                                size: 10,
+                                color: AppColors.gray500,
+                              ),
+                              const SizedBox(width: 3),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(
+                                  6,
+                                  (i) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 1.0),
+                                    child: Icon(
+                                      Icons.circle,
+                                      size: 4,
+                                      color: AppColors.gray500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : CustomText(
+                          text: "${customer.customerName.toString().safeCap()}",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          color: AppColors.gray500,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                ),
+                shouldBlur
+                    ? const SizedBox(height: 8)
+                    : const SizedBox.shrink(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3.0),
                   child: Container(
@@ -508,7 +608,7 @@ class QueScreen<T> extends StatelessWidget {
             ),
           ],
         ),
-         SizedBox(height: 50.h),
+        SizedBox(height: 50.h),
         Text(
           barberName,
           style: TextStyle(

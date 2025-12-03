@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:barber_time/app/data/local/shared_prefs.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -18,7 +19,7 @@ mixin QueManagementMixin
         GetBarberWithDateTimeMixin,
         MixinNonRegisteredBookings {
   RxInt selectedIndex = 0.obs;
-  RxList<QueBarber> queList = <QueBarber>[].obs;
+  Rxn<QueModelData> queList = Rxn<QueModelData>();
   Rx<RxStatus> queListStatus = Rx<RxStatus>(RxStatus.empty());
   RxBool isQueueEnabled = false.obs; // Track the toggle state
 
@@ -26,12 +27,12 @@ mixin QueManagementMixin
 
   Rx<RxStatus> barbersCustomerQueStatus = Rx<RxStatus>(RxStatus.empty());
 
-  Future<void> fetchQueList() async {
+  Future<void> fetchQueList({String? ownerId}) async {
     queListStatus.value = RxStatus.loading();
 
     try {
       final String selonOwnerId =
-          await SharePrefsHelper.getString(AppConstants.userId);
+          ownerId ?? await SharePrefsHelper.getString(AppConstants.userId);
       debugPrint('Fetching que list for owner ID: $selonOwnerId');
       final response =
           await ApiClient.getData(ApiUrl.getQueList(id: selonOwnerId));
@@ -41,9 +42,10 @@ mixin QueManagementMixin
         final data = QueResponse.fromJson(response.body).data;
         isQueueEnabled.value = data.isQueueEnabled;
 
-        queList.value = data.barbers;
-        debugPrint('queList after fetch: \\n${queList.length} items');
-        for (var b in queList) {
+        queList.value = data;
+        debugPrint(
+            'queList after fetch: \\n${queList.value?.barbers.length ?? 0} items');
+        for (var b in queList.value?.barbers ?? []) {
           debugPrint('Barber: \\n${b.name} - ${b.barberId}');
         }
 
@@ -87,15 +89,22 @@ mixin QueManagementMixin
     }
   }
 
-  Future<void> fetchBarbersCustomerQue({required String barberId, String? saloonOwnerId}) async {
+  Future<void> fetchBarbersCustomerQue(
+      {required String barberId, String? saloonOwnerId, bool? isToday}) async {
     try {
       barbersCustomerQueStatus.value = RxStatus.loading();
+      final Map<String, String> queryParams = {
+        'date': DateTime.now().formatDateApi(),
+      };
 
-      final String ownerId = saloonOwnerId ?? await SharePrefsHelper.getString(AppConstants.userId) ;
-      debugPrint('Fetching barber\'s customer que for owner ID: $ownerId, barber ID: $barberId');
+      final String ownerId = saloonOwnerId ??
+          await SharePrefsHelper.getString(AppConstants.userId);
+      debugPrint(
+          'Fetching barber\'s customer que for owner ID: $ownerId, barber ID: $barberId');
       final url =
           ApiUrl.getBarbersCustomerQue(ownerId: ownerId, barberId: barberId);
-      final response = await ApiClient.getData(url);
+      final response = await ApiClient.getData(url,
+          query: isToday == true ? queryParams : {});
 
       if (response.statusCode == 200) {
         final data = BarbersCustomerQueResponse.fromJson(response.body).data;
@@ -120,6 +129,7 @@ mixin QueManagementMixin
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
+   var selectedValue = ''.obs;
 
   RxList<ServiceItem> get services =>
       servicesList; // From MixinGetServices reactive list

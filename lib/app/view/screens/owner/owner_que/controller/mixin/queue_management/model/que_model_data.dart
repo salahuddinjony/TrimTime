@@ -23,16 +23,40 @@ class QueResponse {
 
 class QueModelData {
   final bool isQueueEnabled;
+   final String saloonOwnerId;
+  final String shopLogo;
+  final String shopName;
+  final String shopAddress;
+  final double latitude;
+  final double longitude;
+  final int ratingCount;
+  final double avgRating;
   final List<QueBarber> barbers;
 
   QueModelData({
     required this.isQueueEnabled,
+    required this.saloonOwnerId,
+    required this.shopLogo,
+    required this.shopName,
+    required this.shopAddress,
+    required this.latitude,
+    required this.longitude,
+    required this.ratingCount,
+    required this.avgRating,
     required this.barbers,
   });
 
   factory QueModelData.fromJson(Map<String, dynamic> json) {
     return QueModelData(
       isQueueEnabled: json['isQueueEnabled'] ?? false,
+      saloonOwnerId: json['saloonOwnerId'] ?? '',
+      shopLogo: json['shopLogo'] ?? '',
+      shopName: json['shopName'] ?? '',
+      shopAddress: json['shopAddress'] ?? '',
+      latitude: (json['latitude'] ?? 0.0).toDouble(),
+      longitude: (json['longitude'] ?? 0.0).toDouble(),
+      ratingCount: json['ratingCount'] ?? 0,
+      avgRating: (json['avgRating'] ?? 0.0).toDouble(),
       barbers: (json['barbers'] as List<dynamic>?)
               ?.map((e) => QueBarber.fromJson(e as Map<String, dynamic>))
               .toList() ??

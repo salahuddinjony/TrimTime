@@ -1,5 +1,4 @@
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/view/screens/owner/owner_que/controller/que_controller.dart';
 import 'package:flutter/material.dart';
 
 class selectShowDialog {
@@ -58,7 +57,7 @@ class selectShowDialog {
     BuildContext context, {
     required String title,
     required VoidCallback onSave,
-    required QueController controller,
+    required dynamic controller,
   }) {
     showDialog(
       context: context,
@@ -72,7 +71,8 @@ class selectShowDialog {
                 width: double.maxFinite,
                 child: ListView(
                   shrinkWrap: true,
-                  children: controller.services.map((service) {
+                  children:
+                      (controller.services as List).map<Widget>((service) {
                     final checked =
                         controller.servicesSelected.contains(service.id);
                     return CheckboxListTile(
@@ -91,7 +91,12 @@ class selectShowDialog {
                             ),
                           ),
                           const SizedBox(width: 10.0),
-                          Text(service.name),
+                          Expanded(
+                            child: Text(
+                              service.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                       value: checked,

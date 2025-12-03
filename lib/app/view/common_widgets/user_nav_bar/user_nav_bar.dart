@@ -49,7 +49,7 @@ class _CustomNavBarState extends State<CustomNavBar>
         label: AppStrings.home,
       ),
       (
-        route: RoutePath.berberTimes,
+        route: RoutePath.userQueScreen,
         selectedIcon:
             Assets.images.queSelected.image(color: AppColors.secondary),
         unselectedIcon: Assets.images.queUnselected.image(color: Colors.black),

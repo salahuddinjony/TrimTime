@@ -10,7 +10,7 @@ class QueController extends GetxController
         GetBarberWithDateTimeMixin,
         MixinNonRegisteredBookings,
         QueManagementMixin {
-  var selectedValue = ''.obs;
+ 
 
   @override
   void onInit() {

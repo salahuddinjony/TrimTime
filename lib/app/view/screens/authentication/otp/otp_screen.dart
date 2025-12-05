@@ -46,8 +46,17 @@ class OtpScreen extends StatelessWidget {
     debugPrint("isOwner received in OTP Screen: $isOwner");
     
     final bool isForget = extraData['isForget'] ?? false;
-    final UserRole userRole =
-        getRoleFromString(extraData['userRole'] ?? 'user');
+    // Get userRole from extra data - it can be a string (role name) or UserRole enum
+    UserRole? userRole;
+    if (extraData['userRole'] != null) {
+      if (extraData['userRole'] is UserRole) {
+        userRole = extraData['userRole'] as UserRole;
+      } else if (extraData['userRole'] is String) {
+        userRole = getRoleFromString(extraData['userRole'] as String);
+      }
+    }
+    // Default to user if not found
+    userRole ??= UserRole.user;
 
     debugPrint(
         "Forget Password Screen: isForget = $isForget, userRole = ${userRole.name}");
@@ -172,7 +181,8 @@ class OtpScreen extends StatelessWidget {
 
                               authController.userAccountActiveOtp(
                                 isOwner: isOwner == 'true',
-                                isForgotPassword: isForgotPassword ?? false, 
+                                isForgotPassword: isForgotPassword ?? false,
+                                userRole: userRole,
                               );
 
                               // if (formKey.currentState!.validate()) {

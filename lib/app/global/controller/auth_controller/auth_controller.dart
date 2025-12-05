@@ -530,6 +530,7 @@ class AuthController extends GetxController with PasswordConstraintController {
                 extra: {
                   "isOwner": true,
                   "email": emailController.text,
+                  "userRole": selectedRole.name,
                 },
               )
             : AppRouter.route.pushNamed(
@@ -537,6 +538,7 @@ class AuthController extends GetxController with PasswordConstraintController {
                 extra: {
                   "isOwner": false,
                   "email": emailController.text,
+                  "userRole": selectedRole.name,
                 },
               );
 
@@ -705,7 +707,7 @@ class AuthController extends GetxController with PasswordConstraintController {
             message:
                 responseData["message"] ?? "Shop registered successfully.");
         // AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: UserRole.owner);
-        AppRouter.route.goNamed(RoutePath.signInScreen);
+        AppRouter.route.goNamed(RoutePath.signInScreen, extra: UserRole.owner);
       } else if (response.statusCode == 400) {
         debugPrint('Register shop failed, response body: $responseData');
         final errMsg = responseData != null
@@ -780,7 +782,7 @@ class AuthController extends GetxController with PasswordConstraintController {
   RxBool isActiveLoading = false.obs;
 
   Future<void> userAccountActiveOtp(
-      {bool? isOwner, bool? isForgotPassword}) async {
+      {bool? isOwner, bool? isForgotPassword, UserRole? userRole}) async {
     if (pinCodeController.text.trim().isEmpty) {
       toastMessage(message: "Please enter the activation code.");
       return;
@@ -846,7 +848,7 @@ class AuthController extends GetxController with PasswordConstraintController {
         });
       } else {
         emailController.clear();
-        AppRouter.route.goNamed(RoutePath.signInScreen);
+        AppRouter.route.goNamed(RoutePath.signInScreen, extra: userRole);
       }
 
       final msg = respBody != null
@@ -917,7 +919,7 @@ class AuthController extends GetxController with PasswordConstraintController {
     if (response.statusCode == 200) {
       // businessEmailController.clear();
 
-      AppRouter.route.goNamed(RoutePath.signInScreen);
+      AppRouter.route.goNamed(RoutePath.signInScreen, extra: UserRole.owner);
       toastMessage(message: response.body["message"]);
     } else if (response.statusCode == 400) {
       pinCodeController.clear();

@@ -1,5 +1,4 @@
 import 'package:barber_time/app/utils/app_colors.dart';
-import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/common_shop_card/common_shop_card.dart';
 import 'package:barber_time/app/view/common_widgets/curved_Banner_clipper/curved_banner_clipper.dart';
@@ -26,7 +25,7 @@ class CustomerReviewScreen extends StatelessWidget {
     return Scaffold(
       ///============================ Header ===============================
       appBar: const CustomAppBar(
-        appBarContent: AppStrings.ratings,
+        appBarContent: "Reviews",
         iconData: Icons.arrow_back,
         appBarBgColor: AppColors.linearFirst,
       ),
@@ -85,15 +84,16 @@ class CustomerReviewScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               CustomText(
-                                text: 'No Reviews Yet',
+                                text: 'No Salon yet',
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[700]!,
                               ),
                               const SizedBox(height: 8),
                               CustomText(
-                                text:
-                                    'Reviews will appear here once customers\nstart rating your service',
+                                text: userRole == UserRole.user
+                                  ? 'No salon here for the given review.'
+                                  : 'Reviews will appear here once customers\nstart rating your service',
                                 fontSize: 14,
                                 textAlign: TextAlign.center,
                                 color: Colors.grey[600]!,

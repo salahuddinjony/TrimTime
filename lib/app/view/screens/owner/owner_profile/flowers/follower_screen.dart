@@ -5,8 +5,10 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/following_card/following_card.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FollowerScreen extends StatelessWidget {
   final UserRole userRole;
@@ -46,7 +48,10 @@ class FollowerScreen extends StatelessWidget {
         child: Obx(() {
           final followers = controller?.followersList ?? [];
           if (controller?.followersStatus.value.isLoading ?? true) {
-            return const Center(child: CircularProgressIndicator());
+            return ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) => _buildShimmerCard(),
+            );
           } else if (controller?.followersStatus.value.isError ?? false) {
             return Center(
               child: Text(
@@ -146,6 +151,64 @@ class FollowerScreen extends StatelessWidget {
             ),
           );
         }),
+      ),
+    );
+  }
+
+  Widget _buildShimmerCard() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.r),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          padding: EdgeInsets.all(15.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8.r)),
+            border: Border.all(color: AppColors.gray500, width: 1),
+          ),
+          child: Row(
+            children: [
+              // Profile Image placeholder
+              Container(
+                height: 45.r,
+                width: 45.r,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              SizedBox(width: 12.r),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Name placeholder
+                    Container(
+                      width: 120.w,
+                      height: 14.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    // Email placeholder
+                    Container(
+                      width: 160.w,
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

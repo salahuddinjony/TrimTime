@@ -33,6 +33,53 @@ class RescheduleScreen extends StatelessWidget {
       this.serviceNames,
       this.serviceDurations});
 
+  // Helper method to calculate end time based on start time and duration
+  String _calculateEndTime(String startTime, int durationMinutes) {
+    try {
+      // Remove spaces and handle AM/PM
+      String cleaned = startTime.replaceAll(' ', '');
+      RegExp regex =
+          RegExp(r'^(\d{1,2}):(\d{2})(AM|PM)?$', caseSensitive: false);
+      final match = regex.firstMatch(cleaned);
+      int hour, minute;
+      if (match != null) {
+        hour = int.parse(match.group(1)!);
+        minute = int.parse(match.group(2)!);
+        String? period = match.group(3)?.toUpperCase();
+        if (period != null) {
+          if (period == 'PM' && hour != 12) hour += 12;
+          if (period == 'AM' && hour == 12) hour = 0;
+        }
+      } else {
+        // fallback: try to parse as HH:mm
+        final parts = cleaned.split(':');
+        hour = int.parse(parts[0]);
+        minute = int.parse(parts[1]);
+      }
+
+      // Add duration
+      minute += durationMinutes;
+      if (minute >= 60) {
+        hour += minute ~/ 60;
+        minute = minute % 60;
+      }
+      if (hour >= 24) {
+        hour -= 24;
+      }
+
+      String period = hour >= 12 ? 'PM' : 'AM';
+      int displayHour = hour % 12 == 0 ? 12 : hour % 12;
+
+      final endHourStr = displayHour.toString().padLeft(2, '0');
+      final endMinuteStr = minute.toString().padLeft(2, '0');
+
+      return '$endHourStr:$endMinuteStr $period';
+    } catch (e) {
+      debugPrint('Error calculating end time: $e, input: $startTime');
+      return startTime; // Return start time in case of error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -264,12 +311,27 @@ class RescheduleScreen extends StatelessWidget {
                                             : slot.start;
 
                                         // Calculate end time based on selected start time and service duration
-                                        final displayEndTime = isSelected &&
-                                                controller.selectedTimeSlot
-                                                    .value.isNotEmpty
-                                            ? controller.endTimeSlot(controller
-                                                .selectedTimeSlot.value)
-                                            : slot.end;
+                                        String displayEndTime;
+                                        if (isSelected &&
+                                            controller.selectedTimeSlot
+                                                .value.isNotEmpty) {
+                                          // Calculate total duration
+                                          int totalDuration = 0;
+                                          if (serviceDurations != null &&
+                                              serviceDurations!.isNotEmpty) {
+                                            totalDuration = serviceDurations!
+                                                .fold<int>(
+                                                    0,
+                                                    (sum, duration) =>
+                                                        sum + duration);
+                                          }
+                                          // Calculate end time with duration
+                                          displayEndTime = _calculateEndTime(
+                                              controller.selectedTimeSlot.value,
+                                              totalDuration);
+                                        } else {
+                                          displayEndTime = slot.end;
+                                        }
 
                                         return timeSlotCard(
                                           startTime: displayStartTime,

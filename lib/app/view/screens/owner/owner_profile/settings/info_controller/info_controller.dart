@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
+import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
 import 'package:barber_time/app/view/screens/barber/barber_feed/controller/mixin_barber_crud.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/settings/faq/models/faq_model.dart';
@@ -29,15 +31,26 @@ class InfoController extends GetxController
       <BarberQueueCapacityData>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    final userRole = await SharePrefsHelper.getString(AppConstants.role);
+    debugPrint("User Role in InfoController: $userRole");
+
+    if (userRole != 'CUSTOMER') {
+      initialFunctions();
+    }
+
     fetchFaqs();
     fetchTerms();
     fetchPrivacyPolicy();
+
+    // getAllFeeds();
+  }
+
+  void initialFunctions() {
     getBarberReviews();
     fetchAllFavourite();
     fetchBarberQueueCapacity();
-    // getAllFeeds();
   }
 
   Future<void> fetchFaqs() async {

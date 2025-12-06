@@ -1,6 +1,7 @@
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_booking_management.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_feeds_management.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/mixin/mixin_seloon_mng/mixin_selon_management.dart';
+import 'package:barber_time/app/view/screens/common_screen/my_loyality/mixin/mixin_loyality.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/mixin_give_rating_with_images.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/mixin_select_multiple_images.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/mixin/mixin_date_wise_bookings.dart';
@@ -39,7 +40,8 @@ class UserHomeController extends GetxController
         MixinGetServices,
         GetBarberWithDateTimeMixin,
         MixinNonRegisteredBookings,
-        QueManagementMixin {
+        QueManagementMixin,
+        MixinLoyality {
   @override
   void onInit() {
     super.onInit();

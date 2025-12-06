@@ -94,7 +94,8 @@ class ChangePasswordScreen extends StatelessWidget {
                       hinText: AppStrings.enterNewPassword,
                       controller: authController.newPasswordController,
                       validator: (v) {
-                        return Validators.passwordValidator(v);
+                        return Validators.changePasswordValidator(
+                            authController.passwordController.text, v);
                       }),
                   //retype password
                   CustomFromCard(

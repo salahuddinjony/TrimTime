@@ -7,6 +7,7 @@ import 'package:barber_time/app/view/screens/barber/barber_history/models/job_ap
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 mixin BarberJobHistoryMixin {
   var isJobHistoryLoading = false.obs;
@@ -62,9 +63,8 @@ mixin BarberJobHistoryMixin {
         toastMessage(message: 'Job status updated successfully');
         // Optionally refresh the job history list
         await getAllJobHistory();
-        if (context != null) {
-          Navigator.of(context).pop(); // Close any open dialog
-        }
+        context?.pop();
+       
         EasyLoading.showSuccess(  'Job status updated successfully');
       } else {
         debugPrint(

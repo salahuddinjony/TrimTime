@@ -22,7 +22,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 class AuthController extends GetxController with PasswordConstraintController {
 //for sign-in and sing-up
   final fullNameController = TextEditingController(text: "");
-  
+
   final addressController = TextEditingController(text: "");
   final regNumberController = TextEditingController(text: "");
   final shopNameController = TextEditingController(text: "");
@@ -213,14 +213,15 @@ class AuthController extends GetxController with PasswordConstraintController {
       // Check if token is expired before proceeding
       final expired = await isTokenExpired();
       if (expired) {
-        debugPrint("Token is expired on app startup. Clearing session and navigating to role selection.");
+        debugPrint(
+            "Token is expired on app startup. Clearing session and navigating to role selection.");
         // Clear expired token and user data
         await SharePrefsHelper.remove();
         await SharePrefsHelper.setBool(AppConstants.rememberMe, false);
         await SharePrefsHelper.setBool(AppConstants.isRememberMe, false);
         return RoutePath.choseRoleScreen;
       }
-      
+
       debugPrint("Token exists and is valid, user is logged in.");
       if (role == 'BARBER') {
         debugPrint("User Role: BARBER, navigating to barber home.");
@@ -254,24 +255,24 @@ class AuthController extends GetxController with PasswordConstraintController {
   static Future<void> logout({bool showMessage = true}) async {
     try {
       debugPrint("Logging out user...");
-      
+
       // Clear all user data from shared preferences
       await SharePrefsHelper.remove();
-      
+
       // Clear remember me flag
       await SharePrefsHelper.setBool(AppConstants.rememberMe, false);
       await SharePrefsHelper.setBool(AppConstants.isRememberMe, false);
-      
+
       // Clear all GetX controllers
       Get.deleteAll(force: true);
-      
+
       // Navigate to role selection screen
       AppRouter.route.goNamed(RoutePath.choseRoleScreen);
-      
+
       if (showMessage) {
         toastMessage(message: "Session expired. Please login again.");
       }
-      
+
       debugPrint("Logout completed successfully");
     } catch (e) {
       debugPrint("Error during logout: $e");
@@ -291,16 +292,16 @@ class AuthController extends GetxController with PasswordConstraintController {
       if (token.isEmpty) {
         return true;
       }
-      
+
       // Decode JWT token to check expiration
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       bool isExpired = JwtDecoder.isExpired(token);
-      
+
       if (isExpired) {
         debugPrint("Token is expired. Expiration time: ${decodedToken['exp']}");
         return true;
       }
-      
+
       return false;
     } catch (e) {
       debugPrint("Error checking token expiration: $e");

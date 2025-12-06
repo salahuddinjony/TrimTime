@@ -1,15 +1,17 @@
 import 'package:barber_time/app/global/helper/validators/validators.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/widgets/select_show_dialog.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class OpenBottomSheet {
   static void showChooseBarberBottomSheet<T>(BuildContext context,
-      {required T controller}) {
+      {required T controller, UserRole? userRole, String? saloonOwnerId, String? barberId}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -25,9 +27,9 @@ class OpenBottomSheet {
           ),
           child: DraggableScrollableSheet(
             expand: false,
-            initialChildSize: 0.7,
+            initialChildSize: 0.5,
             minChildSize: 0.5,
-            maxChildSize: 0.95,
+            maxChildSize: 0.7,
             builder: (_, scrollController) {
               return StatefulBuilder(
                 builder: (context, setState) {
@@ -42,9 +44,9 @@ class OpenBottomSheet {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Register Customer",
-                              style: TextStyle(
+                            Text( 
+                             userRole == UserRole.user ? "Add to Queue" : "Register Customer" , 
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -58,7 +60,8 @@ class OpenBottomSheet {
                         const SizedBox(height: 15),
 
                         // Name
-                        CustomTextField(
+                    if(userRole != UserRole.user)...[
+                          CustomTextField(
                           isColor: true,
                           hintText: "Name",
                           prefixIcon: const Icon(Icons.person),
@@ -79,6 +82,7 @@ class OpenBottomSheet {
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 18),
+                    ],
 
                         // Time
                         // CustomTextField(
@@ -334,13 +338,18 @@ class OpenBottomSheet {
                         // Save
                         CustomButton(
                           onTap: () async {
-                            if (!(controller as dynamic).isAllFiledFilled()) {
+                            if (!(controller as dynamic).isAllFiledFilled(userRole: userRole ?? null)) {
                               EasyLoading.showInfo(
                                   "Please fill all the fields");
                               return;
                             }
                             debugPrint("Saving Queue");
-                            final result = await (controller as dynamic)
+                            final result =userRole ==UserRole.user? await (controller as dynamic).addToQueue(
+
+                                  userRole: userRole,
+                                  saloonOwnerId: saloonOwnerId!,
+                                  barberId: barberId ?? null,
+                            ) :await (controller as dynamic)
                                 .registerCustomerQue();
                             if (result) {
                               Navigator.pop(context); // Close bottom sheet

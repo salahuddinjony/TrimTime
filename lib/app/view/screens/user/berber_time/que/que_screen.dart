@@ -224,6 +224,9 @@ class QueScreen<T> extends StatelessWidget {
                                 OpenBottomSheet.showChooseBarberBottomSheet<T>(
                                   context,
                                   controller: controller!,
+                                  userRole: userRole,
+                                  saloonOwnerId: saloonOwnerId,
+                                  barberId: barberId,
                                 );
                               },
                               icon: const Icon(Icons.queue),
@@ -395,20 +398,31 @@ class QueScreen<T> extends StatelessWidget {
   // --------------------------------------------------------------------------
 
   Widget buildCustomerGrid(List bookings) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12, // reduced spacing
-        childAspectRatio: .85, // slightly more vertical space
-      ),
-      itemCount: bookings.length,
-      itemBuilder: (context, index) {
-        var customer = bookings[index];
-        final shouldBlur = userRole == UserRole.user;
+    return FutureBuilder<String>(
+      future: SharePrefsHelper.getString(AppConstants.userId),
+      builder: (context, snapshot) {
+        final loggedInUserId = snapshot.data ?? '';
+        
+        return GridView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12, // reduced spacing
+            childAspectRatio: .85, // slightly more vertical space
+          ),
+          itemCount: bookings.length,
+          itemBuilder: (context, index) {
+            var customer = bookings[index];
+            
+            debugPrint("------------------Logged-in User ID: $loggedInUserId");
+            debugPrint("------------------Customer ID: ${customer.customerId}");
+            
+            // Don't blur if user is owner/barber, OR if this is the logged-in user's own booking
+            final shouldBlur = userRole == UserRole.user && 
+                customer.customerId != loggedInUserId;
 
         return LayoutBuilder(
           builder: (context, constraints) {
@@ -552,6 +566,8 @@ class QueScreen<T> extends StatelessWidget {
                 ),
               ],
             );
+          },
+        );
           },
         );
       },

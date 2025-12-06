@@ -2,8 +2,11 @@ import 'package:barber_time/app/core/custom_assets/assets.gen.dart' show Assets;
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/utils/app_colors.dart' show AppColors;
 import 'package:barber_time/app/utils/app_strings.dart' show AppStrings;
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 
 import '../../../core/routes.dart';
 import '../custom_text/custom_text.dart';
@@ -206,8 +209,14 @@ class _CustomNavBarState extends State<CustomNavBar>
                       iconWidget: Assets.images.booking.image(
                           width: 24.w, height: 24.h), // Your custom image
                       onTap: () {
+                         final controller = Get.find<UserHomeController>();
+                         controller.fetchCustomerBookings();
                         AppRouter.route.pushNamed(RoutePath.bookingScreen,
-                            extra: UserRole.user);
+                            extra:{
+                              'userRole': UserRole.user,
+                              'isBarber': false,
+                              'controller': controller,
+                            });
                       },
                     ),
                   ],

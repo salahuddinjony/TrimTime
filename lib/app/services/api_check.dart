@@ -1,9 +1,7 @@
-import 'package:barber_time/app/utils/app_constants.dart';
+import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/view/common_widgets/show_custom_snackbar/show_custom_snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-
-
-import '../data/local/shared_prefs.dart';
 
 class ApiChecker {
   static void checkApi(Response response, {bool getXSnackBar = false}) async {
@@ -25,12 +23,9 @@ class ApiChecker {
     final message = _extractMessage(response.body, response.statusText);
 
     if (response.statusCode == 401) {
-      toastMessage(
-        message: message,
-      );
-      await SharePrefsHelper.remove(AppConstants.bearerToken);
-
-      await SharePrefsHelper.setBool(AppConstants.rememberMe, false);
+      // Token expired or unauthorized - automatically logout
+      debugPrint("401 Unauthorized - Token expired. Logging out user...");
+      await AuthController.logout(showMessage: true);
       return;
     } else if (response.statusCode == 403) {
       toastMessage(

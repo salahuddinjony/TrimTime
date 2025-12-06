@@ -80,7 +80,7 @@ class CustomerReviewScreen extends StatelessWidget {
                               Icon(
                                 Icons.rate_review_outlined,
                                 size: 80,
-                                color: Colors.white.withOpacity(.8),
+                                color: Colors.white.withValues(alpha: .8),
                               ),
                               const SizedBox(height: 16),
                               CustomText(
@@ -92,8 +92,8 @@ class CustomerReviewScreen extends StatelessWidget {
                               const SizedBox(height: 8),
                               CustomText(
                                 text: userRole == UserRole.user
-                                  ? 'No salon here for the given review.'
-                                  : 'Reviews will appear here once customers\nstart rating your service',
+                                    ? 'No salon here for the given review.'
+                                    : 'Reviews will appear here once customers\nstart rating your service',
                                 fontSize: 14,
                                 textAlign: TextAlign.center,
                                 color: Colors.grey[600]!,

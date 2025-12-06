@@ -364,8 +364,10 @@ class BerberTimes extends StatelessWidget {
 
                             OpenBottomSheet.showChooseBarberBottomSheet<
                                 UserHomeController>(
-                              context,
+                              context,  
                               controller: controller!,
+                              userRole: userRole,
+                              saloonOwnerId: salonData.saloonOwnerId, 
                             );
                           },
                           textColor: AppColors.white,

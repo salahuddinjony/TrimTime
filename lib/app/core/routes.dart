@@ -483,11 +483,13 @@ class AppRouter {
               final extra = state.extra as Map<String, dynamic>? ?? {};
               final userRole = extra['userRole'] as UserRole?;
               final isBarber = extra['isBarber'] as bool? ?? false;
+              final controller = extra['controller'];
 
               return _buildPageWithAnimation(
                 child: BookingScreen(
                   userRole: userRole!,
                   isBarber: isBarber,
+                  controller: controller ?? null,
                 ),
                 state: state,
               );
@@ -1166,10 +1168,19 @@ class AppRouter {
         GoRoute(
           name: RoutePath.myLoyality,
           path: RoutePath.myLoyality.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const MyLoyality(),
-            state: state,
-          ),
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            final userRole = extra['userRole'] as UserRole?;
+            final controller = extra['controller'];
+
+            return _buildPageWithAnimation(
+              child: MyLoyality(
+                userRole: userRole!,
+                controller: controller,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///======================= =======================

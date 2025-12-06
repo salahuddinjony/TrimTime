@@ -52,15 +52,15 @@ class BarberHomeScreen extends StatelessWidget {
         currentIndex: 0,
         role: userRole,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
-            Obx(() {
-              final hasProfile =
-                  profileController.profileDataList.value != null;
-              if (!hasProfile) {
-                return Padding(
+      body: Column(
+        children: [
+          ///: <<<<<<======🗄️🗄️🗄️🗄️🗄️🗄️💡💡 Appbar💡💡🗄️🗄️🗄️🗄️🗄️🗄️🗄️>>>>>>>>===========
+          Obx(() {
+            final hasProfile =
+                profileController.profileDataList.value != null;
+            if (!hasProfile) {
+              return SafeArea(
+                child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   child: Row(
@@ -124,12 +124,14 @@ class BarberHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              }
+                ),
+              );
+            }
 
-              // When profile data is available show the regular app bar
-              final profile = profileController.profileDataList.value!;
-              return CommonHomeAppBar(
+            // When profile data is available show the regular app bar
+            final profile = profileController.profileDataList.value!;
+            return SafeArea(
+              child: CommonHomeAppBar(
                 onCalender: () {
                   AppRouter.route
                       .pushNamed(RoutePath.scheduleScreen, extra: userRole);
@@ -142,10 +144,11 @@ class BarberHomeScreen extends StatelessWidget {
                   AppRouter.route
                       .pushNamed(RoutePath.notificationScreen, extra: userRole);
                 },
-              );
-            }),
-            Expanded(
-              child: SingleChildScrollView(
+              ),
+            );
+          }),
+          Expanded(
+            child: SingleChildScrollView(
                 // Wrap everything in a SingleChildScrollView
                 child: Padding(
                   padding:
@@ -167,6 +170,89 @@ class BarberHomeScreen extends StatelessWidget {
                       ),
                       // Barber shop cards
                       Obx(() {
+                        if (controller.isJobLoading.value) {
+                          return Column(
+                            children: List.generate(
+                              2,
+                              (index) => Padding(
+                                padding: EdgeInsets.only(bottom: 12.h),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.grey.shade300,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 16.h,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 12.w),
+                                            Container(
+                                              height: 50.h,
+                                              width: 50.w,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Container(
+                                          height: 14.h,
+                                          width: 150.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Container(
+                                          height: 14.h,
+                                          width: 100.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Row(
+                                          children: [
+                                            Flexible(
+                                              child: Container(
+                                                height: 14.h,
+                                                width: 120.w,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8.w),
+                                            Container(
+                                              height: 24.h,
+                                              width: 80.w,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(width: 8.w),
+                                            Container(
+                                              height: 24.h,
+                                              width: 60.w,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
                         if (controller.jobPostList.isEmpty) {
                           // Show a nice "No Job Post" UI when there are no job posts from API
                           return Container(
@@ -407,8 +493,8 @@ class BarberHomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+    
   }
 }
 

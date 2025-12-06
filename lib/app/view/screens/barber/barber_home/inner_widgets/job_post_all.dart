@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class JobPostAll extends StatelessWidget {
   JobPostAll({super.key});
@@ -56,8 +57,86 @@ class JobPostAll extends StatelessWidget {
             // Barber shop cards
             Expanded(
               child: Obx(() {
-                if (controller.isJobHistoryLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                if (controller.isJobHistoryLoading.value ||
+                    controller.isJobLoading.value) {
+                  return ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.only(bottom: 12.h),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 16.h,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Container(
+                                    height: 50.h,
+                                    width: 50.w,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.h),
+                              Container(
+                                height: 14.h,
+                                width: 150.w,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 8.h),
+                              Container(
+                                height: 14.h,
+                                width: 100.w,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 8.h),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      height: 14.h,
+                                      width: 120.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Container(
+                                    height: 24.h,
+                                    width: 80.w,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Container(
+                                    height: 24.h,
+                                    width: 60.w,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 }
 
                 final selected = controller.selectedFilter.value;
@@ -67,173 +146,219 @@ class JobPostAll extends StatelessWidget {
                     : controller.jobHistoryList;
 
                 if (jobs.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Assets.images.logo.image(height: 60),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "No Job Post",
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.secondary,
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      if (isNearbyJob) {
+                        await controller.getAllJobPost();
+                      } else {
+                        String status = '';
+                        if (selected == AppStrings.pending) {
+                          status = 'PENDING';
+                        } else if (selected == AppStrings.approve) {
+                          status = 'COMPLETED';
+                        } else if (selected == AppStrings.reject) {
+                          status = 'REJECTED';
+                        }
+                        await controller.getAllJobHistory(status: status);
+                      }
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Assets.images.logo.image(height: 60),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Job Post",
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.secondary,
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(
+                                "Currently, there are no job posts available.\nPlease check back later.",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.grey[600],
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          "Currently, there are no job posts available.\nPlease check back later.",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.grey[600],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                      ),
                     ),
                   );
                 }
 
-                return ListView.builder(
-                  itemCount: jobs.length,
-                  itemBuilder: (context, index) {
-                    if (!isNearbyJob) {
-                      final jobApp = controller.jobHistoryList[index];
-                      final job = jobApp.jobPost;
-                      final salary = job.hourlyRate != null
-                          ? '£${job.hourlyRate}'
-                          : '£20.00/Per hr';
-                      String dateText = '';
-                      if (job.startDate != null && job.endDate != null) {
-                        final start = job.startDate;
-                        final end = job.endDate;
-                        dateText =
-                            '${start!.day.toString().padLeft(2, '0')}/${start.month.toString().padLeft(2, '0')}/${start.year} - '
-                            '${end!.day.toString().padLeft(2, '0')}/${end.month.toString().padLeft(2, '0')}/${end.year}';
-                      } else if (job.datePosted != null) {
-                        final posted = job.datePosted;
-                        dateText =
-                            '${posted!.day.toString().padLeft(2, '0')}/${posted.month.toString().padLeft(2, '0')}/${posted.year}';
-                      } else {
-                        dateText = '—';
-                      }
-                      final logoWidget = Assets.images.logo.image(height: 50);
-
-                      return CustomBorderCard(
-                        title: job.shopName,
-                        time: '10:00am-10:00pm',
-                        price: salary,
-                        date: dateText,
-                        buttonText: jobApp.status,
-                        isButton: false,
-                        isSeeDescription: true,
-                        logoImage: logoWidget,
-                        seeDescriptionTap: () {
-                          final desc = job.description; // if non-nullable
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: Text(job.shopName),
-                              content: SingleChildScrollView(child: Text(desc)),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        onButtonTap: () {},
-                      );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    if (isNearbyJob) {
+                      await controller.getAllJobPost();
                     } else {
-                      final job = controller.jobPostList[index];
-                      final salary = job.salary != null
-                          ? '£${job.salary.toString()}'
-                          : '£20.00/Per hr';
-                      String dateText = '';
-                      if (job.startDate != null && job.endDate != null) {
-                        final start = job.startDate;
-                        final end = job.endDate;
-                        dateText =
-                            '${start!.day.toString().padLeft(2, '0')}/${start.month.toString().padLeft(2, '0')}/${start.year} - '
-                            '${end!.day.toString().padLeft(2, '0')}/${end.month.toString().padLeft(2, '0')}/${end.year}';
-                      } else if (job.datePosted != null) {
-                        final posted = job.datePosted;
-                        dateText =
-                            '${posted!.day.toString().padLeft(2, '0')}/${posted.month.toString().padLeft(2, '0')}/${posted.year}';
-                      } else {
-                        dateText = '—';
+                      String status = '';
+                      if (selected == AppStrings.pending) {
+                        status = 'PENDING';
+                      } else if (selected == AppStrings.approve) {
+                        status = 'COMPLETED';
+                      } else if (selected == AppStrings.reject) {
+                        status = 'REJECTED';
                       }
-                      final logoWidget = (job.shopLogo?.isNotEmpty == true)
-                          ? CachedNetworkImage(
-                              imageUrl: job.shopLogo!,
-                              height: 50,
-                              width: 50,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Assets.images.logo.image(height: 50),
-                            )
-                          : Assets.images.logo.image(height: 50);
-
-                      return CustomBorderCard(
-                        title: job.shopName ?? 'Barber Shop',
-                        time: '10:00am-10:00pm',
-                        price: salary,
-                        date: dateText,
-                        buttonText: 'Apply',
-                        isButton: true,
-                        isSeeDescription: true,
-                        onButtonTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: const Text('Apply for Job'),
-                              content: Text(
-                                  'Apply to ${job.shopName ?? 'this shop'}?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    controller.applyJob(jobId: job.id ?? '');
-                                    Navigator.of(context).pop();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Application sent to ${job.shopName ?? 'shop'}')),
-                                    );
-                                  },
-                                  child: const Text('Apply'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        logoImage: logoWidget,
-                        seeDescriptionTap: () {
-                          final desc =
-                              job.description ?? 'No description available';
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: Text(job.shopName ?? 'Job Description'),
-                              content: SingleChildScrollView(child: Text(desc)),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
+                      await controller.getAllJobHistory(status: status);
                     }
                   },
+                  child: ListView.builder(
+                    itemCount: jobs.length,
+                    itemBuilder: (context, index) {
+                      if (!isNearbyJob) {
+                        final jobApp = controller.jobHistoryList[index];
+                        final job = jobApp.jobPost;
+                        final salary = job.hourlyRate != null
+                            ? '£${job.hourlyRate}'
+                            : '£20.00/Per hr';
+                        String dateText = '';
+                        if (job.startDate != null && job.endDate != null) {
+                          final start = job.startDate;
+                          final end = job.endDate;
+                          dateText =
+                              '${start!.day.toString().padLeft(2, '0')}/${start.month.toString().padLeft(2, '0')}/${start.year} - '
+                              '${end!.day.toString().padLeft(2, '0')}/${end.month.toString().padLeft(2, '0')}/${end.year}';
+                        } else if (job.datePosted != null) {
+                          final posted = job.datePosted;
+                          dateText =
+                              '${posted!.day.toString().padLeft(2, '0')}/${posted.month.toString().padLeft(2, '0')}/${posted.year}';
+                        } else {
+                          dateText = '—';
+                        }
+                        final logoWidget = Assets.images.logo.image(height: 50);
+
+                        return CustomBorderCard(
+                          title: job.shopName,
+                          time: '10:00am-10:00pm',
+                          price: salary,
+                          date: dateText,
+                          buttonText: jobApp.status,
+                          isButton: false,
+                          isSeeDescription: true,
+                          logoImage: logoWidget,
+                          seeDescriptionTap: () {
+                            final desc = job.description; // if non-nullable
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text(job.shopName),
+                                content:
+                                    SingleChildScrollView(child: Text(desc)),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          onButtonTap: () {},
+                        );
+                      } else {
+                        final job = controller.jobPostList[index];
+                        final salary = job.salary != null
+                            ? '£${job.salary.toString()}'
+                            : '£20.00/Per hr';
+                        String dateText = '';
+                        if (job.startDate != null && job.endDate != null) {
+                          final start = job.startDate;
+                          final end = job.endDate;
+                          dateText =
+                              '${start!.day.toString().padLeft(2, '0')}/${start.month.toString().padLeft(2, '0')}/${start.year} - '
+                              '${end!.day.toString().padLeft(2, '0')}/${end.month.toString().padLeft(2, '0')}/${end.year}';
+                        } else if (job.datePosted != null) {
+                          final posted = job.datePosted;
+                          dateText =
+                              '${posted!.day.toString().padLeft(2, '0')}/${posted.month.toString().padLeft(2, '0')}/${posted.year}';
+                        } else {
+                          dateText = '—';
+                        }
+                        final logoWidget = (job.shopLogo?.isNotEmpty == true)
+                            ? CachedNetworkImage(
+                                imageUrl: job.shopLogo!,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Assets.images.logo.image(height: 50),
+                              )
+                            : Assets.images.logo.image(height: 50);
+
+                        return CustomBorderCard(
+                          title: job.shopName ?? 'Barber Shop',
+                          time: '10:00am-10:00pm',
+                          price: salary,
+                          date: dateText,
+                          buttonText: 'Apply',
+                          isButton: true,
+                          isSeeDescription: true,
+                          onButtonTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: const Text('Apply for Job'),
+                                content: Text(
+                                    'Apply to ${job.shopName ?? 'this shop'}?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      controller.applyJob(jobId: job.id ?? '');
+                                      Navigator.of(context).pop();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Application sent to ${job.shopName ?? 'shop'}')),
+                                      );
+                                    },
+                                    child: const Text('Apply'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          logoImage: logoWidget,
+                          seeDescriptionTap: () {
+                            final desc =
+                                job.description ?? 'No description available';
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text(job.shopName ?? 'Job Description'),
+                                content:
+                                    SingleChildScrollView(child: Text(desc)),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
                 );
               }),
             ),

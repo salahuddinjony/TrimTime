@@ -21,6 +21,21 @@ class Validators {
     return null;
   }
 
+  static String? changePasswordValidator(String? oldValue, String? newValue) {
+    if (oldValue == null || oldValue.isEmpty) {
+      return 'Please enter your current password';
+    } else if (oldValue.length < 6) {
+      return 'Current password must be at least 6 characters';
+    } else if (newValue == null || newValue.isEmpty) {
+      return 'Please enter your new password';
+    } else if (newValue.length < 6) {
+      return 'New password must be at least 6 characters';
+    } else if (oldValue == newValue) {
+      return 'New password cannot be the same as the current password';
+    }
+    return null;
+  }
+
   //>>>>>>>✅✅ Confirm PasswordValidator ✅✅ <<<<<<<<=============
   static String? confirmPasswordValidator(String? value, String? password) {
     if (value == null || value.isEmpty) {
@@ -50,5 +65,4 @@ class Validators {
     }
     return null;
   }
-
 }

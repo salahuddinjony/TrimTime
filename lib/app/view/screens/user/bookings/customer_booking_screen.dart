@@ -51,6 +51,36 @@ class CustomerBookingScreen extends StatelessWidget {
           AppRouter.route.pop();
         },
       ),
+      floatingActionButton: Obx(() {
+        // Hide FAB when loading
+        if (userHomeController.customerBookingStatus.value.isLoading) {
+          return const SizedBox.shrink();
+        }
+        return FloatingActionButton(
+          onPressed: () {
+            if(bookingType.toLowerCase() == 'queue') {
+              AppRouter.route.pushNamed(
+                RoutePath.scannerScreen,
+                extra: {
+                  'userRole': userRole,
+                },
+              );
+              return;
+            }
+        AppRouter.route.pushNamed(
+          RoutePath.nearYouShopScreen,
+          extra: {
+            'userRole': userRole,
+          },
+        );
+          },
+          backgroundColor: AppColors.app, 
+          child:  Icon(
+       bookingType.toLowerCase() == 'queue' ? Icons.qr_code_scanner : Icons.add,
+        color: Colors.white,
+          ),
+        );
+      }),
       body: Stack(
         children: [
           // Curved banner background

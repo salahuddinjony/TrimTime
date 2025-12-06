@@ -23,13 +23,13 @@ class HomePageDashboardResponse {
 }
 
 class HomePageDashboardData {
-	final int totalCustomers;
-	final int totalEarnings;
-	final int totalBarbers;
-	final int totalBookings;
-	final int totalJobPosts;
-	final int totalJobApplicants;
-  final int totalQueuedBookings;
+	final num totalCustomers;
+	final num totalEarnings;
+	final num totalBarbers;
+	final num totalBookings;
+	final num totalJobPosts;
+	final num totalJobApplicants;
+  final num totalQueuedBookings;
 	final List<EarningGrowth> earningGrowth;
 	final List<CustomerGrowth> customerGrowth;
 
@@ -66,7 +66,7 @@ class HomePageDashboardData {
 
 class EarningGrowth {
 	final String month;
-	final int amount;
+	final num amount;
 
 	EarningGrowth({required this.month, required this.amount});
 

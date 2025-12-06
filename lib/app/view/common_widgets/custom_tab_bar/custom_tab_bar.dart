@@ -4,8 +4,16 @@ import 'package:flutter/material.dart';
 class CustomTabBar extends StatelessWidget {
   final ValueChanged<bool> onTabSelected;
   final bool isUpcomingSelected; // Track the selected tab
+  final String? firstTabLabel;
+  final String? secondTabLabel;
 
-  const CustomTabBar({super.key, required this.onTabSelected, required this.isUpcomingSelected});
+  const CustomTabBar({
+    super.key,
+    required this.onTabSelected,
+    required this.isUpcomingSelected,
+    this.firstTabLabel,
+    this.secondTabLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +31,19 @@ class CustomTabBar extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                onTabSelected(true); // Notify the parent screen that "Upcoming" tab was selected
+                onTabSelected(
+                    true); // Notify the parent screen that "Upcoming" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: isUpcomingSelected ? AppColors.secondary : Colors.transparent,
+                  color: isUpcomingSelected
+                      ? AppColors.secondary
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  "Upcoming",
+                  firstTabLabel ?? "Upcoming",
                   style: TextStyle(
                     color: isUpcomingSelected ? Colors.white : Colors.black,
                     fontWeight: FontWeight.w600,
@@ -45,16 +56,19 @@ class CustomTabBar extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                onTabSelected(false); // Notify the parent screen that "Previous" tab was selected
+                onTabSelected(
+                    false); // Notify the parent screen that "Previous" tab was selected
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: !isUpcomingSelected ?AppColors.secondary  : Colors.transparent,
+                  color: !isUpcomingSelected
+                      ? AppColors.secondary
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  "Previous",
+                  secondTabLabel ?? "Previous",
                   style: TextStyle(
                     color: !isUpcomingSelected ? Colors.white : Colors.black,
                     fontWeight: FontWeight.w600,
@@ -68,4 +82,3 @@ class CustomTabBar extends StatelessWidget {
     );
   }
 }
-

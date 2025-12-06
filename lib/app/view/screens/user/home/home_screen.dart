@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:barber_time/app/utils/app_strings.dart';
@@ -12,10 +13,12 @@ import 'package:barber_time/app/view/common_widgets/custom_feed_card/custom_feed
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:barber_time/app/view/common_widgets/custom_title/custom_title.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
+import 'package:barber_time/app/view/screens/owner/owner_profile/personal_info/controller/owner_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
 
@@ -25,6 +28,8 @@ class HomeScreen extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final UserHomeController homeController = Get.find<UserHomeController>();
+  final OwnerProfileController profileController =
+      Get.find<OwnerProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +55,98 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           /// 🏡 Common Home AppBar
-          CommonHomeAppBar(
-            isSearch: true,
-            onSearch: () =>
-                AppRouter.route.pushNamed(RoutePath.searchSaloonScreen, extra: {
-              'userRole': userRole,
-            }),
-            scaffoldKey: scaffoldKey,
-            name: "Customer",
-            image: AppConstants.demoImage,
-            onTap: () => AppRouter.route
-                .pushNamed(RoutePath.notificationScreen, extra: userRole),
-          ),
+          Obx(() {
+            final hasProfile =
+                profileController.profileDataList.value != null;
+            if (!hasProfile) {
+              return SafeArea(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  child: Row(
+                    children: [
+                      // Shimmer for circular profile image
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          width: 48.w,
+                          height: 48.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      // Shimmer for name and subtitle
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 160.w,
+                                height: 14.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 100.w,
+                                height: 10.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Search and notification icons keep their actions
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(
+                              RoutePath.searchSaloonScreen,
+                              extra: {
+                                'userRole': userRole,
+                              });
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.notifications),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(
+                              RoutePath.notificationScreen,
+                              extra: userRole);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            // When profile data is available show the regular app bar
+            final profile = profileController.profileDataList.value!;
+            return CommonHomeAppBar(
+              isSearch: true,
+              onSearch: () => AppRouter.route
+                  .pushNamed(RoutePath.searchSaloonScreen, extra: {
+                'userRole': userRole,
+              }),
+              
+              scaffoldKey: scaffoldKey,
+              name: profile.fullName.safeCap(),
+              image: profile.image ?? '',
+              onTap: () => AppRouter.route
+                  .pushNamed(RoutePath.notificationScreen, extra: userRole),
+            );
+          }),
 
           Expanded(
             child: SingleChildScrollView(
@@ -86,8 +171,12 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.bookings.svg()),
                       CustomCard(
                           onTap: () {
+                            homeController.fetchLoyalityRewards();
                             AppRouter.route.pushNamed(RoutePath.myLoyality,
-                                extra: userRole);
+                                extra:{
+                                  'userRole': userRole,
+                                  'controller': homeController,
+                                });
                           },
                           title: "Loyalty",
                           icon: Assets.icons.loyalitys.svg()),

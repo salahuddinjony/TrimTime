@@ -22,6 +22,7 @@ import 'package:barber_time/app/utils/enums/user_role.dart';
 class AuthController extends GetxController with PasswordConstraintController {
 //for sign-in and sing-up
   final fullNameController = TextEditingController(text: "");
+
   final addressController = TextEditingController(text: "");
   final regNumberController = TextEditingController(text: "");
   final shopNameController = TextEditingController(text: "");
@@ -209,7 +210,19 @@ class AuthController extends GetxController with PasswordConstraintController {
     debugPrint("Saved Role: $role");
 
     if (token.isNotEmpty) {
-      debugPrint("Token exists, user is logged in.");
+      // Check if token is expired before proceeding
+      final expired = await isTokenExpired();
+      if (expired) {
+        debugPrint(
+            "Token is expired on app startup. Clearing session and navigating to role selection.");
+        // Clear expired token and user data
+        await SharePrefsHelper.remove();
+        await SharePrefsHelper.setBool(AppConstants.rememberMe, false);
+        await SharePrefsHelper.setBool(AppConstants.isRememberMe, false);
+        return RoutePath.choseRoleScreen;
+      }
+
+      debugPrint("Token exists and is valid, user is logged in.");
       if (role == 'BARBER') {
         debugPrint("User Role: BARBER, navigating to barber home.");
         return RoutePath.barberHomeScreen;
@@ -234,6 +247,66 @@ class AuthController extends GetxController with PasswordConstraintController {
     } catch (e) {
       debugPrint('Failed to read saved role: $e');
       return null;
+    }
+  }
+
+  //>>>>>>>>>>>>>>>>>>✅✅Logout Method✅✅<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  /// Centralized logout method that clears user data and navigates to role selection screen
+  static Future<void> logout({bool showMessage = true}) async {
+    try {
+      debugPrint("Logging out user...");
+
+      // Clear all user data from shared preferences
+      await SharePrefsHelper.remove();
+
+      // Clear remember me flag
+      await SharePrefsHelper.setBool(AppConstants.rememberMe, false);
+      await SharePrefsHelper.setBool(AppConstants.isRememberMe, false);
+
+      // Clear all GetX controllers
+      Get.deleteAll(force: true);
+
+      // Navigate to role selection screen
+      AppRouter.route.goNamed(RoutePath.choseRoleScreen);
+
+      if (showMessage) {
+        toastMessage(message: "Session expired. Please login again.");
+      }
+
+      debugPrint("Logout completed successfully");
+    } catch (e) {
+      debugPrint("Error during logout: $e");
+      // Even if there's an error, try to navigate to role selection
+      try {
+        AppRouter.route.goNamed(RoutePath.choseRoleScreen);
+      } catch (navError) {
+        debugPrint("Navigation error during logout: $navError");
+      }
+    }
+  }
+
+  /// Check if the JWT token is expired
+  static Future<bool> isTokenExpired() async {
+    try {
+      final token = await SharePrefsHelper.getString(AppConstants.bearerToken);
+      if (token.isEmpty) {
+        return true;
+      }
+
+      // Decode JWT token to check expiration
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      bool isExpired = JwtDecoder.isExpired(token);
+
+      if (isExpired) {
+        debugPrint("Token is expired. Expiration time: ${decodedToken['exp']}");
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      debugPrint("Error checking token expiration: $e");
+      // If we can't decode the token, consider it expired
+      return true;
     }
   }
 
@@ -530,6 +603,7 @@ class AuthController extends GetxController with PasswordConstraintController {
                 extra: {
                   "isOwner": true,
                   "email": emailController.text,
+                  "userRole": selectedRole.name,
                 },
               )
             : AppRouter.route.pushNamed(
@@ -537,6 +611,7 @@ class AuthController extends GetxController with PasswordConstraintController {
                 extra: {
                   "isOwner": false,
                   "email": emailController.text,
+                  "userRole": selectedRole.name,
                 },
               );
 
@@ -705,7 +780,7 @@ class AuthController extends GetxController with PasswordConstraintController {
             message:
                 responseData["message"] ?? "Shop registered successfully.");
         // AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: UserRole.owner);
-        AppRouter.route.goNamed(RoutePath.signInScreen);
+        AppRouter.route.goNamed(RoutePath.signInScreen, extra: UserRole.owner);
       } else if (response.statusCode == 400) {
         debugPrint('Register shop failed, response body: $responseData');
         final errMsg = responseData != null
@@ -780,7 +855,7 @@ class AuthController extends GetxController with PasswordConstraintController {
   RxBool isActiveLoading = false.obs;
 
   Future<void> userAccountActiveOtp(
-      {bool? isOwner, bool? isForgotPassword}) async {
+      {bool? isOwner, bool? isForgotPassword, UserRole? userRole}) async {
     if (pinCodeController.text.trim().isEmpty) {
       toastMessage(message: "Please enter the activation code.");
       return;
@@ -846,7 +921,7 @@ class AuthController extends GetxController with PasswordConstraintController {
         });
       } else {
         emailController.clear();
-        AppRouter.route.goNamed(RoutePath.signInScreen);
+        AppRouter.route.goNamed(RoutePath.signInScreen, extra: userRole);
       }
 
       final msg = respBody != null
@@ -917,7 +992,7 @@ class AuthController extends GetxController with PasswordConstraintController {
     if (response.statusCode == 200) {
       // businessEmailController.clear();
 
-      AppRouter.route.goNamed(RoutePath.signInScreen);
+      AppRouter.route.goNamed(RoutePath.signInScreen, extra: UserRole.owner);
       toastMessage(message: response.body["message"]);
     } else if (response.statusCode == 400) {
       pinCodeController.clear();

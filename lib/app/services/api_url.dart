@@ -1,13 +1,11 @@
 class ApiUrl {
-  // static const baseUrl = "http://10.10.20.26:8080/api/v1";
-  static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
+  static const baseUrl = "http://10.10.20.26:8080/api/v1";
+  // static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
-
 //deshboard data
   static const dashboardData = "$baseUrl/saloons/dashboard";
-
 
   ///================================= User Authentication url==========================
   static const login = "/auth/login";
@@ -124,7 +122,6 @@ class ApiUrl {
   // selons
   static const fetchSelon = "$baseUrl/customers/all-saloons";
 
-
   // selons services
   static String getSelonServices({String? userId}) =>
       "$baseUrl/customers/saloon-services/$userId";
@@ -137,16 +134,18 @@ class ApiUrl {
     return url;
   }
 
-
   // create booking for selon
   static const createBookingForSelon = "/bookings";
 
   //get free slots for selon barbers
-  static String getSelonBarberFreeSlots({required String barberId, required String saloonId, required String date}) =>
+  static String getSelonBarberFreeSlots(
+          {required String barberId,
+          required String saloonId,
+          required String date}) =>
       "$baseUrl/bookings/barbers/$saloonId/$barberId?date=$date";
-      
 
-  static String getBarberDateWiseBookings({required String barberId, required String date}) =>
+  static String getBarberDateWiseBookings(
+          {required String barberId, required String date}) =>
       "$baseUrl//bookings/walking-in/barbers/$barberId/BOOKING?date=$date";
 
   static const getFavouriteShops = "$baseUrl/customers/favorite-saloons";
@@ -154,7 +153,10 @@ class ApiUrl {
   static const barberGiveRating = "/reviews";
   static const userGiveRating = "/reviews";
   static const getCustomerReviews = "$baseUrl/reviews/not-provided-reviews";
-  static  cancelBooking({required String bookingId}) => "$baseUrl/bookings/cancel/$bookingId";
+  static cancelBooking({required String bookingId}) =>
+      "$baseUrl/bookings/cancel/$bookingId";
   static const rescheduleBooking = "$baseUrl/bookings/reschedule";
   static const toggleFavoriteSalon = "/customers/favorite-saloons";
+  static const addToQueue = "/bookings";
+  static const getLoyalityRewards = "$baseUrl/customers/visited-saloons";
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:barber_time/app/global/controller/auth_controller/auth_controller.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
 import '../data/local/shared_prefs.dart';
+import 'api_check.dart';
 import 'api_url.dart';
 import 'error_response.dart';
 
@@ -580,6 +582,13 @@ class ApiClient extends GetxService {
       statusText: response.reasonPhrase,
     );
 
+    // Check for 401 Unauthorized - token expired
+    if (response0.statusCode == 401) {
+      debugPrint("401 Unauthorized response detected. Token may be expired.");
+      // Trigger logout through ApiChecker which will handle the logout flow
+      ApiChecker.checkApi(response0);
+    }
+
     if (response0.statusCode != 200 &&
         response0.body != null &&
         response0.body is! String) {
@@ -600,6 +609,31 @@ class ApiClient extends GetxService {
     );
 
     return response0;
+  }
+
+  /// Check if token is expired before making a request
+  /// Returns true if token is expired or invalid
+  static Future<bool> checkTokenExpiration() async {
+    try {
+      final token = await SharePrefsHelper.getString(AppConstants.bearerToken);
+      if (token.isEmpty) {
+        debugPrint("No token found. User needs to login.");
+        return true;
+      }
+      
+      // Check if token is expired using AuthController method
+      final isExpired = await AuthController.isTokenExpired();
+      if (isExpired) {
+        debugPrint("Token is expired. Logging out user...");
+        await AuthController.logout(showMessage: true);
+        return true;
+      }
+      
+      return false;
+    } catch (e) {
+      debugPrint("Error checking token expiration: $e");
+      return false;
+    }
   }
 }
 

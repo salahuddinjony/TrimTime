@@ -94,93 +94,88 @@ class CustomBorderCard extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
+                const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      date,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black,
+                    Expanded(
+                      child: Text(
+                        date,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    isSeeDescription == true
-                        ? GestureDetector(
-                            onTap: seeDescriptionTap,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 0),
-                              padding: const EdgeInsets.all(5),
-                              decoration: const BoxDecoration(
-                                  color: AppColors.black,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
-                              child: const CustomText(
-                                textAlign: TextAlign.start,
-                                left: 8,
-                                text: "See Description",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 8,
-                                color: AppColors.white50,
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-                    const Spacer(),
-                    isButton == true
-                        ? GestureDetector(
-                            onTap: onButtonTap,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              padding: const EdgeInsets.all(5),
-                              decoration: const BoxDecoration(
-                                  color: AppColors.secondary,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              child: CustomText(
-                                textAlign: TextAlign.start,
-                                left: 8,
-                                text: buttonText,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 8,
-                                color: AppColors.white50,
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-                    if (isEdit == true) ...[
+                    SizedBox(width: 8.w),
+                    if (isSeeDescription == true)
                       GestureDetector(
-                        onTap: isEditTap,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 8.0.w),
-                          child: Assets.icons.edit
-                              .svg(color: Colors.green, height: 15.h),
+                        onTap: seeDescriptionTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          decoration: const BoxDecoration(
+                              color: AppColors.black,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          child: const CustomText(
+                            textAlign: TextAlign.center,
+                            text: "See Description",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8,
+                            color: AppColors.white50,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                    if (isSeeDescription == true) SizedBox(width: 6.w),
+                    if (isButton == true)
+                      GestureDetector(
+                        onTap: onButtonTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: const BoxDecoration(
+                              color: AppColors.secondary,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8))),
+                          child: CustomText(
+                            textAlign: TextAlign.center,
+                            text: buttonText,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8,
+                            color: AppColors.white50,
+                          ),
+                        ),
+                      ),
+                    if (isEdit == true) ...[
+                      SizedBox(width: 6.w),
+                      GestureDetector(
+                        onTap: isEditTap,
+                        child: Assets.icons.edit
+                            .svg(color: Colors.green, height: 15.h),
+                      ),
                     ],
-                    isToggle == true
-                        ? Transform.scale(
-                            scale: 0.7,
-                            child: Switch.adaptive(
-                              value: toggleValue ?? false,
-                              onChanged: onToggleChanged,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                            ),
-                          )
-                        : const SizedBox(),
-                    isDelete == true
-                        ? GestureDetector(
-                            onTap: onTapDelete,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 8.0.w),
-                              child: Assets.icons.delete.svg(),
-                            ),
-                          )
-                        : const SizedBox(),
+                    if (isToggle == true) ...[
+                      SizedBox(width: 4.w),
+                      Transform.scale(
+                        scale: 0.7,
+                        child: Switch.adaptive(
+                          value: toggleValue ?? false,
+                          onChanged: onToggleChanged,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
+                    ],
+                    if (isDelete == true) ...[
+                      SizedBox(width: 6.w),
+                      GestureDetector(
+                        onTap: onTapDelete,
+                        child: Assets.icons.delete.svg(),
+                      ),
+                    ],
                   ],
                 ),
               ],

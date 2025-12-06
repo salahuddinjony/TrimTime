@@ -261,7 +261,7 @@ class OwnerRequestBooking extends StatelessWidget {
                     },
                     textColor: AppColors.white,
                     fillColor: AppColors.secondary,
-                    title: "Booking Cancel",
+                    title: "Close",
                   ),
                 ),
                 // SizedBox(

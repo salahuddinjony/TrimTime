@@ -505,28 +505,39 @@ class AuthController extends GetxController with PasswordConstraintController {
       EasyLoading.showInfo("Please fill all fields.");
       return;
     }
+
     if (newPasswordController.text.trim() !=
         confirmPasswordController.text.trim()) {
       EasyLoading.showError("Password and Confirm Password do not match.");
       return;
     }
+
+    if (passwordController.text.trim() == newPasswordController.text.trim()) {
+      EasyLoading.showError(
+          "New password cannot be the same as current password.");
+      return;
+    }
+
     EasyLoading.show(status: 'Changing password...');
     // Backend expects the new password under the key `password` (same as resetPassword).
     // Include oldPassword for verification and email for identification.
     final Map<String, dynamic> body = {
       "oldPassword": passwordController.text.trim(),
-      "password": newPasswordController.text.trim(),
-      "email": saveEmail,
+      "newPassword": newPasswordController.text.trim(),
+      // "email": saveEmail,
     };
 
     // Ensure we send a proper JSON payload and Content-Type header.
     var response = await ApiClient().putData(
-      ApiUrl.resetPassword,
+      ApiUrl.changeUserPassword,
       body,
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
       EasyLoading.dismiss();
+      passwordController.clear();
+      newPasswordController.clear();
+      confirmPasswordController.clear();
       AppRouter.route.pop();
       toastMessage(
         message: response.body["message"],

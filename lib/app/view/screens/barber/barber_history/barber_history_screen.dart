@@ -265,21 +265,30 @@ class BarberHistoryScreen extends StatelessWidget {
                                       const Icon(Icons.access_time,
                                           size: 14, color: Colors.grey),
                                       const SizedBox(width: 6),
-                                      Text(time.isNotEmpty ? time : '—',
-                                          style: const TextStyle(
-                                              color: Colors.grey)),
+                                      Expanded(
+                                        child: Text(time.isNotEmpty ? time : '—',
+                                            style: const TextStyle(
+                                                color: Colors.grey),
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
                                     children: [
-                                      Text(price,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w600)),
+                                      Flexible(
+                                        child: Text(price,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
                                       const SizedBox(width: 12),
-                                      Text(date,
-                                          style: const TextStyle(
-                                              color: Colors.grey)),
+                                      Flexible(
+                                        child: Text(date,
+                                            style: const TextStyle(
+                                                color: Colors.grey),
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
                                     ],
                                   )
                                 ],
@@ -358,16 +367,22 @@ class _HistoryShimmerCard extends StatelessWidget {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      Container(height: 12, width: 80, color: Colors.white),
+                      Flexible(
+                        child: Container(
+                            height: 12, width: 80, color: Colors.white),
+                      ),
                       const SizedBox(width: 12),
-                      Container(height: 12, width: 60, color: Colors.white),
+                      Flexible(
+                        child: Container(
+                            height: 12, width: 60, color: Colors.white),
+                      ),
                     ],
                   )
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            Container(height: 28, width: 80, color: Colors.white),
+            Container(height: 28, width: 70, color: Colors.white),
           ],
         ),
       ),

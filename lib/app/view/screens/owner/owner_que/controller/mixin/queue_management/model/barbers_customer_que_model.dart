@@ -130,6 +130,7 @@ class Slot {
 }
 
 class Booking {
+  final String? customerId;
   final String? startTime;
   final String? endTime;
   final String? customerName;
@@ -138,6 +139,7 @@ class Booking {
   final int? totalTime;
 
   Booking({
+    this.customerId,
     this.startTime,
     this.endTime,
     this.customerName,
@@ -148,6 +150,7 @@ class Booking {
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
+      customerId: json['customerId'],
       startTime: json['startTime'],
       endTime: json['endTime'],
       customerName: json['customerName'],
@@ -160,6 +163,7 @@ class Booking {
 
   Map<String, dynamic> toJson() {
     return {
+      'customerId': customerId,
       'startTime': startTime,
       'endTime': endTime,
       'services': services,

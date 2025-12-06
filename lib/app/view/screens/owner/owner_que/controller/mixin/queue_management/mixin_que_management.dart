@@ -4,6 +4,7 @@ import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/services/api_client.dart';
 import 'package:barber_time/app/services/api_url.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
+import 'package:barber_time/app/utils/enums/user_role.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_get_barber_with_date_time/mixin_get_barber_with_date_time.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_non_registered_bookings/mixin_non_registered_bookings.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mixin_services/mixin/mixin_get_services.dart';
@@ -11,6 +12,7 @@ import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/mi
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/queue_management/model/barbers_customer_que_model.dart';
 import 'package:barber_time/app/view/screens/owner/owner_que/controller/mixin/queue_management/model/que_model_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 mixin QueManagementMixin
@@ -129,7 +131,7 @@ mixin QueManagementMixin
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
-   var selectedValue = ''.obs;
+  var selectedValue = ''.obs;
 
   RxList<ServiceItem> get services =>
       servicesList; // From MixinGetServices reactive list
@@ -220,15 +222,74 @@ mixin QueManagementMixin
     return success;
   }
 
-  bool isAllFiledFilled() {
-    if (nameController.text.isNotEmpty &&
-        emailController.text.isNotEmpty &&
-        servicesSelected.isNotEmpty) {
-      debugPrint('All fields are filled.');
-
-      return true;
-    } else {
+  Future<bool> addToQueue(
+      {UserRole? userRole,
+      required String saloonOwnerId,
+      String? barberId}) async {
+    try {
+      EasyLoading.show(status: 'Adding to queue...');
+      final Map<String, dynamic> body = {
+        if (barberId != null) ...{
+          "barberId": barberId,
+        },
+        "saloonOwnerId": saloonOwnerId,
+        "services": servicesSelected.isEmpty ? null : servicesSelected.toList(),
+        "notes": notesController.text,
+        "date": DateTime.now().formatDateApi(),
+        "type": "QUEUE",
+      };
+      final response = await ApiClient.postData(
+        ApiUrl.addToQueue,
+        jsonEncode(body),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        if (barberId != null) {
+          debugPrint('Added to queue for barber ID: $barberId');
+          fetchBarbersCustomerQue(
+            barberId: barberId,
+            saloonOwnerId: saloonOwnerId,
+            isToday: true,
+          );
+        }
+        EasyLoading.showSuccess('Added to queue successfully.');
+        debugPrint('Added to queue successfully.');
+        clearControllers();
+        // fetchQueList();
+        return true;
+      } else {
+        EasyLoading.showError('Failed to add to queue: ${response.statusCode}');
+        debugPrint(
+            'Failed to add to queue: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      EasyLoading.showError('Error adding to queue: $e');
+      debugPrint('Error adding to queue: $e');
       return false;
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  bool isAllFiledFilled({UserRole? userRole}) {
+    if (userRole == UserRole.user) {
+      // For user role, only check servicesSelected
+      if (servicesSelected.isNotEmpty) {
+        debugPrint('Services selected for user.');
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // For other roles, check all fields
+      if (nameController.text.isNotEmpty &&
+          emailController.text.isNotEmpty &&
+          servicesSelected.isNotEmpty) {
+        debugPrint('All fields are filled.');
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 

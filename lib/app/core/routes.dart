@@ -460,8 +460,8 @@ class AppRouter {
               final controller = extra['controller'] as UserHomeController?;
               return _buildPageWithAnimation(
                 child: BerberTimes(
-                  userRole: userRole ?? UserRole.user, 
-                  controller: controller),
+                    userRole: userRole ?? UserRole.user,
+                    controller: controller),
                 state: state,
                 disableAnimation: true,
               );
@@ -1038,13 +1038,19 @@ class AppRouter {
 
         ///=======================OwnerShopDetails =======================
         GoRoute(
-          name: RoutePath.ownerShopDetails,
-          path: RoutePath.ownerShopDetails.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerShopDetails(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.ownerShopDetails,
+            path: RoutePath.ownerShopDetails.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final email = extra['email'] as String?;
+
+              return _buildPageWithAnimation(
+                child: OwnerShopDetails(
+                  email: email ?? '',
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(
@@ -1166,22 +1172,21 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.myLoyality,
-          path: RoutePath.myLoyality.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'];
+            name: RoutePath.myLoyality,
+            path: RoutePath.myLoyality.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
 
-            return _buildPageWithAnimation(
-              child: MyLoyality(
-                userRole: userRole!,
-                controller: controller,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: MyLoyality(
+                  userRole: userRole!,
+                  controller: controller,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(

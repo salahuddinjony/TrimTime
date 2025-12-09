@@ -370,7 +370,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                           GestureDetector(
                                             onTap: () {
                                               AppRouter.route.pushNamed(
-                                                  RoutePath.mapViewScreen,
+                                                  RoutePath.SelectedMapScreen,
                                                   extra: userRole);
                                             },
                                             child: Container(

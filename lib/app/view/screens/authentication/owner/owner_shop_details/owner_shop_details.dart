@@ -17,7 +17,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class OwnerShopDetails extends StatefulWidget {
-  const OwnerShopDetails({super.key});
+  String? email;
+  OwnerShopDetails({super.key, this.email});
 
   @override
   State<OwnerShopDetails> createState() => _OwnerShopDetailsState();
@@ -29,7 +30,25 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final userRole = GoRouterState.of(context).extra as UserRole?;
+    debugPrint(
+        "OwnerShopDetails email============================${widget.email}");
+
+    // Handle both direct UserRole and Map containing userRole
+    final extra = GoRouterState.of(context).extra;
+    UserRole? userRole;
+
+    if (extra is UserRole) {
+      userRole = extra;
+    } else if (extra is Map<String, dynamic>) {
+      final roleString = extra['userRole'] as String?;
+      if (roleString != null) {
+        userRole = UserRole.values.firstWhere(
+          (e) => e.name.toLowerCase() == roleString.toLowerCase(),
+          orElse: () => UserRole.owner,
+        );
+      }
+    }
+
     debugPrint("Selected Role============================${userRole?.name}");
     return Scaffold(
       appBar: const CustomAppBar(
@@ -67,7 +86,7 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
 
                           //ToDo ==========✅✅ shopName ✅✅==========
                           CustomFromCard(
-                              hinText: AppStrings.enterYourSHopName,   
+                              hinText: AppStrings.enterYourSHopName,
                               title: AppStrings.shopNames,
                               controller: authController.shopNameController,
                               validator: (v) {
@@ -78,30 +97,29 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                               title: AppStrings.registrationNumber,
                               controller: authController.regNumberController,
                               // Add a suffix icon button to generate a unique reg code
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  authController.generateRegistrationNumber();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Icon(Icons.autorenew, color: AppColors.black),
-                                      SizedBox(width: 6),
-                                      Text(
-                                        'Generate',
-                                        style: TextStyle(
-                                            color: AppColors.black, fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              // suffixIcon: GestureDetector(
+                              //   onTap: () {
+                              //     authController.generateRegistrationNumber();
+                              //   },
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              //     child: Row(
+                              //       mainAxisSize: MainAxisSize.min,
+                              //       children: const [
+                              //         Icon(Icons.autorenew, color: AppColors.black),
+                              //         SizedBox(width: 6),
+                              //         Text(
+                              //           'Generate',
+                              //           style: TextStyle(
+                              //               color: AppColors.black, fontSize: 12),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
                               validator: (v) {
                                 return null;
-                              }
-                          ),
+                              }),
 
                           CustomFromCard(
                               hinText: AppStrings.address,
@@ -138,7 +156,8 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                               decoration: BoxDecoration(
                                 color: AppColors.white50.withValues(alpha: .02),
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: AppColors.white50, width: 1),
+                                border: Border.all(
+                                    color: AppColors.white50, width: 1),
                               ),
                               child: Row(
                                 children: [
@@ -148,11 +167,15 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                     child: Container(
                                       width: 70,
                                       height: 70,
-                                      color: AppColors.white50.withValues(alpha: .05),
+                                      color: AppColors.white50
+                                          .withValues(alpha: .05),
                                       child: Builder(builder: (_) {
-                                        final File? logo = authController.selectedShopLogo.value;
+                                        final File? logo = authController
+                                            .selectedShopLogo.value;
                                         return logo == null
-                                            ? const Icon(Icons.upload_file, color: AppColors.white50, size: 36)
+                                            ? const Icon(Icons.upload_file,
+                                                color: AppColors.white50,
+                                                size: 36)
                                             : Image.file(
                                                 logo,
                                                 fit: BoxFit.cover,
@@ -164,7 +187,8 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                   // Title and status
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'Shop Logo',
@@ -176,7 +200,9 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                         ),
                                         const SizedBox(height: 6),
                                         Text(
-                                          authController.selectedShopLogo.value == null
+                                          authController
+                                                      .selectedShopLogo.value ==
+                                                  null
                                               ? 'Tap to upload logo'
                                               : 'Tap to change logo',
                                           style: const TextStyle(
@@ -188,14 +214,17 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                     ),
                                   ),
                                   // Remove button when selected
-                                  if (authController.selectedShopLogo.value != null)
+                                  if (authController.selectedShopLogo.value !=
+                                      null)
                                     GestureDetector(
                                       onTap: () {
-                                        authController.selectedShopLogo.value = null;
+                                        authController.selectedShopLogo.value =
+                                            null;
                                       },
                                       child: const Padding(
                                         padding: EdgeInsets.only(left: 8.0),
-                                        child: Icon(Icons.delete, color: AppColors.white50),
+                                        child: Icon(Icons.delete,
+                                            color: AppColors.white50),
                                       ),
                                     ),
                                 ],
@@ -232,7 +261,8 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: AppColors.white50.withValues(alpha: .2),
+                                      color: AppColors.white50
+                                          .withValues(alpha: .2),
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
                                           color: AppColors.white50, width: 1),
@@ -245,7 +275,8 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                                   ),
                                 );
                               } else {
-                                final imgFile = authController.shopImages[index];
+                                final imgFile =
+                                    authController.shopImages[index];
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.file(
@@ -304,8 +335,10 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                       //===================next Button=================
                       CustomButton(
                         onTap: () async {
-                          debugPrint('Email before register: ${authController.emailController.text}');
-                          await authController.registerShop();
+                          debugPrint(
+                              'Email before register: ${authController.emailController.text}');
+                          await authController.registerShop(
+                              email: widget.email);
                         },
                         title: "Next",
                         fillColor: Colors.black,

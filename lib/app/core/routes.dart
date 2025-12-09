@@ -21,6 +21,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/map/map_view_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/map/my_map/screen/seleted_map_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality.dart';
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality_rewards.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
@@ -750,13 +751,29 @@ class AppRouter {
         ),
 
         ///=======================  =======================
+        // GoRoute(
+        //   name: RoutePath.mapViewScreen,
+        //   path: RoutePath.mapViewScreen.addBasePath,
+        //   pageBuilder: (context, state) => _buildPageWithAnimation(
+        //     child: MapViewScreen(),
+        //     state: state,
+        //   ),
+        // ),
         GoRoute(
-          name: RoutePath.mapViewScreen,
-          path: RoutePath.mapViewScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: MapViewScreen(),
-            state: state,
-          ),
+          name: RoutePath.SelectedMapScreen,
+          path: RoutePath.SelectedMapScreen.addBasePath,
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            // final latitude = extra['latitude'] as double?;
+            // final longitude = extra['longitude'] as double?;
+            final userRole = extra['userRole'] as UserRole?;
+            return _buildPageWithAnimation(
+              child: SelectedMapScreen(
+               userRole: userRole!,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================editProfessionalProfile  =======================

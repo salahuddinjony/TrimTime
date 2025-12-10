@@ -766,10 +766,10 @@ class AppRouter {
             final extra = state.extra as Map<String, dynamic>? ?? {};
             // final latitude = extra['latitude'] as double?;
             // final longitude = extra['longitude'] as double?;
-            final userRole = extra['userRole'] as UserRole?;
+            final userRole = extra['userRole'] as UserRole? ?? UserRole.user;
             return _buildPageWithAnimation(
               child: SelectedMapScreen(
-               userRole: userRole!,
+               userRole: userRole,
               ),
               state: state,
             );

@@ -5,7 +5,6 @@ import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.
 import 'package:barber_time/app/view/common_widgets/custom_text_field/custom_text_field.dart';
 import 'package:barber_time/app/view/screens/common_screen/map/my_map/controller/map_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

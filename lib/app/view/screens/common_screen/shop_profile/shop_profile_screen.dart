@@ -1,14 +1,11 @@
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
 import 'package:barber_time/app/utils/enums/user_role.dart';
-import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/common_msg_and_follow_button.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_card/common_follow_msg_button.dart/custom_booking_button.dart';
 import 'package:barber_time/app/view/common_widgets/common_profile_total_card/common_profile_total_card.dart';
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
-import 'package:barber_time/app/view/common_widgets/custom_button/custom_button.dart';
 import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
-import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/rating_dialog.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/services_card.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
@@ -17,7 +14,6 @@ import 'package:barber_time/app/utils/app_strings.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_network_image/custom_network_image.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shimmer/shimmer.dart';
@@ -371,7 +367,9 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                             onTap: () {
                                               AppRouter.route.pushNamed(
                                                   RoutePath.SelectedMapScreen,
-                                                  extra: userRole);
+                                                  extra: {
+                                                    'userRole': userRole,
+                                                  });
                                             },
                                             child: Container(
                                               padding: EdgeInsets.all(5.r),

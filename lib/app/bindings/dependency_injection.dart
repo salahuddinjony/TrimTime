@@ -5,6 +5,7 @@ import 'package:barber_time/app/global/controller/payment_controller/payment_con
 import 'package:barber_time/app/view/screens/barber/barber_feed/controller/barber_feed_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_history/controller/history_controller.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/controller/barber_home_controller.dart';
+import 'package:barber_time/app/view/screens/common_screen/map/my_map/controller/map_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_hiring/controller/owner_hiring_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_home/controller/barber_owner_home_controller.dart';
 import 'package:barber_time/app/view/screens/owner/owner_profile/job_post/controller/barber_owner_job_post_controller.dart';
@@ -39,5 +40,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => QueController(), fenix: true);
     Get.lazyPut(() => LoyalityController(), fenix: true);
     Get.lazyPut(() => SavedController(), fenix: true);
+    Get.lazyPut(() => MapController(), fenix: true);
   }
 }

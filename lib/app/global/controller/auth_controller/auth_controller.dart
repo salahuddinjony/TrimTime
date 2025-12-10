@@ -26,6 +26,10 @@ class AuthController extends GetxController with PasswordConstraintController {
   final addressController = TextEditingController(text: "");
   final regNumberController = TextEditingController(text: "");
   final shopNameController = TextEditingController(text: "");
+  
+  // Store selected location from map
+  double selectedLatitude = 0.0;
+  double selectedLongitude = 0.0;
 
   // //for CUSTOMER SIGN UP
   // final emailController = TextEditingController(text: "efazkh@gmail.com");
@@ -699,10 +703,13 @@ class AuthController extends GetxController with PasswordConstraintController {
     // isShopRegisterLoading.value = true;
     // refresh();
 
-    final double latitude =
-        double.tryParse("23.8103") ?? 23.8103; // Dhaka approx
-    final double longitude =
-        double.tryParse("90.4125") ?? 90.4125; // Dhaka approx
+    // Use selected location from map, or fallback to default (Dhaka)
+    final double latitude = selectedLatitude != 0.0 
+        ? selectedLatitude 
+        : (double.tryParse("23.8103") ?? 23.8103); // Dhaka approx
+    final double longitude = selectedLongitude != 0.0 
+        ? selectedLongitude 
+        : (double.tryParse("90.4125") ?? 90.4125); // Dhaka approx
 
     final Map<String, dynamic> bodyData = {
       "email": email ?? emailController.text.trim(),
@@ -789,6 +796,10 @@ class AuthController extends GetxController with PasswordConstraintController {
         toastMessage(
             message:
                 responseData["message"] ?? "Shop registered successfully.");
+        
+        // Clear all shop registration fields after successful registration
+        clearShopRegistrationFields();
+        
         // AppRouter.route.goNamed(RoutePath.ownerHomeScreen, extra: UserRole.owner);
         AppRouter.route.goNamed(RoutePath.signInScreen, extra: UserRole.owner);
       } else if (response.statusCode == 400) {
@@ -1019,6 +1030,20 @@ class AuthController extends GetxController with PasswordConstraintController {
   @override
   void onInit() {
     super.onInit();
+  }
+
+  /// Clear all shop registration fields
+  void clearShopRegistrationFields() {
+    shopNameController.clear();
+    regNumberController.clear();
+    addressController.clear();
+    selectedShopLogo.value = null;
+    shopImages.clear();
+    selectedLatitude = 0.0;
+    selectedLongitude = 0.0;
+    isRemember.value = false;
+    // Note: fullNameController is not cleared as it might be used in other screens
+    debugPrint('All shop registration fields cleared');
   }
 
   /// into [regNumberController]. This uses timestamp + random

@@ -122,12 +122,44 @@ class _OwnerShopDetailsState extends State<OwnerShopDetails> {
                               }),
 
                           CustomFromCard(
-                              hinText: AppStrings.address,
-                              title: AppStrings.address,
-                              controller: authController.addressController,
-                              validator: (v) {
-                                return null;
-                              }),
+                            hinText: AppStrings.address,
+                            title: AppStrings.address,
+                            controller: authController.addressController,
+                            isRead: true, // Make it read-only since it's selected from map
+                            onTap: () async {
+                              // Navigate to map screen to select location
+                              final result = await AppRouter.route.pushNamed(
+                                RoutePath.SelectedMapScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                  'returnData': true,
+                                },
+                              );
+                              
+                              // Handle the returned location data
+                              if (result != null && result is Map<String, dynamic>) {
+                                final address = result['address'] ?? '';
+                                final lat = result['latitude'];
+                                final lng = result['longitude'];
+                                
+                                // Update address controller
+                                authController.addressController.text = address;
+                                
+                                // Store latitude and longitude in auth controller
+                                if (lat != null) {
+                                  authController.selectedLatitude = lat is num ? lat.toDouble() : (lat as double? ?? 0.0);
+                                }
+                                if (lng != null) {
+                                  authController.selectedLongitude = lng is num ? lng.toDouble() : (lng as double? ?? 0.0);
+                                }
+                                
+                                debugPrint('Selected location - Address: $address, Lat: ${authController.selectedLatitude}, Lng: ${authController.selectedLongitude}');
+                              }
+                            },
+                            validator: (v) {
+                              return null;
+                            },
+                          ),
 
                           //ToDo ==========✅✅ registrationNumber✅✅==========
                           // CustomFromCard(

@@ -68,8 +68,7 @@ class BusinessProfile extends StatelessWidget {
                 final data = controller.businessProfileData.value;
                 if (data == null) {
                   // SHIMMER LOADING UI
-                  return Expanded(
-                    child: SingleChildScrollView(
+                  return SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -79,7 +78,7 @@ class BusinessProfile extends StatelessWidget {
                             highlightColor: Colors.grey.shade100,
                             child: Container(
                               width: double.infinity,
-                              height: 120,
+                              height: 120.h,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
@@ -233,8 +232,7 @@ class BusinessProfile extends StatelessWidget {
                           const SizedBox(height: 50),
                         ],
                       ),
-                    ),
-                  );
+                    );
                 }
                 // REAL DATA UI
                 return Column(
@@ -417,6 +415,7 @@ class BusinessProfile extends StatelessWidget {
                                       );
                                     },
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         CustomNetworkImage(
                                           imageUrl: barber.image,
@@ -430,7 +429,6 @@ class BusinessProfile extends StatelessWidget {
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
                                           color: AppColors.black,
-                                          bottom: 10,
                                         ),
                                       ],
                                     ),

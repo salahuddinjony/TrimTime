@@ -17,6 +17,8 @@ import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixi
 import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixin_selected_barber_free_slot.dart';
 import 'package:barber_time/app/view/screens/user/home/customer_review/mixin/mixin_get_customer_review.dart';
 import 'package:barber_time/app/view/screens/user/saved/controller/mixin/mixin_favourite_shop.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 enum tags { nearby, topRated, searches, customerReviews }
@@ -42,12 +44,78 @@ class UserHomeController extends GetxController
         MixinNonRegisteredBookings,
         QueManagementMixin,
         MixinLoyality {
+  // Current location
+  Rxn<double> currentLatitude = Rxn<double>();
+  Rxn<double> currentLongitude = Rxn<double>();
+
   @override
   void onInit() {
     super.onInit();
-    fetchSelons(tag: tags.nearby);
-    fetchSelons(tag: tags.topRated);
+    _getCurrentLocationAndFetchSalons();
     getHomeFeeds();
+  }
+
+  Future<void> _getCurrentLocationAndFetchSalons() async {
+    double? lat;
+    double? lng;
+    
+    try {
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        // Use default location if service is disabled
+        lat = 23.9323;
+        lng = 90.4170;
+      } else {
+        // Check location permission
+        LocationPermission permission = await Geolocator.checkPermission();
+        if (permission == LocationPermission.denied) {
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied) {
+            // Use default location if permission denied
+            lat = 23.9323;
+            lng = 90.4170;
+          }
+        }
+
+        if (permission == LocationPermission.deniedForever) {
+          // Use default location if permission permanently denied
+          lat = 23.9323;
+          lng = 90.4170;
+        } else if (permission == LocationPermission.whileInUse || 
+                   permission == LocationPermission.always) {
+          // Get current position
+          Position position = await Geolocator.getCurrentPosition(
+            locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+          );
+
+          // Store current location
+          currentLatitude.value = position.latitude;
+          currentLongitude.value = position.longitude;
+          lat = position.latitude;
+          lng = position.longitude;
+        }
+      }
+    } catch (e) {
+      debugPrint('Error getting location: $e');
+      // Fallback to default location
+      lat = 23.9323;
+      lng = 90.4170;
+    }
+
+    // Fetch nearby salons and top rated salons in parallel using the same lat/lng
+    await Future.wait([
+      fetchSelons(
+        tag: tags.nearby,
+        lat: lat,
+        lng: lng,
+      ),
+      fetchSelons(
+        tag: tags.topRated,
+        lat: lat,
+        lng: lng,
+      ),
+    ]);
   }
 
   @override

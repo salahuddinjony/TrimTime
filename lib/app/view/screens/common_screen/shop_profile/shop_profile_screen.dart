@@ -7,6 +7,7 @@ import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/view/common_widgets/view_image_gallery/widgets/design_files_gallery.dart';
 import 'package:barber_time/app/view/screens/barber/barber_home/models/selon_model/single_selon_model.dart';
 import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/services_card.dart';
+import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -365,11 +366,44 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              AppRouter.route.pushNamed(
-                                                  RoutePath.SelectedMapScreen,
-                                                  extra: {
-                                                    'userRole': userRole,
-                                                  });
+                                              if (selonData != null) {
+                                                // Try to get queue from nearby salons if controller is UserHomeController
+                                                int queueCount = 0;
+                                                try {
+                                                  if (controller is UserHomeController) {
+                                                    final homeController = controller;
+                                                    final matchingSalon = homeController.nearbySaloons.firstWhereOrNull(
+                                                      (salon) => salon.userId == selonData.userId,
+                                                    );
+                                                    if (matchingSalon != null) {
+                                                      queueCount = matchingSalon.queue;
+                                                    }
+                                                  }
+                                                } catch (e) {
+                                                  debugPrint('Could not get queue from nearby salons: $e');
+                                                }
+                                                
+                                                AppRouter.route.pushNamed(
+                                                    RoutePath.SelectedMapScreen,
+                                                    extra: {
+                                                      'userRole': userRole,
+                                                      'lat': selonData.latitude,
+                                                      'lng': selonData.longitude,
+                                                      'selectedSalonId': selonData.userId,
+                                                      'showNearbySalons': true,
+                                                      'nearbySalons': [
+                                                        {
+                                                          'userId': selonData.userId,
+                                                          'id': selonData.id,
+                                                          'shopName': selonData.shopName,
+                                                          'shopAddress': selonData.shopAddress,
+                                                          'latitude': selonData.latitude,
+                                                          'longitude': selonData.longitude,
+                                                          'queue': queueCount,
+                                                        }
+                                                      ],
+                                                    });
+                                              }
                                             },
                                             child: Container(
                                               padding: EdgeInsets.all(5.r),

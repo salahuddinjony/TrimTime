@@ -21,6 +21,7 @@ import 'package:barber_time/app/view/screens/barber/barber_home/schedule_screen/
 import 'package:barber_time/app/view/screens/barber/barber_home/visit_shop/visit_shop.dart';
 import 'package:barber_time/app/view/screens/barber/barber_que_screen/barber_que_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/map/map_view_screen.dart';
+import 'package:barber_time/app/view/screens/common_screen/map/my_map/screen/seleted_map_screen.dart';
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality.dart';
 import 'package:barber_time/app/view/screens/common_screen/my_loyality/my_loyality_rewards.dart';
 import 'package:barber_time/app/view/screens/common_screen/notification/notification_screen.dart';
@@ -460,8 +461,8 @@ class AppRouter {
               final controller = extra['controller'] as UserHomeController?;
               return _buildPageWithAnimation(
                 child: BerberTimes(
-                  userRole: userRole ?? UserRole.user, 
-                  controller: controller),
+                    userRole: userRole ?? UserRole.user,
+                    controller: controller),
                 state: state,
                 disableAnimation: true,
               );
@@ -750,13 +751,29 @@ class AppRouter {
         ),
 
         ///=======================  =======================
+        // GoRoute(
+        //   name: RoutePath.mapViewScreen,
+        //   path: RoutePath.mapViewScreen.addBasePath,
+        //   pageBuilder: (context, state) => _buildPageWithAnimation(
+        //     child: MapViewScreen(),
+        //     state: state,
+        //   ),
+        // ),
         GoRoute(
-          name: RoutePath.mapViewScreen,
-          path: RoutePath.mapViewScreen.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: MapViewScreen(),
-            state: state,
-          ),
+          name: RoutePath.SelectedMapScreen,
+          path: RoutePath.SelectedMapScreen.addBasePath,
+          pageBuilder: (context, state){
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            // final latitude = extra['latitude'] as double?;
+            // final longitude = extra['longitude'] as double?;
+            final userRole = extra['userRole'] as UserRole? ?? UserRole.user;
+            return _buildPageWithAnimation(
+              child: SelectedMapScreen(
+               userRole: userRole,
+              ),
+              state: state,
+            );
+          }
         ),
 
         ///=======================editProfessionalProfile  =======================
@@ -1038,13 +1055,19 @@ class AppRouter {
 
         ///=======================OwnerShopDetails =======================
         GoRoute(
-          name: RoutePath.ownerShopDetails,
-          path: RoutePath.ownerShopDetails.addBasePath,
-          pageBuilder: (context, state) => _buildPageWithAnimation(
-            child: const OwnerShopDetails(),
-            state: state,
-          ),
-        ),
+            name: RoutePath.ownerShopDetails,
+            path: RoutePath.ownerShopDetails.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final email = extra['email'] as String?;
+
+              return _buildPageWithAnimation(
+                child: OwnerShopDetails(
+                  email: email ?? '',
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(
@@ -1166,22 +1189,21 @@ class AppRouter {
 
         ///======================= =======================
         GoRoute(
-          name: RoutePath.myLoyality,
-          path: RoutePath.myLoyality.addBasePath,
-          pageBuilder: (context, state){
-            final extra = state.extra as Map<String, dynamic>? ?? {};
-            final userRole = extra['userRole'] as UserRole?;
-            final controller = extra['controller'];
+            name: RoutePath.myLoyality,
+            path: RoutePath.myLoyality.addBasePath,
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final userRole = extra['userRole'] as UserRole?;
+              final controller = extra['controller'];
 
-            return _buildPageWithAnimation(
-              child: MyLoyality(
-                userRole: userRole!,
-                controller: controller,
-              ),
-              state: state,
-            );
-          }
-        ),
+              return _buildPageWithAnimation(
+                child: MyLoyality(
+                  userRole: userRole!,
+                  controller: controller,
+                ),
+                state: state,
+              );
+            }),
 
         ///======================= =======================
         GoRoute(

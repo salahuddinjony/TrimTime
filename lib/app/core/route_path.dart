@@ -35,7 +35,8 @@ class RoutePath {
   static const String loyalityScreen = 'LoyalityScreen';
   static const String ownerQue = 'OwnerQue';
   static const String tipsScreen = 'TipsScreen';
-  static const String mapViewScreen = 'MapViewScreen';
+  // static const String mapViewScreen = 'MapViewScreen';
+    static const String SelectedMapScreen = 'SelectedMapScreen';
   static const String bookingScreen = 'BookingScreen';
   static const String customerBookingScreen = 'CustomerBookingScreen';
   static const String bookingDetailsScreen = 'BookingDetailsScreen';

@@ -221,8 +221,10 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.tips.svg(height: 35)),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.mapViewScreen,
-                                extra: userRole);
+                            AppRouter.route.pushNamed(RoutePath.SelectedMapScreen,
+                                extra: {
+                                  'userRole': userRole,
+                                });
                           },
                           title: "MapView",
                           icon: Assets.icons.mapview.svg()),

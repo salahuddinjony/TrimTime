@@ -680,7 +680,7 @@ class AuthController extends GetxController with PasswordConstraintController {
   }
 
 // Register shop (POST multipart)
-  Future<void> registerShop() async {
+  Future<void> registerShop({String? email}) async {
     if (selectedShopLogo.value == null) {
       toastMessage(message: "Please select a shop logo.");
       return;
@@ -691,8 +691,7 @@ class AuthController extends GetxController with PasswordConstraintController {
     }
     if (fullNameController.text.trim().isEmpty ||
         regNumberController.text.trim().isEmpty ||
-        addressController.text.trim().isEmpty ||
-        emailController.text.trim().isEmpty) {
+        addressController.text.trim().isEmpty) {
       toastMessage(message: "Please fill all required fields.");
       return;
     }
@@ -706,7 +705,7 @@ class AuthController extends GetxController with PasswordConstraintController {
         double.tryParse("90.4125") ?? 90.4125; // Dhaka approx
 
     final Map<String, dynamic> bodyData = {
-      "email": emailController.text.trim(),
+      "email": email ?? emailController.text.trim(),
       "shopName": shopNameController.text.trim(),
       "registrationNumber": regNumberController.text.trim(),
       "shopAddress": addressController.text.trim(),
@@ -924,7 +923,8 @@ class AuthController extends GetxController with PasswordConstraintController {
       pinCodeController.clear();
 
       if (isOwner != null && isOwner) {
-        AppRouter.route.goNamed(RoutePath.ownerShopDetails);
+        AppRouter.route.goNamed(RoutePath.ownerShopDetails,
+            extra: {"email": emailController.text.trim()});
       } else if (isForgotPassword != null && isForgotPassword) {
         AppRouter.route.goNamed(RoutePath.resetPasswordScreen, extra: {
           "email": emailController.text.trim(),

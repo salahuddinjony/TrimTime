@@ -224,6 +224,8 @@ class HomeScreen extends StatelessWidget {
                             AppRouter.route.pushNamed(RoutePath.SelectedMapScreen,
                                 extra: {
                                   'userRole': userRole,
+                                  'nearbySalons': homeController.nearbySaloons.toList(),
+                                  'showNearbySalons': true,
                                 });
                           },
                           title: "MapView",

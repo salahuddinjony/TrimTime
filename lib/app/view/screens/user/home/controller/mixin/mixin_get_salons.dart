@@ -17,7 +17,11 @@ mixin MixinGetSalons {
   Future<void> fetchSelons(
       {tags? tag, double? lat, double? lng, String? searchQuery}) async {
     try {
-      fetchStatus.value = RxStatus.loading();
+      // Only set loading status for nearby salons to avoid conflicts
+      if (tag == tags.nearby) {
+        fetchStatus.value = RxStatus.loading();
+      }
+      
       final Map<String, dynamic> queryParameters = {
         'page': '1',
         'limit': '100',
@@ -26,6 +30,11 @@ mixin MixinGetSalons {
       if (tag != null) {
         if (tag == tags.topRated) {
           queryParameters['topRated'] = '1';
+          // Add lat/lng for top rated if provided (for location-based sorting)
+          if (lat != null && lng != null) {
+            queryParameters['latitude'] = lat.toString();
+            queryParameters['longitude'] = lng.toString();
+          }
         } else if (tag == tags.nearby) {
           queryParameters['latitude'] = lat?.toString() ?? '23.9323';
           queryParameters['longitude'] = lng?.toString() ?? '90.4170';
@@ -45,12 +54,12 @@ mixin MixinGetSalons {
           topRatedSaloons.value = salonsData.data;
         } else if (tag == tags.nearby) {
           nearbySaloons.value = salonsData.data;
+          fetchStatus.value = RxStatus.success();
         } else if (tag == tags.searches) {
           searchesSaloons.value = salonsData.data;
         } else {
           allSaloons.value = salonsData.data;
         }
-        fetchStatus.value = RxStatus.success();
       }
     } catch (e) {
       print("Error fetching salons: $e");

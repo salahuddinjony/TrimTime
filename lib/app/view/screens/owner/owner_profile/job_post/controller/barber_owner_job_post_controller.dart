@@ -316,15 +316,65 @@ class BarberOwnerJobPostController extends GetxController {
         await fetchBarberJobPost();
         EasyLoading.showSuccess('Job deleted');
       } else {
-        EasyLoading.showError('Failed to delete job');
-        debugPrint(
-            "Failed to delete job: ${response.statusCode} - ${response.statusText}");
-        throw response.statusText ?? 'Failed to delete job';
+        // Extract error message from response
+        String errorMessage = 'Failed to delete job';
+        
+        // First check statusText (may already contain the message from handleResponse)
+        if (response.statusText != null && response.statusText!.isNotEmpty) {
+          errorMessage = response.statusText!;
+        } 
+        // Then check response body for message field
+        else if (response.body != null) {
+          try {
+            // response.body is already parsed as Map by handleResponse if possible
+            if (response.body is Map) {
+              final responseData = response.body as Map;
+              if (responseData['message'] != null) {
+                errorMessage = responseData['message'].toString();
+              }
+            } 
+            // If body is a string, try to parse it
+            else if (response.body is String) {
+              final responseData = jsonDecode(response.body as String);
+              if (responseData is Map && responseData['message'] != null) {
+                errorMessage = responseData['message'].toString();
+              }
+            }
+          } catch (e) {
+            debugPrint("Error parsing response body: $e");
+            // Keep default errorMessage
+          }
+        }
+        
+        // EasyLoading.showError(errorMessage);
+        toastMessage(message: errorMessage);
+        debugPrint("Failed to delete job: ${response.statusCode} - $errorMessage");
       }
     } catch (e) {
-      EasyLoading.showError('Failed to delete job');
+      String errorMessage = 'Failed to delete job';
       debugPrint("Error deleting job: ${e.toString()}");
-      // toastMessage(message: e.toString());
+      
+      // Try to extract message from exception if it's a string containing JSON
+      try {
+        final errorStr = e.toString();
+        if (errorStr.contains('message') && errorStr.contains('{')) {
+          final jsonStart = errorStr.indexOf('{');
+          final jsonEnd = errorStr.lastIndexOf('}') + 1;
+          if (jsonStart >= 0 && jsonEnd > jsonStart) {
+            final jsonStr = errorStr.substring(jsonStart, jsonEnd);
+            final errorData = jsonDecode(jsonStr);
+            if (errorData is Map && errorData['message'] != null) {
+              errorMessage = errorData['message'].toString();
+            }
+          }
+        }
+      } catch (_) {
+        // If parsing fails, use a generic message
+        errorMessage = 'Failed to delete job';
+      }
+      
+      EasyLoading.showError(errorMessage);
+      toastMessage(message: errorMessage);
     } finally {
       EasyLoading.dismiss();
     }

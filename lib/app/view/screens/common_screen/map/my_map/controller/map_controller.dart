@@ -26,6 +26,7 @@ class MapController extends GetxController {
   void onInit() {
     super.onInit();
 
+    // Try to get location from Get.arguments first (for backward compatibility)
     longitude =
         Get.arguments != null && Get.arguments['long'] != null
             ? (Get.arguments['long'] as num).toDouble()
@@ -36,14 +37,29 @@ class MapController extends GetxController {
             ? (Get.arguments['lat'] as num).toDouble()
             : null;
 
+    // If not found in Get.arguments, try GoRouter (if available)
+    // Note: GoRouter state needs to be accessed from the widget context
+    // So we'll handle it in the screen widget instead
+
     // Only get user location if both latitude and longitude are null
     if (latitude == null && longitude == null) {
       _setDefaultLocation();
+    } else if (latitude != null && longitude != null) {
+      // Set camera position for provided location
+      cameraPosition.value = CameraPosition(
+        target: LatLng(latitude!, longitude!),
+        zoom: 15,
+      );
+      // Don't call getUserLocation() here - let the screen widget handle marker creation
+      // This prevents clearing markers that will be set by the screen
     } else {
       getUserLocation();
     }
 
-    _addInitialMarker(latitude, longitude);
+    // Only add initial marker if we don't have specific coordinates
+    if (latitude == null && longitude == null) {
+      _addInitialMarker(latitude, longitude);
+    }
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -71,6 +87,8 @@ class MapController extends GetxController {
       zoom: 12,
     );
 
+    // Clear existing markers before adding new one
+    markers.clear();
     markers.add(
       const Marker(
         markerId: MarkerId('default_location'),
@@ -102,6 +120,8 @@ class MapController extends GetxController {
         zoom: 15,
       );
 
+      // Clear existing markers before adding new one
+      markers.clear();
       markers.add(
         Marker(
           markerId: const MarkerId('provided_location'),
@@ -167,6 +187,8 @@ class MapController extends GetxController {
       zoom: 15,
     );
 
+    // Clear existing markers before adding new one
+    markers.clear();
     markers.add(
       Marker(
         markerId: const MarkerId('user_location'),
@@ -389,6 +411,149 @@ class MapController extends GetxController {
     } else {
       getUserLocation();
     }
+  }
+
+  // Add nearby salon markers
+  void addNearbySalonMarkers(List<dynamic> salons, {String? selectedSalonId}) {
+    // Clear existing salon markers (but keep user location marker)
+    Marker? userLocationMarker;
+    for (var marker in markers) {
+      final markerId = marker.markerId.value;
+      if (markerId == 'user_location' || 
+          markerId == 'current_location' ||
+          markerId == 'provided_location' ||
+          markerId == 'initial_marker' ||
+          markerId == 'default_location') {
+        userLocationMarker = marker;
+        break;
+      }
+    }
+    
+    markers.clear();
+    
+    // Re-add user location marker if it exists
+    if (userLocationMarker != null) {
+      markers.add(userLocationMarker);
+    }
+
+    // Add salon markers
+    for (var salon in salons) {
+      double salonLat = 0.0;
+      double salonLng = 0.0;
+      
+      // Handle both Map and object types
+      if (salon is Map) {
+        salonLat = (salon['latitude'] ?? 0.0) as double;
+        salonLng = (salon['longitude'] ?? 0.0) as double;
+      } else {
+        salonLat = (salon.latitude ?? 0.0) as double;
+        salonLng = (salon.longitude ?? 0.0) as double;
+      }
+      
+      if (salonLat != 0.0 && salonLng != 0.0) {
+        String salonId = '';
+        String shopName = 'Salon';
+        String shopAddress = '';
+        int queueCount = 0;
+        
+        if (salon is Map) {
+          salonId = salon['userId'] ?? salon['id'] ?? '';
+          shopName = salon['shopName'] ?? 'Salon';
+          shopAddress = salon['shopAddress'] ?? '';
+          queueCount = (salon['queue'] ?? 0) as int;
+        } else {
+          salonId = salon.userId ?? salon.id ?? '';
+          shopName = salon.shopName ?? 'Salon';
+          shopAddress = salon.shopAddress ?? '';
+          queueCount = salon.queue ?? 0;
+        }
+        
+        final isSelected = selectedSalonId != null && salonId == selectedSalonId;
+        
+        // Build info window snippet with queue count (always show)
+        String infoSnippet = '$shopAddress\nQueue: $queueCount';
+        
+        markers.add(
+          Marker(
+            markerId: MarkerId('salon_$salonId'),
+            position: LatLng(salonLat, salonLng),
+            icon: isSelected 
+                ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+                : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+            infoWindow: InfoWindow(
+              title: shopName,
+              snippet: infoSnippet,
+            ),
+            onTap: () {
+              // Handle marker tap if needed
+            },
+          ),
+        );
+      }
+    }
+  }
+
+  // Set camera to show all markers
+  void fitBoundsToMarkers() {
+    if (markers.isEmpty) return;
+
+    double minLat = double.infinity;
+    double maxLat = -double.infinity;
+    double minLng = double.infinity;
+    double maxLng = -double.infinity;
+
+    for (var marker in markers) {
+      final lat = marker.position.latitude;
+      final lng = marker.position.longitude;
+      
+      minLat = lat < minLat ? lat : minLat;
+      maxLat = lat > maxLat ? lat : maxLat;
+      minLng = lng < minLng ? lng : minLng;
+      maxLng = lng > maxLng ? lng : maxLng;
+    }
+
+    final centerLat = (minLat + maxLat) / 2;
+    final centerLng = (minLng + maxLng) / 2;
+    
+    // Calculate zoom level based on bounds
+    double latDiff = maxLat - minLat;
+    double lngDiff = maxLng - minLng;
+    double maxDiff = latDiff > lngDiff ? latDiff : lngDiff;
+    
+    double zoom = 12.0;
+    if (maxDiff > 0) {
+      if (maxDiff < 0.01) {
+        zoom = 15.0;
+      } else if (maxDiff < 0.05) {
+        zoom = 13.0;
+      } else if (maxDiff < 0.1) {
+        zoom = 12.0;
+      } else {
+        zoom = 11.0;
+      }
+    }
+
+    final newCameraPosition = CameraPosition(
+      target: LatLng(centerLat, centerLng),
+      zoom: zoom,
+    );
+    
+    cameraPosition.value = newCameraPosition;
+
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(newCameraPosition),
+    );
+  }
+
+  // Reset map controller state
+  void resetState() {
+    markers.clear();
+    selectedLocation.value = null;
+    suggestions.clear();
+    isClean.value = false;
+    latitude = null;
+    longitude = null;
+    status.value = RxStatus.success();
   }
 
 

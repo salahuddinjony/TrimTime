@@ -63,105 +63,107 @@ class OwnerHomeScreen extends StatelessWidget {
           Obx(() {
             final hasProfile = profileController.profileDataList.value != null;
             if (!hasProfile) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                child: Row(
-                  children: [
-                    // Shimmer for circular profile image
-                    Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        width: 48.w,
-                        height: 48.w,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
+              return SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  child: Row(
+                    children: [
+                      // Shimmer for circular profile image
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          width: 48.w,
+                          height: 48.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 12.w),
-                    // Shimmer for name and subtitle
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
-                            child: Container(
-                              width: 160.w,
-                              height: 14.h,
-                              color: Colors.white,
+                      SizedBox(width: 12.w),
+                      // Shimmer for name and subtitle
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 160.w,
+                                height: 14.h,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
-                            child: Container(
-                              width: 100.w,
-                              height: 10.h,
-                              color: Colors.white,
+                            SizedBox(height: 6.h),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                width: 100.w,
+                                height: 10.h,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    // Dashboard, QR, Calendar and notification icons
-                    IconButton(
-                      icon: const Icon(Icons.dashboard),
-                      onPressed: () async {
-                        final Uri url = Uri.parse(
-                            'https://barber-shift-owner-dashboard.vercel.app/');
-                        debugPrint("Dashboard button clicked");
+                      // Dashboard, QR, Calendar and notification icons
+                      IconButton(
+                        icon: const Icon(Icons.dashboard),
+                        onPressed: () async {
+                          final Uri url = Uri.parse(
+                              'https://barber-shift-owner-dashboard.vercel.app/');
+                          debugPrint("Dashboard button clicked");
 
-                        if (await canLaunchUrl(url)) {
-                          bool launched = await launchUrl(url,
-                              mode: LaunchMode.platformDefault);
-                          if (!launched) {
-                            debugPrint(
-                                "Failed to launch URL with platformDefault mode, trying externalApplication");
-                            await launchUrl(url,
-                                mode: LaunchMode.externalApplication);
+                          if (await canLaunchUrl(url)) {
+                            bool launched = await launchUrl(url,
+                                mode: LaunchMode.platformDefault);
+                            if (!launched) {
+                              debugPrint(
+                                  "Failed to launch URL with platformDefault mode, trying externalApplication");
+                              await launchUrl(url,
+                                  mode: LaunchMode.externalApplication);
+                            }
+                          } else {
+                            debugPrint("Could not launch $url");
                           }
-                        } else {
-                          debugPrint("Could not launch $url");
-                        }
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.qr_code),
-                      onPressed: () {
-                        AppRouter.route
-                            .pushNamed(RoutePath.uniqueQrCode, extra: userRole);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () {
-                        debugPrint("Calendar button clicked");
-                        debugPrint("User Role: ${controller.userRole}");
-                        if (controller.userRole == "SALOON_OWNER") {
-                          context
-                              .pushNamed(RoutePath.ownerRequestBooking, extra: {
-                            'userRole': userRole,
-                            'controller': controller,
-                          });
-                          return;
-                        }
-                        AppRouter.route.pushNamed(RoutePath.scheduleScreen,
-                            extra: userRole);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.notifications),
-                      onPressed: () {
-                        AppRouter.route.pushNamed(RoutePath.notificationScreen,
-                            extra: userRole);
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.qr_code),
+                        onPressed: () {
+                          AppRouter.route
+                              .pushNamed(RoutePath.uniqueQrCode, extra: userRole);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () {
+                          debugPrint("Calendar button clicked");
+                          debugPrint("User Role: ${controller.userRole}");
+                          if (controller.userRole == "SALOON_OWNER") {
+                            context
+                                .pushNamed(RoutePath.ownerRequestBooking, extra: {
+                              'userRole': userRole,
+                              'controller': controller,
+                            });
+                            return;
+                          }
+                          AppRouter.route.pushNamed(RoutePath.scheduleScreen,
+                              extra: userRole);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.notifications),
+                        onPressed: () {
+                          AppRouter.route.pushNamed(RoutePath.notificationScreen,
+                              extra: userRole);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

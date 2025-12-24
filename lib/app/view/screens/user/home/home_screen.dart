@@ -19,7 +19,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../common_widgets/user_nav_bar/user_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -56,8 +55,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           /// 🏡 Common Home AppBar
           Obx(() {
-            final hasProfile =
-                profileController.profileDataList.value != null;
+            final hasProfile = profileController.profileDataList.value != null;
             if (!hasProfile) {
               return SafeArea(
                 child: Padding(
@@ -110,11 +108,10 @@ class HomeScreen extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          AppRouter.route.pushNamed(
-                              RoutePath.searchSaloonScreen,
-                              extra: {
-                                'userRole': userRole,
-                              });
+                          AppRouter.route
+                              .pushNamed(RoutePath.searchSaloonScreen, extra: {
+                            'userRole': userRole,
+                          });
                         },
                       ),
                       IconButton(
@@ -139,7 +136,6 @@ class HomeScreen extends StatelessWidget {
                   .pushNamed(RoutePath.searchSaloonScreen, extra: {
                 'userRole': userRole,
               }),
-              
               scaffoldKey: scaffoldKey,
               name: profile.fullName.safeCap(),
               image: profile.image ?? '',
@@ -172,11 +168,11 @@ class HomeScreen extends StatelessWidget {
                       CustomCard(
                           onTap: () {
                             homeController.fetchLoyalityRewards();
-                            AppRouter.route.pushNamed(RoutePath.myLoyality,
-                                extra:{
-                                  'userRole': userRole,
-                                  'controller': homeController,
-                                });
+                            AppRouter.route
+                                .pushNamed(RoutePath.myLoyality, extra: {
+                              'userRole': userRole,
+                              'controller': homeController,
+                            });
                           },
                           title: "Loyalty",
                           icon: Assets.icons.loyalitys.svg()),
@@ -221,12 +217,13 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.tips.svg(height: 35)),
                       CustomCard(
                           onTap: () {
-                            AppRouter.route.pushNamed(RoutePath.SelectedMapScreen,
-                                extra: {
-                                  'userRole': userRole,
-                                  'nearbySalons': homeController.nearbySaloons.toList(),
-                                  'showNearbySalons': true,
-                                });
+                            AppRouter.route
+                                .pushNamed(RoutePath.SelectedMapScreen, extra: {
+                              'userRole': userRole,
+                              'nearbySalons':
+                                  homeController.nearbySaloons.toList(),
+                              'showNearbySalons': true,
+                            });
                           },
                           title: "MapView",
                           icon: Assets.icons.mapview.svg()),
@@ -251,7 +248,7 @@ class HomeScreen extends StatelessWidget {
                   /// 📌 Nerby  Scroll for Shops
 
                   SizedBox(
-                    height: 232.h,
+                    height: 245.h,
                     child: Obx(
                       () {
                         if (homeController.fetchStatus.value.isLoading) {
@@ -305,6 +302,8 @@ class HomeScreen extends StatelessWidget {
                                     location: salon.shopAddress,
                                     discount: salon.distance.toString(),
                                     isSaved: salon.isFavorite,
+                                    totalQueueCount: salon.totalQueueCount,
+                                    totalAvailableBarbers: salon.totalAvailableBarbers,
                                     onSaved: () {
                                       homeController.toggleFavoriteSalon(
                                         tag: tags.nearby,
@@ -338,7 +337,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   SizedBox(
-                    height: 232.h,
+                    height: 245.h,
                     child: Obx(
                       () {
                         if (homeController.fetchStatus.value.isLoading) {
@@ -394,6 +393,8 @@ class HomeScreen extends StatelessWidget {
                                     location: salon.shopAddress,
                                     discount: salon.distance.toString(),
                                     isSaved: salon.isFavorite,
+                                    totalQueueCount: salon.totalQueueCount,
+                                    totalAvailableBarbers: salon.totalAvailableBarbers,
                                     onSaved: () {
                                       homeController.toggleFavoriteSalon(
                                         tag: tags.topRated,

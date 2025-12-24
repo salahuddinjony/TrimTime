@@ -154,6 +154,9 @@ class SavedScreen extends StatelessWidget {
                                     child: Obx(() {
                                       // Check if this shop is still favorited in any of the main lists
                                       var isFavorited = true;
+                                      int? queueCount;
+                                      int? availableBarbers;
+                                      
                                       final nearbyIndex =
                                           controller.nearbySaloons.indexWhere(
                                               (s) => s.userId == shop.userId);
@@ -164,19 +167,22 @@ class SavedScreen extends StatelessWidget {
                                           controller.searchesSaloons.indexWhere(
                                               (s) => s.userId == shop.userId);
 
-                                      // Check if it exists in any list and get its favorite status
+                                      // Check if it exists in any list and get its favorite status and other data
                                       if (nearbyIndex != -1) {
-                                        isFavorited = controller
-                                            .nearbySaloons[nearbyIndex]
-                                            .isFavorite;
+                                        final salon = controller.nearbySaloons[nearbyIndex];
+                                        isFavorited = salon.isFavorite;
+                                        queueCount = salon.totalQueueCount;
+                                        availableBarbers = salon.totalAvailableBarbers;
                                       } else if (topRatedIndex != -1) {
-                                        isFavorited = controller
-                                            .topRatedSaloons[topRatedIndex]
-                                            .isFavorite;
+                                        final salon = controller.topRatedSaloons[topRatedIndex];
+                                        isFavorited = salon.isFavorite;
+                                        queueCount = salon.totalQueueCount;
+                                        availableBarbers = salon.totalAvailableBarbers;
                                       } else if (searchIndex != -1) {
-                                        isFavorited = controller
-                                            .searchesSaloons[searchIndex]
-                                            .isFavorite;
+                                        final salon = controller.searchesSaloons[searchIndex];
+                                        isFavorited = salon.isFavorite;
+                                        queueCount = salon.totalQueueCount;
+                                        availableBarbers = salon.totalAvailableBarbers;
                                       }
 
                                       return CommonShopCard(
@@ -187,6 +193,8 @@ class SavedScreen extends StatelessWidget {
                                             "${shop.ratingCount.toString()}(${shop.avgRating.toStringAsFixed(1)})",
                                         location: shop.shopAddress,
                                         discount: "",
+                                        totalQueueCount: queueCount,
+                                        totalAvailableBarbers: availableBarbers,
                                         onSaved: () {
                                           // Use the first available index for the API call
                                           final tagToUse = nearbyIndex != -1

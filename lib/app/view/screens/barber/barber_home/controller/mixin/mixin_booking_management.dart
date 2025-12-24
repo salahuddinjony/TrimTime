@@ -57,8 +57,9 @@ mixin BookingManagementMixin {
   Future<void> fetchCustomerBookings() async {
     try {
       customerBookingStatus.value = RxStatus.loading();
+      // Note: limit is an integer here, but will be converted to string in URL query params
+      // Backend should parse the string query parameter to integer before passing to Prisma
       final Map<String, dynamic> query = {
-        'limit': '200',
       };
       final response = await ApiClient.getData(
         ApiUrl.getCustomerBookings,

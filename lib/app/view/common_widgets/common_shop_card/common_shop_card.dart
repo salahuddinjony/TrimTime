@@ -1,4 +1,3 @@
-import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,8 @@ class CommonShopCard extends StatelessWidget {
   final String discount;
   final VoidCallback onSaved;
   final bool isSaved;
+  final int? totalQueueCount;
+  final int? totalAvailableBarbers;
 
   const CommonShopCard({
     super.key,
@@ -24,12 +25,14 @@ class CommonShopCard extends StatelessWidget {
     required this.discount,
     required this.onSaved,
     this.isSaved = false,
+    this.totalQueueCount,
+    this.totalAvailableBarbers,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 233.h,
+      height: 245.h,
       width: 326.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
@@ -43,6 +46,7 @@ class CommonShopCard extends StatelessWidget {
           _buildBottomDetails(),
         ],
       ),
+      
     );
   }
 
@@ -104,15 +108,69 @@ class CommonShopCard extends StatelessWidget {
             fontSize: 16.sp,
             color: AppColors.black,
           ),
-          CustomText(
-            text: rating,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.sp,
-            color: AppColors.black,
-          ),
           Row(
             children: [
-              Assets.icons.location.svg(height: 14.h, width: 14.w),
+              CustomText(
+                text: rating,
+                fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+                color: AppColors.black,
+              ),
+              if (totalQueueCount != null) ...[
+                SizedBox(width: 8.w),
+                _buildInfoBadge(
+                  icon: Icons.people,
+                  value: totalQueueCount.toString(),
+                ),
+              ],
+              if (totalAvailableBarbers != null) ...[
+                SizedBox(width: 6.w),
+                _buildInfoBadge(
+                  icon: Icons.content_cut,
+                  value: totalAvailableBarbers.toString(),
+                ),
+              ],
+            ],
+          ),
+          SizedBox(height: 4.h),
+          Row(
+            children: [
+              // Shop image instead of location icon
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  height: 20.h,
+                  width: 20.w,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(
+                    height: 20.h,
+                    width: 20.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.gray300,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.location_on,
+                      size: 12.sp,
+                      color: AppColors.white50,
+                    ),
+                  ),
+                  placeholder: (context, url) => Container(
+                    height: 20.h,
+                    width: 20.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.gray300,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.location_on,
+                      size: 12.sp,
+                      color: AppColors.white50,
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(width: 5.w),
               Expanded(
                 child: CustomText(
@@ -147,6 +205,43 @@ class CommonShopCard extends StatelessWidget {
             color: isSaved ? Colors.red : Colors.white,
             size: 15.sp,
           )),
+    );
+  }
+
+  /// Info Badge for Queue/Barbers
+  Widget _buildInfoBadge({
+    required IconData icon,
+    required String value,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(
+          color: AppColors.secondary,
+          width: 1.5,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16.sp,
+            color: AppColors.secondary,
+          ),
+          SizedBox(width: 5.w),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

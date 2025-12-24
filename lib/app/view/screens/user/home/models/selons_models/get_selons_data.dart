@@ -27,57 +27,94 @@ class GetSelonsDataResponse {
 }
 
 class Saloon {
-	final String id;
 	final String userId;
 	final String shopName;
 	final String shopAddress;
 	final List<String> shopImages;
-	final bool isVerified;
 	final String shopLogo;
 	final List<String> shopVideo;
+	final String phoneNumber;
+	final String email;
 	final double latitude;
 	final double longitude;
-	final int ratingCount;
-	final double avgRating;
 	final num distance;
-	final int queue;
-  bool isFavorite;
+	final double avgRating;
+	final int ratingCount;
+	final bool isOpen;
+	final String shopStatus;
+	final String statusReason;
+	final TodayWorkingHours? todayWorkingHours;
+	final int totalQueueCount;
+	final List<String> availableBarbers;
+	final int totalAvailableBarbers;
+	bool isFavorite;
 
 	Saloon({
-		required this.id,
 		required this.userId,
 		required this.shopName,
 		required this.shopAddress,
 		required this.shopImages,
-		required this.isVerified,
 		required this.shopLogo,
 		required this.shopVideo,
+		required this.phoneNumber,
+		required this.email,
 		required this.latitude,
 		required this.longitude,
-		required this.ratingCount,
-		required this.avgRating,
 		required this.distance,
-		required this.queue,
-    this.isFavorite = false,
+		required this.avgRating,
+		required this.ratingCount,
+		required this.isOpen,
+		required this.shopStatus,
+		required this.statusReason,
+		this.todayWorkingHours,
+		required this.totalQueueCount,
+		required this.availableBarbers,
+		required this.totalAvailableBarbers,
+		this.isFavorite = false,
 	});
 
 	factory Saloon.fromJson(Map<String, dynamic> json) {
 		return Saloon(
-			id: json['id'] ?? '',
 			userId: json['userId'] ?? '',
 			shopName: json['shopName'] ?? '',
 			shopAddress: json['shopAddress'] ?? '',
 			shopImages: (json['shopImages'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
-			isVerified: json['isVerified'] ?? false,
 			shopLogo: json['shopLogo'] ?? '',
 			shopVideo: (json['shopVideo'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+			phoneNumber: json['phoneNumber'] ?? '',
+			email: json['email'] ?? '',
 			latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
 			longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
-			ratingCount: json['ratingCount'] ?? 0,
-			avgRating: (json['avgRating'] as num?)?.toDouble() ?? 0.0,
 			distance: json['distance'] ?? 0,
-			queue: json['queue'] ?? 0,
-      isFavorite: json['isFavorite'] ?? false,
+			avgRating: (json['avgRating'] as num?)?.toDouble() ?? 0.0,
+			ratingCount: json['ratingCount'] ?? 0,
+			isOpen: json['isOpen'] ?? false,
+			shopStatus: json['shopStatus'] ?? '',
+			statusReason: json['statusReason'] ?? '',
+			todayWorkingHours: json['todayWorkingHours'] != null 
+				? TodayWorkingHours.fromJson(json['todayWorkingHours'])
+				: null,
+			totalQueueCount: json['totalQueueCount'] ?? 0,
+			availableBarbers: (json['availableBarbers'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+			totalAvailableBarbers: json['totalAvailableBarbers'] ?? 0,
+			isFavorite: json['isFavorite'] ?? false,
+		);
+	}
+}
+
+class TodayWorkingHours {
+	final String? openingTime;
+	final String? closingTime;
+
+	TodayWorkingHours({
+		this.openingTime,
+		this.closingTime,
+	});
+
+	factory TodayWorkingHours.fromJson(Map<String, dynamic> json) {
+		return TodayWorkingHours(
+			openingTime: json['openingTime'],
+			closingTime: json['closingTime'],
 		);
 	}
 }
@@ -87,20 +124,26 @@ class Meta {
 	final int page;
 	final int limit;
 	final int totalPages;
+	final bool hasNextPage;
+	final bool hasPrevPage;
 
 	Meta({
 		required this.total,
 		required this.page,
 		required this.limit,
 		required this.totalPages,
+		required this.hasNextPage,
+		required this.hasPrevPage,
 	});
 
 	factory Meta.fromJson(Map<String, dynamic> json) {
 		return Meta(
 			total: json['total'] ?? 0,
-			page: json['page'] ?? 0,
-			limit: json['limit'] ?? 0,
+			page: json['page'] ?? 1,
+			limit: json['limit'] ?? 10,
 			totalPages: json['totalPages'] ?? 0,
+			hasNextPage: json['hasNextPage'] ?? false,
+			hasPrevPage: json['hasPrevPage'] ?? false,
 		);
 	}
 }

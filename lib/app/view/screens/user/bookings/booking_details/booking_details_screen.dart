@@ -86,6 +86,13 @@ class BookingDetailsScreen<T> extends StatelessWidget {
         isCustomerBooking ? bookingData.date : bookingData.createdAt;
     final DateTime startDateTime =
         isCustomerBooking ? bookingData.date : bookingData.startDateTime;
+    
+    // Extract startTime and endTime for CustomerBooking
+    final String? startTime = isCustomerBooking ? bookingData.startTime : null;
+    final String? endTime = isCustomerBooking ? bookingData.endTime : null;
+    final String bookingTypeDisplay = isCustomerBooking 
+        ? (bookingData.bookingType == 'QUEUE' ? 'Queue' : 'Booking')
+        : 'Booking';
 
     // Services
     final List<Map<String, dynamic>> services = isCustomerBooking
@@ -118,8 +125,7 @@ class BookingDetailsScreen<T> extends StatelessWidget {
       backgroundColor: AppColors.white50,
       appBar: CustomAppBar(
         iconData: Icons.arrow_back,
-        appBarContent:
-            "${isCustomerBooking ? bookingType?.safeCap() ?? "Booking" : 'Booking'} Details",
+        appBarContent: "$bookingTypeDisplay Details",
         appBarBgColor: AppColors.white,
       ),
       body: Padding(
@@ -141,6 +147,8 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                 userPhoneNumber: userPhoneNumber,
                 startDateTime: startDateTime,
                 services: services,
+                startTime: startTime,
+                endTime: endTime,
               ),
               // Status badge moved above Selected services
               Row(
@@ -230,9 +238,12 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showCancelBookingDialog(context, controller,
-                            bookingId:
-                                isCustomerBooking ? bookingData.bookingId : "");
+                        showCancelBookingDialog(
+                          context, 
+                          controller,
+                          bookingId: isCustomerBooking ? bookingData.bookingId : "",
+                          bookingType: bookingTypeDisplay,
+                        );
                       },
                       child: Container(
                         padding: bookingType?.toLowerCase() != 'booking'
@@ -245,7 +256,9 @@ class BookingDetailsScreen<T> extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(15.r)),
                             border: Border.all(color: AppColors.black)),
                         child: CustomText(
-                          text: "Cancel Booking",
+                          text: bookingTypeDisplay == 'Queue' 
+                              ? "Cancel Queue" 
+                              : "Cancel Booking",
                           fontSize: bookingType?.toLowerCase() != 'booking'
                               ? 16.sp
                               : 14.sp,
@@ -353,7 +366,7 @@ class BookingDetailsScreen<T> extends StatelessWidget {
   }
 
   void showCancelBookingDialog(BuildContext context, T? controller,
-      {required String bookingId}) {
+      {required String bookingId, String? bookingType}) {
     showDialog(
       context: context,
       barrierDismissible: false, // Prevent dismissing by tapping outside
@@ -364,7 +377,9 @@ class BookingDetailsScreen<T> extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           title: CustomText(
-            text: "Are you sure want \n to cancel this?",
+            text: bookingType == 'Queue'
+                ? "Are you sure you want \n to cancel this queue?"
+                : "Are you sure you want \n to cancel this booking?",
             maxLines: 2,
             fontSize: 16.sp,
             color: AppColors.black,
@@ -430,6 +445,8 @@ class BookingInfoCard extends StatelessWidget {
   final String userPhoneNumber;
   final DateTime startDateTime;
   final List<Map<String, dynamic>> services;
+  final String? startTime;
+  final String? endTime;
   const BookingInfoCard({
     Key? key,
     required this.userFullName,
@@ -437,6 +454,8 @@ class BookingInfoCard extends StatelessWidget {
     required this.userPhoneNumber,
     required this.startDateTime,
     required this.services,
+    this.startTime,
+    this.endTime,
   }) : super(key: key);
 
   @override
@@ -497,15 +516,76 @@ class BookingInfoCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  totalMinutes > 0 ? "$totalMinutes min duration" : "-",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.sp,
-                    color: AppColors.gray500,
+                // Display time range if available, otherwise show duration
+                if (startTime != null && endTime != null) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary.withValues(alpha: 0.18),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.access_time, 
+                                color: AppColors.secondary, size: 16),
+                            SizedBox(width: 6.w),
+                            Text(
+                              startTime!,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.black,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 6.w),
+                              child: Text(
+                                '-',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.sp,
+                                  color: AppColors.gray500,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              endTime!,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    totalMinutes > 0 ? "$totalMinutes min duration" : "-",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp,
+                      color: AppColors.gray500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ] else ...[
+                  Text(
+                    totalMinutes > 0 ? "$totalMinutes min duration" : "-",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15.sp,
+                      color: AppColors.gray500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ],
             ),
           ),

@@ -17,8 +17,8 @@ mixin MixinGetSalons {
   Future<void> fetchSelons(
       {tags? tag, double? lat, double? lng, String? searchQuery}) async {
     try {
-      // Only set loading status for nearby salons to avoid conflicts
-      if (tag == tags.nearby) {
+      // Set loading status for nearby salons and searches
+      if (tag == tags.nearby || tag == tags.searches) {
         fetchStatus.value = RxStatus.loading();
       }
       
@@ -57,13 +57,17 @@ mixin MixinGetSalons {
           fetchStatus.value = RxStatus.success();
         } else if (tag == tags.searches) {
           searchesSaloons.value = salonsData.data;
+          fetchStatus.value = RxStatus.success();
         } else {
           allSaloons.value = salonsData.data;
         }
       }
     } catch (e) {
       print("Error fetching salons: $e");
-    } finally {}
+      if (tag == tags.nearby || tag == tags.searches) {
+        fetchStatus.value = RxStatus.error("Error fetching salons: $e");
+      }
+    }
   }
 
   //favorite sallon toggle

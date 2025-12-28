@@ -8,6 +8,7 @@ import 'package:barber_time/app/view/screens/user/bookings/models/customer_booki
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 mixin BookingManagementMixin {
   RxList<BarberBookingData> bookings = RxList<BarberBookingData>([]);
@@ -22,6 +23,10 @@ mixin BookingManagementMixin {
         return Colors.orange;
       case 'COMPLETED':
         return Colors.blue;
+      case 'STARTED':
+        return Colors.purpleAccent;
+      case 'ENDED':
+        return Colors.cyan;
       case 'CANCELLED':
         return Colors.red;
       default:
@@ -57,8 +62,10 @@ mixin BookingManagementMixin {
   Future<void> fetchCustomerBookings() async {
     try {
       customerBookingStatus.value = RxStatus.loading();
+      // Note: limit is an integer here, but will be converted to string in URL query params
+      // Backend should parse the string query parameter to integer before passing to Prisma
       final Map<String, dynamic> query = {
-        'limit': '200',
+        "limit": "200",
       };
       final response = await ApiClient.getData(
         ApiUrl.getCustomerBookings,
@@ -84,7 +91,8 @@ mixin BookingManagementMixin {
     try {
       EasyLoading.show(status: 'Cancelling Booking...');
       final response = await ApiClient.patchData(
-          ApiUrl.cancelBooking(bookingId: bookingId), {}, isBody: false);
+          ApiUrl.cancelBooking(bookingId: bookingId), {},
+          isBody: false);
       if (response.statusCode == 200 ||
           response.statusCode == 204 ||
           response.statusCode == 201) {
@@ -97,7 +105,7 @@ mixin BookingManagementMixin {
     } catch (e) {
       EasyLoading.showError('Failed to cancel booking');
       return false;
-    }finally {
+    } finally {
       EasyLoading.dismiss();
     }
   }
@@ -105,18 +113,19 @@ mixin BookingManagementMixin {
   //Reschdule booking can be added here
   Future<bool> rescheduleBooking(
       {required String bookingId,
+      required String barberId,
       required DateTime newDateTime,
       required String timeSlot}) async {
     try {
       EasyLoading.show(status: 'Rescheduling Booking...');
       final payload = {
-        "bookingId": bookingId,
+        "barberId": barberId,
         "appointmentAt": timeSlot,
         "date": newDateTime.formatDateApi()
       };
       final apiClient = ApiClient();
-      final response =
-          await apiClient.putData(ApiUrl.rescheduleBooking, jsonEncode(payload));
+      final response = await apiClient.putData(
+          ApiUrl.rescheduleBooking(bookingId: bookingId), jsonEncode(payload));
       if (response.statusCode == 200 ||
           response.statusCode == 204 ||
           response.statusCode == 201) {
@@ -129,7 +138,36 @@ mixin BookingManagementMixin {
     } catch (e) {
       EasyLoading.showError('Failed to reschedule booking');
       return false;
-    }finally {
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  // update booking status
+  Future<bool> updateBookingStatus(
+      {required String bookingId,
+      required String status,
+      BuildContext? context}) async {
+    try {
+      EasyLoading.show(status: 'Updating Booking Status...');
+      final response = await ApiClient.patchData(
+        ApiUrl.updateBookingStatus(bookingId: bookingId),
+        jsonEncode({'status': status}),
+      );
+      if (response.statusCode == 200 ||
+          response.statusCode == 204 ||
+          response.statusCode == 201) {
+        EasyLoading.showSuccess('Booking status updated successfully');
+        context?.pop();
+        return true;
+      } else {
+        EasyLoading.showError('Failed to update booking status');
+        return false;
+      }
+    } catch (e) {
+      EasyLoading.showError('Failed to update booking status');
+      return false;
+    } finally {
       EasyLoading.dismiss();
     }
   }

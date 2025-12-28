@@ -17,9 +17,12 @@ import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixi
 import 'package:barber_time/app/view/screens/user/home/create_booking/mixin/mixin_selected_barber_free_slot.dart';
 import 'package:barber_time/app/view/screens/user/home/customer_review/mixin/mixin_get_customer_review.dart';
 import 'package:barber_time/app/view/screens/user/saved/controller/mixin/mixin_favourite_shop.dart';
+import 'package:barber_time/app/utils/app_colors.dart';
+import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum tags { nearby, topRated, searches, customerReviews }
 
@@ -63,6 +66,14 @@ class UserHomeController extends GetxController
       // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
+        // Show dialog to enable location services
+        _showLocationDialog(
+          title: 'Location Services Disabled',
+          message: 'Please enable location services to find nearby salons.',
+          onEnable: () async {
+            await Geolocator.openLocationSettings();
+          },
+        );
         // Use default location if service is disabled
         lat = 23.9323;
         lng = 90.4170;
@@ -72,6 +83,14 @@ class UserHomeController extends GetxController
         if (permission == LocationPermission.denied) {
           permission = await Geolocator.requestPermission();
           if (permission == LocationPermission.denied) {
+            // Show dialog if permission denied
+            _showLocationDialog(
+              title: 'Location Permission Required',
+              message: 'Please allow location access to find nearby salons.',
+              onEnable: () async {
+                await Geolocator.openAppSettings();
+              },
+            );
             // Use default location if permission denied
             lat = 23.9323;
             lng = 90.4170;
@@ -79,6 +98,14 @@ class UserHomeController extends GetxController
         }
 
         if (permission == LocationPermission.deniedForever) {
+          // Show dialog if permission permanently denied
+          _showLocationDialog(
+            title: 'Location Permission Denied',
+            message: 'Location permission is permanently denied. Please enable it from app settings.',
+            onEnable: () async {
+              await Geolocator.openAppSettings();
+            },
+          );
           // Use default location if permission permanently denied
           lat = 23.9323;
           lng = 90.4170;
@@ -116,6 +143,83 @@ class UserHomeController extends GetxController
         lng: lng,
       ),
     ]);
+  }
+
+  void _showLocationDialog({
+    required String title,
+    required String message,
+    required VoidCallback onEnable,
+  }) {
+    final context = Get.context;
+    if (context == null) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          backgroundColor: AppColors.white,
+          title: Row(
+            children: [
+              Icon(
+                Icons.location_off,
+                color: AppColors.red,
+                size: 28.sp,
+              ),
+              SizedBox(width: 8.w),
+              Expanded(
+                child: CustomText(
+                  text: title,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.black,
+                ),
+              ),
+            ],
+          ),
+          content: CustomText(
+            text: message,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppColors.black,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: CustomText(
+                text: 'Cancel',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.gray300,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onEnable();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.app,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+              ),
+              child: CustomText(
+                text: 'Enable',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.white,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

@@ -22,11 +22,13 @@ class RescheduleScreen extends StatelessWidget {
   final UserHomeController controller;
   final String userId;
   final String bookingId;
+  final String barberId;
   final List<String>? serviceNames;
   final List<int>? serviceDurations;
   const RescheduleScreen(
       {super.key,
       required this.userRole,
+      required this.barberId,
       required this.controller,
       required this.userId,
       required this.bookingId,
@@ -359,6 +361,7 @@ class RescheduleScreen extends StatelessWidget {
                     }
                     final success = await controller.rescheduleBooking(
                       bookingId: bookingId,
+                      barberId: barberId,
                       newDateTime: controller.selectedDate,
                       timeSlot: controller.selectedTimeSlot.value,
                     );

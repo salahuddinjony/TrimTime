@@ -143,6 +143,8 @@ class TopRatedScreen extends StatelessWidget {
                                     location: salon.shopAddress,
                                     discount: salon.distance.toString(),
                                     isSaved: currentSalon.isFavorite,
+                                    totalQueueCount: salon.totalQueueCount,
+                                    totalAvailableBarbers: salon.totalAvailableBarbers,
                                     onSaved: () {
                                       homeController.toggleFavoriteSalon(
                                         tag: tags.topRated,

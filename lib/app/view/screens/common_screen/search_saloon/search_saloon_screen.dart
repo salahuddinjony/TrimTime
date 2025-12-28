@@ -119,8 +119,14 @@ class SearchSaloonScreen extends StatelessWidget {
                         }
                         return Obx(() {
                           final salons = homeController.searchesSaloons;
-                          if (salons.isEmpty &&
-                              !homeController.fetchStatus.value.isLoading) {
+                          if (homeController.fetchStatus.value.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          }
+                          if (salons.isEmpty) {
                             return const Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -173,6 +179,8 @@ class SearchSaloonScreen extends StatelessWidget {
                                       location: salon.shopAddress,
                                       discount: salon.distance.toString(),
                                       isSaved: currentSalon.isFavorite,
+                                      totalQueueCount: salon.totalQueueCount,
+                                      totalAvailableBarbers: salon.totalAvailableBarbers,
                                       onSaved: () {
                                         homeController.toggleFavoriteSalon(
                                           tag: tags.searches,
@@ -194,14 +202,6 @@ class SearchSaloonScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(() => homeController.fetchStatus.value.isLoading
-                ? Container(
-                    color: Colors.black.withValues(alpha: .2),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : const SizedBox.shrink()),
           ],
         ),
       ),

@@ -1,6 +1,9 @@
 class ApiUrl {
+  // static const baseUrl = "http://13.48.206.147:8080/api/v1";
+  // static const baseUrl = "http://10.0.2.2:8080/api/v1";
   // static const baseUrl = "http://10.10.20.26:8080/api/v1";
   static const baseUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
+  // static const baseUrl = "http://localhost:8080/api/v1";
   // static const networkUrl = "http://10.10.20.26:8080/api/v1";
   static const networkUrl = "https://barber-shift-app-4n3k.vercel.app/api/v1";
 
@@ -156,8 +159,11 @@ class ApiUrl {
   static const getCustomerReviews = "$baseUrl/reviews/not-provided-reviews";
   static cancelBooking({required String bookingId}) =>
       "$baseUrl/bookings/cancel/$bookingId";
-  static const rescheduleBooking = "$baseUrl/bookings/reschedule";
+  static String rescheduleBooking({required String bookingId}) =>
+      "/bookings/reschedule/$bookingId";
   static const toggleFavoriteSalon = "/customers/favorite-saloons";
   static const addToQueue = "/bookings";
   static const getLoyalityRewards = "$baseUrl/customers/visited-saloons";
+  static String updateBookingStatus({required String bookingId}) =>
+      "$baseUrl/barbers/update-booking-status/$bookingId";
 }

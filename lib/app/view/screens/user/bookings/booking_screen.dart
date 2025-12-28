@@ -62,7 +62,10 @@ class _BookingScreenState extends State<BookingScreen> {
       // Upcoming: CONFIRMED and PENDING status
       return barberHomeController!.bookings
           .where((booking) =>
-              (booking.status == 'CONFIRMED' || booking.status == 'PENDING') &&
+              (booking.status == 'CONFIRMED' ||
+                  booking.status == 'PENDING' ||
+                  booking.status == 'STARTED' ||
+                  booking.status == 'ENDED') &&
               booking.bookingType != 'QUEUE')
           .toList();
     } else {
@@ -130,7 +133,7 @@ class _BookingScreenState extends State<BookingScreen> {
           onPressed: () {
             // Determine bookingType based on selected tab
             final bookingType = isUpcomingSelected ? 'booking' : 'queue';
-            
+
             if (bookingType.toLowerCase() == 'queue') {
               AppRouter.route.pushNamed(
                 RoutePath.scannerScreen,

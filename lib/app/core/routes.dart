@@ -1336,10 +1336,12 @@ class AppRouter {
               final bookingId = extra['bookingId'] as String?;
               final serviceNames = extra['serviceNames'] as List<String>?;
               final serviceDurations = extra['serviceDurations'] as List<int>?;
+              final barberId = extra['barberId'] as String?;
               return _buildPageWithAnimation(
                 child: RescheduleScreen(
                   userRole: userRole!,
                   userId: userId!,
+                  barberId: barberId!,
                   bookingId: bookingId!,
                   controller: controller,
                   serviceNames: serviceNames,

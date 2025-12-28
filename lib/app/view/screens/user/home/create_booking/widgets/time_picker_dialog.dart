@@ -198,7 +198,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                       ),
                       SizedBox(height: 15.h),
 
-                      // Time selection grid
+                      // Time selection horizontal scrollable list
                       if (availableTimes.isEmpty)
                         Expanded(
                           child: Center(
@@ -213,16 +213,11 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                           ),
                         )
                       else
-                        Expanded(
-                          child: GridView.builder(
-                            controller: scrollController,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10.w,
-                              mainAxisSpacing: 10.h,
-                              childAspectRatio: 2,
-                            ),
+                        SizedBox(
+                          height: 60.h,
+                          child: ListView.separated(
+                            controller: ScrollController(),
+                            scrollDirection: Axis.horizontal,
                             itemCount: availableTimes.length,
                             itemBuilder: (context, index) {
                               final time = availableTimes[index];
@@ -282,6 +277,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                 ),
                               );
                             },
+                            separatorBuilder: (context, index) => SizedBox(width: 10.w),
                           ),
                         ),
 

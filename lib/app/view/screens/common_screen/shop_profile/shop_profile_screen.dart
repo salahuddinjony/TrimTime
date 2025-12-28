@@ -212,17 +212,6 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                                 fontWeight: FontWeight.w600,
                                                 color: AppColors.black,
                                               ),
-                                              SizedBox(width: 6.w),
-                                              Icon(
-                                                selonData?.isVerified ?? false
-                                                    ? Icons.verified
-                                                    : Icons.cancel,
-                                                color: selonData?.isVerified ??
-                                                        false
-                                                    ? Colors.blue
-                                                    : Colors.grey,
-                                                size: 20,
-                                              ),
                                             ],
                                           ),
                                         ],
@@ -376,7 +365,7 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                                       (salon) => salon.userId == selonData.userId,
                                                     );
                                                     if (matchingSalon != null) {
-                                                      queueCount = matchingSalon.queue;
+                                                      queueCount = matchingSalon.totalQueueCount;
                                                     }
                                                   }
                                                 } catch (e) {
@@ -394,7 +383,6 @@ class ShopProfileScreen<T> extends StatelessWidget {
                                                       'nearbySalons': [
                                                         {
                                                           'userId': selonData.userId,
-                                                          'id': selonData.id,
                                                           'shopName': selonData.shopName,
                                                           'shopAddress': selonData.shopAddress,
                                                           'latitude': selonData.latitude,

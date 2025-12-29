@@ -21,7 +21,7 @@ mixin MixinGetSalons {
       if (tag == tags.nearby || tag == tags.searches) {
         fetchStatus.value = RxStatus.loading();
       }
-      
+
       final Map<String, dynamic> queryParameters = {
         'page': '1',
         'limit': '100',
@@ -30,11 +30,7 @@ mixin MixinGetSalons {
       if (tag != null) {
         if (tag == tags.topRated) {
           queryParameters['topRated'] = '1';
-          // Add lat/lng for top rated if provided (for location-based sorting)
-          if (lat != null && lng != null) {
-            queryParameters['latitude'] = lat.toString();
-            queryParameters['longitude'] = lng.toString();
-          }
+          // Top rated should not include latitude/longitude parameters
         } else if (tag == tags.nearby) {
           queryParameters['latitude'] = lat?.toString() ?? '23.9323';
           queryParameters['longitude'] = lng?.toString() ?? '90.4170';
@@ -51,9 +47,40 @@ mixin MixinGetSalons {
         final data = response.body;
         final salonsData = GetSelonsDataResponse.fromJson(data);
         if (tag == tags.topRated) {
-          topRatedSaloons.value = salonsData.data;
+          // Sort top rated salons by avgRating in descending order (highest rating first)
+          final sortedSalons = List<Saloon>.from(salonsData.data);
+          sortedSalons.sort((a, b) {
+            // Sort by avgRating descending (highest first)
+            // If avgRating is the same, sort by ratingCount descending (more reviews first)
+            final ratingComparison = b.avgRating.compareTo(a.avgRating);
+            if (ratingComparison != 0) {
+              return ratingComparison;
+            }
+            return b.ratingCount.compareTo(a.ratingCount);
+          });
+          topRatedSaloons.value = sortedSalons;
         } else if (tag == tags.nearby) {
           nearbySaloons.value = salonsData.data;
+          // If nearby salons is empty, make a fallback call without parameters
+          if (salonsData.data.isEmpty) {
+            try {
+              final fallbackResponse = await ApiClient.getData(
+                ApiUrl.fetchSelon,
+                query: {
+                  'page': '1',
+                  'limit': '100',
+                },
+              );
+              if (fallbackResponse.statusCode == 200) {
+                final fallbackData = fallbackResponse.body;
+                final fallbackSalonsData = GetSelonsDataResponse.fromJson(fallbackData);
+                nearbySaloons.value = fallbackSalonsData.data;
+              }
+            } catch (e) {
+              print("Error in fallback API call: $e");
+              // Keep empty list if fallback fails
+            }
+          }
           fetchStatus.value = RxStatus.success();
         } else if (tag == tags.searches) {
           searchesSaloons.value = salonsData.data;

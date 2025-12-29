@@ -478,7 +478,7 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers}) async {
     bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
     var mainHeaders = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Authorization': '$bearerToken'
     };
 

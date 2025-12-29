@@ -164,7 +164,10 @@ class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
                         SizedBox(height: 8.h),
                         ElevatedButton(
                           onPressed: () =>
-                              userHomeController.fetchCustomerBookings(),
+                              userHomeController.fetchCustomerBookings(
+                                isDateWise: widget.bookingType.toLowerCase() == 'queue' ? true : false,
+                                bookingType: widget.bookingType,
+                              ),
                           child: const Text('Retry'),
                         ),
                       ],
@@ -236,7 +239,10 @@ class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
                 // Show bookings list with refresh indicator
                 return RefreshIndicator(
                   onRefresh: () async {
-                    await userHomeController.fetchCustomerBookings();
+                    await userHomeController.fetchCustomerBookings(
+                      isDateWise: widget.bookingType.toLowerCase() == 'queue' ? true : false,
+                      bookingType: widget.bookingType,
+                    );
                   },
                   child: ListView.builder(
                     itemCount: filteredBookings.length,

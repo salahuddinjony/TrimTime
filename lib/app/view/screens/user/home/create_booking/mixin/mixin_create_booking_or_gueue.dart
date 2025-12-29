@@ -15,6 +15,7 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin {
   RxString selectedBarberId = ''.obs;
   RxString selectedTimeSlot = ''.obs;
   RxString selectedTimeSlotId = ''.obs;
+  RxInt selectedSlotIndexForTimePicker = (-1).obs; // Track which slot index is selected for time picker
 
   String endTimeSlot(String startTime) {
     try {
@@ -99,6 +100,7 @@ mixin MixinCreateBookingOrQueue on MixinSelonManagement, DateWiseBookingsMixin {
     selectedBarberId.value = '';
     selectedTimeSlot.value = '';
     selectedTimeSlotId.value = '';
+    selectedSlotIndexForTimePicker.value = -1;
     bookingNotesController.text = '';
     selectedServicesIds.clear();
   }

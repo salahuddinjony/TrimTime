@@ -59,7 +59,8 @@ mixin BookingManagementMixin {
   RxList<CustomerBooking> customerBookingList = RxList<CustomerBooking>([]);
   Rx<RxStatus> customerBookingStatus = Rx<RxStatus>(RxStatus.empty());
 
-  Future<void> fetchCustomerBookings() async {
+  Future<void> fetchCustomerBookings(
+      {bool? isDateWise = false, String? bookingType}) async {
     try {
       customerBookingStatus.value = RxStatus.loading();
       // Note: limit is an integer here, but will be converted to string in URL query params
@@ -67,21 +68,50 @@ mixin BookingManagementMixin {
       final Map<String, dynamic> query = {
         "limit": "200",
       };
+      if (isDateWise == true) {
+        query['date'] = DateTime.now().formatDateApi();
+      }
+      if (bookingType != null) {
+        query['type'] = bookingType.toUpperCase();
+      }
       final response = await ApiClient.getData(
         ApiUrl.getCustomerBookings,
         query: query,
       );
       if (response.statusCode == 200) {
-        final responseData = response.body;
-        final customerBookingsResponse =
-            CustomerBookingsResponse.fromJson(responseData);
-        customerBookingList.value = customerBookingsResponse.data;
-        customerBookingStatus.value = RxStatus.success();
+        try {
+          // Ensure response.body is a Map, if it's a String, decode it
+          dynamic responseData = response.body;
+          if (responseData is String) {
+            responseData = jsonDecode(responseData);
+          }
+
+          // Verify it's a Map before parsing
+          if (responseData is! Map<String, dynamic>) {
+            throw FormatException('Response body is not a valid JSON object');
+          }
+
+          final customerBookingsResponse =
+              CustomerBookingsResponse.fromJson(responseData);
+          customerBookingList.value = customerBookingsResponse.data;
+          customerBookingStatus.value = RxStatus.success();
+          debugPrint(
+              'Successfully loaded ${customerBookingList.length} customer bookings');
+        } catch (e, stackTrace) {
+          debugPrint('Error parsing customer bookings response: $e');
+          debugPrint('Stack trace: $stackTrace');
+          debugPrint('Response body type: ${response.body.runtimeType}');
+          debugPrint('Response body: ${response.body}');
+          customerBookingStatus.value =
+              RxStatus.error("Failed to parse bookings: ${e.toString()}");
+        }
       } else {
         customerBookingStatus.value = RxStatus.error(
             "Failed to fetch customer bookings: ${response.statusCode} - ${response.statusText}");
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Error fetching customer bookings: $e');
+      debugPrint('Stack trace: $stackTrace');
       customerBookingStatus.value = RxStatus.error(e.toString());
     }
   }
@@ -132,11 +162,31 @@ mixin BookingManagementMixin {
         EasyLoading.showSuccess('Booking rescheduled successfully');
         return true;
       } else {
-        EasyLoading.showError('Failed to reschedule booking');
+        // Extract error message from API response
+        String errorMessage = 'Failed to reschedule booking';
+        try {
+          if (response.body != null) {
+            if (response.body is Map<String, dynamic>) {
+              final body = response.body as Map<String, dynamic>;
+              if (body.containsKey('message') && body['message'] != null) {
+                errorMessage = body['message'].toString();
+              }
+            } else if (response.body is String) {
+              // Try to parse as JSON
+              final parsed = jsonDecode(response.body);
+              if (parsed is Map && parsed.containsKey('message')) {
+                errorMessage = parsed['message'].toString();
+              }
+            }
+          }
+        } catch (e) {
+          debugPrint('Error parsing response message: $e');
+        }
+        EasyLoading.showError(errorMessage);
         return false;
       }
     } catch (e) {
-      EasyLoading.showError('Failed to reschedule booking');
+      EasyLoading.showError('Failed to reschedule booking: ${e.toString()}');
       return false;
     } finally {
       EasyLoading.dismiss();

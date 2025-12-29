@@ -1,6 +1,7 @@
 import 'package:barber_time/app/core/custom_assets/assets.gen.dart';
 import 'package:barber_time/app/core/route_path.dart';
 import 'package:barber_time/app/core/routes.dart';
+import 'package:barber_time/app/data/local/shared_prefs.dart';
 import 'package:barber_time/app/global/helper/extension/extension.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/utils/app_constants.dart';
@@ -43,12 +44,40 @@ class HomeScreen extends StatelessWidget {
       userRole = getRoleFromString(extra['role'].toString());
     }
 
+    // If role is not available from route extra, get it from SharedPreferences
     if (userRole == null) {
-      debugPrint(
-          'HomeScreen: no role received via route extra; defaulting to CUSTOMER');
-      userRole = UserRole.user;
+      return FutureBuilder<String>(
+        future: SharePrefsHelper.getString(AppConstants.role),
+        builder: (context, snapshot) {
+          // Wait for the future to complete before making decisions
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show loading state or use default while loading
+            return _buildScaffold(context, UserRole.user);
+          }
+
+          // Future is done, check if we have data
+          final resolvedRole = snapshot.hasData && snapshot.data!.isNotEmpty
+              ? getRoleFromString(snapshot.data!)
+              : UserRole.user;
+
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            debugPrint(
+                'HomeScreen: role loaded from SharedPreferences: ${resolvedRole.name}');
+          } else {
+            // No data available after future completes
+            debugPrint(
+                'HomeScreen: no role found in route extra or SharedPreferences; defaulting to CUSTOMER');
+          }
+
+          return _buildScaffold(context, resolvedRole);
+        },
+      );
     }
 
+    return _buildScaffold(context, userRole);
+  }
+
+  Widget _buildScaffold(BuildContext context, UserRole userRole) {
     return Scaffold(
       bottomNavigationBar: CustomNavBar(currentIndex: 0, role: userRole),
       body: Column(
@@ -155,7 +184,8 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       CustomCard(
                           onTap: () {
-                            homeController.fetchCustomerBookings();
+                            homeController.fetchCustomerBookings(
+                                bookingType: 'BOOKING');
                             AppRouter.route.pushNamed(
                                 RoutePath.customerBookingScreen,
                                 extra: {
@@ -180,7 +210,8 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             // AppRouter.route.pushNamed(RoutePath.scannerScreen,
                             //     extra: userRole);
-                            homeController.fetchCustomerBookings();
+                            homeController.fetchCustomerBookings(
+                                isDateWise: true, bookingType: 'queue');
                             AppRouter.route.pushNamed(
                                 RoutePath.customerBookingScreen,
                                 extra: {
@@ -211,7 +242,7 @@ class HomeScreen extends StatelessWidget {
                           icon: Assets.icons.reviews.svg()),
                       CustomCard(
                           onTap: () {
-                            _showTipDialog(context);
+                            _showTipDialog(context, userRole);
                           },
                           title: "Tips",
                           icon: Assets.icons.tips.svg(height: 35)),
@@ -303,7 +334,8 @@ class HomeScreen extends StatelessWidget {
                                     discount: salon.distance.toString(),
                                     isSaved: salon.isFavorite,
                                     totalQueueCount: salon.totalQueueCount,
-                                    totalAvailableBarbers: salon.totalAvailableBarbers,
+                                    totalAvailableBarbers:
+                                        salon.totalAvailableBarbers,
                                     onSaved: () {
                                       homeController.toggleFavoriteSalon(
                                         tag: tags.nearby,
@@ -394,7 +426,8 @@ class HomeScreen extends StatelessWidget {
                                     discount: salon.distance.toString(),
                                     isSaved: salon.isFavorite,
                                     totalQueueCount: salon.totalQueueCount,
-                                    totalAvailableBarbers: salon.totalAvailableBarbers,
+                                    totalAvailableBarbers:
+                                        salon.totalAvailableBarbers,
                                     onSaved: () {
                                       homeController.toggleFavoriteSalon(
                                         tag: tags.topRated,
@@ -509,9 +542,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Function to show the Tip dialog
-  void _showTipDialog(BuildContext context) {
-    final userRole = GoRouter.of(context).state.extra as UserRole?;
-
+  void _showTipDialog(BuildContext context, UserRole userRole) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

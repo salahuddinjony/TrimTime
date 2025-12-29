@@ -46,7 +46,6 @@ class CommonShopCard extends StatelessWidget {
           _buildBottomDetails(),
         ],
       ),
-      
     );
   }
 

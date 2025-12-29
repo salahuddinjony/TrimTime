@@ -130,7 +130,8 @@ class UserHomeController extends GetxController
       lng = 90.4170;
     }
 
-    // Fetch nearby salons and top rated salons in parallel using the same lat/lng
+    // Fetch nearby salons and top rated salons in parallel
+    // Nearby needs lat/lng, topRated doesn't need location params
     await Future.wait([
       fetchSelons(
         tag: tags.nearby,
@@ -139,8 +140,6 @@ class UserHomeController extends GetxController
       ),
       fetchSelons(
         tag: tags.topRated,
-        lat: lat,
-        lng: lng,
       ),
     ]);
   }

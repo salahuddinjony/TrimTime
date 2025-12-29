@@ -8,14 +8,12 @@ import 'package:barber_time/app/view/screens/common_screen/shop_profile/widgets/
 import 'package:barber_time/app/view/screens/owner/owner_home/inner_widgets/monitization_date_picar.dart';
 import 'package:barber_time/app/view/screens/user/home/controller/user_home_controller.dart';
 import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/barber_card.dart';
-import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/time_slot.dart';
-import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/time_picker_dialog.dart'
-    as custom;
+import 'package:barber_time/app/view/screens/user/home/create_booking/widgets/horizontal_time_picker.dart';
+import 'package:barber_time/app/view/screens/user/home/create_booking/models/selected_barber_free_slots_model.dart';
 import 'package:flutter/material.dart';
 import 'package:barber_time/app/utils/app_colors.dart';
 import 'package:barber_time/app/view/common_widgets/custom_appbar/custom_appbar.dart';
 import 'package:barber_time/app/view/common_widgets/custom_text/custom_text.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shimmer/shimmer.dart';
@@ -238,117 +236,44 @@ class SeloonBookingScreen extends StatelessWidget {
                   Obx(
                     () {
                       final freeSlots = controller.seletedBarberFreeSlots;
+                      final status = controller.selectedBarberFreeSlotsStatus.value;
 
-                      return controller
-                              .selectedBarberFreeSlotsStatus.value.isLoading
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.orange500,
-                              ),
-                            )
-                          : freeSlots.isEmpty
-                              ? Center(
-                                  child: CustomText(
-                                    text: controller
-                                            .selectedBarberId.value.isNotEmpty
-                                        ? "No free slots available."
-                                        : "Please select a barber first.",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.gray500,
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: controller
-                                          .selectedTimeSlotId.value.isNotEmpty
-                                      ? 95.h
-                                      : 70.h,
-                                  child: ListView.separated(
-                                    itemCount: freeSlots.length,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      final slot = freeSlots[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          // Check if services are selected
-                                          if (controller
-                                              .selectedServicesIds.isEmpty) {
-                                            EasyLoading.showInfo(
-                                                "Please select at least one service");
-                                            // showCustomSnackBar("Please select at least one service", isError: true);
-                                            // toastMessage(message: "Please select at least one service first");
-                                            return;
-                                          }
+                      // Show loading indicator
+                      if (status.isLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.orange500,
+                          ),
+                        );
+                      }
 
-                                          // Calculate total duration
-                                          final totalDuration = controller
-                                              .getTotalDurationOfSelectedServices();
+                      // Show message if no barber selected
+                      if (controller.selectedBarberId.value.isEmpty) {
+                        return Center(
+                          child: CustomText(
+                            text: "Please select a barber first.",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.gray500,
+                          ),
+                        );
+                      }
 
-                                          // Show time picker bottom sheet
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            backgroundColor: Colors.transparent,
-                                            builder: (context) =>
-                                                custom.TimePickerDialog(
-                                              slotStartTime: slot.start,
-                                              slotEndTime: slot.end,
-                                              totalServiceDuration:
-                                                  totalDuration,
-                                              initialSelectedTime: controller
-                                                          .selectedTimeSlotId
-                                                          .value ==
-                                                      slot.hashCode.toString()
-                                                  ? controller
-                                                      .selectedTimeSlot.value
-                                                  : null,
-                                              onTimeSelected: (selectedTime) {
-                                                debugPrint(
-                                                    "Custom time selected: $selectedTime");
-                                                controller.selectedTimeSlot
-                                                    .value = selectedTime;
-                                                controller.selectedTimeSlotId
-                                                        .value =
-                                                    slot.hashCode.toString();
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        child: Obx(() {
-                                          final isSelected = controller
-                                                  .selectedTimeSlotId.value ==
-                                              slot.hashCode.toString();
-                                          // Show custom time if selected, otherwise show slot times
-                                          final displayStartTime = isSelected &&
-                                                  controller.selectedTimeSlot
-                                                      .value.isNotEmpty
-                                              ? controller
-                                                  .selectedTimeSlot.value
-                                              : slot.start;
+                      // Show message if no free slots available
+                      if (freeSlots.isEmpty) {
+                        return Center(
+                          child: CustomText(
+                            text: "No free slots available.",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.gray500,
+                          ),
+                        );
+                      }
 
-                                          // Calculate end time based on selected start time and service duration
-                                          final displayEndTime = isSelected &&
-                                                  controller.selectedTimeSlot
-                                                      .value.isNotEmpty
-                                              ? controller.endTimeSlot(
-                                                  controller
-                                                      .selectedTimeSlot.value)
-                                              : slot.end;
-
-                                          return timeSlotCard(
-                                            startTime: displayStartTime,
-                                            endTime: displayEndTime,
-                                            isSelected: isSelected,
-                                          );
-                                        }),
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(width: 10.h),
-                                  ),
-                                );
+                      // Show time picker when API succeeds and freeSlots are available
+                      // The freeSlots array contains objects with "start" and "end" times
+                      return _buildTimePickerFromSlots(controller, freeSlots);
                     },
                   ),
                   SizedBox(height: 15.h),
@@ -402,6 +327,43 @@ class SeloonBookingScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTimePickerFromSlots(
+      UserHomeController controller, List<TimeSlot> freeSlots) {
+    if (freeSlots.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    // Check if services are selected
+    if (controller.selectedServicesIds.isEmpty) {
+      return Center(
+        child: CustomText(
+          text: "Please select at least one service first.",
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColors.gray500,
+        ),
+      );
+    }
+
+    // Use all freeSlots to generate times from all available slots
+    // The freeSlots array contains objects with "start" and "end" times
+    final totalDuration = controller.getTotalDurationOfSelectedServices();
+
+    return HorizontalTimePicker(
+      freeSlots: freeSlots,
+      totalServiceDuration: totalDuration,
+      initialSelectedTime: controller.selectedTimeSlot.value.isNotEmpty
+          ? controller.selectedTimeSlot.value
+          : null,
+      onTimeSelected: (selectedTime) {
+        debugPrint("Custom time selected: $selectedTime");
+        controller.selectedTimeSlot.value = selectedTime;
+        // Use a combined hashcode for all slots
+        controller.selectedTimeSlotId.value = freeSlots.hashCode.toString();
+      },
     );
   }
 }

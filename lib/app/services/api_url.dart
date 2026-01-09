@@ -166,4 +166,7 @@ class ApiUrl {
   static const getLoyalityRewards = "$baseUrl/customers/visited-saloons";
   static String updateBookingStatus({required String bookingId}) =>
       "$baseUrl/barbers/update-booking-status/$bookingId";
+  
+  // analyze salon
+  static const analyzeSaloon = "/customers/analyze-saloon";
 }
